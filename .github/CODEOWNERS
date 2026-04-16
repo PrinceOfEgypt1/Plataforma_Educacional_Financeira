@@ -1,0 +1,11 @@
+# Donos padrão para todo o repositório
+* @PrinceOfEgypt1
+
+# Domínio financeiro — revisão obrigatória
+/backend/app/domain/         @PrinceOfEgypt1
+/backend/tests/regression/   @PrinceOfEgypt1
+
+# Infraestrutura
+/docker/                     @PrinceOfEgypt1
+/infra/                      @PrinceOfEgypt1
+/.github/                    @PrinceOfEgypt1

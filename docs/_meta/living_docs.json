@@ -1,0 +1,15 @@
+{
+  "version": "1.0",
+  "description": "Índice de documentos vivos do projeto",
+  "documents": [
+    { "id": "doc-01", "title": "Visão do Produto",         "path": "docs/baseline/01_Visao_do_Produto.md",   "status": "live" },
+    { "id": "doc-02", "title": "Escopo Funcional",         "path": "docs/02_Escopo_Funcional.md",            "status": "live" },
+    { "id": "doc-03", "title": "Regras de Negócio",        "path": "docs/baseline/03_Regras_de_Negocio.md",  "status": "live" },
+    { "id": "doc-04", "title": "Arquitetura de Software",  "path": "docs/04_Arquitetura_de_Software.md",     "status": "live" },
+    { "id": "doc-05", "title": "Modelagem de Dados",       "path": "docs/05_Modelagem_de_Dados.md",          "status": "live" },
+    { "id": "doc-06", "title": "API e Contratos",          "path": "docs/06_API_e_Contratos.md",             "status": "live" },
+    { "id": "doc-09", "title": "Qualidade e Testes",       "path": "docs/09_Qualidade_Testes.md",            "status": "live" },
+    { "id": "doc-19", "title": "Matriz de Rastreabilidade","path": "docs/19_Matriz_Rastreabilidade.md",       "status": "live" },
+    { "id": "doc-27", "title": "Versionamento de API",     "path": "docs/27_Versionamento_API.md",           "status": "live" }
+  ]
+}

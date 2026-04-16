@@ -1,0 +1,98 @@
+name: CI
+
+on:
+  push:
+    branches: [main, "feat/**", "fix/**"]
+  pull_request:
+    branches: [main]
+
+env:
+  PYTHON_VERSION: "3.11"
+  NODE_VERSION: "20"
+
+jobs:
+  backend:
+    name: Backend — lint / typecheck / test
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: pef_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install uv
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh && echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
+      - name: Install backend deps
+        run: cd backend && uv pip install -e ".[dev]" --system
+
+      - name: Lint (ruff)
+        run: cd backend && python -m ruff check .
+
+      - name: Format check (ruff format)
+        run: cd backend && python -m ruff format --check .
+
+      - name: Typecheck (mypy)
+        run: cd backend && python -m mypy app/
+
+      - name: Secret scan
+        run: pip install detect-secrets && detect-secrets scan --baseline .secrets.baseline
+
+      - name: SAST (bandit)
+        run: cd backend && python -m bandit -r app/ -c pyproject.toml
+
+      - name: Tests (unit)
+        run: cd backend && python -m pytest tests/unit -v --cov=app --cov-report=xml -m unit
+        env:
+          DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/pef_test
+          APP_ENV: ci
+
+      - name: Tests (integration)
+        run: cd backend && python -m pytest tests/integration -v -m integration
+        env:
+          DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/pef_test
+          APP_ENV: ci
+
+  frontend:
+    name: Frontend — lint / typecheck / test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install frontend deps
+        run: cd frontend && pnpm install --frozen-lockfile
+
+      - name: Lint (eslint)
+        run: cd frontend && pnpm lint
+
+      - name: Format check (prettier)
+        run: cd frontend && pnpm format:check
+
+      - name: Typecheck (tsc)
+        run: cd frontend && pnpm typecheck
+
+      - name: Tests (vitest)
+        run: cd frontend && pnpm test:coverage
