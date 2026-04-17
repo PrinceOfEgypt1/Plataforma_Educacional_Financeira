@@ -59,6 +59,12 @@ async def health_live() -> dict[str, str]:
 
 @app.get("/health/ready", tags=["ops"])
 async def health_ready() -> dict[str, str]:
+    from sqlalchemy import text
+
+    from app.db.session import AsyncSessionLocal
+
+    async with AsyncSessionLocal() as db:
+        await db.execute(text("SELECT 1"))
     return {"status": "ready"}
 
 

@@ -63,12 +63,14 @@ dev = [
 [tool.ruff]
 target-version = "py311"
 line-length = 100
-select = ["E", "F", "W", "I", "N", "UP", "S", "B", "A", "C4", "PT", "RET", "SIM"]
-ignore = ["S101"]
 
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 known-first-party = ["app"]
 
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "S", "B", "A", "C4", "PT", "RET", "SIM"]
+ignore = ["S101"]
 [tool.mypy]
 python_version = "3.11"
 strict = true
