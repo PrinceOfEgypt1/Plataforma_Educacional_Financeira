@@ -1,84 +1,467 @@
 {
-  "version": "1.0",
-  "description": "Índice de documentos vivos do projeto",
+  "$schema_version": 3,
+  "generated_at": "2026-04-14",
+  "total_documents": 63,
+  "categories": {
+    "VIVO": 23,
+    "ESTATICO": 31,
+    "HIBRIDO": 6,
+    "BASELINE_CANDIDATA": 1,
+    "GOVERNANCA_SPRINT": 1,
+    "OPERACIONAL": 1
+  },
   "documents": [
     {
-      "id": "doc-01",
-      "title": "Visão do Produto",
+      "id": "doc_00",
+      "path": "docs/00_INDICE_GERAL.md",
+      "category": "VIVO",
+      "title": "Índice Geral",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_01",
       "path": "docs/baseline/01_Visao_do_Produto.md",
-      "status": "live",
-      "materialized_in_repo": false
+      "category": "ESTATICO",
+      "title": "Visão do Produto",
+      "materialized_in_repo": true
     },
     {
-      "id": "doc-02",
-      "title": "Escopo Funcional",
+      "id": "doc_02",
       "path": "docs/02_Escopo_Funcional.md",
-      "status": "live",
-      "materialized_in_repo": false
+      "category": "HIBRIDO",
+      "title": "Escopo Funcional",
+      "materialized_in_repo": true
     },
     {
-      "id": "doc-03",
-      "title": "Regras de Negócio",
+      "id": "doc_03",
       "path": "docs/baseline/03_Regras_de_Negocio.md",
-      "status": "live",
-      "materialized_in_repo": false
+      "category": "ESTATICO",
+      "title": "Regras de Negócio e Matemática Financeira",
+      "materialized_in_repo": true
     },
     {
-      "id": "doc-04",
-      "title": "Arquitetura de Software",
+      "id": "doc_04",
       "path": "docs/04_Arquitetura_de_Software.md",
-      "status": "live",
-      "materialized_in_repo": false
+      "category": "VIVO",
+      "title": "Arquitetura de Software",
+      "materialized_in_repo": true
     },
     {
-      "id": "doc-05",
-      "title": "Modelagem de Dados",
+      "id": "doc_05",
       "path": "docs/05_Modelagem_de_Dados.md",
-      "status": "live",
-      "materialized_in_repo": false
+      "category": "VIVO",
+      "title": "Modelagem de Dados",
+      "materialized_in_repo": true
     },
     {
-      "id": "doc-06",
-      "title": "API e Contratos",
+      "id": "doc_06",
       "path": "docs/06_API_e_Contratos.md",
-      "status": "live",
-      "materialized_in_repo": false
+      "category": "VIVO",
+      "title": "API e Contratos de Integração",
+      "materialized_in_repo": true
     },
     {
-      "id": "doc-09",
-      "title": "Qualidade e Testes",
+      "id": "doc_07",
+      "path": "docs/07_UX_UI_e_Navegacao.md",
+      "category": "VIVO",
+      "title": "UX/UI e Navegação",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_08",
+      "path": "docs/08_Conteudo_Educacional.md",
+      "category": "VIVO",
+      "title": "Conteúdo Educacional",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_09",
       "path": "docs/09_Qualidade_Testes.md",
-      "status": "live",
-      "materialized_in_repo": false
+      "category": "VIVO",
+      "title": "Qualidade, Testes e Critérios de Aceite",
+      "materialized_in_repo": true
     },
     {
-      "id": "doc-19",
-      "title": "Matriz de Rastreabilidade",
+      "id": "doc_10",
+      "path": "docs/10_Roadmap.md",
+      "category": "HIBRIDO",
+      "title": "Roadmap e Backlog Inicial",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_11",
+      "path": "docs/baseline/11_Prompt_Mestre.md",
+      "category": "BASELINE_CANDIDATA",
+      "title": "Prompt-Mestre de Desenvolvimento",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_12",
+      "path": "docs/12_Plano_Operacional.md",
+      "category": "VIVO",
+      "title": "Plano Operacional por Fases e Sprints",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_13",
+      "path": "docs/13_Backlog_Tecnico.md",
+      "category": "VIVO",
+      "title": "Backlog Técnico Detalhado",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_14",
+      "path": "docs/14_Especificacao_Fisica_Dados.md",
+      "category": "VIVO",
+      "title": "Especificação Física de Dados e Persistência",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_15",
+      "path": "docs/15_Casos_de_Teste_Matematicos.md",
+      "category": "HIBRIDO",
+      "title": "Casos de Teste Matemáticos e Massa de Validação",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_16",
+      "path": "docs/16_Design_System.md",
+      "category": "VIVO",
+      "title": "Design System e Wireframes Operacionais",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_17",
+      "path": "docs/17_Infra_Seguranca_Deploy.md",
+      "category": "VIVO",
+      "title": "Infraestrutura, Segurança, Compliance e Deploy",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_18",
+      "path": "docs/18_Mapeamento_Regulatorio.md",
+      "category": "HIBRIDO",
+      "title": "Mapeamento Regulatório do Banco Central",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_19",
       "path": "docs/19_Matriz_Rastreabilidade.md",
-      "status": "live",
-      "materialized_in_repo": false
+      "category": "VIVO",
+      "title": "Matriz de Rastreabilidade Requisitos↔Testes↔Código",
+      "materialized_in_repo": true
     },
     {
-      "id": "doc-27",
-      "title": "Versionamento de API",
+      "id": "doc_20",
+      "path": "docs/20_Catalogo_ADR.md",
+      "category": "VIVO",
+      "title": "Catálogo ADR (referência conceitual)",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_20_index",
+      "path": "docs/adr/INDEX.md",
+      "category": "VIVO",
+      "title": "Catálogo ADR (índice de arquivos)",
+      "materialized_in_repo": false,
+      "note": "Caminho canônico no repo: docs/adr/ (não docs/20_ADR/)"
+    },
+    {
+      "id": "doc_21",
+      "path": "docs/baseline/21_Governanca_Branches_PRs.md",
+      "category": "ESTATICO",
+      "title": "Governança de Branches, PRs e Commits",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_22",
+      "path": "docs/22_LGPD_Tratamento_Dados.md",
+      "category": "HIBRIDO",
+      "title": "LGPD e Tratamento de Dados",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_23",
+      "path": "docs/23_Observabilidade.md",
+      "category": "VIVO",
+      "title": "Observabilidade e Telemetria",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_24",
+      "path": "docs/24_Runbooks.md",
+      "category": "VIVO",
+      "title": "Runbooks e Procedimentos Operacionais",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_25",
+      "path": "docs/25_Release_Readiness.md",
+      "category": "VIVO",
+      "title": "Release Readiness e Checklists",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_26",
+      "path": "docs/26_Seeds_Fixtures.md",
+      "category": "VIVO",
+      "title": "Seeds, Fixtures e Dados de Demonstração",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_27",
       "path": "docs/27_Versionamento_API.md",
-      "status": "live",
-      "materialized_in_repo": false
+      "category": "HIBRIDO",
+      "title": "Versionamento de Contratos de API",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "g1",
+      "path": "docs/baseline/governanca/GOVERNANCA_RIGIDA_DE_EXECUCAO__CLAUDE_CODE.md",
+      "category": "ESTATICO",
+      "title": "G1 — Governança Rígida da Claude Code (calibrada)",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "g2",
+      "path": "docs/qualidade/ESTRATEGIA_DE_TESTES_DE_CLASSE_MUNDIAL.md",
+      "category": "VIVO",
+      "title": "G2 — Estratégia de Testes de Classe Mundial (43 tipos)",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "g3",
+      "path": "docs/qualidade/PADROES_DE_IMPLEMENTACAO.md",
+      "category": "VIVO",
+      "title": "G3 — Padrões de Implementação e Qualidade de Código",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "g4",
+      "path": "docs/qualidade/PIPELINE_E_QUALITY_GATES.md",
+      "category": "VIVO",
+      "title": "G4 — Pipeline e Quality Gates",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "g5",
+      "path": "docs/qualidade/AGENTE_DE_ANALISE_DE_IMPACTO.md",
+      "category": "VIVO",
+      "title": "G5 — Especificação do Agente de Análise de Impacto",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "arch_ADR_0001",
+      "path": "docs/adr/ADR-0001-frontend-nextjs-react-ts.md",
+      "category": "ESTATICO",
+      "title": "ADR-0001 — Frontend: Next.js + React + TypeScript",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "arch_ADR_0002",
+      "path": "docs/adr/ADR-0002-backend-python-fastapi.md",
+      "category": "ESTATICO",
+      "title": "ADR-0002 — Backend: Python + FastAPI",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "arch_ADR_0003",
+      "path": "docs/adr/ADR-0003-db-postgresql.md",
+      "category": "ESTATICO",
+      "title": "ADR-0003 — Banco de dados: PostgreSQL",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "arch_ADR_0004",
+      "path": "docs/adr/ADR-0004-backend-source-of-truth-math.md",
+      "category": "ESTATICO",
+      "title": "ADR-0004 — Backend como fonte de verdade matemática",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "arch_ADR_0005",
+      "path": "docs/adr/ADR-0005-domain-organization-backend.md",
+      "category": "ESTATICO",
+      "title": "ADR-0005 — Organização de domínios no backend",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "arch_ADR_0006",
+      "path": "docs/adr/ADR-0006-api-versioning-url.md",
+      "category": "ESTATICO",
+      "title": "ADR-0006 — Versionamento de API por URL",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "arch_ADR_0007",
+      "path": "docs/adr/ADR-0007-http-errors-rfc7807.md",
+      "category": "ESTATICO",
+      "title": "ADR-0007 — Erros HTTP: RFC 7807",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "arch_ADR_0008",
+      "path": "docs/adr/ADR-0008-trunk-based-squash-merge.md",
+      "category": "ESTATICO",
+      "title": "ADR-0008 — Trunk-based + squash merge",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "arch_ADR_0009",
+      "path": "docs/adr/ADR-0009-migrations-expand-and-contract.md",
+      "category": "ESTATICO",
+      "title": "ADR-0009 — Migrations: expand-and-contract",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "arch_ADR_0010",
+      "path": "docs/adr/ADR-0010-testing-pyramid-mutation-domain.md",
+      "category": "ESTATICO",
+      "title": "ADR-0010 — Pirâmide de testes + mutation",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "arch_ADR_0011",
+      "path": "docs/adr/ADR-0011-sqlalchemy2-session-per-request-uow.md",
+      "category": "ESTATICO",
+      "title": "ADR-0011 — SQLAlchemy 2 session-per-request UoW",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "arch_ADR_0012",
+      "path": "docs/adr/ADR-0012-tailwind-tokens-doc16.md",
+      "category": "ESTATICO",
+      "title": "ADR-0012 — Tailwind + design tokens (Doc 16)",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "arch_ADR_0013",
+      "path": "docs/adr/ADR-0013-observability-structlog-prometheus.md",
+      "category": "ESTATICO",
+      "title": "ADR-0013 — Observabilidade: structlog + Prometheus",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "arch_ADR_0014",
+      "path": "docs/adr/ADR-0014-docker-multistage-nonroot.md",
+      "category": "ESTATICO",
+      "title": "ADR-0014 — Docker multistage non-root",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "runbook_template",
+      "path": "docs/runbooks/RB-000-TEMPLATE.md",
+      "category": "ESTATICO",
+      "title": "Template de Runbook",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "gate_lista_de_bloqueadores_e_condic",
+      "path": "docs/baseline/gate-forense/LISTA_DE_BLOQUEADORES_E_CONDICIONANTES.md",
+      "category": "ESTATICO",
+      "title": "Gate Forense — Lista de Bloqueadores e Condicionantes",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "gate_matriz_forense_de_prontidao_pa",
+      "path": "docs/baseline/gate-forense/MATRIZ_FORENSE_DE_PRONTIDAO_PARA_EXECUCAO.md",
+      "category": "ESTATICO",
+      "title": "Gate Forense — Matriz de Prontidão para Execução",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "gate_relatorio_forense_final_de_pro",
+      "path": "docs/baseline/gate-forense/RELATORIO_FORENSE_FINAL_DE_PRONTIDAO.md",
+      "category": "ESTATICO",
+      "title": "Gate Forense — Relatório Final de Prontidão",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "gate_veredito_final_de_prontidao_pa",
+      "path": "docs/baseline/gate-forense/VEREDITO_FINAL_DE_PRONTIDAO_PARA_EXECUCAO.md",
+      "category": "ESTATICO",
+      "title": "Gate Forense — Veredito Final de Prontidão",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "gate_verificacao_final_dos_document",
+      "path": "docs/baseline/gate-forense/VERIFICACAO_FINAL_DOS_DOCUMENTOS_VIVOS.md",
+      "category": "ESTATICO",
+      "title": "Gate Forense — Verificação Final de Documentos Vivos",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "gate_verificacao_final_do_agente_de",
+      "path": "docs/baseline/gate-forense/VERIFICACAO_FINAL_DO_AGENTE_DE_ANALISE_DE_IMPACTO.md",
+      "category": "ESTATICO",
+      "title": "Gate Forense — Verificação do Agente de Análise de Impacto",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
     },
     {
       "id": "pol_01",
       "path": "docs/policies/POLITICA_OFICIAL_DE_AUDITORIA_E_RESPONSABILIDADE.md",
       "category": "ESTATICO",
-      "title": "Politica Oficial de Auditoria e Responsabilidade de Sprint",
+      "title": "Política Oficial de Auditoria e Responsabilidade de Sprint",
       "materialized_in_repo": true,
-      "commit": "sprint-00",
-      "added_sprint": "sprint-00"
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "pol_02",
+      "path": "docs/policies/POLITICA_OPERACIONAL_DE_SINCRONIZACAO_DOCUMENTAL.md",
+      "category": "ESTATICO",
+      "title": "Política Operacional de Sincronização Documental",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
     },
     {
       "id": "adr_001",
       "path": "docs/adr/ADR-001-impact-agent.md",
       "category": "ESTATICO",
-      "title": "ADR-001 - Agente de Analise de Impacto",
+      "title": "ADR-001 — Agente de Análise de Impacto",
       "materialized_in_repo": true,
       "commit": "7a83045",
       "added_sprint": "sprint-00"
@@ -86,8 +469,8 @@
     {
       "id": "run_001",
       "path": "docs/runbooks/RUN-001-setup-local.md",
-      "category": "VIVO",
-      "title": "RUN-001 - Setup Local",
+      "category": "ESTATICO",
+      "title": "RUN-001 — Setup Local",
       "materialized_in_repo": true,
       "commit": "7a83045",
       "added_sprint": "sprint-00"
@@ -95,8 +478,8 @@
     {
       "id": "run_002",
       "path": "docs/runbooks/RUN-002-health-readiness.md",
-      "category": "VIVO",
-      "title": "RUN-002 - Health e Readiness",
+      "category": "ESTATICO",
+      "title": "RUN-002 — Health e Readiness",
       "materialized_in_repo": true,
       "commit": "7a83045",
       "added_sprint": "sprint-00"
@@ -104,8 +487,8 @@
     {
       "id": "run_003",
       "path": "docs/runbooks/RUN-003-recovery-basic.md",
-      "category": "VIVO",
-      "title": "RUN-003 - Recovery Basico",
+      "category": "ESTATICO",
+      "title": "RUN-003 — Recovery Básico",
       "materialized_in_repo": true,
       "commit": "7a83045",
       "added_sprint": "sprint-00"
@@ -114,22 +497,23 @@
       "id": "sprint_00",
       "path": "docs/sprints/sprint-00/validacao-oficial.md",
       "category": "GOVERNANCA_SPRINT",
-      "title": "Sprint 00 - Validacao Oficial",
+      "title": "Sprint 00 — Validação Oficial",
       "materialized_in_repo": true,
-      "commit": "sprint-00",
-      "added_sprint": "sprint-00",
-      "status": "APROVADA_COM_LIBERACAO_CONDICIONADA"
+      "commit": "196a471",
+      "added_sprint": "sprint-00"
+    },
+    {
+      "id": "op_backlog_xlsx",
+      "path": "docs/operacional/backlog_operacional_acompanhamento.xlsx",
+      "category": "OPERACIONAL",
+      "title": "Backlog Operacional — Planilha de Acompanhamento",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc",
+      "note": "Artefato operacional auxiliar — não substitui documentação viva"
     }
   ],
-  "$schema_version": 2,
   "updated_at": "2026-04-17",
-  "update_reason": "Sprint 00: adicionados artefatos de governanca de sprint e politica oficial. Campo 'materialized_in_repo' adicionado a cada entrada.",
-  "total_documents": 15,
-  "categories": {
-    "SEM_CATEGORIA": 9,
-    "ESTATICO": 2,
-    "VIVO": 3,
-    "GOVERNANCA_SPRINT": 1
-  },
-  "_migration_note": "Documentos com materialized_in_repo=false existem no pacote AUDITORIA_PROMPT_1_FINAL e devem ser migrados para o repositorio na Sprint 01 (condicao C1 da validacao-oficial.md Sprint 00)."
+  "update_reason": "Adendo de sincronização documental Sprint 00: migração do pacote AUDITORIA_PROMPT_1_FINAL, gate forense, ADRs arquiteturais, baseline, qualidade. Campo materialized_in_repo atualizado. Adicionada POLITICA_OPERACIONAL.",
+  "_migration_note": "Sincronização documental concluída em 2026-04-17. Todos os documentos do pacote AUDITORIA_PROMPT_1_FINAL foram migrados. Documentos com materialized_in_repo=false são apenas aqueles que permanecem pendentes por decisão explícita."
 }
