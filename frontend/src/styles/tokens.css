@@ -1,0 +1,49 @@
+/**
+ * Design System Tokens — CSS Custom Properties
+ * Gerado a partir de frontend/src/styles/tokens.ts
+ *
+ * Anti-drift: qualquer mudança aqui DEVE ser espelhada em tokens.ts.
+ * O impact agent (scripts/impact_analysis_guard.py) detecta drift como risco HIGH.
+ */
+:root {
+  /* ── Brand ─────────────────────────────────── */
+  --color-brand-primary: #1b4f72;
+  --color-brand-secondary: #2e75b6;
+  --color-brand-accent: #27ae60;
+
+  /* ── Semantic ───────────────────────────────── */
+  --color-success: #16a34a;
+  --color-warning: #d97706;
+  --color-error: #dc2626;
+  --color-info: #2563eb;
+
+  /* ── Financial ──────────────────────────────── */
+  --color-financial-positive: #16a34a;
+  --color-financial-negative: #dc2626;
+  --color-financial-neutral: #2563eb;
+  --color-financial-warning: #d97706;
+
+  /* ── Neutral scale ──────────────────────────── */
+  --color-neutral-50: #f8fafc;
+  --color-neutral-100: #f1f5f9;
+  --color-neutral-200: #e2e8f0;
+  --color-neutral-500: #64748b;
+  --color-neutral-700: #334155;
+  --color-neutral-900: #0f172a;
+
+  /* ── Typography ─────────────────────────────── */
+  --font-sans: Inter, system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", Consolas, monospace;
+
+  /* ── Spacing ────────────────────────────────── */
+  --space-page: 1.5rem;
+  --space-section: 2rem;
+  --space-card: 1.25rem;
+  --space-inline: 0.5rem;
+
+  /* ── Border radius ──────────────────────────── */
+  --radius-card: 0.75rem;
+  --radius-button: 0.5rem;
+  --radius-badge: 9999px;
+  --radius-input: 0.375rem;
+}

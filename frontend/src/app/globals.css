@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Importa CSS vars dos tokens do design system */
+@import "../styles/tokens.css";
+
+/* ── Reset / base ───────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-sans);
+  color: var(--color-neutral-900);
+  background-color: var(--color-neutral-50);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Aviso educacional persistente ──────────────────────────────────────── */
+.educational-notice {
+  background-color: var(--color-brand-secondary);
+  color: #fff;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-align: center;
+  padding: 0.5rem var(--space-page);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+/* ── Financial result classes ───────────────────────────────────────────── */
+.text-financial-positive {
+  color: var(--color-financial-positive);
+}
+.text-financial-negative {
+  color: var(--color-financial-negative);
+}
+.text-financial-neutral {
+  color: var(--color-financial-neutral);
+}
+.text-financial-warning {
+  color: var(--color-financial-warning);
+}
