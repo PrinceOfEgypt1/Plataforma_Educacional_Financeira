@@ -2,14 +2,134 @@
   "version": "1.0",
   "description": "Índice de documentos vivos do projeto",
   "documents": [
-    { "id": "doc-01", "title": "Visão do Produto",         "path": "docs/baseline/01_Visao_do_Produto.md",   "status": "live" },
-    { "id": "doc-02", "title": "Escopo Funcional",         "path": "docs/02_Escopo_Funcional.md",            "status": "live" },
-    { "id": "doc-03", "title": "Regras de Negócio",        "path": "docs/baseline/03_Regras_de_Negocio.md",  "status": "live" },
-    { "id": "doc-04", "title": "Arquitetura de Software",  "path": "docs/04_Arquitetura_de_Software.md",     "status": "live" },
-    { "id": "doc-05", "title": "Modelagem de Dados",       "path": "docs/05_Modelagem_de_Dados.md",          "status": "live" },
-    { "id": "doc-06", "title": "API e Contratos",          "path": "docs/06_API_e_Contratos.md",             "status": "live" },
-    { "id": "doc-09", "title": "Qualidade e Testes",       "path": "docs/09_Qualidade_Testes.md",            "status": "live" },
-    { "id": "doc-19", "title": "Matriz de Rastreabilidade","path": "docs/19_Matriz_Rastreabilidade.md",       "status": "live" },
-    { "id": "doc-27", "title": "Versionamento de API",     "path": "docs/27_Versionamento_API.md",           "status": "live" }
-  ]
+    {
+      "id": "doc-01",
+      "title": "Visão do Produto",
+      "path": "docs/baseline/01_Visao_do_Produto.md",
+      "status": "live",
+      "materialized_in_repo": false
+    },
+    {
+      "id": "doc-02",
+      "title": "Escopo Funcional",
+      "path": "docs/02_Escopo_Funcional.md",
+      "status": "live",
+      "materialized_in_repo": false
+    },
+    {
+      "id": "doc-03",
+      "title": "Regras de Negócio",
+      "path": "docs/baseline/03_Regras_de_Negocio.md",
+      "status": "live",
+      "materialized_in_repo": false
+    },
+    {
+      "id": "doc-04",
+      "title": "Arquitetura de Software",
+      "path": "docs/04_Arquitetura_de_Software.md",
+      "status": "live",
+      "materialized_in_repo": false
+    },
+    {
+      "id": "doc-05",
+      "title": "Modelagem de Dados",
+      "path": "docs/05_Modelagem_de_Dados.md",
+      "status": "live",
+      "materialized_in_repo": false
+    },
+    {
+      "id": "doc-06",
+      "title": "API e Contratos",
+      "path": "docs/06_API_e_Contratos.md",
+      "status": "live",
+      "materialized_in_repo": false
+    },
+    {
+      "id": "doc-09",
+      "title": "Qualidade e Testes",
+      "path": "docs/09_Qualidade_Testes.md",
+      "status": "live",
+      "materialized_in_repo": false
+    },
+    {
+      "id": "doc-19",
+      "title": "Matriz de Rastreabilidade",
+      "path": "docs/19_Matriz_Rastreabilidade.md",
+      "status": "live",
+      "materialized_in_repo": false
+    },
+    {
+      "id": "doc-27",
+      "title": "Versionamento de API",
+      "path": "docs/27_Versionamento_API.md",
+      "status": "live",
+      "materialized_in_repo": false
+    },
+    {
+      "id": "pol_01",
+      "path": "docs/policies/POLITICA_OFICIAL_DE_AUDITORIA_E_RESPONSABILIDADE.md",
+      "category": "ESTATICO",
+      "title": "Politica Oficial de Auditoria e Responsabilidade de Sprint",
+      "materialized_in_repo": true,
+      "commit": "sprint-00",
+      "added_sprint": "sprint-00"
+    },
+    {
+      "id": "adr_001",
+      "path": "docs/adr/ADR-001-impact-agent.md",
+      "category": "ESTATICO",
+      "title": "ADR-001 - Agente de Analise de Impacto",
+      "materialized_in_repo": true,
+      "commit": "7a83045",
+      "added_sprint": "sprint-00"
+    },
+    {
+      "id": "run_001",
+      "path": "docs/runbooks/RUN-001-setup-local.md",
+      "category": "VIVO",
+      "title": "RUN-001 - Setup Local",
+      "materialized_in_repo": true,
+      "commit": "7a83045",
+      "added_sprint": "sprint-00"
+    },
+    {
+      "id": "run_002",
+      "path": "docs/runbooks/RUN-002-health-readiness.md",
+      "category": "VIVO",
+      "title": "RUN-002 - Health e Readiness",
+      "materialized_in_repo": true,
+      "commit": "7a83045",
+      "added_sprint": "sprint-00"
+    },
+    {
+      "id": "run_003",
+      "path": "docs/runbooks/RUN-003-recovery-basic.md",
+      "category": "VIVO",
+      "title": "RUN-003 - Recovery Basico",
+      "materialized_in_repo": true,
+      "commit": "7a83045",
+      "added_sprint": "sprint-00"
+    },
+    {
+      "id": "sprint_00",
+      "path": "docs/sprints/sprint-00/validacao-oficial.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Sprint 00 - Validacao Oficial",
+      "materialized_in_repo": true,
+      "commit": "sprint-00",
+      "added_sprint": "sprint-00",
+      "status": "APROVADA_COM_LIBERACAO_CONDICIONADA"
+    }
+  ],
+  "$schema_version": 2,
+  "updated_at": "2026-04-17",
+  "update_reason": "Sprint 00: adicionados artefatos de governanca de sprint e politica oficial. Campo 'materialized_in_repo' adicionado a cada entrada.",
+  "total_documents": 15,
+  "categories": {
+    "SEM_CATEGORIA": 9,
+    "ESTATICO": 2,
+    "VIVO": 3,
+    "GOVERNANCA_SPRINT": 1
+  },
+  "_migration_note": "Documentos com materialized_in_repo=false existem no pacote AUDITORIA_PROMPT_1_FINAL e devem ser migrados para o repositorio na Sprint 01 (condicao C1 da validacao-oficial.md Sprint 00)."
 }
