@@ -5,13 +5,16 @@
 **Repositório:** Plataforma_Educacional_Financeira
 **Auditora:** IA Supervisora (papel independente — cf. Política §5.2)
 **Data de auditoria:** 2026-04-17
-**Versão:** 1.0.0
+**Versão:** 1.1.0 (micro-adendo corretivo — higiene documental)
 
 ---
 
 ## 1. Finalidade deste documento
 
-Este relatório é produzido pela **IA supervisora**, papel independente e distinto da Claude Code executora. Sua função é auditar o que foi declarado no `relatorio-execucao.md` e emitir um parecer forense, verificando consistência entre declarações, artefatos e commits — sem poder aprovar a sprint (essa competência cabe ao `validacao-oficial.md`).
+Este relatório é produzido pela **IA supervisora**, papel independente e distinto da Claude
+Code executora. Sua função é auditar o que foi declarado no `relatorio-execucao.md` e emitir
+um parecer forense, verificando consistência entre declarações, artefatos e commits — sem
+poder aprovar a sprint (essa competência cabe ao `validacao-oficial.md`).
 
 ---
 
@@ -35,8 +38,9 @@ Este relatório é produzido pela **IA supervisora**, papel independente e disti
 | Item auditado | Declarado | Verificado | Status |
 |---|---|---|---|
 | make verify (8 gates) | ✅ 8/8 green | Confirmado por log no relatorio-execucao.md | ✅ CONFIRMADO |
-| pytest (testes de integração) | 15/15 pass | Backend coverage 83% declarada | ✅ CONFIRMADO |
-| vitest (testes de frontend) | 6/6 pass | `frontend/src/__tests__/` presente | ✅ CONFIRMADO |
+| pytest backend (unit + integration) | 6/6 pass | 3 unit + 3 integration (test_health.py + test_health_integration.py) | ✅ CONFIRMADO |
+| vitest (testes de frontend) | 15/15 pass | 1 placeholder + 14 tokens (frontend/src/__tests__/) | ✅ CONFIRMADO |
+| Cobertura backend | 78,95% | Gate mínimo 75% — declarado em relatorio-execucao.md §5 | ✅ CONFIRMADO |
 | ruff + mypy | Passando | Corrigidos em iterações documentadas | ✅ CONFIRMADO |
 | detect-secrets | Passando | Falsos positivos tratados com pragma | ✅ CONFIRMADO |
 | pre-commit hooks | 6 hooks ativos | `.pre-commit-config.yaml` presente | ✅ CONFIRMADO |
@@ -54,7 +58,7 @@ Este relatório é produzido pela **IA supervisora**, papel independente e disti
 | 7. Runbook setup local | `docs/runbooks/RUN-001-setup-local.md` | `7a83045` | ✅ MATERIALIZADO |
 | 8. Runbook health | `docs/runbooks/RUN-002-health-readiness.md` | `7a83045` | ✅ MATERIALIZADO |
 | 9. Runbook recovery | `docs/runbooks/RUN-003-recovery-basic.md` | `7a83045` | ✅ MATERIALIZADO |
-| 10. UI inventory | `docs/ui-inventory/UI-001-homepage.md` | `7a83045` | ✅ MATERIALIZADO |
+| 10. UI inventory | `docs/ui/INVENTARIO_TELAS.md` | `7a83045` | ✅ MATERIALIZADO |
 
 ### 3.3 Pendências documentadas (não materializadas até Sprint 00)
 
@@ -64,7 +68,7 @@ Este relatório é produzido pela **IA supervisora**, papel independente e disti
 | P2 | Agente de impacto não integrado ao CI/CD | **CONDICIONAL** — agente é advisory, CI não executa |
 | P3 | Sem testes de renderização de frontend | Risco de regressão visual |
 | P4 | README raiz não atualizado com comandos make | Barreira de entrada |
-| P5 | `docs/_meta/SINCRONIZACAO_DOCS_SPRINT0.md` não existia no repositório | **BLOQUEANTE** — resolvido neste commit |
+| P5 | `docs/_meta/SINCRONIZACAO_DOCS_SPRINT0.md` não existia no repositório | **BLOQUEANTE** — resolvido no commit de governança |
 | P6 | `doc-27` (27_Versionamento_API.md) não materializado no repo | Pendente Sprint 01 |
 | P7 | Nenhum teste E2E (Playwright/Cypress) | Risco não coberto |
 | P8 | Sem CONTRIBUTING.md | Governança parcial |
@@ -76,6 +80,8 @@ Este relatório é produzido pela **IA supervisora**, papel independente e disti
 b00eeb0  scaffold: estrutura inicial
 977cc74  feat(sprint-0): infraestrutura completa (DB + backend + frontend)
 7a83045  feat(sprint-0-adendo): 10 itens forenses materializados
+196a471  docs(sprint-00): política de auditoria + estrutura de governança de sprint
+78c2896  docs(sprint-00): atualiza living_docs.json para schema v2
 
 Progressão linear verificada. Nenhum amend pós-publicação. Exceção `SKIP=no-commit-to-branch` documentada.
 
@@ -95,11 +101,12 @@ Progressão linear verificada. Nenhum amend pós-publicação. Exceção `SKIP=n
 
 - 34 docs de especificação não migrados para o repositório (`materialized_in_repo: false`)
 - Agente de impacto em modo ADVISORY apenas (exit 0)
-- Sprint 00 sem `validacao-oficial.md` assinada até este commit — formalmente aberta até agora
+- Sprint 00 sem `validacao-oficial.md` assinada até o commit de governança — formalmente aberta até então
 
 ### 4.3 Parecer forense
 
-**O material executado é substancial, real e bem fundamentado.** Contudo, a auditoria identifica **inconsistências documentais** que impedem encerramento sem ressalvas formais.
+**O material executado é substancial, real e bem fundamentado.** Contudo, a auditoria identifica
+**inconsistências documentais** que impedem encerramento sem ressalvas formais.
 
 O estágio correto para a `validacao-oficial.md` é **APROVADA COM LIBERAÇÃO CONDICIONADA**.
 
@@ -117,7 +124,17 @@ O estágio correto para a `validacao-oficial.md` é **APROVADA COM LIBERAÇÃO C
 
 ## 6. Declaração de independência
 
-Este relatório foi produzido pelo papel de **IA supervisora** (Política §5.2). Este documento **não aprova nem reprova** a sprint.
+Este relatório foi produzido pelo papel de **IA supervisora** (Política §5.2). Este documento
+**não aprova nem reprova** a sprint.
+
+---
+
+## 7. Histórico de revisões
+
+| Versão | Data | Alteração |
+|---|---|---|
+| 1.0.0 | 2026-04-17 | Versão inicial |
+| 1.1.0 | 2026-04-17 | Micro-adendo corretivo: contagens de testes (pytest 6/6, vitest 15/15), cobertura (78,95%), caminho UI inventory (docs/ui/INVENTARIO_TELAS.md) |
 
 ---
 

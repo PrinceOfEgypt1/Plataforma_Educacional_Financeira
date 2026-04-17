@@ -20,7 +20,7 @@
 | — | `docs/sprints/sprint-00/relatorio-forense.md` | Sprint 00 |
 | — | `docs/sprints/sprint-00/validacao-oficial.md` | Sprint 00 |
 | — | `docs/sprints/sprint-00/evidencias/README.md` | Sprint 00 |
-| — | `docs/ui-inventory/UI-001-homepage.md` | `7a83045` |
+| — | `docs/ui/INVENTARIO_TELAS.md` | `7a83045` |
 | — | `docs/api/openapi.json` | `7a83045` |
 
 ---

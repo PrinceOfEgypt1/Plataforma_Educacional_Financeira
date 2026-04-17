@@ -84,7 +84,7 @@ backend/tests/integration/api/init.py                  	(novo)
 backend/tests/integration/api/test_health_integration.py   (novo)
 frontend/.eslintrc.json                                     (novo)
 frontend/next.config.mjs                                    (renomeado de .ts)
-frontend/src/tests/placeholder.test.ts                  (novo)
+frontend/src/__tests__/placeholder.test.ts                  (novo)
 .secrets.baseline                                           (alterado)
 
 ### Commit 7a83045 (adendo forense)
@@ -103,7 +103,7 @@ frontend/src/styles/tokens.css                              (novo)
 frontend/src/app/globals.css                                (novo)
 frontend/src/app/layout.tsx                                 (novo)
 frontend/src/app/page.tsx                                   (novo)
-frontend/src/tests/tokens.test.ts                       (novo)
+frontend/src/__tests__/tokens.test.ts                       (novo)
 
 ---
 
@@ -131,7 +131,7 @@ Cobertura de código backend: **78,95%** (gate mínimo: 75%).
 | Format TypeScript | prettier | ✅ All files unchanged |
 | Tipagem Python | mypy | ✅ 49 source files, no issues |
 | Tipagem TypeScript | tsc --noEmit | ✅ No errors |
-| Testes + cobertura | pytest + pytest-cov | ✅ 3 passed, 78,95% |
+| Testes + cobertura | pytest + pytest-cov | ✅ 6 passed (3 unit + 3 integration), 78,95% |
 | Testes frontend | vitest | ✅ 15 passed |
 
 ---
