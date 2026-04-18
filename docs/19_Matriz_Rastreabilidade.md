@@ -27,6 +27,8 @@ Cada linha cruza:
 
 | REQ-ID | Módulo | Endpoint | Schema | Service | Domínio | Doc 15 ref | Unit | Integ | Contract | Pedagógico | Docs vivos | Status |
 |--------|--------|----------|--------|---------|---------|------------|------|-------|----------|------------|------------|--------|
+| REQ-CTR-001 | contract-base (transversal) | `GET /api/v1/contract/ping` + envelope + RFC 7807 em todas as rotas | `ResponseEnvelope[T]`, `Meta`, `Problem` | — | `app/core/envelope`, `app/core/errors`, `app/core/request_id` | — | `tests/unit/test_envelope.py` | — | `tests/contract/test_contract_base.py`, `tests/contract/test_error_handling.py` | — | 04,06,09,19,27,ADR-0006,ADR-0007 | done |
+| RF-HEALTH-001 | infra | `GET /health`, `/health/live`, `/health/ready` | — | — | `app/api/health` | — | `tests/unit/test_health.py` | `tests/integration/api/test_health_integration.py` | — | — | 04,06,09,19 | done |
 | RF-INT-001 | interest | `POST /api/v1/interest/simple` | `JurosSimplesIn/Out` | `CalcularJurosSimplesService` | `domain.interest.simple.calcular` | JS-01..JS-10 | `tests/unit/domain/interest/test_simple.py` | `tests/integration/api/test_interest_simple.py` | `tests/contract/test_interest.py` | `tests/regression/pedagogical/test_interest.py` | 03,06,09,15,19 | pending |
 | RF-INT-002 | interest | `POST /api/v1/interest/compound` | `JurosCompostosIn/Out` | `CalcularJurosCompostosService` | `domain.interest.compound.calcular` | JC-01..JC-10 | ... | ... | ... | ... | 03,06,09,15,19 | pending |
 | RF-AMO-001 | amortization | `POST /api/v1/amortization/price` | `PriceIn/Out` | `CalcularPriceService` | `domain.amortization.price.calcular` | PR-01..PR-10 | ... | ... | ... | ... | 03,06,09,15,19 | pending |

@@ -44,9 +44,9 @@
 ## 6. Apêndice vivo: índice de versões
 
 <!-- BEGIN APÊNDICE VIVO -->
-| Versão | Status | Início | Sunset previsto |
-|--------|--------|--------|-----------------|
-| v1 | active | 2026-MM-DD | — |
+| Versão | Status | Início | Sunset previsto | Observação |
+|--------|--------|--------|-----------------|------------|
+| v1 | active | 2026-04 | — | Materializada na Sprint 1 via `backend/app/api/v1/` (ADR-0006). Primeira rota pública: `GET /api/v1/contract/ping`. Envelope `ResponseEnvelope[T]` (Doc 06 §4.1) e erros RFC 7807 (Doc 06 §4.2 + ADR-0007) registrados como contrato-base. |
 <!-- END APÊNDICE VIVO -->
 
 ## 7. Política para a Claude Code

@@ -15,3 +15,8 @@
 - HEAD_BEFORE_FATIA_2: \`f0b7d5ab630ec2a245a8de20cfdf6815658ce391\`
 - SUBJECT: feat(sprint-01/backend): materializar contrato-base da API e tratamento global de erros
 - CAPTURED_AT: 2026-04-18T07:31:35-03:00
+
+## HEAD_BEFORE_FATIA_3
+- branch: sprint-1
+- sha   : 28b57719d35e1edd481163c279b82b6d7ab543de
+- date  : 2026-04-18T21:38:39Z
