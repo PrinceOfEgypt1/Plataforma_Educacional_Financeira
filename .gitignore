@@ -54,3 +54,5 @@ Thumbs.db
 
 # Alembic (não versionar banco de dev)
 backend/app/db/migrations/versions/*.pyc
+
+frontend/tsconfig.tsbuildinfo
