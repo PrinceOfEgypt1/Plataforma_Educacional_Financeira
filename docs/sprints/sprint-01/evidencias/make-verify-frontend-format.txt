@@ -1,0 +1,6 @@
+
+> plataforma-educacional-financeira-frontend@0.1.0 format:check /home/moses/workspace/Plataforma_Educacional_Financeira/frontend
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!

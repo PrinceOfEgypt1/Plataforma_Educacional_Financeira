@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
+
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -22,33 +24,19 @@ export const metadata: Metadata = {
 };
 
 interface RootLayoutProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 /**
- * Layout raiz — presente em TODAS as telas.
- * Inclui:
- *  - lang=pt-BR obrigatório (acessibilidade + SEO)
- *  - Banner educacional persistente (requisito regulatório Doc 18)
- *  - Tokens CSS carregados via globals.css
+ * Layout raiz — responsável apenas pelo contrato de HTML/`lang` e pela
+ * renderização dos filhos. O banner educacional e a shell (sidebar + header)
+ * migraram para o layout do grupo `(app)` a partir da Sprint 1, permitindo
+ * introduzir rotas sem shell no futuro (`/login`, `/embed`) sem rewrite.
  */
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="pt-BR">
-      <body>
-        {/* Aviso educacional persistente — obrigatório por Doc 18 */}
-        <div
-          className="educational-notice"
-          role="note"
-          aria-label="Aviso importante sobre o produto"
-        >
-          ⚠️ Produto exclusivamente educacional — não constitui consultoria
-          financeira nem proposta vinculante de crédito.
-        </div>
-
-        {/* Conteúdo principal */}
-        <div id="main-content">{children}</div>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

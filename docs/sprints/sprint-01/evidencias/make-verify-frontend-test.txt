@@ -1,0 +1,21 @@
+
+> plataforma-educacional-financeira-frontend@0.1.0 test /home/moses/workspace/Plataforma_Educacional_Financeira/frontend
+> vitest run
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /home/moses/workspace/Plataforma_Educacional_Financeira/frontend
+
+ ✓ src/__tests__/tokens.test.ts  (14 tests) 3ms
+ ✓ src/__tests__/components/Header.test.tsx  (4 tests) 39ms
+ ✓ src/__tests__/components/ui.test.tsx  (11 tests) 64ms
+ ✓ src/__tests__/components/states.test.tsx  (9 tests) 76ms
+ ✓ src/__tests__/components/ShellLayout.test.tsx  (4 tests) 119ms
+ ✓ src/__tests__/app/home.test.tsx  (3 tests) 149ms
+ ✓ src/__tests__/app/routes.test.tsx  (12 tests) 189ms
+ ✓ src/__tests__/components/Sidebar.test.tsx  (4 tests) 200ms
+
+ Test Files  8 passed (8)
+      Tests  61 passed (61)
+   Start at  14:25:42
+   Duration  1.73s (transform 401ms, setup 499ms, collect 1.47s, tests 839ms, environment 4.17s, prepare 1.70s)
