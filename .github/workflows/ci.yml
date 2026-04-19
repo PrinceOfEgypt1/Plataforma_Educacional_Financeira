@@ -9,6 +9,7 @@ on:
 env:
   PYTHON_VERSION: "3.11"
   NODE_VERSION: "20"
+  PNPM_VERSION: "9.15.4"
 
 jobs:
   backend:
@@ -35,8 +36,12 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
+      # Instala uv via action oficial (substitui `curl | sh` + PATH frágil).
+      # Referência: https://github.com/astral-sh/setup-uv
       - name: Install uv
-        run: curl -LsSf https://astral.sh/uv/install.sh | sh && echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+        uses: astral-sh/setup-uv@v4
+        with:
+          version: "0.5.x"
 
       - name: Install backend deps
         run: cd backend && uv pip install -e ".[dev]" --system
@@ -51,7 +56,7 @@ jobs:
         run: cd backend && python -m mypy app/
 
       - name: Secret scan
-        run: pip install detect-secrets && detect-secrets scan --baseline .secrets.baseline
+        run: pip install "detect-secrets==1.5.0" && detect-secrets scan --baseline .secrets.baseline
 
       - name: SAST (bandit)
         run: cd backend && python -m bandit -r app/ -c pyproject.toml
@@ -75,12 +80,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Instala pnpm via action oficial ANTES de setup-node, para que
+      # setup-node consiga resolver o cache do pnpm automaticamente.
+      # Referência: https://github.com/pnpm/action-setup
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+          run_install: false
+
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-
-      - name: Install pnpm
-        run: npm install -g pnpm
+          cache: "pnpm"
+          cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Install frontend deps
         run: cd frontend && pnpm install --frozen-lockfile
