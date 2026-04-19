@@ -1,6 +1,6 @@
 {
   "$schema_version": 3,
-  "generated_at": "2026-04-18",
+  "generated_at": "2026-04-19",
   "total_documents": 67,
   "categories": {
     "VIVO": 23,
@@ -253,7 +253,7 @@
       "category": "VIVO",
       "title": "G5 — Especificação do Agente de Análise de Impacto",
       "materialized_in_repo": true,
-      "note": "Agente de análise de impacto (Sprint 0). Wired ao CI em modo ADVISORY na Sprint 1 (Fatia 4)."
+      "note": "Agente de análise de impacto (Sprint 0). Wired ao CI em modo ADVISORY na Sprint 1 (Fatia 4). Primeiro run verde em 2026-04-19 (PR #1)."
     },
     {
       "id": "arch_ADR_0001",
@@ -470,7 +470,7 @@
       "materialized_in_repo": true,
       "commit": "7a83045",
       "added_sprint": "sprint-00",
-      "note": "Estágio ADVISORY; wired ao CI via .github/workflows/impact-agent.yml na Sprint 1 (Fatia 4)."
+      "note": "Estágio ADVISORY; wired ao CI via .github/workflows/impact-agent.yml na Sprint 1 (Fatia 4). Primeiro run verde registrado na PR #1 — run 24619349882 (commit e094b80, 2026-04-19T02:45Z)."
     },
     {
       "id": "run_001",

@@ -19,7 +19,7 @@
 |---|---|---|---|---|
 | 1 | Migrar docs de `AUDITORIA_PROMPT_1_FINAL/` para `docs/` com paths corretos | Sprint 1 | ✅ **CONCLUÍDA** — executada em commit **`c31790a`** (Sprint 0 adendo). Confirmada nesta sprint pela atualização de `_meta/living_docs.json` e pelo `SINCRONIZACAO_DOCS_SPRINT01.md`. | `docs/_meta/living_docs.json`; `docs/_meta/SINCRONIZACAO_DOCS_SPRINT01.md` |
 | 2 | Atualizar `living_docs.json` com paths reais | Sprint 1 | ✅ **CONCLUÍDA** — arquivo regerado nesta Fatia 3 (`$schema_version: 3`; 63+ documentos; `generated_at: 2026-04-18`; entradas de `sprint-01` adicionadas). | `docs/_meta/living_docs.json` |
-| 3 | Integrar impact agent no CI (step advisory) | Sprint 1 | ✅ **CONCLUÍDA** na Fatia 4 — job `impact-advisory` em `.github/workflows/ci.yml` paralelo, `continue-on-error: true`, advisory (CND-03 declarada abaixo). | `.github/workflows/ci.yml`; `evidencias/impact-agent-ci.md` |
+| 3 | Integrar impact agent no CI (step advisory) | Sprint 1 | ✅ **CONCLUÍDA + PRIMEIRO RUN REGISTRADO** — workflow dedicado `.github/workflows/impact-agent.yml` introduzido na Fatia 4; primeiro run verde em [actions/runs/24619349882](https://github.com/PrinceOfEgypt1/Plataforma_Educacional_Financeira/actions/runs/24619349882) na PR [#1](https://github.com/PrinceOfEgypt1/Plataforma_Educacional_Financeira/pull/1) (commit `e094b80`, 2026-04-19T02:45Z). `continue-on-error: true` + `sys.exit(0)` = dupla prova de advisory (CND-03 declarada abaixo). | `.github/workflows/impact-agent.yml`; `evidencias/impact-agent-ci.md` §4 |
 | 4 | Atualizar `README.md` com guia de setup pós-Sprint 0 | Sprint 1 | ✅ **CONCLUÍDA** — `README.md` atualizado nesta Fatia 3 (seção "Pós-Sprint 1" + comandos reais validados). | `README.md` |
 | 5 | Testes de render de componentes frontend | Sprint 1 | ✅ **CONCLUÍDA** na Fatia 2 — 61 casos Vitest em 8 arquivos cobrindo shell, estados, UI, Home e as 12 rotas. | `frontend/src/__tests__/**`; `evidencias/make-verify-frontend-test.txt` |
 | 6 | Snapshots visuais (Playwright) | Sprint 1 | 🟡 **PARCIAL** — snapshot leve de `ShellLayout` entregue nesta Fatia 2. Playwright completo fica como pendência residual (Prompt §12 exclui E2E complexo). | `frontend/src/__tests__/components/ShellLayout.test.tsx` |
@@ -62,10 +62,29 @@ Rastreabilidade:
 
 ---
 
-## 4. Referências cruzadas
+## 4. Observações adicionais capturadas durante o primeiro run em CI
+
+Durante o primeiro run do workflow `impact-advisory`
+([actions/runs/24619349882](https://github.com/PrinceOfEgypt1/Plataforma_Educacional_Financeira/actions/runs/24619349882)),
+foi capturado um `##[warning]` de deprecação do Node.js 20 emitido pelo
+runner do GitHub, afetando as actions upstream utilizadas neste workflow
+(`actions/checkout@v4`, `actions/github-script@v7`, `actions/setup-python@v5`,
+`actions/upload-artifact@v4`). Node.js 20 será forçosamente substituído por
+Node.js 24 a partir de 02/06/2026 e removido do runner em 16/09/2026.
+
+- **Natureza:** ambiental (GitHub), não específica deste repositório.
+- **Impacto nesta sprint:** zero — o job concluiu sem erro fatal.
+- **Ação futura (Sprint 2):** atualizar para `actions/*@vN` assim que versões
+  Node.js 24+ forem publicadas upstream. Item registrado aqui por honestidade
+  operacional; **não** configura divergência CND-03 nem quebra o contrato
+  advisory.
+
+## 5. Referências cruzadas
 
 - `docs/sprints/sprint-01/relatorio-execucao.md` §9 — resumo executivo das
   pendências remanescentes pós-Sprint 1.
 - `docs/sprints/sprint-01/validacao-oficial.md` §5 — pendências residuais
   formais pós-aprovação.
 - `docs/_meta/SINCRONIZACAO_DOCS_SPRINT01.md` — matriz documental completa.
+- `docs/sprints/sprint-01/evidencias/impact-agent-ci.md` §4 — registro do
+  primeiro run verde do workflow `impact-advisory`.
