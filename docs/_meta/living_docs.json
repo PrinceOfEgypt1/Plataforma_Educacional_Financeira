@@ -252,7 +252,8 @@
       "path": "docs/qualidade/AGENTE_DE_ANALISE_DE_IMPACTO.md",
       "category": "VIVO",
       "title": "G5 — Especificação do Agente de Análise de Impacto",
-      "materialized_in_repo": true
+      "materialized_in_repo": true,
+      "note": "Agente de análise de impacto (Sprint 0). Wired ao CI em modo ADVISORY na Sprint 1 (Fatia 4)."
     },
     {
       "id": "arch_ADR_0001",
@@ -468,7 +469,8 @@
       "title": "ADR-001 — Agente de Análise de Impacto",
       "materialized_in_repo": true,
       "commit": "7a83045",
-      "added_sprint": "sprint-00"
+      "added_sprint": "sprint-00",
+      "note": "Estágio ADVISORY; wired ao CI via .github/workflows/impact-agent.yml na Sprint 1 (Fatia 4)."
     },
     {
       "id": "run_001",
