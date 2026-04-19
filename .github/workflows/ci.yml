@@ -43,32 +43,53 @@ jobs:
         with:
           version: "0.5.x"
 
+      # Cria venv local no backend e instala deps de dev dentro dele.
+      # Evita a ambiguidade de `--system` + Python do setup-uv tomando o
+      # PATH no lugar do Python do setup-python, que causou exit-1 opaco
+      # no step `Lint (ruff)` do run 24634398427.
+      # `uv pip install --python .venv/bin/python` amarra o install ao
+      # exato interpretador do venv recém-criado, eliminando qualquer
+      # ambiguidade de descoberta de venv (não depende de VIRTUAL_ENV
+      # estar exportado, nem da heurística de auto-discovery do uv).
       - name: Install backend deps
-        run: cd backend && uv pip install -e ".[dev]" --system
+        working-directory: backend
+        run: |
+          uv venv .venv --python "${{ env.PYTHON_VERSION }}"
+          uv pip install --python .venv/bin/python -e ".[dev]"
 
+      # Todos os tooling steps passam a usar `uv run`, que resolve o venv
+      # criado acima de forma determinística, sem depender de `$PATH` ou
+      # de qual `python` vem primeiro. Idiomático e recomendado pelo
+      # próprio astral-sh.
       - name: Lint (ruff)
-        run: cd backend && python -m ruff check .
+        working-directory: backend
+        run: uv run ruff check .
 
       - name: Format check (ruff format)
-        run: cd backend && python -m ruff format --check .
+        working-directory: backend
+        run: uv run ruff format --check .
 
       - name: Typecheck (mypy)
-        run: cd backend && python -m mypy app/
+        working-directory: backend
+        run: uv run mypy app/
 
       - name: Secret scan
         run: pip install "detect-secrets==1.5.0" && detect-secrets scan --baseline .secrets.baseline
 
       - name: SAST (bandit)
-        run: cd backend && python -m bandit -r app/ -c pyproject.toml
+        working-directory: backend
+        run: uv run bandit -r app/ -c pyproject.toml
 
       - name: Tests (unit)
-        run: cd backend && python -m pytest tests/unit -v --cov=app --cov-report=xml -m unit
+        working-directory: backend
+        run: uv run pytest tests/unit -v --cov=app --cov-report=xml -m unit
         env:
           DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/pef_test
           APP_ENV: ci
 
       - name: Tests (integration)
-        run: cd backend && python -m pytest tests/integration -v -m integration
+        working-directory: backend
+        run: uv run pytest tests/integration -v -m integration
         env:
           DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/pef_test
           APP_ENV: ci
@@ -92,8 +113,25 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "pnpm"
-          cache-dependency-path: frontend/pnpm-lock.yaml
+
+      # Cache manual do store do pnpm — substitui o `cache: pnpm` nativo
+      # do setup-node, que falhou no run 24634398427 com
+      # "Some specified paths were not resolved, unable to cache
+      # dependencies." (setup-node chama `pnpm store path` antes de haver
+      # store populado, glob retorna vazio). Essa é a receita canônica
+      # recomendada pela própria doc do pnpm para GitHub Actions.
+      - name: Resolve pnpm store directory
+        id: pnpm-store
+        shell: bash
+        run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-store.outputs.path }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('frontend/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
 
       - name: Install frontend deps
         run: cd frontend && pnpm install --frozen-lockfile
