@@ -76,16 +76,32 @@ jobs:
           .venv/bin/ruff check . --show-files | head -50 || true
           echo "::endgroup::"
 
-      # Todos os tooling steps invocam o binário diretamente do venv
-      # local, eliminando qualquer interação com o project-mode do `uv
-      # run` (que cria `uv.lock` implícito, faz resolução de grupos de
-      # deps por conta própria, e pode tocar no ambiente). Chamar
-      # `.venv/bin/<cmd>` é determinístico: é o mesmo binário que o
-      # step `Install backend deps` acabou de instalar, sem camada
-      # intermediária.
+      # Lint em modo glass-box: no run 24645490047 este step falhou com
+      # "Process completed with exit code 1" sem expor qual violação
+      # ruff detectou. `--output-format=github` faz ruff emitir
+      # anotações `::error file=...,line=...::` que tanto aparecem na
+      # UI de PR quanto deixam a mensagem visível no log bruto.
+      # `set +e` + captura explícita de $? garante que, mesmo que ruff
+      # falhe, o log acima mostra versão e config efetiva antes do
+      # exit. Substitui o `set -eo pipefail` implícito do GitHub
+      # Actions apenas dentro deste step.
       - name: Lint (ruff)
         working-directory: backend
-        run: .venv/bin/ruff check .
+        shell: bash
+        run: |
+          set +e
+          echo "::group::Ruff binary version"
+          .venv/bin/ruff --version
+          echo "::endgroup::"
+          echo "::group::Ruff effective configuration"
+          .venv/bin/ruff check . --show-settings 2>&1 | head -80
+          echo "::endgroup::"
+          echo "::group::Ruff check (GitHub-annotated)"
+          .venv/bin/ruff check . --output-format=github
+          exit_code=$?
+          echo "::endgroup::"
+          echo "::notice::ruff check exit code = $exit_code"
+          exit $exit_code
 
       - name: Format check (ruff format)
         working-directory: backend
@@ -160,20 +176,40 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
-      # Diagnóstico pós-corepack, pré-install: expõe versões e PATH.
-      # Se `pnpm install --frozen-lockfile` falhar no step seguinte,
-      # temos evidência determinística do toolchain no momento.
+      # Diagnóstico tolerante a falhas: no run 24645490047 este step
+      # falhou (step 6 do frontend), mesmo com `Enable pnpm via
+      # corepack` e `Resolve pnpm store directory` já verdes imediatamente
+      # antes — o que prova que pnpm funciona no runner. A única
+      # explicação é que algum comando intermediário deste step
+      # disparou `exit ≠ 0` sob `set -eo pipefail` (default do
+      # GitHub Actions), e abortou antes de emitir qualquer mensagem
+      # útil. A nova forma:
+      #   - `set +e` desativa fail-on-error dentro do step.
+      #   - Cada comando tem fallback `|| echo "FAIL: ..."` para
+      #     sempre emitir alguma linha legível no log.
+      #   - `exit 0` no final garante que o step é SEMPRE informativo,
+      #     jamais bloqueante — é um diagnóstico, não um gate.
       - name: Diagnose frontend toolchain
+        shell: bash
         run: |
+          set +e
           echo "::group::Tool versions"
-          node --version
-          pnpm --version
-          which node
-          which pnpm
+          node --version || echo "FAIL: node --version"
+          pnpm --version || echo "FAIL: pnpm --version"
+          echo "::endgroup::"
+          echo "::group::PATH resolution"
+          which node || echo "FAIL: which node"
+          which pnpm || echo "FAIL: which pnpm"
+          echo "PATH=$PATH"
           echo "::endgroup::"
           echo "::group::Lockfile header"
-          head -5 frontend/pnpm-lock.yaml
+          head -5 frontend/pnpm-lock.yaml || echo "FAIL: head frontend/pnpm-lock.yaml"
           echo "::endgroup::"
+          echo "::group::Frontend directory listing"
+          ls -la frontend/ 2>&1 | head -20 || echo "FAIL: ls frontend/"
+          echo "::endgroup::"
+          # Diagnóstico nunca reprova o job. Informação sempre emitida.
+          exit 0
 
       - name: Install frontend deps
         run: cd frontend && pnpm install --frozen-lockfile
