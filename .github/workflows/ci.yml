@@ -44,9 +44,6 @@ jobs:
           version: "0.5.x"
 
       # Cria venv local no backend e instala deps de dev dentro dele.
-      # Evita a ambiguidade de `--system` + Python do setup-uv tomando o
-      # PATH no lugar do Python do setup-python, que causou exit-1 opaco
-      # no step `Lint (ruff)` do run 24634398427.
       # `uv pip install --python .venv/bin/python` amarra o install ao
       # exato interpretador do venv recém-criado, eliminando qualquer
       # ambiguidade de descoberta de venv (não depende de VIRTUAL_ENV
@@ -57,39 +54,64 @@ jobs:
           uv venv .venv --python "${{ env.PYTHON_VERSION }}"
           uv pip install --python .venv/bin/python -e ".[dev]"
 
-      # Todos os tooling steps passam a usar `uv run`, que resolve o venv
-      # criado acima de forma determinística, sem depender de `$PATH` ou
-      # de qual `python` vem primeiro. Idiomático e recomendado pelo
-      # próprio astral-sh.
+      # Diagnóstico pós-install: expõe no log exatamente quais binários
+      # e versões o venv tem, qual é o Python resolvido, e onde `uv`
+      # está. Serve de evidência determinística caso algum step
+      # posterior falhe — o que exatamente estava instalado na hora.
+      # Sem isso, o failure "exit 1" vira caixa-preta.
+      - name: Diagnose backend toolchain
+        working-directory: backend
+        run: |
+          echo "::group::Venv binaries"
+          ls -la .venv/bin/ | grep -E "ruff|mypy|bandit|pytest|python" || true
+          echo "::endgroup::"
+          echo "::group::Tool versions"
+          .venv/bin/python --version
+          .venv/bin/ruff --version
+          .venv/bin/mypy --version
+          .venv/bin/bandit --version
+          .venv/bin/pytest --version
+          echo "::endgroup::"
+          echo "::group::Ruff scan preview"
+          .venv/bin/ruff check . --show-files | head -50 || true
+          echo "::endgroup::"
+
+      # Todos os tooling steps invocam o binário diretamente do venv
+      # local, eliminando qualquer interação com o project-mode do `uv
+      # run` (que cria `uv.lock` implícito, faz resolução de grupos de
+      # deps por conta própria, e pode tocar no ambiente). Chamar
+      # `.venv/bin/<cmd>` é determinístico: é o mesmo binário que o
+      # step `Install backend deps` acabou de instalar, sem camada
+      # intermediária.
       - name: Lint (ruff)
         working-directory: backend
-        run: uv run ruff check .
+        run: .venv/bin/ruff check .
 
       - name: Format check (ruff format)
         working-directory: backend
-        run: uv run ruff format --check .
+        run: .venv/bin/ruff format --check .
 
       - name: Typecheck (mypy)
         working-directory: backend
-        run: uv run mypy app/
+        run: .venv/bin/mypy app/
 
       - name: Secret scan
         run: pip install "detect-secrets==1.5.0" && detect-secrets scan --baseline .secrets.baseline
 
       - name: SAST (bandit)
         working-directory: backend
-        run: uv run bandit -r app/ -c pyproject.toml
+        run: .venv/bin/bandit -r app/ -c pyproject.toml
 
       - name: Tests (unit)
         working-directory: backend
-        run: uv run pytest tests/unit -v --cov=app --cov-report=xml -m unit
+        run: .venv/bin/pytest tests/unit -v --cov=app --cov-report=xml -m unit
         env:
           DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/pef_test
           APP_ENV: ci
 
       - name: Tests (integration)
         working-directory: backend
-        run: uv run pytest tests/integration -v -m integration
+        run: .venv/bin/pytest tests/integration -v -m integration
         env:
           DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/pef_test
           APP_ENV: ci
@@ -101,25 +123,30 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Instala pnpm via action oficial ANTES de setup-node, para que
-      # setup-node consiga resolver o cache do pnpm automaticamente.
-      # Referência: https://github.com/pnpm/action-setup
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
-          run_install: false
-
+      # Setup-node PRIMEIRO — garante que Node está em PATH antes de
+      # qualquer ferramenta derivada (pnpm, corepack). Isso elimina a
+      # ambiguidade do run 24640315021, onde `pnpm/action-setup@v4`
+      # instalado antes de setup-node ficou com binário indireto/
+      # node incompatível após setup-node alterar o PATH.
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      # Cache manual do store do pnpm — substitui o `cache: pnpm` nativo
-      # do setup-node, que falhou no run 24634398427 com
-      # "Some specified paths were not resolved, unable to cache
-      # dependencies." (setup-node chama `pnpm store path` antes de haver
-      # store populado, glob retorna vazio). Essa é a receita canônica
-      # recomendada pela própria doc do pnpm para GitHub Actions.
+      # Ativa pnpm via corepack (built-in do Node ≥16.10). Substitui
+      # `pnpm/action-setup@v4` — uma dependência externa a menos, com
+      # menor superfície de falha. O `--activate` fixa a versão exata
+      # de pnpm globalmente para o runner, que então é invocada em
+      # steps seguintes sem depender de ordem de instalação de actions.
+      # Referência: https://nodejs.org/api/corepack.html
+      - name: Enable pnpm via corepack
+        run: |
+          corepack enable
+          corepack prepare pnpm@${{ env.PNPM_VERSION }} --activate
+          pnpm --version
+
+      # Cache manual do store do pnpm — preservado do Pacote 08. A
+      # receita canônica da doc do pnpm para GitHub Actions. Tolera
+      # path inexistente na primeira run e restaura nas seguintes.
       - name: Resolve pnpm store directory
         id: pnpm-store
         shell: bash
@@ -132,6 +159,21 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('frontend/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
+
+      # Diagnóstico pós-corepack, pré-install: expõe versões e PATH.
+      # Se `pnpm install --frozen-lockfile` falhar no step seguinte,
+      # temos evidência determinística do toolchain no momento.
+      - name: Diagnose frontend toolchain
+        run: |
+          echo "::group::Tool versions"
+          node --version
+          pnpm --version
+          which node
+          which pnpm
+          echo "::endgroup::"
+          echo "::group::Lockfile header"
+          head -5 frontend/pnpm-lock.yaml
+          echo "::endgroup::"
 
       - name: Install frontend deps
         run: cd frontend && pnpm install --frozen-lockfile
