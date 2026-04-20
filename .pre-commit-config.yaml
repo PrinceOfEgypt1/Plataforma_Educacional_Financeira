@@ -35,6 +35,17 @@ repos:
     hooks:
       - id: detect-secrets
         args: ["--baseline", ".secrets.baseline"]
+        # Exclui arquivos que, por natureza, são compostos apenas de
+        # hashes de integridade determinísticos (base64 SHA-512 de tarballs
+        # resolvidos). Nenhum segredo humano pode acabar acidentalmente
+        # em um lockfile pnpm — é gerado a partir de `package.json` por
+        # `pnpm install`, não editado à mão. O heurístico `is_lock_file`
+        # da própria detect-secrets v1.5.0 reconhece `package-lock.json`,
+        # `yarn.lock`, `poetry.lock`, `Cargo.lock` etc., mas NÃO
+        # `pnpm-lock.yaml` (gap conhecido). Aplicamos aqui a exclusão
+        # nominal e auditável, restrita ao único arquivo que dispara o
+        # falso positivo em escala.
+        exclude: ^frontend/pnpm-lock\.yaml$
 
   - repo: https://github.com/PyCQA/bandit
     rev: 1.7.8

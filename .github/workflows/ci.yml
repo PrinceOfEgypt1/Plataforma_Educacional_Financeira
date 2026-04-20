@@ -111,8 +111,23 @@ jobs:
         working-directory: backend
         run: .venv/bin/mypy app/
 
+      # Secret scan com exclusão nominal do lockfile pnpm. Motivação: o
+      # heurístico `is_lock_file` do detect-secrets v1.5.0 reconhece
+      # lockfiles de npm/yarn/poetry/cargo/etc., mas NÃO o
+      # `pnpm-lock.yaml` — gap conhecido no upstream. Sem a exclusão,
+      # cada uma das ~640 entradas `integrity: sha512-...` (base64 de
+      # SHA-512 dos tarballs resolvidos) aparece como
+      # `Base64HighEntropyString` novo em relação ao baseline. Como o
+      # lockfile é derivado (gerado por `pnpm install`, nunca editado à
+      # mão), nenhum segredo humano pode acidentalmente acabar nele.
+      # A exclusão é nominal, estreita e auditável — espelhada no
+      # hook local em `.pre-commit-config.yaml`.
       - name: Secret scan
-        run: pip install "detect-secrets==1.5.0" && detect-secrets scan --baseline .secrets.baseline
+        run: |
+          pip install "detect-secrets==1.5.0"
+          detect-secrets scan \
+            --baseline .secrets.baseline \
+            --exclude-files 'frontend/pnpm-lock\.yaml$'
 
       - name: SAST (bandit)
         working-directory: backend
