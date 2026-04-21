@@ -10,8 +10,8 @@ from httpx import ASGITransport, AsyncClient
 from app.main import app
 
 
-@pytest.mark.contract()
-@pytest.mark.asyncio()
+@pytest.mark.contract
+@pytest.mark.asyncio
 async def test_contract_ping_retorna_envelope_padrao() -> None:
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
         response = await client.get("/api/v1/contract/ping", params={"echo": "hello"})
@@ -31,8 +31,8 @@ async def test_contract_ping_retorna_envelope_padrao() -> None:
     assert "generated_at" in meta
 
 
-@pytest.mark.contract()
-@pytest.mark.asyncio()
+@pytest.mark.contract
+@pytest.mark.asyncio
 async def test_contract_ping_propaga_x_request_id_do_cliente() -> None:
     rid = "22222222-2222-4222-8222-222222222222"
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
@@ -46,8 +46,8 @@ async def test_contract_ping_propaga_x_request_id_do_cliente() -> None:
     assert response.json()["meta"]["request_id"] == rid
 
 
-@pytest.mark.contract()
-@pytest.mark.asyncio()
+@pytest.mark.contract
+@pytest.mark.asyncio
 async def test_contract_ping_gera_x_request_id_quando_ausente() -> None:
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
         response = await client.get("/api/v1/contract/ping")

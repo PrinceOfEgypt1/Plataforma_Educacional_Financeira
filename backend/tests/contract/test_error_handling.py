@@ -8,8 +8,8 @@ from httpx import ASGITransport, AsyncClient
 from app.main import app
 
 
-@pytest.mark.contract()
-@pytest.mark.asyncio()
+@pytest.mark.contract
+@pytest.mark.asyncio
 @pytest.mark.parametrize(
     ("kind", "expected_status", "expected_code"),
     [
@@ -38,8 +38,8 @@ async def test_erros_de_dominio_produzem_problem_rfc7807(
         assert field in body
 
 
-@pytest.mark.contract()
-@pytest.mark.asyncio()
+@pytest.mark.contract
+@pytest.mark.asyncio
 async def test_validation_error_de_dominio_retorna_422_com_errors_list() -> None:
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
         response = await client.get("/api/v1/contract/errors/validation")
@@ -52,8 +52,8 @@ async def test_validation_error_de_dominio_retorna_422_com_errors_list() -> None
     assert len(body["errors"]) >= 1
 
 
-@pytest.mark.contract()
-@pytest.mark.asyncio()
+@pytest.mark.contract
+@pytest.mark.asyncio
 async def test_request_validation_error_do_fastapi_mapeado_em_problem() -> None:
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
         # O path param ``kind`` é Literal; valor fora do conjunto dispara
@@ -67,8 +67,8 @@ async def test_request_validation_error_do_fastapi_mapeado_em_problem() -> None:
     assert isinstance(body["errors"], list)
 
 
-@pytest.mark.contract()
-@pytest.mark.asyncio()
+@pytest.mark.contract
+@pytest.mark.asyncio
 async def test_internal_error_nao_expoe_stack_trace() -> None:
     # ``raise_app_exceptions=False`` reproduz o comportamento do servidor ASGI
     # real (uvicorn): a exceção não é re-levantada para o cliente — o handler

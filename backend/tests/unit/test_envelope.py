@@ -34,7 +34,7 @@ class _PingModel(BaseModel):
 
 
 # ── Envelope ───────────────────────────────────────────────────────────────
-@pytest.mark.unit()
+@pytest.mark.unit
 def test_make_meta_gera_uuid4_e_timestamp_utc() -> None:
     meta = make_meta()
     UUID(meta.request_id, version=4)
@@ -43,14 +43,14 @@ def test_make_meta_gera_uuid4_e_timestamp_utc() -> None:
     assert meta.generated_at.tzinfo is not None
 
 
-@pytest.mark.unit()
+@pytest.mark.unit
 def test_make_meta_preserva_request_id_fornecido() -> None:
     rid = "11111111-1111-4111-8111-111111111111"
     meta = make_meta(rid)
     assert meta.request_id == rid
 
 
-@pytest.mark.unit()
+@pytest.mark.unit
 def test_ok_monta_envelope_com_data_tipada() -> None:
     envelope = ok(_PingModel(value=42, label="pong"), message="alive")
     assert envelope.success is True
@@ -60,7 +60,7 @@ def test_ok_monta_envelope_com_data_tipada() -> None:
     assert envelope.meta.version == API_VERSION
 
 
-@pytest.mark.unit()
+@pytest.mark.unit
 def test_response_envelope_roundtrip_preserva_tipo() -> None:
     envelope = ok(_PingModel(value=1, label="x"))
     dumped = envelope.model_dump()
@@ -73,12 +73,12 @@ def test_response_envelope_roundtrip_preserva_tipo() -> None:
 
 
 # ── Problem / DomainError ──────────────────────────────────────────────────
-@pytest.mark.unit()
+@pytest.mark.unit
 def test_problem_media_type_constante_eh_rfc7807() -> None:
     assert PROBLEM_MEDIA_TYPE == "application/problem+json"
 
 
-@pytest.mark.unit()
+@pytest.mark.unit
 def test_problem_serializa_campos_obrigatorios() -> None:
     problem = Problem(
         title="Not Found",
@@ -96,7 +96,7 @@ def test_problem_serializa_campos_obrigatorios() -> None:
     assert "errors" not in dumped  # exclude_none elimina o campo ausente
 
 
-@pytest.mark.unit()
+@pytest.mark.unit
 @pytest.mark.parametrize(
     ("exc_cls", "expected_status", "expected_code"),
     [
@@ -118,7 +118,7 @@ def test_domainerror_subclasses_mantem_status_e_code(
     assert exc.detail == "detalhe do caso"
 
 
-@pytest.mark.unit()
+@pytest.mark.unit
 def test_domainerror_raiz_default_eh_internal_error() -> None:
     exc = DomainError("boom")
     assert exc.status_code == 500
@@ -126,7 +126,7 @@ def test_domainerror_raiz_default_eh_internal_error() -> None:
     assert exc.title == "Internal Server Error"
 
 
-@pytest.mark.unit()
+@pytest.mark.unit
 def test_validation_error_aceita_lista_errors() -> None:
     errs = [{"field": "principal", "message": "deve ser positivo"}]
     exc = ValidationError("inválido", errors=errs)
