@@ -29,7 +29,6 @@ out/
 .turbo/
 .vercel/
 .pnpm-store/
-pnpm-lock.yaml
 
 # Env
 .env

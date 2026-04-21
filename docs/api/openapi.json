@@ -79,6 +79,194 @@
           }
         }
       }
+    },
+    "/api/v1/contract/ping": {
+      "get": {
+        "tags": [
+          "contract"
+        ],
+        "summary": "Prova de vida do contrato-base de sucesso (Doc 06 §4.1)",
+        "operationId": "contract_ping_api_v1_contract_ping_get",
+        "parameters": [
+          {
+            "name": "echo",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Echo"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseEnvelope_PingData_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "Meta": {
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "title": "Request Id",
+            "description": "Identificador único da requisição (UUID4), propagado em X-Request-ID."
+          },
+          "version": {
+            "type": "string",
+            "title": "Version",
+            "description": "Versão da API que respondeu (casa com o prefixo /api/v1).",
+            "default": "v1"
+          },
+          "generated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Generated At",
+            "description": "Timestamp ISO-8601 UTC do momento de geração da resposta."
+          }
+        },
+        "type": "object",
+        "required": [
+          "request_id",
+          "generated_at"
+        ],
+        "title": "Meta",
+        "description": "Metadados canônicos do envelope de sucesso (Doc 06 §4.1)."
+      },
+      "PingData": {
+        "properties": {
+          "pong": {
+            "type": "boolean",
+            "title": "Pong"
+          },
+          "echo": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Echo"
+          }
+        },
+        "type": "object",
+        "required": [
+          "pong"
+        ],
+        "title": "PingData"
+      },
+      "ResponseEnvelope_PingData_": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Sempre True em respostas 2xx.",
+            "default": true
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Mensagem curta legível para o consumidor."
+          },
+          "data": {
+            "$ref": "#/components/schemas/PingData",
+            "description": "Carga útil tipada da resposta."
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta",
+            "description": "Metadados da resposta."
+          }
+        },
+        "type": "object",
+        "required": [
+          "message",
+          "data",
+          "meta"
+        ],
+        "title": "ResponseEnvelope[PingData]"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
     }
   }
 }

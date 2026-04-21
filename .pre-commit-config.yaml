@@ -13,7 +13,13 @@ repos:
         args: ["--branch", "main"]
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.4.7
+    # Bump de v0.4.7 → v0.7.4 para alinhar com o ruff que o CI resolve
+    # a partir do floor `ruff>=0.4.7` em backend/pyproject.toml.
+    # Em v0.5.0+ o default de `flake8-pytest-style.mark-parentheses`
+    # mudou para `false` (proíbe parens em marks sem argumentos),
+    # alinhando com as correções do Pacote 15. Sem este bump, o hook
+    # RUFF local e o LINT do CI exigem direções OPOSTAS na mesma regra.
+    rev: v0.7.4
     hooks:
       - id: ruff
         args: ["--fix"]
@@ -26,6 +32,11 @@ repos:
     hooks:
       - id: mypy
         files: ^backend/app/
+        # language_version explícito: o código usa `from datetime import UTC`
+        # (Python 3.11+). Sem este pin, o pre-commit cai no Python do PATH
+        # do env do hook, que pode ser 3.10 em ambientes de dev novos,
+        # quebrando a análise estática.
+        language_version: python3.11
         additional_dependencies:
           - "pydantic>=2.7.0"
           - "pydantic-settings>=2.2.0"
@@ -35,6 +46,17 @@ repos:
     hooks:
       - id: detect-secrets
         args: ["--baseline", ".secrets.baseline"]
+        # Exclui arquivos que, por natureza, são compostos apenas de
+        # hashes de integridade determinísticos (base64 SHA-512 de tarballs
+        # resolvidos). Nenhum segredo humano pode acabar acidentalmente
+        # em um lockfile pnpm — é gerado a partir de `package.json` por
+        # `pnpm install`, não editado à mão. O heurístico `is_lock_file`
+        # da própria detect-secrets v1.5.0 reconhece `package-lock.json`,
+        # `yarn.lock`, `poetry.lock`, `Cargo.lock` etc., mas NÃO
+        # `pnpm-lock.yaml` (gap conhecido). Aplicamos aqui a exclusão
+        # nominal e auditável, restrita ao único arquivo que dispara o
+        # falso positivo em escala.
+        exclude: ^frontend/pnpm-lock\.yaml$
 
   - repo: https://github.com/PyCQA/bandit
     rev: 1.7.8
@@ -42,3 +64,10 @@ repos:
       - id: bandit
         args: ["-c", "backend/pyproject.toml"]
         files: ^backend/app/
+        # bandit 1.7.8 precisa de `tomli` (Python <3.11) ou do builtin
+        # `tomllib` (3.11+) para parsear o config de backend/pyproject.toml.
+        # No ambiente do hook, adicionamos `tomli` como dependência
+        # explícita — resolve "toml parser not available" de forma estável
+        # independentemente da versão do Python do env.
+        additional_dependencies:
+          - "tomli"

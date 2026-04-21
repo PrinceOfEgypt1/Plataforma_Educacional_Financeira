@@ -1,0 +1,3 @@
+
+> plataforma-educacional-financeira-frontend@0.1.0 typecheck /home/moses/workspace/Plataforma_Educacional_Financeira/frontend
+> tsc --noEmit

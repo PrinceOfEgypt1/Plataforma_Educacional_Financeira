@@ -1,34 +1,40 @@
 # Inventário de Telas, Estados e Superfícies — Plataforma Educacional Financeira
 
-**Versão:** 1.0 | **Sprint:** 0 | **Status:** VIVO
+**Versão:** 1.1 | **Sprint da última revisão:** 1 | **Status:** VIVO
 **Prioridade P0** = Sprint 0-1 | **P1** = Sprint 2-3 | **P2** = Sprint 4+
 
 ---
 
-## 1. Estrutura de navegação (scaffold Sprint 0)
-/                        → Home (lista de módulos)
-/juros                   → Simulador de Juros Compostos
-/amortizacao             → Simulador PRICE / SAC
-/financiamento           → Financiamento imobiliário / veículos
-/emprestimos             → Empréstimos e CET
-/cartao                  → Cartão de crédito / rotativo
-/atraso                  → Juros de atraso e multas
-/indicadores             → Selic, IPCA, CDI, TR
-/investir-vs-quitar      → Comparativo investir vs. quitar
-/diagnostico             → Diagnóstico financeiro
-/educacao/:slug          → Conteúdo educacional contextual
+## 1. Estrutura de navegação (slugs canônicos — Doc 06 + PLANO Sprint 1 §5.4)
 
-/                        → Home (lista de módulos)
-/juros                   → Simulador de Juros Compostos
-/amortizacao             → Simulador PRICE / SAC
-/financiamento           → Financiamento imobiliário / veículos
-/emprestimos             → Empréstimos e CET
-/cartao                  → Cartão de crédito / rotativo
-/atraso                  → Juros de atraso e multas
-/indicadores             → Selic, IPCA, CDI, TR
-/investir-vs-quitar      → Comparativo investir vs. quitar
-/diagnostico             → Diagnóstico financeiro
-/educacao/:slug          → Conteúdo educacional contextual
+A partir da Sprint 1, a estrutura é materializada no App Router do Next.js
+sob o grupo `src/app/(app)/`, garantindo que todas as rotas compartilhem o
+shell navegável (`ShellLayout` + sidebar + header + main + footer + banner
+educacional). Os slugs abaixo são **os 12 módulos canônicos** — qualquer
+divergência com o Doc 06 §4 deve ser corrigida neste documento.
+
+```
+/                                  → Home (grid com 12 módulos)
+/diagnostico                       → Diagnóstico financeiro
+/juros                             → Simulador de Juros (simples/compostos)
+/amortizacao                       → Simulador PRICE / SAC / SAM
+/financiamento-imobiliario         → Financiamento imobiliário
+/financiamento-veiculo             → Financiamento de veículos
+/consignado                        → Empréstimo consignado
+/cdc                               → CDC (crédito direto ao consumidor)
+/cartao-rotativo                   → Cartão de crédito — rotativo
+/atraso                            → Juros de atraso e multas
+/indicadores                       → Selic, IPCA, CDI, TR
+/investir-vs-quitar                → Comparativo "investir vs. quitar"
+/educacao                          → Conteúdo educacional contextual
+```
+
+> **Histórico de consolidação.** A v1.0 deste documento listava
+> `/financiamento` (consolidado) e `/emprestimos` (consolidado) — a Sprint 1
+> promoveu a separação canônica do Doc 06 em `/financiamento-imobiliario`
+> vs `/financiamento-veiculo` e em `/consignado` vs `/cdc`. A rota de cartão
+> passa a ser **`/cartao-rotativo`** (antes `/cartao`), explicitando o tipo
+> de produto financeiro tratado.
 
 ---
 
@@ -39,18 +45,19 @@
 | Estado | Componente | Descrição |
 |--------|-----------|-----------|
 | default | `<RootLayout>` | HTML, lang=pt-BR, metadados SEO |
-| default | `<EducationalNotice>` | Banner persistente "produto educacional" |
-| default | `<Header>` | Logo + navegação principal |
+| default | `<EducationalNotice>` | Banner persistente "produto educacional" (Doc 18) |
+| default | `<Header>` | Logo + breadcrumb derivado do pathname |
+| default | `<Sidebar>` | Navegação por grupos semânticos (9 grupos, 12 módulos) |
 | default | `<Footer>` | Links legais + aviso educacional |
 | default | `<MainContent>` | Área principal com padding responsivo |
 
-### 2.2 Home (/) — P0
+### 2.2 Home (/) — P0 — **materializada na Sprint 1**
 
 | Estado | Descrição |
 |--------|-----------|
-| `default` | Grid de cards com todos os módulos disponíveis |
-| `loading` | Skeleton loader (se módulos carregados via API) |
-| `empty` | Mensagem quando nenhum módulo disponível |
+| `default` | Grid de cards com os 12 módulos (1 col mobile, 2 col sm, 3 col lg) |
+| `loading` | `LoadingState` reutilizável (quando carregado via API — futuro) |
+| `empty` | `EmptyState` reutilizável |
 
 ### 2.3 Simulador de Juros (/juros) — P0
 
@@ -60,9 +67,9 @@
 | `valid` | Formulário preenchido corretamente + botão calcular habilitado |
 | `invalid` | Campo(s) com erro + mensagem de validação inline |
 | `loading` | Spinner + botão desabilitado durante chamada à API |
-| `success` | Resultado com summary, tabela, gráfico e interpretação |
-| `error` | Mensagem de erro da API + botão tentar novamente |
-| `empty` | Estado inicial sem resultado (pré-cálculo) |
+| `success` | Resultado com `<SummaryCard>`, tabela, gráfico e interpretação |
+| `error` | `ErrorState` com mensagem da API (RFC 7807) + botão tentar novamente |
+| `empty` | `EmptyState` (pré-cálculo) |
 
 ### 2.4 Simulador de Amortização (/amortizacao) — P0
 
@@ -73,10 +80,10 @@
 | `invalid` | Validação inline por campo |
 | `loading` | Processando tabela de amortização |
 | `success` | Tabela de parcelas + gráfico saldo devedor + interpretação |
-| `error` | Erro de cálculo com mensagem compreensível |
+| `error` | Erro de cálculo com mensagem compreensível (RFC 7807) |
 | `comparison` | Vista lado a lado PRICE vs SAC (P1) |
 
-### 2.5 Módulos de Financiamento, Empréstimos, Cartão — P1
+### 2.5 Módulos de Financiamento, Empréstimos, Cartão, Atraso — P1
 
 Cada módulo segue o mesmo contrato de estados:
 
@@ -84,11 +91,11 @@ Cada módulo segue o mesmo contrato de estados:
 |--------|-------------|
 | `idle` | ✅ |
 | `valid` / `invalid` | ✅ |
-| `loading` | ✅ |
-| `success` | ✅ (com summary + interpretation + alerts) |
-| `error` | ✅ (RFC 7807 — mensagem humana) |
-| `empty` | ✅ |
-| `unavailable` | ✅ (quando serviço externo indisponível, ex: Selic) |
+| `loading` | ✅ (`LoadingState`) |
+| `success` | ✅ (com `SummaryCard` + interpretação + `AlertBanner` quando aplicável) |
+| `error` | ✅ (`ErrorState`, RFC 7807 — mensagem humana) |
+| `empty` | ✅ (`EmptyState`) |
+| `unavailable` | ✅ (quando serviço externo indisponível, ex.: Selic) |
 
 ### 2.6 Indicadores (/indicadores) — P1
 
@@ -113,7 +120,8 @@ Cada módulo segue o mesmo contrato de estados:
 
 ## 3. Padrões de estado obrigatórios por superfície
 
-Todo componente de cálculo DEVE implementar:
+Todo componente de cálculo DEVE implementar o contrato
+`status × data × message × code` abaixo:
 
 ```typescript
 type ComponentState =
@@ -124,6 +132,12 @@ type ComponentState =
   | { status: "empty" }
   | { status: "unavailable"; reason: string };
 ```
+
+A Sprint 1 entregou **3 componentes visuais reutilizáveis** para renderizar
+esses estados: `LoadingState`, `ErrorState`, `EmptyState`
+(`frontend/src/components/states/`). A API é uniforme
+`{title, description, action?}` e cada um já inclui as ARIA-landmarks
+corretas (`role="status"` ou `role="alert"` conforme o caso).
 
 ---
 
@@ -140,12 +154,14 @@ type ComponentState =
 
 ## 5. Acessibilidade mínima (obrigatória em P0)
 
-- Navegação completa por teclado (Tab, Enter, Escape)
-- axe-core: zero violações `serious` ou `critical`
-- ARIA labels em formulários e resultados
-- Contraste mínimo WCAG AA (4.5:1 para texto normal)
-- `lang="pt-BR"` no elemento html
-- Foco visível em todos os elementos interativos
+- Navegação completa por teclado (Tab, Enter, Escape).
+- axe-core: zero violações `serious` ou `critical`.
+- ARIA labels em formulários e resultados.
+- Contraste mínimo WCAG AA (4.5:1 para texto normal).
+- `lang="pt-BR"` no elemento html.
+- Foco visível em todos os elementos interativos.
+- `ShellLayout` com todas as landmarks canônicas presentes: `banner`,
+  `navigation`, `main`, `contentinfo`, `complementary` (no `EducationPanel`).
 
 ---
 
@@ -153,13 +169,19 @@ type ComponentState =
 
 | Tela | Sprint 0 | Sprint 1 | Sprint 2 |
 |------|----------|----------|----------|
-| Layout base + RootLayout | scaffold | real | — |
-| Home (/) | scaffold | real | — |
-| /juros | — | P0 | — |
-| /amortizacao | — | P0 | — |
-| /financiamento | — | — | P1 |
-| /emprestimos | — | — | P1 |
-| /cartao | — | — | P1 |
-| /indicadores | — | — | P1 |
-| /investir-vs-quitar | — | — | P2 |
-| /diagnostico | — | — | P2 |
+| Layout base + RootLayout | scaffold | ✅ real (ShellLayout + sidebar + header + footer + banner) | — |
+| Home (/) | scaffold | ✅ real (grid dos 12 módulos) | — |
+| /diagnostico | — | 🟡 shell + "em construção" + `EmptyState` + `EducationPanel` | P1 |
+| /juros | — | 🟡 shell + "em construção" | P0 |
+| /amortizacao | — | 🟡 shell + "em construção" | P0 |
+| /financiamento-imobiliario | — | 🟡 shell + "em construção" | P1 |
+| /financiamento-veiculo | — | 🟡 shell + "em construção" | P1 |
+| /consignado | — | 🟡 shell + "em construção" | P1 |
+| /cdc | — | 🟡 shell + "em construção" | P1 |
+| /cartao-rotativo | — | 🟡 shell + "em construção" | P1 |
+| /atraso | — | 🟡 shell + "em construção" | P1 |
+| /indicadores | — | 🟡 shell + "em construção" | P1 |
+| /investir-vs-quitar | — | 🟡 shell + "em construção" | P2 |
+| /educacao | — | 🟡 shell + "em construção" | P1 |
+
+Legenda: ✅ implementado · 🟡 shell navegável + placeholder educativo (Sprint 1) · P0/P1/P2 = prioridade para materialização real.

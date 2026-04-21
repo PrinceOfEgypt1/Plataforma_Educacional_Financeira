@@ -1,0 +1,21 @@
+# =========================================================================
+# .prettierignore — Pacote 14 (P13 introduziu; P14 mantém idêntico)
+# =========================================================================
+# Prettier formata SOMENTE código-fonte humano.
+# Artefatos gerados por build, cache e lockfile NÃO entram no scan.
+# =========================================================================
+
+# Build / cache artifacts ---------------------------------------------------
+.next/
+out/
+dist/
+coverage/
+
+# TypeScript incremental build info ----------------------------------------
+*.tsbuildinfo
+
+# Dependencies --------------------------------------------------------------
+node_modules/
+
+# Lockfile — derivado, gerenciado pelo pnpm --------------------------------
+pnpm-lock.yaml

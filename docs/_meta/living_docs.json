@@ -1,14 +1,15 @@
 {
   "$schema_version": 3,
-  "generated_at": "2026-04-14",
-  "total_documents": 63,
+  "generated_at": "2026-04-19",
+  "total_documents": 67,
   "categories": {
     "VIVO": 23,
     "ESTATICO": 31,
     "HIBRIDO": 6,
     "BASELINE_CANDIDATA": 1,
-    "GOVERNANCA_SPRINT": 1,
-    "OPERACIONAL": 1
+    "GOVERNANCA_SPRINT": 4,
+    "OPERACIONAL": 1,
+    "META": 1
   },
   "documents": [
     {
@@ -44,7 +45,8 @@
       "path": "docs/04_Arquitetura_de_Software.md",
       "category": "VIVO",
       "title": "Arquitetura de Software",
-      "materialized_in_repo": true
+      "materialized_in_repo": true,
+      "note": "Atualizado na Sprint 1 — §6.3 (contrato-base em app/core, agrupamento em app/api/v1/)"
     },
     {
       "id": "doc_05",
@@ -149,7 +151,8 @@
       "path": "docs/19_Matriz_Rastreabilidade.md",
       "category": "VIVO",
       "title": "Matriz de Rastreabilidade Requisitos↔Testes↔Código",
-      "materialized_in_repo": true
+      "materialized_in_repo": true,
+      "note": "Atualizado na Sprint 1 — linhas REQ-CTR-001 e RF-HEALTH-001"
     },
     {
       "id": "doc_20",
@@ -213,7 +216,8 @@
       "path": "docs/27_Versionamento_API.md",
       "category": "HIBRIDO",
       "title": "Versionamento de Contratos de API",
-      "materialized_in_repo": true
+      "materialized_in_repo": true,
+      "note": "Atualizado na Sprint 1 — apêndice vivo: v1 active, 2026-04"
     },
     {
       "id": "g1",
@@ -248,7 +252,8 @@
       "path": "docs/qualidade/AGENTE_DE_ANALISE_DE_IMPACTO.md",
       "category": "VIVO",
       "title": "G5 — Especificação do Agente de Análise de Impacto",
-      "materialized_in_repo": true
+      "materialized_in_repo": true,
+      "note": "Agente de análise de impacto (Sprint 0). Wired ao CI em modo ADVISORY na Sprint 1 (Fatia 4). Primeiro run verde em 2026-04-19 (PR #1)."
     },
     {
       "id": "arch_ADR_0001",
@@ -464,7 +469,8 @@
       "title": "ADR-001 — Agente de Análise de Impacto",
       "materialized_in_repo": true,
       "commit": "7a83045",
-      "added_sprint": "sprint-00"
+      "added_sprint": "sprint-00",
+      "note": "Estágio ADVISORY; wired ao CI via .github/workflows/impact-agent.yml na Sprint 1 (Fatia 4). Primeiro run verde registrado na PR #1 — run 24619349882 (commit e094b80, 2026-04-19T02:45Z)."
     },
     {
       "id": "run_001",
@@ -511,6 +517,42 @@
       "commit": "sinc-documental",
       "added_sprint": "sprint-00-adendo-sinc",
       "note": "Artefato operacional auxiliar — não substitui documentação viva"
+    },
+    {
+      "id": "sprint_01_execucao",
+      "path": "docs/sprints/sprint-01/relatorio-execucao.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Sprint 01 — Relatório de Execução",
+      "materialized_in_repo": true,
+      "added_sprint": "sprint-01",
+      "note": "Governança da Sprint 1 — narrativa executiva"
+    },
+    {
+      "id": "sprint_01_forense",
+      "path": "docs/sprints/sprint-01/relatorio-forense.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Sprint 01 — Relatório Forense",
+      "materialized_in_repo": true,
+      "added_sprint": "sprint-01",
+      "note": "Cadeia de custódia granular da Sprint 1"
+    },
+    {
+      "id": "sprint_01_validacao",
+      "path": "docs/sprints/sprint-01/validacao-oficial.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Sprint 01 — Validação Oficial",
+      "materialized_in_repo": true,
+      "added_sprint": "sprint-01",
+      "note": "Veredito formal da Sprint 1 (§13.3 do PLANO preserva Sprint 0)"
+    },
+    {
+      "id": "sinc_sprint01",
+      "path": "docs/_meta/SINCRONIZACAO_DOCS_SPRINT01.md",
+      "category": "META",
+      "title": "Sincronização Documental — Sprint 01",
+      "materialized_in_repo": true,
+      "added_sprint": "sprint-01",
+      "note": "Matriz documental desta sprint"
     }
   ],
   "updated_at": "2026-04-17",

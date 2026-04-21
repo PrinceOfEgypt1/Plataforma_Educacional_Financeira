@@ -66,11 +66,12 @@ A arquitetura é **híbrida, modular e em camadas**, composta por:
 
 ### 6.3 C4 Nível 3 — Componentes do backend
 - `app/api/` — routers REST por domínio.
+  - A partir da Sprint 1, o agrupamento de rotas passa a viver em `app/api/v1/` (`router.py` agregador + módulos por domínio), conforme ADR-0006, e é montado em `app/main.py` com prefixo `/api/v1`. Rotas internas de debug (ex.: `/api/v1/contract/errors/{kind}`) são registradas apenas quando `APP_ENV != "prod"` e permanecem ocultas da spec pública via `include_in_schema=False`.
 - `app/schemas/` — Pydantic in/out (separados por endpoint).
 - `app/services/` — orquestradores de caso de uso.
 - `app/domain/` — fórmulas e regras puras (sem framework, sem I/O).
 - `app/repositories/` — acesso a dados (SQLAlchemy).
-- `app/core/` — configuração, segurança, logging, dependências.
+- `app/core/` — configuração, segurança, logging, dependências. A partir da Sprint 1, passa também a conter o **contrato-base HTTP** da plataforma: `envelope.py` (`ResponseEnvelope[T]`, `Meta`), `errors.py` (`Problem` RFC 7807 + hierarquia `DomainError` com 5 subclasses canônicas) e `request_id.py` (middleware de correlação via `X-Request-ID`). Toda rota de domínio criada nas próximas sprints herda automaticamente este contrato.
 - `app/db/` — sessão, modelos ORM, migrations.
 - `app/exporters/` — geração de PDF (ReportLab) e Excel (openpyxl).
 

@@ -9,6 +9,7 @@ on:
 env:
   PYTHON_VERSION: "3.11"
   NODE_VERSION: "20"
+  PNPM_VERSION: "9.15.4"
 
 jobs:
   backend:
@@ -35,35 +36,113 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
+      # Instala uv via action oficial (substitui `curl | sh` + PATH frágil).
+      # Referência: https://github.com/astral-sh/setup-uv
       - name: Install uv
-        run: curl -LsSf https://astral.sh/uv/install.sh | sh && echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+        uses: astral-sh/setup-uv@v4
+        with:
+          version: "0.5.x"
 
+      # Cria venv local no backend e instala deps de dev dentro dele.
+      # `uv pip install --python .venv/bin/python` amarra o install ao
+      # exato interpretador do venv recém-criado, eliminando qualquer
+      # ambiguidade de descoberta de venv (não depende de VIRTUAL_ENV
+      # estar exportado, nem da heurística de auto-discovery do uv).
       - name: Install backend deps
-        run: cd backend && uv pip install -e ".[dev]" --system
+        working-directory: backend
+        run: |
+          uv venv .venv --python "${{ env.PYTHON_VERSION }}"
+          uv pip install --python .venv/bin/python -e ".[dev]"
 
+      # Diagnóstico pós-install: expõe no log exatamente quais binários
+      # e versões o venv tem, qual é o Python resolvido, e onde `uv`
+      # está. Serve de evidência determinística caso algum step
+      # posterior falhe — o que exatamente estava instalado na hora.
+      # Sem isso, o failure "exit 1" vira caixa-preta.
+      - name: Diagnose backend toolchain
+        working-directory: backend
+        run: |
+          echo "::group::Venv binaries"
+          ls -la .venv/bin/ | grep -E "ruff|mypy|bandit|pytest|python" || true
+          echo "::endgroup::"
+          echo "::group::Tool versions"
+          .venv/bin/python --version
+          .venv/bin/ruff --version
+          .venv/bin/mypy --version
+          .venv/bin/bandit --version
+          .venv/bin/pytest --version
+          echo "::endgroup::"
+          echo "::group::Ruff scan preview"
+          .venv/bin/ruff check . --show-files | head -50 || true
+          echo "::endgroup::"
+
+      # Lint em modo glass-box: no run 24645490047 este step falhou com
+      # "Process completed with exit code 1" sem expor qual violação
+      # ruff detectou. `--output-format=github` faz ruff emitir
+      # anotações `::error file=...,line=...::` que tanto aparecem na
+      # UI de PR quanto deixam a mensagem visível no log bruto.
+      # `set +e` + captura explícita de $? garante que, mesmo que ruff
+      # falhe, o log acima mostra versão e config efetiva antes do
+      # exit. Substitui o `set -eo pipefail` implícito do GitHub
+      # Actions apenas dentro deste step.
       - name: Lint (ruff)
-        run: cd backend && python -m ruff check .
+        working-directory: backend
+        shell: bash
+        run: |
+          set +e
+          echo "::group::Ruff binary version"
+          .venv/bin/ruff --version
+          echo "::endgroup::"
+          echo "::group::Ruff effective configuration"
+          .venv/bin/ruff check . --show-settings 2>&1 | head -80
+          echo "::endgroup::"
+          echo "::group::Ruff check (GitHub-annotated)"
+          .venv/bin/ruff check . --output-format=github
+          exit_code=$?
+          echo "::endgroup::"
+          echo "::notice::ruff check exit code = $exit_code"
+          exit $exit_code
 
       - name: Format check (ruff format)
-        run: cd backend && python -m ruff format --check .
+        working-directory: backend
+        run: .venv/bin/ruff format --check .
 
       - name: Typecheck (mypy)
-        run: cd backend && python -m mypy app/
+        working-directory: backend
+        run: .venv/bin/mypy app/
 
+      # Secret scan com exclusão nominal do lockfile pnpm. Motivação: o
+      # heurístico `is_lock_file` do detect-secrets v1.5.0 reconhece
+      # lockfiles de npm/yarn/poetry/cargo/etc., mas NÃO o
+      # `pnpm-lock.yaml` — gap conhecido no upstream. Sem a exclusão,
+      # cada uma das ~640 entradas `integrity: sha512-...` (base64 de
+      # SHA-512 dos tarballs resolvidos) aparece como
+      # `Base64HighEntropyString` novo em relação ao baseline. Como o
+      # lockfile é derivado (gerado por `pnpm install`, nunca editado à
+      # mão), nenhum segredo humano pode acidentalmente acabar nele.
+      # A exclusão é nominal, estreita e auditável — espelhada no
+      # hook local em `.pre-commit-config.yaml`.
       - name: Secret scan
-        run: pip install detect-secrets && detect-secrets scan --baseline .secrets.baseline
+        run: |
+          pip install "detect-secrets==1.5.0"
+          detect-secrets scan \
+            --baseline .secrets.baseline \
+            --exclude-files 'frontend/pnpm-lock\.yaml$'
 
       - name: SAST (bandit)
-        run: cd backend && python -m bandit -r app/ -c pyproject.toml
+        working-directory: backend
+        run: .venv/bin/bandit -r app/ -c pyproject.toml
 
       - name: Tests (unit)
-        run: cd backend && python -m pytest tests/unit -v --cov=app --cov-report=xml -m unit
+        working-directory: backend
+        run: .venv/bin/pytest tests/unit -v --cov=app --cov-report=xml -m unit
         env:
           DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/pef_test
           APP_ENV: ci
 
       - name: Tests (integration)
-        run: cd backend && python -m pytest tests/integration -v -m integration
+        working-directory: backend
+        run: .venv/bin/pytest tests/integration -v -m integration
         env:
           DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/pef_test
           APP_ENV: ci
@@ -75,12 +154,77 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Setup-node PRIMEIRO — garante que Node está em PATH antes de
+      # qualquer ferramenta derivada (pnpm, corepack). Isso elimina a
+      # ambiguidade do run 24640315021, onde `pnpm/action-setup@v4`
+      # instalado antes de setup-node ficou com binário indireto/
+      # node incompatível após setup-node alterar o PATH.
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Install pnpm
-        run: npm install -g pnpm
+      # Ativa pnpm via corepack (built-in do Node ≥16.10). Substitui
+      # `pnpm/action-setup@v4` — uma dependência externa a menos, com
+      # menor superfície de falha. O `--activate` fixa a versão exata
+      # de pnpm globalmente para o runner, que então é invocada em
+      # steps seguintes sem depender de ordem de instalação de actions.
+      # Referência: https://nodejs.org/api/corepack.html
+      - name: Enable pnpm via corepack
+        run: |
+          corepack enable
+          corepack prepare pnpm@${{ env.PNPM_VERSION }} --activate
+          pnpm --version
+
+      # Cache manual do store do pnpm — preservado do Pacote 08. A
+      # receita canônica da doc do pnpm para GitHub Actions. Tolera
+      # path inexistente na primeira run e restaura nas seguintes.
+      - name: Resolve pnpm store directory
+        id: pnpm-store
+        shell: bash
+        run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-store.outputs.path }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('frontend/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      # Diagnóstico tolerante a falhas: no run 24645490047 este step
+      # falhou (step 6 do frontend), mesmo com `Enable pnpm via
+      # corepack` e `Resolve pnpm store directory` já verdes imediatamente
+      # antes — o que prova que pnpm funciona no runner. A única
+      # explicação é que algum comando intermediário deste step
+      # disparou `exit ≠ 0` sob `set -eo pipefail` (default do
+      # GitHub Actions), e abortou antes de emitir qualquer mensagem
+      # útil. A nova forma:
+      #   - `set +e` desativa fail-on-error dentro do step.
+      #   - Cada comando tem fallback `|| echo "FAIL: ..."` para
+      #     sempre emitir alguma linha legível no log.
+      #   - `exit 0` no final garante que o step é SEMPRE informativo,
+      #     jamais bloqueante — é um diagnóstico, não um gate.
+      - name: Diagnose frontend toolchain
+        shell: bash
+        run: |
+          set +e
+          echo "::group::Tool versions"
+          node --version || echo "FAIL: node --version"
+          pnpm --version || echo "FAIL: pnpm --version"
+          echo "::endgroup::"
+          echo "::group::PATH resolution"
+          which node || echo "FAIL: which node"
+          which pnpm || echo "FAIL: which pnpm"
+          echo "PATH=$PATH"
+          echo "::endgroup::"
+          echo "::group::Lockfile header"
+          head -5 frontend/pnpm-lock.yaml || echo "FAIL: head frontend/pnpm-lock.yaml"
+          echo "::endgroup::"
+          echo "::group::Frontend directory listing"
+          ls -la frontend/ 2>&1 | head -20 || echo "FAIL: ls frontend/"
+          echo "::endgroup::"
+          # Diagnóstico nunca reprova o job. Informação sempre emitida.
+          exit 0
 
       - name: Install frontend deps
         run: cd frontend && pnpm install --frozen-lockfile

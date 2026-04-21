@@ -6,8 +6,8 @@ from httpx import ASGITransport, AsyncClient
 from app.main import app
 
 
-@pytest.mark.integration()
-@pytest.mark.asyncio()
+@pytest.mark.integration
+@pytest.mark.asyncio
 async def test_health_ok_integration() -> None:
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
         response = await client.get("/health")
@@ -15,8 +15,8 @@ async def test_health_ok_integration() -> None:
     assert response.json()["status"] == "ok"
 
 
-@pytest.mark.integration()
-@pytest.mark.asyncio()
+@pytest.mark.integration
+@pytest.mark.asyncio
 async def test_health_ready_with_real_db() -> None:
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
         response = await client.get("/health/ready")
@@ -24,8 +24,8 @@ async def test_health_ready_with_real_db() -> None:
     assert response.json()["status"] == "ready"
 
 
-@pytest.mark.integration()
-@pytest.mark.asyncio()
+@pytest.mark.integration
+@pytest.mark.asyncio
 async def test_health_live_integration() -> None:
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
         response = await client.get("/health/live")
