@@ -1,0 +1,17 @@
+# Dependências de desenvolvimento/teste — backend.
+#
+# Escopo mínimo declarado pela F2 (Domínio Juros). Versões pinadas para
+# reproduzir bit-a-bit os gates:
+#   * pytest         — runner da suíte.
+#   * pytest-cov     — cobertura linha/branch (gate Doc 09 §5).
+#   * hypothesis     — property-based tests (test_properties.py).
+#   * mutmut         — mutation testing (gate ≥80% score).
+#
+# As versões abaixo são as validadas em `docs/sprints/sprint-02/
+# evidencias/F2-{coverage,mutation}.md`. Atualizações devem ser
+# acompanhadas de nova rodada dos gates e novas evidências.
+
+pytest==9.0.3
+pytest-cov==7.1.0
+hypothesis==6.152.1
+mutmut==3.5.0
