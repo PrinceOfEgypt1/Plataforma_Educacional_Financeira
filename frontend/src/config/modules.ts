@@ -1,3 +1,5 @@
+import type { Route } from "next";
+
 /**
  * Fonte única dos 12 módulos navegáveis da Plataforma Educacional Financeira.
  *
@@ -26,7 +28,7 @@ export interface ModuleGroup {
 export interface ModuleEntry {
   readonly id: string;
   readonly slug: string;
-  readonly href: string;
+  readonly href: Route;
   readonly title: string;
   readonly shortTitle: string;
   readonly description: string;
