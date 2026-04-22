@@ -1,0 +1,186 @@
+cd backend && .venv/bin/python -m ruff check .
+All checks passed!
+cd frontend && pnpm lint
+
+> plataforma-educacional-financeira-frontend@0.1.0 lint /home/moses/workspace/Plataforma_Educacional_Financeira/frontend
+> next lint && eslint . --ext .ts,.tsx
+
+✔ No ESLint warnings or errors
+cd backend && .venv/bin/python -m ruff format .
+67 files left unchanged
+cd frontend && pnpm format
+
+> plataforma-educacional-financeira-frontend@0.1.0 format /home/moses/workspace/Plataforma_Educacional_Financeira/frontend
+> prettier --write .
+
+.eslintrc.json 11ms (unchanged)
+next-env.d.ts 18ms (unchanged)
+next.config.mjs 6ms (unchanged)
+package.json 1ms (unchanged)
+postcss.config.js 1ms (unchanged)
+src/__tests__/app/home.test.tsx 14ms (unchanged)
+src/__tests__/app/routes.test.tsx 7ms (unchanged)
+src/__tests__/components/Header.test.tsx 6ms (unchanged)
+src/__tests__/components/ShellLayout.test.tsx 7ms (unchanged)
+src/__tests__/components/Sidebar.test.tsx 7ms (unchanged)
+src/__tests__/components/states.test.tsx 8ms (unchanged)
+src/__tests__/components/ui.test.tsx 8ms (unchanged)
+src/__tests__/tokens.test.ts 15ms (unchanged)
+src/app/(app)/amortizacao/page.tsx 2ms (unchanged)
+src/app/(app)/atraso/page.tsx 1ms (unchanged)
+src/app/(app)/cartao-rotativo/page.tsx 1ms (unchanged)
+src/app/(app)/cdc/page.tsx 1ms (unchanged)
+src/app/(app)/consignado/page.tsx 1ms (unchanged)
+src/app/(app)/diagnostico/page.tsx 1ms (unchanged)
+src/app/(app)/educacao/page.tsx 1ms (unchanged)
+src/app/(app)/financiamento-imobiliario/page.tsx 1ms (unchanged)
+src/app/(app)/financiamento-veiculo/page.tsx 1ms (unchanged)
+src/app/(app)/indicadores/page.tsx 1ms (unchanged)
+src/app/(app)/investir-vs-quitar/page.tsx 1ms (unchanged)
+src/app/(app)/juros/page.tsx 1ms (unchanged)
+src/app/(app)/layout.tsx 2ms (unchanged)
+src/app/(app)/page.tsx 4ms (unchanged)
+src/app/globals.css 15ms (unchanged)
+src/app/layout.tsx 3ms (unchanged)
+src/components/shell/EducationalNotice.tsx 3ms (unchanged)
+src/components/shell/Header.tsx 2ms (unchanged)
+src/components/shell/ModulePage.tsx 5ms (unchanged)
+src/components/shell/NavItem.tsx 3ms (unchanged)
+src/components/shell/ShellLayout.tsx 3ms (unchanged)
+src/components/shell/Sidebar.tsx 3ms (unchanged)
+src/components/states/EmptyState.tsx 2ms (unchanged)
+src/components/states/ErrorState.tsx 2ms (unchanged)
+src/components/states/index.ts 1ms (unchanged)
+src/components/states/LoadingState.tsx 2ms (unchanged)
+src/components/ui/AlertBanner.tsx 3ms (unchanged)
+src/components/ui/EducationPanel.tsx 2ms (unchanged)
+src/components/ui/FormSection.tsx 2ms (unchanged)
+src/components/ui/index.ts 1ms (unchanged)
+src/components/ui/SummaryCard.tsx 3ms (unchanged)
+src/config/modules.ts 9ms (unchanged)
+src/lib/cn.ts 1ms (unchanged)
+src/styles/tokens.css 2ms (unchanged)
+src/styles/tokens.ts 5ms (unchanged)
+src/tests/setup.ts 2ms (unchanged)
+tailwind.config.ts 1ms (unchanged)
+tsconfig.json 1ms (unchanged)
+vitest.config.ts 2ms (unchanged)
+cd backend && .venv/bin/python -m mypy app/
+Success: no issues found in 55 source files
+cd frontend && pnpm typecheck
+
+> plataforma-educacional-financeira-frontend@0.1.0 typecheck /home/moses/workspace/Plataforma_Educacional_Financeira/frontend
+> tsc --noEmit
+
+cd backend && .venv/bin/python -m pytest tests/unit -v --cov=app --cov-report=term-missing -m unit
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.0.3, pluggy-1.6.0 -- /home/moses/workspace/Plataforma_Educacional_Financeira/backend/.venv/bin/python
+cachedir: .pytest_cache
+hypothesis profile 'default'
+rootdir: /home/moses/workspace/Plataforma_Educacional_Financeira/backend
+configfile: pyproject.toml
+plugins: asyncio-1.3.0, cov-7.1.0, hypothesis-6.152.1, anyio-4.13.0, xdist-3.8.0, schemathesis-4.15.2
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 16 items
+
+tests/unit/test_envelope.py::test_make_meta_gera_uuid4_e_timestamp_utc PASSED [  6%]
+tests/unit/test_envelope.py::test_make_meta_preserva_request_id_fornecido PASSED [ 12%]
+tests/unit/test_envelope.py::test_ok_monta_envelope_com_data_tipada PASSED [ 18%]
+tests/unit/test_envelope.py::test_response_envelope_roundtrip_preserva_tipo PASSED [ 25%]
+tests/unit/test_envelope.py::test_problem_media_type_constante_eh_rfc7807 PASSED [ 31%]
+tests/unit/test_envelope.py::test_problem_serializa_campos_obrigatorios PASSED [ 37%]
+tests/unit/test_envelope.py::test_domainerror_subclasses_mantem_status_e_code[ValidationError-422-VALIDATION_ERROR] PASSED [ 43%]
+tests/unit/test_envelope.py::test_domainerror_subclasses_mantem_status_e_code[BusinessRuleError-400-BUSINESS_RULE_ERROR] PASSED [ 50%]
+tests/unit/test_envelope.py::test_domainerror_subclasses_mantem_status_e_code[NotFoundError-404-NOT_FOUND] PASSED [ 56%]
+tests/unit/test_envelope.py::test_domainerror_subclasses_mantem_status_e_code[ConflictError-409-CONFLICT] PASSED [ 62%]
+tests/unit/test_envelope.py::test_domainerror_subclasses_mantem_status_e_code[RateLimitedError-429-RATE_LIMITED] PASSED [ 68%]
+tests/unit/test_envelope.py::test_domainerror_raiz_default_eh_internal_error PASSED [ 75%]
+tests/unit/test_envelope.py::test_validation_error_aceita_lista_errors PASSED [ 81%]
+tests/unit/test_health.py::test_health_ok PASSED                         [ 87%]
+tests/unit/test_health.py::test_health_live PASSED                       [ 93%]
+tests/unit/test_health.py::test_health_ready PASSED                      [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.3-final-0 ________________
+
+Name                                      Stmts   Miss  Cover   Missing
+-----------------------------------------------------------------------
+app/__init__.py                               0      0   100%
+app/api/__init__.py                           0      0   100%
+app/api/v1/__init__.py                        2      0   100%
+app/api/v1/contract.py                       32     15    53%   45-46, 68-83
+app/api/v1/router.py                          4      0   100%
+app/core/__init__.py                          0      0   100%
+app/core/config.py                           17      0   100%
+app/core/envelope.py                         21      0   100%
+app/core/errors.py                           42      0   100%
+app/core/logging.py                           5      0   100%
+app/core/request_id.py                       22      2    91%   45-46
+app/db/__init__.py                            0      0   100%
+app/db/base.py                                3      3     0%   3-7
+app/db/session.py                            14      8    43%   25-33
+app/domain/__init__.py                        0      0   100%
+app/domain/amortization/__init__.py           0      0   100%
+app/domain/credit_card/__init__.py            0      0   100%
+app/domain/diagnostic/__init__.py             0      0   100%
+app/domain/education/__init__.py              0      0   100%
+app/domain/export/__init__.py                 0      0   100%
+app/domain/financing/__init__.py              0      0   100%
+app/domain/indicators/__init__.py             0      0   100%
+app/domain/interest/__init__.py               0      0   100%
+app/domain/invest_vs_debt/__init__.py         0      0   100%
+app/domain/late_payment/__init__.py           0      0   100%
+app/domain/loans/__init__.py                  0      0   100%
+app/exporters/__init__.py                     0      0   100%
+app/main.py                                  69     20    71%   26-28, 79, 88-105, 113-131, 148-158, 163-178
+app/repositories/__init__.py                  0      0   100%
+app/schemas/__init__.py                       0      0   100%
+app/schemas/amortization/__init__.py          0      0   100%
+app/schemas/credit_card/__init__.py           0      0   100%
+app/schemas/diagnostic/__init__.py            0      0   100%
+app/schemas/education/__init__.py             0      0   100%
+app/schemas/export/__init__.py                0      0   100%
+app/schemas/financing/__init__.py             0      0   100%
+app/schemas/indicators/__init__.py            0      0   100%
+app/schemas/interest/__init__.py              0      0   100%
+app/schemas/invest_vs_debt/__init__.py        0      0   100%
+app/schemas/late_payment/__init__.py          0      0   100%
+app/schemas/loans/__init__.py                 0      0   100%
+app/services/__init__.py                      0      0   100%
+app/services/amortization/__init__.py         0      0   100%
+app/services/credit_card/__init__.py          0      0   100%
+app/services/diagnostic/__init__.py           0      0   100%
+app/services/education/__init__.py            0      0   100%
+app/services/export/__init__.py               0      0   100%
+app/services/financing/__init__.py            0      0   100%
+app/services/indicators/__init__.py           0      0   100%
+app/services/interest/__init__.py             0      0   100%
+app/services/invest_vs_debt/__init__.py       0      0   100%
+app/services/late_payment/__init__.py         0      0   100%
+app/services/loans/__init__.py                0      0   100%
+-----------------------------------------------------------------------
+TOTAL                                       231     48    79%
+Required test coverage of 75.0% reached. Total coverage: 79.22%
+============================== 16 passed in 1.37s ==============================
+cd frontend && pnpm test
+
+> plataforma-educacional-financeira-frontend@0.1.0 test /home/moses/workspace/Plataforma_Educacional_Financeira/frontend
+> vitest run
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /home/moses/workspace/Plataforma_Educacional_Financeira/frontend
+
+ ✓ src/__tests__/tokens.test.ts  (14 tests) 3ms
+ ✓ src/__tests__/components/Header.test.tsx  (4 tests) 46ms
+ ✓ src/__tests__/components/states.test.tsx  (9 tests) 75ms
+ ✓ src/__tests__/components/ui.test.tsx  (11 tests) 79ms
+ ✓ src/__tests__/components/ShellLayout.test.tsx  (4 tests) 131ms
+ ✓ src/__tests__/app/home.test.tsx  (3 tests) 135ms
+ ✓ src/__tests__/app/routes.test.tsx  (12 tests) 251ms
+ ✓ src/__tests__/components/Sidebar.test.tsx  (4 tests) 232ms
+
+ Test Files  8 passed (8)
+      Tests  61 passed (61)
+   Start at  23:01:50
+   Duration  1.76s (transform 441ms, setup 486ms, collect 1.60s, tests 952ms, environment 3.82s, prepare 3.17s)
