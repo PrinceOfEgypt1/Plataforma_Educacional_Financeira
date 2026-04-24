@@ -1,0 +1,911 @@
+{
+  "_meta": {
+    "origem": "Doc 15 - Casos de Teste Matematicos + Plano Sprint 2 v1.2 \u00a75.2",
+    "rodada": "Sprint 2 / F2 - Dominio de Juros",
+    "gerado_por": "backend/tests/fixtures/gen_fixture.py",
+    "rounding": "ROUND_HALF_EVEN",
+    "quantum": "0.01",
+    "massa_grid_count_simples": 50,
+    "massa_grid_count_compostos": 50
+  },
+  "simples": [
+    {
+      "id": "JS-01",
+      "descricao": "principal=1000 i=1% a.m. n=12m",
+      "principal": "1000.00",
+      "taxa_mensal": "0.01",
+      "prazo_meses": 12,
+      "juros_esperado": "120.00",
+      "montante_esperado": "1120.00"
+    },
+    {
+      "id": "JS-02",
+      "descricao": "principal=5000 i=2% a.m. n=3m",
+      "principal": "5000.00",
+      "taxa_mensal": "0.02",
+      "prazo_meses": 3,
+      "juros_esperado": "300.00",
+      "montante_esperado": "5300.00"
+    },
+    {
+      "id": "JS-04",
+      "descricao": "taxa zero - sem juros",
+      "principal": "2500.00",
+      "taxa_mensal": "0",
+      "prazo_meses": 10,
+      "juros_esperado": "0.00",
+      "montante_esperado": "2500.00"
+    },
+    {
+      "id": "JS-05",
+      "descricao": "principal zero - degenerado valido",
+      "principal": "0",
+      "taxa_mensal": "0.01",
+      "prazo_meses": 6,
+      "juros_esperado": "0.00",
+      "montante_esperado": "0.00"
+    },
+    {
+      "id": "JS-06",
+      "descricao": "prazo unitario",
+      "principal": "1000.00",
+      "taxa_mensal": "0.01",
+      "prazo_meses": 1,
+      "juros_esperado": "10.00",
+      "montante_esperado": "1010.00"
+    }
+  ],
+  "compostos": [
+    {
+      "id": "JC-01",
+      "descricao": "principal=1000 i=1% a.m. n=12m sem aporte",
+      "principal": "1000.00",
+      "taxa_mensal": "0.01",
+      "prazo_meses": 12,
+      "aporte_mensal": "0",
+      "montante_esperado": "1126.83"
+    },
+    {
+      "id": "JC-02",
+      "descricao": "principal=10000 i=2% a.m. n=24m sem aporte",
+      "principal": "10000.00",
+      "taxa_mensal": "0.02",
+      "prazo_meses": 24,
+      "aporte_mensal": "0",
+      "montante_esperado": "16084.37"
+    },
+    {
+      "id": "JC-03",
+      "descricao": "principal=1000 i=1% a.m. n=12m aporte 100",
+      "principal": "1000.00",
+      "taxa_mensal": "0.01",
+      "prazo_meses": 12,
+      "aporte_mensal": "100.00",
+      "montante_esperado": "2395.08"
+    },
+    {
+      "id": "JC-04",
+      "descricao": "taxa zero com aporte - soma linear",
+      "principal": "500.00",
+      "taxa_mensal": "0",
+      "prazo_meses": 10,
+      "aporte_mensal": "50.00",
+      "montante_esperado": "1000.00"
+    },
+    {
+      "id": "JC-05",
+      "descricao": "prazo unitario composto",
+      "principal": "1000.00",
+      "taxa_mensal": "0.01",
+      "prazo_meses": 1,
+      "aporte_mensal": "0",
+      "montante_esperado": "1010.00"
+    }
+  ],
+  "massa_grid": {
+    "simples": [
+      {
+        "id": "S-001",
+        "principal": "100.00",
+        "taxa_mensal": "0.005",
+        "prazo_meses": 6,
+        "juros_esperado": "3.00",
+        "montante_esperado": "103.00"
+      },
+      {
+        "id": "S-002",
+        "principal": "100.00",
+        "taxa_mensal": "0.005",
+        "prazo_meses": 12,
+        "juros_esperado": "6.00",
+        "montante_esperado": "106.00"
+      },
+      {
+        "id": "S-003",
+        "principal": "100.00",
+        "taxa_mensal": "0.01",
+        "prazo_meses": 6,
+        "juros_esperado": "6.00",
+        "montante_esperado": "106.00"
+      },
+      {
+        "id": "S-004",
+        "principal": "100.00",
+        "taxa_mensal": "0.01",
+        "prazo_meses": 12,
+        "juros_esperado": "12.00",
+        "montante_esperado": "112.00"
+      },
+      {
+        "id": "S-005",
+        "principal": "100.00",
+        "taxa_mensal": "0.015",
+        "prazo_meses": 6,
+        "juros_esperado": "9.00",
+        "montante_esperado": "109.00"
+      },
+      {
+        "id": "S-006",
+        "principal": "100.00",
+        "taxa_mensal": "0.015",
+        "prazo_meses": 12,
+        "juros_esperado": "18.00",
+        "montante_esperado": "118.00"
+      },
+      {
+        "id": "S-007",
+        "principal": "100.00",
+        "taxa_mensal": "0.02",
+        "prazo_meses": 6,
+        "juros_esperado": "12.00",
+        "montante_esperado": "112.00"
+      },
+      {
+        "id": "S-008",
+        "principal": "100.00",
+        "taxa_mensal": "0.02",
+        "prazo_meses": 12,
+        "juros_esperado": "24.00",
+        "montante_esperado": "124.00"
+      },
+      {
+        "id": "S-009",
+        "principal": "100.00",
+        "taxa_mensal": "0.03",
+        "prazo_meses": 6,
+        "juros_esperado": "18.00",
+        "montante_esperado": "118.00"
+      },
+      {
+        "id": "S-010",
+        "principal": "100.00",
+        "taxa_mensal": "0.03",
+        "prazo_meses": 12,
+        "juros_esperado": "36.00",
+        "montante_esperado": "136.00"
+      },
+      {
+        "id": "S-011",
+        "principal": "500.00",
+        "taxa_mensal": "0.005",
+        "prazo_meses": 6,
+        "juros_esperado": "15.00",
+        "montante_esperado": "515.00"
+      },
+      {
+        "id": "S-012",
+        "principal": "500.00",
+        "taxa_mensal": "0.005",
+        "prazo_meses": 12,
+        "juros_esperado": "30.00",
+        "montante_esperado": "530.00"
+      },
+      {
+        "id": "S-013",
+        "principal": "500.00",
+        "taxa_mensal": "0.01",
+        "prazo_meses": 6,
+        "juros_esperado": "30.00",
+        "montante_esperado": "530.00"
+      },
+      {
+        "id": "S-014",
+        "principal": "500.00",
+        "taxa_mensal": "0.01",
+        "prazo_meses": 12,
+        "juros_esperado": "60.00",
+        "montante_esperado": "560.00"
+      },
+      {
+        "id": "S-015",
+        "principal": "500.00",
+        "taxa_mensal": "0.015",
+        "prazo_meses": 6,
+        "juros_esperado": "45.00",
+        "montante_esperado": "545.00"
+      },
+      {
+        "id": "S-016",
+        "principal": "500.00",
+        "taxa_mensal": "0.015",
+        "prazo_meses": 12,
+        "juros_esperado": "90.00",
+        "montante_esperado": "590.00"
+      },
+      {
+        "id": "S-017",
+        "principal": "500.00",
+        "taxa_mensal": "0.02",
+        "prazo_meses": 6,
+        "juros_esperado": "60.00",
+        "montante_esperado": "560.00"
+      },
+      {
+        "id": "S-018",
+        "principal": "500.00",
+        "taxa_mensal": "0.02",
+        "prazo_meses": 12,
+        "juros_esperado": "120.00",
+        "montante_esperado": "620.00"
+      },
+      {
+        "id": "S-019",
+        "principal": "500.00",
+        "taxa_mensal": "0.03",
+        "prazo_meses": 6,
+        "juros_esperado": "90.00",
+        "montante_esperado": "590.00"
+      },
+      {
+        "id": "S-020",
+        "principal": "500.00",
+        "taxa_mensal": "0.03",
+        "prazo_meses": 12,
+        "juros_esperado": "180.00",
+        "montante_esperado": "680.00"
+      },
+      {
+        "id": "S-021",
+        "principal": "1000.00",
+        "taxa_mensal": "0.005",
+        "prazo_meses": 6,
+        "juros_esperado": "30.00",
+        "montante_esperado": "1030.00"
+      },
+      {
+        "id": "S-022",
+        "principal": "1000.00",
+        "taxa_mensal": "0.005",
+        "prazo_meses": 12,
+        "juros_esperado": "60.00",
+        "montante_esperado": "1060.00"
+      },
+      {
+        "id": "S-023",
+        "principal": "1000.00",
+        "taxa_mensal": "0.01",
+        "prazo_meses": 6,
+        "juros_esperado": "60.00",
+        "montante_esperado": "1060.00"
+      },
+      {
+        "id": "S-024",
+        "principal": "1000.00",
+        "taxa_mensal": "0.01",
+        "prazo_meses": 12,
+        "juros_esperado": "120.00",
+        "montante_esperado": "1120.00"
+      },
+      {
+        "id": "S-025",
+        "principal": "1000.00",
+        "taxa_mensal": "0.015",
+        "prazo_meses": 6,
+        "juros_esperado": "90.00",
+        "montante_esperado": "1090.00"
+      },
+      {
+        "id": "S-026",
+        "principal": "1000.00",
+        "taxa_mensal": "0.015",
+        "prazo_meses": 12,
+        "juros_esperado": "180.00",
+        "montante_esperado": "1180.00"
+      },
+      {
+        "id": "S-027",
+        "principal": "1000.00",
+        "taxa_mensal": "0.02",
+        "prazo_meses": 6,
+        "juros_esperado": "120.00",
+        "montante_esperado": "1120.00"
+      },
+      {
+        "id": "S-028",
+        "principal": "1000.00",
+        "taxa_mensal": "0.02",
+        "prazo_meses": 12,
+        "juros_esperado": "240.00",
+        "montante_esperado": "1240.00"
+      },
+      {
+        "id": "S-029",
+        "principal": "1000.00",
+        "taxa_mensal": "0.03",
+        "prazo_meses": 6,
+        "juros_esperado": "180.00",
+        "montante_esperado": "1180.00"
+      },
+      {
+        "id": "S-030",
+        "principal": "1000.00",
+        "taxa_mensal": "0.03",
+        "prazo_meses": 12,
+        "juros_esperado": "360.00",
+        "montante_esperado": "1360.00"
+      },
+      {
+        "id": "S-031",
+        "principal": "5000.00",
+        "taxa_mensal": "0.005",
+        "prazo_meses": 6,
+        "juros_esperado": "150.00",
+        "montante_esperado": "5150.00"
+      },
+      {
+        "id": "S-032",
+        "principal": "5000.00",
+        "taxa_mensal": "0.005",
+        "prazo_meses": 12,
+        "juros_esperado": "300.00",
+        "montante_esperado": "5300.00"
+      },
+      {
+        "id": "S-033",
+        "principal": "5000.00",
+        "taxa_mensal": "0.01",
+        "prazo_meses": 6,
+        "juros_esperado": "300.00",
+        "montante_esperado": "5300.00"
+      },
+      {
+        "id": "S-034",
+        "principal": "5000.00",
+        "taxa_mensal": "0.01",
+        "prazo_meses": 12,
+        "juros_esperado": "600.00",
+        "montante_esperado": "5600.00"
+      },
+      {
+        "id": "S-035",
+        "principal": "5000.00",
+        "taxa_mensal": "0.015",
+        "prazo_meses": 6,
+        "juros_esperado": "450.00",
+        "montante_esperado": "5450.00"
+      },
+      {
+        "id": "S-036",
+        "principal": "5000.00",
+        "taxa_mensal": "0.015",
+        "prazo_meses": 12,
+        "juros_esperado": "900.00",
+        "montante_esperado": "5900.00"
+      },
+      {
+        "id": "S-037",
+        "principal": "5000.00",
+        "taxa_mensal": "0.02",
+        "prazo_meses": 6,
+        "juros_esperado": "600.00",
+        "montante_esperado": "5600.00"
+      },
+      {
+        "id": "S-038",
+        "principal": "5000.00",
+        "taxa_mensal": "0.02",
+        "prazo_meses": 12,
+        "juros_esperado": "1200.00",
+        "montante_esperado": "6200.00"
+      },
+      {
+        "id": "S-039",
+        "principal": "5000.00",
+        "taxa_mensal": "0.03",
+        "prazo_meses": 6,
+        "juros_esperado": "900.00",
+        "montante_esperado": "5900.00"
+      },
+      {
+        "id": "S-040",
+        "principal": "5000.00",
+        "taxa_mensal": "0.03",
+        "prazo_meses": 12,
+        "juros_esperado": "1800.00",
+        "montante_esperado": "6800.00"
+      },
+      {
+        "id": "S-041",
+        "principal": "10000.00",
+        "taxa_mensal": "0.005",
+        "prazo_meses": 6,
+        "juros_esperado": "300.00",
+        "montante_esperado": "10300.00"
+      },
+      {
+        "id": "S-042",
+        "principal": "10000.00",
+        "taxa_mensal": "0.005",
+        "prazo_meses": 12,
+        "juros_esperado": "600.00",
+        "montante_esperado": "10600.00"
+      },
+      {
+        "id": "S-043",
+        "principal": "10000.00",
+        "taxa_mensal": "0.01",
+        "prazo_meses": 6,
+        "juros_esperado": "600.00",
+        "montante_esperado": "10600.00"
+      },
+      {
+        "id": "S-044",
+        "principal": "10000.00",
+        "taxa_mensal": "0.01",
+        "prazo_meses": 12,
+        "juros_esperado": "1200.00",
+        "montante_esperado": "11200.00"
+      },
+      {
+        "id": "S-045",
+        "principal": "10000.00",
+        "taxa_mensal": "0.015",
+        "prazo_meses": 6,
+        "juros_esperado": "900.00",
+        "montante_esperado": "10900.00"
+      },
+      {
+        "id": "S-046",
+        "principal": "10000.00",
+        "taxa_mensal": "0.015",
+        "prazo_meses": 12,
+        "juros_esperado": "1800.00",
+        "montante_esperado": "11800.00"
+      },
+      {
+        "id": "S-047",
+        "principal": "10000.00",
+        "taxa_mensal": "0.02",
+        "prazo_meses": 6,
+        "juros_esperado": "1200.00",
+        "montante_esperado": "11200.00"
+      },
+      {
+        "id": "S-048",
+        "principal": "10000.00",
+        "taxa_mensal": "0.02",
+        "prazo_meses": 12,
+        "juros_esperado": "2400.00",
+        "montante_esperado": "12400.00"
+      },
+      {
+        "id": "S-049",
+        "principal": "10000.00",
+        "taxa_mensal": "0.03",
+        "prazo_meses": 6,
+        "juros_esperado": "1800.00",
+        "montante_esperado": "11800.00"
+      },
+      {
+        "id": "S-050",
+        "principal": "10000.00",
+        "taxa_mensal": "0.03",
+        "prazo_meses": 12,
+        "juros_esperado": "3600.00",
+        "montante_esperado": "13600.00"
+      }
+    ],
+    "compostos": [
+      {
+        "id": "C-001",
+        "principal": "100.00",
+        "taxa_mensal": "0.005",
+        "prazo_meses": 24,
+        "aporte_mensal": "0",
+        "montante_esperado": "112.72"
+      },
+      {
+        "id": "C-002",
+        "principal": "100.00",
+        "taxa_mensal": "0.005",
+        "prazo_meses": 36,
+        "aporte_mensal": "0",
+        "montante_esperado": "119.67"
+      },
+      {
+        "id": "C-003",
+        "principal": "100.00",
+        "taxa_mensal": "0.01",
+        "prazo_meses": 24,
+        "aporte_mensal": "0",
+        "montante_esperado": "126.97"
+      },
+      {
+        "id": "C-004",
+        "principal": "100.00",
+        "taxa_mensal": "0.01",
+        "prazo_meses": 36,
+        "aporte_mensal": "0",
+        "montante_esperado": "143.08"
+      },
+      {
+        "id": "C-005",
+        "principal": "100.00",
+        "taxa_mensal": "0.015",
+        "prazo_meses": 24,
+        "aporte_mensal": "0",
+        "montante_esperado": "142.95"
+      },
+      {
+        "id": "C-006",
+        "principal": "100.00",
+        "taxa_mensal": "0.015",
+        "prazo_meses": 36,
+        "aporte_mensal": "0",
+        "montante_esperado": "170.91"
+      },
+      {
+        "id": "C-007",
+        "principal": "100.00",
+        "taxa_mensal": "0.02",
+        "prazo_meses": 24,
+        "aporte_mensal": "0",
+        "montante_esperado": "160.84"
+      },
+      {
+        "id": "C-008",
+        "principal": "100.00",
+        "taxa_mensal": "0.02",
+        "prazo_meses": 36,
+        "aporte_mensal": "0",
+        "montante_esperado": "203.99"
+      },
+      {
+        "id": "C-009",
+        "principal": "100.00",
+        "taxa_mensal": "0.03",
+        "prazo_meses": 24,
+        "aporte_mensal": "0",
+        "montante_esperado": "203.28"
+      },
+      {
+        "id": "C-010",
+        "principal": "100.00",
+        "taxa_mensal": "0.03",
+        "prazo_meses": 36,
+        "aporte_mensal": "0",
+        "montante_esperado": "289.83"
+      },
+      {
+        "id": "C-011",
+        "principal": "500.00",
+        "taxa_mensal": "0.005",
+        "prazo_meses": 24,
+        "aporte_mensal": "0",
+        "montante_esperado": "563.58"
+      },
+      {
+        "id": "C-012",
+        "principal": "500.00",
+        "taxa_mensal": "0.005",
+        "prazo_meses": 36,
+        "aporte_mensal": "0",
+        "montante_esperado": "598.34"
+      },
+      {
+        "id": "C-013",
+        "principal": "500.00",
+        "taxa_mensal": "0.01",
+        "prazo_meses": 24,
+        "aporte_mensal": "0",
+        "montante_esperado": "634.87"
+      },
+      {
+        "id": "C-014",
+        "principal": "500.00",
+        "taxa_mensal": "0.01",
+        "prazo_meses": 36,
+        "aporte_mensal": "0",
+        "montante_esperado": "715.38"
+      },
+      {
+        "id": "C-015",
+        "principal": "500.00",
+        "taxa_mensal": "0.015",
+        "prazo_meses": 24,
+        "aporte_mensal": "0",
+        "montante_esperado": "714.75"
+      },
+      {
+        "id": "C-016",
+        "principal": "500.00",
+        "taxa_mensal": "0.015",
+        "prazo_meses": 36,
+        "aporte_mensal": "0",
+        "montante_esperado": "854.57"
+      },
+      {
+        "id": "C-017",
+        "principal": "500.00",
+        "taxa_mensal": "0.02",
+        "prazo_meses": 24,
+        "aporte_mensal": "0",
+        "montante_esperado": "804.22"
+      },
+      {
+        "id": "C-018",
+        "principal": "500.00",
+        "taxa_mensal": "0.02",
+        "prazo_meses": 36,
+        "aporte_mensal": "0",
+        "montante_esperado": "1019.94"
+      },
+      {
+        "id": "C-019",
+        "principal": "500.00",
+        "taxa_mensal": "0.03",
+        "prazo_meses": 24,
+        "aporte_mensal": "0",
+        "montante_esperado": "1016.40"
+      },
+      {
+        "id": "C-020",
+        "principal": "500.00",
+        "taxa_mensal": "0.03",
+        "prazo_meses": 36,
+        "aporte_mensal": "0",
+        "montante_esperado": "1449.14"
+      },
+      {
+        "id": "C-021",
+        "principal": "1000.00",
+        "taxa_mensal": "0.005",
+        "prazo_meses": 24,
+        "aporte_mensal": "0",
+        "montante_esperado": "1127.16"
+      },
+      {
+        "id": "C-022",
+        "principal": "1000.00",
+        "taxa_mensal": "0.005",
+        "prazo_meses": 36,
+        "aporte_mensal": "0",
+        "montante_esperado": "1196.68"
+      },
+      {
+        "id": "C-023",
+        "principal": "1000.00",
+        "taxa_mensal": "0.01",
+        "prazo_meses": 24,
+        "aporte_mensal": "0",
+        "montante_esperado": "1269.73"
+      },
+      {
+        "id": "C-024",
+        "principal": "1000.00",
+        "taxa_mensal": "0.01",
+        "prazo_meses": 36,
+        "aporte_mensal": "0",
+        "montante_esperado": "1430.77"
+      },
+      {
+        "id": "C-025",
+        "principal": "1000.00",
+        "taxa_mensal": "0.015",
+        "prazo_meses": 24,
+        "aporte_mensal": "0",
+        "montante_esperado": "1429.50"
+      },
+      {
+        "id": "C-026",
+        "principal": "1000.00",
+        "taxa_mensal": "0.015",
+        "prazo_meses": 36,
+        "aporte_mensal": "0",
+        "montante_esperado": "1709.14"
+      },
+      {
+        "id": "C-027",
+        "principal": "1000.00",
+        "taxa_mensal": "0.02",
+        "prazo_meses": 24,
+        "aporte_mensal": "0",
+        "montante_esperado": "1608.44"
+      },
+      {
+        "id": "C-028",
+        "principal": "1000.00",
+        "taxa_mensal": "0.02",
+        "prazo_meses": 36,
+        "aporte_mensal": "0",
+        "montante_esperado": "2039.89"
+      },
+      {
+        "id": "C-029",
+        "principal": "1000.00",
+        "taxa_mensal": "0.03",
+        "prazo_meses": 24,
+        "aporte_mensal": "0",
+        "montante_esperado": "2032.79"
+      },
+      {
+        "id": "C-030",
+        "principal": "1000.00",
+        "taxa_mensal": "0.03",
+        "prazo_meses": 36,
+        "aporte_mensal": "0",
+        "montante_esperado": "2898.28"
+      },
+      {
+        "id": "C-031",
+        "principal": "5000.00",
+        "taxa_mensal": "0.005",
+        "prazo_meses": 24,
+        "aporte_mensal": "0",
+        "montante_esperado": "5635.80"
+      },
+      {
+        "id": "C-032",
+        "principal": "5000.00",
+        "taxa_mensal": "0.005",
+        "prazo_meses": 36,
+        "aporte_mensal": "0",
+        "montante_esperado": "5983.40"
+      },
+      {
+        "id": "C-033",
+        "principal": "5000.00",
+        "taxa_mensal": "0.01",
+        "prazo_meses": 24,
+        "aporte_mensal": "0",
+        "montante_esperado": "6348.67"
+      },
+      {
+        "id": "C-034",
+        "principal": "5000.00",
+        "taxa_mensal": "0.01",
+        "prazo_meses": 36,
+        "aporte_mensal": "0",
+        "montante_esperado": "7153.84"
+      },
+      {
+        "id": "C-035",
+        "principal": "5000.00",
+        "taxa_mensal": "0.015",
+        "prazo_meses": 24,
+        "aporte_mensal": "0",
+        "montante_esperado": "7147.51"
+      },
+      {
+        "id": "C-036",
+        "principal": "5000.00",
+        "taxa_mensal": "0.015",
+        "prazo_meses": 36,
+        "aporte_mensal": "0",
+        "montante_esperado": "8545.70"
+      },
+      {
+        "id": "C-037",
+        "principal": "5000.00",
+        "taxa_mensal": "0.02",
+        "prazo_meses": 24,
+        "aporte_mensal": "0",
+        "montante_esperado": "8042.19"
+      },
+      {
+        "id": "C-038",
+        "principal": "5000.00",
+        "taxa_mensal": "0.02",
+        "prazo_meses": 36,
+        "aporte_mensal": "0",
+        "montante_esperado": "10199.44"
+      },
+      {
+        "id": "C-039",
+        "principal": "5000.00",
+        "taxa_mensal": "0.03",
+        "prazo_meses": 24,
+        "aporte_mensal": "0",
+        "montante_esperado": "10163.97"
+      },
+      {
+        "id": "C-040",
+        "principal": "5000.00",
+        "taxa_mensal": "0.03",
+        "prazo_meses": 36,
+        "aporte_mensal": "0",
+        "montante_esperado": "14491.39"
+      },
+      {
+        "id": "C-041",
+        "principal": "10000.00",
+        "taxa_mensal": "0.005",
+        "prazo_meses": 24,
+        "aporte_mensal": "0",
+        "montante_esperado": "11271.60"
+      },
+      {
+        "id": "C-042",
+        "principal": "10000.00",
+        "taxa_mensal": "0.005",
+        "prazo_meses": 36,
+        "aporte_mensal": "0",
+        "montante_esperado": "11966.81"
+      },
+      {
+        "id": "C-043",
+        "principal": "10000.00",
+        "taxa_mensal": "0.01",
+        "prazo_meses": 24,
+        "aporte_mensal": "0",
+        "montante_esperado": "12697.35"
+      },
+      {
+        "id": "C-044",
+        "principal": "10000.00",
+        "taxa_mensal": "0.01",
+        "prazo_meses": 36,
+        "aporte_mensal": "0",
+        "montante_esperado": "14307.69"
+      },
+      {
+        "id": "C-045",
+        "principal": "10000.00",
+        "taxa_mensal": "0.015",
+        "prazo_meses": 24,
+        "aporte_mensal": "0",
+        "montante_esperado": "14295.03"
+      },
+      {
+        "id": "C-046",
+        "principal": "10000.00",
+        "taxa_mensal": "0.015",
+        "prazo_meses": 36,
+        "aporte_mensal": "0",
+        "montante_esperado": "17091.40"
+      },
+      {
+        "id": "C-047",
+        "principal": "10000.00",
+        "taxa_mensal": "0.02",
+        "prazo_meses": 24,
+        "aporte_mensal": "0",
+        "montante_esperado": "16084.37"
+      },
+      {
+        "id": "C-048",
+        "principal": "10000.00",
+        "taxa_mensal": "0.02",
+        "prazo_meses": 36,
+        "aporte_mensal": "0",
+        "montante_esperado": "20398.87"
+      },
+      {
+        "id": "C-049",
+        "principal": "10000.00",
+        "taxa_mensal": "0.03",
+        "prazo_meses": 24,
+        "aporte_mensal": "0",
+        "montante_esperado": "20327.94"
+      },
+      {
+        "id": "C-050",
+        "principal": "10000.00",
+        "taxa_mensal": "0.03",
+        "prazo_meses": 36,
+        "aporte_mensal": "0",
+        "montante_esperado": "28982.78"
+      }
+    ]
+  }
+}
