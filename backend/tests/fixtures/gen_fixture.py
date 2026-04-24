@@ -19,6 +19,7 @@ import json
 import sys
 from decimal import ROUND_HALF_EVEN, Decimal, getcontext
 from pathlib import Path
+from typing import Any
 
 # Precisão para o gerador (espelha ensure_precision do domínio).
 getcontext().prec = 40
@@ -44,7 +45,7 @@ def _composto(p: Decimal, i: Decimal, n: int, a: Decimal) -> str:
     return _q(saldo)
 
 
-def _base_simples() -> list[dict]:
+def _base_simples() -> list[dict[str, Any]]:
     return [
         {
             "id": "JS-01",
@@ -84,7 +85,7 @@ def _base_simples() -> list[dict]:
     ]
 
 
-def _base_compostos() -> list[dict]:
+def _base_compostos() -> list[dict[str, Any]]:
     return [
         {
             "id": "JC-01",
@@ -138,8 +139,8 @@ _GRID_TAXAS = ["0.005", "0.01", "0.015", "0.02", "0.03"]
 _GRID_PRAZOS = [6, 12, 24, 36]
 
 
-def _gera_grid_simples() -> list[dict]:
-    massa: list[dict] = []
+def _gera_grid_simples() -> list[dict[str, Any]]:
+    massa: list[dict[str, Any]] = []
     idx = 1
     for p_str in _GRID_PRINCIPAIS:
         for i_str in _GRID_TAXAS:
@@ -161,8 +162,8 @@ def _gera_grid_simples() -> list[dict]:
     return massa
 
 
-def _gera_grid_compostos() -> list[dict]:
-    massa: list[dict] = []
+def _gera_grid_compostos() -> list[dict[str, Any]]:
+    massa: list[dict[str, Any]] = []
     idx = 1
     for p_str in _GRID_PRINCIPAIS:
         for i_str in _GRID_TAXAS:
@@ -184,7 +185,7 @@ def _gera_grid_compostos() -> list[dict]:
     return massa
 
 
-def build() -> dict:
+def build() -> dict[str, Any]:
     """Monta a estrutura de fixture, mantendo ordem estável."""
     simples_cases = _base_simples()
     compostos_cases = _base_compostos()
@@ -226,7 +227,7 @@ def build() -> dict:
     }
 
 
-def render(data: dict) -> str:
+def render(data: dict[str, Any]) -> str:
     """Serializa em JSON estável (ensure_ascii=True, indent=2)."""
     return json.dumps(data, ensure_ascii=True, indent=2, sort_keys=False) + "\n"
 

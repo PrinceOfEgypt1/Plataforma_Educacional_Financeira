@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from typing import Any, cast
 from uuid import UUID
 
 import pytest
@@ -9,11 +10,15 @@ from httpx import ASGITransport, AsyncClient
 
 from app.main import app
 
+# ASGITransport espera um Callable estrito; FastAPI usa MutableMapping
+# no __call__, gerando incompatibilidade nominal no stub do httpx.
+_APP = cast(Any, app)
+
 
 @pytest.mark.contract
 @pytest.mark.asyncio
 async def test_contract_ping_retorna_envelope_padrao() -> None:
-    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+    async with AsyncClient(transport=ASGITransport(app=_APP), base_url="http://test") as client:
         response = await client.get("/api/v1/contract/ping", params={"echo": "hello"})
 
     assert response.status_code == 200
@@ -35,7 +40,7 @@ async def test_contract_ping_retorna_envelope_padrao() -> None:
 @pytest.mark.asyncio
 async def test_contract_ping_propaga_x_request_id_do_cliente() -> None:
     rid = "22222222-2222-4222-8222-222222222222"
-    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+    async with AsyncClient(transport=ASGITransport(app=_APP), base_url="http://test") as client:
         response = await client.get(
             "/api/v1/contract/ping",
             headers={"X-Request-ID": rid},
@@ -49,7 +54,7 @@ async def test_contract_ping_propaga_x_request_id_do_cliente() -> None:
 @pytest.mark.contract
 @pytest.mark.asyncio
 async def test_contract_ping_gera_x_request_id_quando_ausente() -> None:
-    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+    async with AsyncClient(transport=ASGITransport(app=_APP), base_url="http://test") as client:
         response = await client.get("/api/v1/contract/ping")
 
     rid = response.headers["x-request-id"]

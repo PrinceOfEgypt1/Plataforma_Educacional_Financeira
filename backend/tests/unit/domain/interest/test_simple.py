@@ -16,6 +16,7 @@ from __future__ import annotations
 import json
 from decimal import Decimal
 from pathlib import Path
+from typing import Any
 
 import pytest
 
@@ -31,9 +32,10 @@ pytestmark = pytest.mark.unit
 FIXTURES_PATH = Path(__file__).resolve().parents[3] / "fixtures" / "financial_cases.json"
 
 
-def _load_fixture() -> dict:
+def _load_fixture() -> dict[str, Any]:
     with FIXTURES_PATH.open(encoding="utf-8") as fh:
-        return json.load(fh)
+        data: dict[str, Any] = json.load(fh)
+    return data
 
 
 # ─── Casos canônicos (Doc 15) ─────────────────────────────────────────
@@ -165,7 +167,7 @@ def test_rejeita_prazo_bool() -> None:
         calcular_juros_simples(
             principal=Decimal("1000"),
             taxa_mensal=Decimal("0.01"),
-            prazo_meses=True,  # type: ignore[arg-type]
+            prazo_meses=True,
         )
     assert exc.value.code == "INVALID_PRAZO_TYPE"
 
