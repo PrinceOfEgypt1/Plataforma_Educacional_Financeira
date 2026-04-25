@@ -2,13 +2,16 @@
 
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
+from typing import Annotated
 
 import structlog
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from prometheus_client import make_asgi_app
+from sqlalchemy import text
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.v1 import v1_router
 from app.api.v1.contract import contract_debug_router
@@ -16,6 +19,7 @@ from app.core.config import settings
 from app.core.errors import PROBLEM_MEDIA_TYPE, DomainError, Problem
 from app.core.logging import configure_logging
 from app.core.request_id import RequestIdMiddleware, get_request_id
+from app.db.session import get_db
 
 configure_logging()
 logger = structlog.get_logger()
@@ -63,14 +67,16 @@ async def health_live() -> dict[str, str]:
     return {"status": "live"}
 
 
+# Alias de dependência: usa o padrão moderno do FastAPI (Annotated + Depends)
+# para que B008 do Ruff não dispare (Depends fica dentro da anotação de tipo,
+# não no valor default do argumento). Mantém o tipo estático correto e
+# permite override via ``app.dependency_overrides[get_db] = ...`` em testes.
+DbSession = Annotated[AsyncSession, Depends(get_db)]
+
+
 @app.get("/health/ready", tags=["ops"])
-async def health_ready() -> dict[str, str]:
-    from sqlalchemy import text
-
-    from app.db.session import AsyncSessionLocal
-
-    async with AsyncSessionLocal() as db:
-        await db.execute(text("SELECT 1"))
+async def health_ready(db: DbSession) -> dict[str, str]:
+    await db.execute(text("SELECT 1"))
     return {"status": "ready"}
 
 
