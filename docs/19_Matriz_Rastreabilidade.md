@@ -29,8 +29,8 @@ Cada linha cruza:
 |--------|--------|----------|--------|---------|---------|------------|------|-------|----------|------------|------------|--------|
 | REQ-CTR-001 | contract-base (transversal) | `GET /api/v1/contract/ping` + envelope + RFC 7807 em todas as rotas | `ResponseEnvelope[T]`, `Meta`, `Problem` | — | `app/core/envelope`, `app/core/errors`, `app/core/request_id` | — | `tests/unit/test_envelope.py` | — | `tests/contract/test_contract_base.py`, `tests/contract/test_error_handling.py` | — | 04,06,09,19,27,ADR-0006,ADR-0007 | done |
 | RF-HEALTH-001 | infra | `GET /health`, `/health/live`, `/health/ready` | — | — | `app/api/health` | — | `tests/unit/test_health.py` | `tests/integration/api/test_health_integration.py` | — | — | 04,06,09,19 | done |
-| RF-INT-001 | interest | `POST /api/v1/interest/simple` | `JurosSimplesIn/Out` | `CalcularJurosSimplesService` | `domain.interest.simple.calcular` | JS-01..JS-10 | `tests/unit/domain/interest/test_simple.py` | `tests/integration/api/test_interest_simple.py` | `tests/contract/test_interest.py` | `tests/regression/pedagogical/test_interest.py` | 03,06,09,15,19 | pending |
-| RF-INT-002 | interest | `POST /api/v1/interest/compound` | `JurosCompostosIn/Out` | `CalcularJurosCompostosService` | `domain.interest.compound.calcular` | JC-01..JC-10 | ... | ... | ... | ... | 03,06,09,15,19 | pending |
+| RF-INT-001 | interest | `POST /api/v1/interest/simple` | `JurosSimplesIn/Out` | `CalcularJurosSimplesService` | `domain.interest.simple.calcular` | JS-01..JS-03 (exercidos), JS-04..JS-10 (planejados) | `backend/tests/unit/domain/interest/test_simple.py`, `backend/tests/unit/domain/interest/test_properties.py`, `backend/tests/unit/services/interest/test_calcular_juros_service.py` | `backend/tests/integration/api/interest/test_simple.py`, `backend/tests/integration/api/interest/test_errors.py` | `backend/tests/contract/test_interest.py` | (regressao pedagogica BE: pendente; runtime FE: `frontend/src/__tests__/content/juros/conteudo.test.ts`) | 03,06,08,09,15,19 | done (Sprint 2 — F2/F3/F4/F5) |
+| RF-INT-002 | interest | `POST /api/v1/interest/compound` | `JurosCompostosIn/Out` | `CalcularJurosCompostosService` | `domain.interest.compound.calcular` | JC-01..JC-03 (exercidos), JC-04..JC-10 (planejados) | `backend/tests/unit/domain/interest/test_compound.py`, `backend/tests/unit/domain/interest/test_properties.py`, `backend/tests/unit/services/interest/test_calcular_juros_service.py` | `backend/tests/integration/api/interest/test_compound.py`, `backend/tests/integration/api/interest/test_compare.py`, `backend/tests/integration/api/interest/test_errors.py` | `backend/tests/contract/test_interest.py` | (regressao pedagogica BE: pendente; runtime FE: `frontend/src/__tests__/content/juros/conteudo.test.ts`) | 03,06,08,09,15,19 | done (Sprint 2 — F2/F3/F4/F5) |
 | RF-AMO-001 | amortization | `POST /api/v1/amortization/price` | `PriceIn/Out` | `CalcularPriceService` | `domain.amortization.price.calcular` | PR-01..PR-10 | ... | ... | ... | ... | 03,06,09,15,19 | pending |
 | RF-AMO-002 | amortization | `POST /api/v1/amortization/sac` | `SacIn/Out` | `CalcularSacService` | `domain.amortization.sac.calcular` | SAC-01..SAC-10 | ... | ... | ... | ... | 03,06,09,15,19 | pending |
 | RF-FIN-001 | financing | `POST /api/v1/financing/real_estate` | `FinanciamentoImobIn/Out` | ... | ... | FI-01..FI-10 | ... | ... | ... | ... | 03,06,09,15,19 | pending |
@@ -54,3 +54,26 @@ Cada linha cruza:
 3. Status de uma linha só vai para `done` quando todos os testes daquele requisito existem e estão verdes.
 4. `regression_safe` quando o requisito está coberto também por mutação ≥80% e snapshot visual (se aplicável).
 5. Mudança em qualquer célula de uma linha exige atualização nos documentos vivos listados.
+
+
+## 6. Atualizações de status — Sprint 2 (F2/F3/F4/F5 oficiais)
+
+| Linha   | Mudança                                                                              | Sprint / Fatia |
+|---------|--------------------------------------------------------------------------------------|----------------|
+| RF-INT-001 | `pending` → `done` (Sprint 2 — F2/F3/F4/F5). Caminhos materializados no repo.    | Sprint 2       |
+| RF-INT-002 | `pending` → `done` (Sprint 2 — F2/F3/F4/F5). Caminhos materializados no repo.    | Sprint 2       |
+
+Notas:
+- "JS-01..JS-03 (exercidos)" e "JC-01..JC-03 (exercidos)" refletem
+  os casos do Doc 15 cobertos por testes existentes no repositório
+  Windows. Casos JS-04..JS-10 e JC-04..JC-10 permanecem planejados
+  para sprints subsequentes.
+- "Doc vivo associado" inclui agora `08` (conteúdo educacional)
+  porque a F5 da Sprint 2 materializou o corpus pedagógico em
+  `frontend/src/content/juros/` e o subset de lint pedagógico em
+  `tools/edu_lint/`.
+- Os testes pedagógicos de regressão (`backend/tests/regression/pedagogical/`)
+  permanecem **pendentes** — `materialized_in_repo=false` para esse caminho.
+  A cobertura runtime equivalente (presença de blocos pedagógicos no
+  conteúdo do frontend) é exercida por
+  `frontend/src/__tests__/content/juros/conteudo.test.ts`.

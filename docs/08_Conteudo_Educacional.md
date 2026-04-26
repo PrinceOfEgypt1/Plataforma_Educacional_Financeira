@@ -170,6 +170,34 @@ Cada termo: `nome`, `slug`, `definicao_curta`, `definicao_completa`, `exemplo`, 
 Termos mínimos do MVP:
 juros, juros simples, juros compostos, amortização, saldo devedor, parcela, CET, IOF, TR, Selic, IPCA, taxa real, taxa nominal, rotativo, mora, multa, correção monetária, principal, montante, capitalização, PRICE, SAC, custo de oportunidade, comprometimento de renda, reserva de emergência, margem consignável.
 
+### 13.1 Glossário materializado — Sprint 2 (módulo de juros)
+
+A Sprint 2 / F5 oficial materializou o **glossário mínimo do
+módulo de juros** em `frontend/src/content/juros/glossario.ts`,
+contendo as 8 entradas exigidas pelo PLANO Sprint 2 §5.5:
+
+| slug              | termo            | módulo relacionado |
+|-------------------|------------------|--------------------|
+| juros             | Juros            | interest           |
+| juros-simples     | Juros simples    | interest           |
+| juros-compostos   | Juros compostos  | interest           |
+| principal         | Principal        | interest           |
+| taxa              | Taxa             | interest           |
+| prazo             | Prazo            | interest           |
+| montante          | Montante         | interest           |
+| aporte            | Aporte           | interest           |
+
+Cada entrada carrega `term`, `shortDefinition`, `fullDefinition`,
+`example` e `relatedModule`, conforme §13. Os exemplos numéricos
+referenciam a massa do Doc 15 (JS-01, JC-01, JC-03) — não há número
+inventado.
+
+Os outros termos previstos para o MVP (CET, IOF, TR, Selic, IPCA,
+taxa real, etc.) cobrem módulos não construídos nesta sprint
+(financiamentos, rotativo, atraso, indicadores) e ficam para
+sprints subsequentes. Esta entrega **não declara o glossário do
+MVP completo** — declara apenas o subset do módulo de juros.
+
 ## 14. FAQ
 - Perguntas reais (extraídas da persona) com resposta direta.
 - Linkar para módulo, glossário, Nível 2/3.
@@ -234,6 +262,15 @@ Conteúdo mínimo obrigatório do MVP:
 - Falta de aviso educacional em página de simulação → bloqueio.
 
 Ferramenta: lint customizado em `tools/edu_lint/` (Python), executado em CI quando PR toca conteúdo.
+
+> **Nota Sprint 2 — F5.** O subset determinístico de
+> `tools/edu_lint/` foi materializado nesta sprint (regras de
+> bloqueio para promessa de retorno, moralismo, placeholders e
+> aviso educacional ausente). A implementação completa
+> (frase > 25 palavras, sigla, glossário ativo, cor) permanece
+> planejada para a **Sprint 7**, conforme roadmap e Gate Forense.
+> A evidência operacional está em
+> `docs/sprints/sprint-02/evidencias/F5-lint-pedagogico.md`.
 
 ## 21. Política para a Claude Code (operacional)
 1. Toda PR que adicione/altere conteúdo passa pelo fluxo editorial (§7).

@@ -60,7 +60,8 @@
       "path": "docs/06_API_e_Contratos.md",
       "category": "VIVO",
       "title": "API e Contratos de Integração",
-      "materialized_in_repo": true
+      "materialized_in_repo": true,
+      "note": "Sprint 2 — endpoints de juros confirmados em §15.3."
     },
     {
       "id": "doc_07",
@@ -74,14 +75,16 @@
       "path": "docs/08_Conteudo_Educacional.md",
       "category": "VIVO",
       "title": "Conteúdo Educacional",
-      "materialized_in_repo": true
+      "materialized_in_repo": true,
+      "note": "Sprint 2 — F5: §13.1 (glossário materializado do módulo juros, 8 termos) + nota Sprint 2 em §20 (subset determinístico de lint pedagógico em tools/edu_lint/). Implementação completa do lint permanece planejada para Sprint 7."
     },
     {
       "id": "doc_09",
       "path": "docs/09_Qualidade_Testes.md",
       "category": "VIVO",
       "title": "Qualidade, Testes e Critérios de Aceite",
-      "materialized_in_repo": true
+      "materialized_in_repo": true,
+      "note": "Sprint 2 — F5: §16 acrescentada com massa frontend F4 (19 arquivos / 112 testes confirmados no pipeline WSL Ubuntu) e §16.3 com a política de registro de execução oficial (sem armazenar valores pontuais de runtime no doc vivo)."
     },
     {
       "id": "doc_10",
@@ -123,7 +126,8 @@
       "path": "docs/15_Casos_de_Teste_Matematicos.md",
       "category": "HIBRIDO",
       "title": "Casos de Teste Matemáticos e Massa de Validação",
-      "materialized_in_repo": true
+      "materialized_in_repo": true,
+      "note": "Sprint 2 — F5: JS-01..03 e JC-01..03 marcados como exercidos por código (cross-link com Doc 19 em §9). Demais casos seguem planejados."
     },
     {
       "id": "doc_16",
@@ -152,7 +156,7 @@
       "category": "VIVO",
       "title": "Matriz de Rastreabilidade Requisitos↔Testes↔Código",
       "materialized_in_repo": true,
-      "note": "Atualizado na Sprint 1 — linhas REQ-CTR-001 e RF-HEALTH-001"
+      "note": "Sprint 2 — F5: RF-INT-001/002 promovidos de 'pending' para 'done' com caminhos reais dos testes. §6 adicionada com histórico de status da Sprint 2. Pendentes: regressão pedagógica de backend (não materializada nesta sprint)."
     },
     {
       "id": "doc_20",
@@ -555,7 +559,7 @@
       "note": "Matriz documental desta sprint"
     }
   ],
-  "updated_at": "2026-04-17",
-  "update_reason": "Adendo de sincronização documental Sprint 00: migração do pacote AUDITORIA_PROMPT_1_FINAL, gate forense, ADRs arquiteturais, baseline, qualidade. Campo materialized_in_repo atualizado. Adicionada POLITICA_OPERACIONAL.",
+  "updated_at": "2026-04-25",
+  "update_reason": "Sprint 2 — F5 oficial (Conteúdo Educacional + Docs vivos): atualização de status RF-INT-001/002 (Doc 19) para 'done'; cross-link de JS-01..03 e JC-01..03 com testes materializados (Doc 15); registro de massa F4 (19 arquivos / 112 testes — Doc 09 §16); glossário mínimo do módulo juros (Doc 08 §13.1); nota de materialização do subset de lint pedagógico (Doc 08 §20). Conteúdo educacional materializado em frontend/src/content/juros/ (níveis 1 e 2) e tools/edu_lint/ (subset determinístico). Planilha xlsx NÃO foi tocada por esta sessão de chat.",
   "_migration_note": "Sincronização documental concluída em 2026-04-17. Todos os documentos do pacote AUDITORIA_PROMPT_1_FINAL foram migrados. Documentos com materialized_in_repo=false são apenas aqueles que permanecem pendentes por decisão explícita."
 }

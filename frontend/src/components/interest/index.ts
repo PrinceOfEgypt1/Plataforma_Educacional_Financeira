@@ -31,6 +31,9 @@ export { JurosCompostosPanel } from "./JurosCompostosPanel";
 export { JurosInterpretation } from "./JurosInterpretation";
 export type { JurosInterpretationProps } from "./JurosInterpretation";
 
+export { JurosSaibaMais } from "./JurosSaibaMais";
+export type { JurosSaibaMaisProps } from "./JurosSaibaMais";
+
 export { JurosSimplesForm } from "./JurosSimplesForm";
 export type { JurosSimplesFormProps } from "./JurosSimplesForm";
 

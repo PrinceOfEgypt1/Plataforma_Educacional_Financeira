@@ -188,3 +188,68 @@ Aceito quando:
 - camadas de teste e cobertura mínima estão definidas;
 - critérios de aceite e rejeição estão objetivos;
 - referência cruzada com a Estratégia de Testes está explícita e sem duplicação.
+
+
+## 16. Massa de testes confirmada — Sprint 2 (F2/F3/F4/F5)
+
+Esta seção é apêndice vivo. Cada sprint que confirma execução real
+de massa adiciona uma sub-seção com data, fonte e contagem.
+
+### 16.1 Frontend — F4 (juros)
+
+Materializado e exercido no pipeline WSL Ubuntu durante a F4 da
+Sprint 2:
+
+| Métrica                            | Valor confirmado |
+|------------------------------------|------------------|
+| Arquivos `*.test.ts(x)`            | 19               |
+| Casos de teste exercidos           | 112              |
+| Origem da contagem                 | Pipeline WSL F4  |
+
+Diretórios cobertos:
+
+- `frontend/src/__tests__/app/` — rotas e páginas críticas
+- `frontend/src/__tests__/components/` — Header, Sidebar,
+  ShellLayout, EducationPanel, Forms, Panels, Tabs, etc.
+- `frontend/src/__tests__/components/interest/` — formulários,
+  validação, painéis, visualização
+- `frontend/src/__tests__/lib/` — `money`, `api/envelope`,
+  `api/problem`
+- `frontend/src/__tests__/services/interest/` — service de juros
+- `frontend/src/__tests__/tokens.test.ts` — tokens de design
+  (Doc 16)
+
+A contagem final de testes será registrada nos relatórios de sprint e na planilha operacional após a validação oficial no WSL Ubuntu, conforme a política descrita em §16.3.
+
+| Arquivo (F5 — adições)                                                | Casos esperados |
+|-----------------------------------------------------------------------|-----------------|
+| `frontend/src/__tests__/content/juros/conteudo.test.ts`               | 8               |
+| `frontend/src/__tests__/components/interest/JurosSaibaMais.test.tsx`  | 5               |
+
+### 16.2 Backend — F2/F3 (juros)
+
+Exercidos no pipeline durante F2/F3:
+
+| Caminho                                                              | Status            |
+|----------------------------------------------------------------------|-------------------|
+| `backend/tests/unit/domain/interest/test_simple.py`                   | exercido          |
+| `backend/tests/unit/domain/interest/test_compound.py`                 | exercido          |
+| `backend/tests/unit/domain/interest/test_properties.py`               | exercido          |
+| `backend/tests/unit/services/interest/test_calcular_juros_service.py` | exercido          |
+| `backend/tests/integration/api/interest/test_simple.py`               | exercido          |
+| `backend/tests/integration/api/interest/test_compound.py`             | exercido          |
+| `backend/tests/integration/api/interest/test_compare.py`              | exercido          |
+| `backend/tests/integration/api/interest/test_errors.py`               | exercido          |
+| `backend/tests/contract/test_interest.py`                             | exercido          |
+| `backend/tests/regression/pedagogical/test_interest.py`               | **planejado** (não materializado nesta sprint) |
+
+### 16.3 Validação oficial — política
+
+A validação oficial dos gates desta sprint é executada pelo
+operador no WSL Ubuntu, conforme `scripts/pipeline.sh`. Resultados
+de execução são registrados no relatório de fechamento da sprint
+correspondente quando o pipeline retorna `EXIT_PIPELINE=0`. Este
+documento vivo não armazena resultados pontuais de execução —
+isso fica a cargo dos relatórios de sprint e da planilha
+operacional.
+
