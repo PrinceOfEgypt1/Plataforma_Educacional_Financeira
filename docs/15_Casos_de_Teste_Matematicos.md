@@ -51,6 +51,8 @@ Quando houver séries temporais:
 - juros totais: 120,00
 - montante final: 1.120,00
 
+
+**Materializado em código:** `backend/tests/unit/domain/interest/test_simple.py` (caso básico, 1.000,00 a 1% / 12m → 1.120,00 — exato)
 ---
 
 ## JS-02 — Caso curto
@@ -63,6 +65,8 @@ Quando houver séries temporais:
 - juros totais: 300,00
 - montante final: 5.300,00
 
+
+**Materializado em código:** `backend/tests/unit/domain/interest/test_simple.py` (caso curto, 5.000,00 a 2% / 3m → 5.300,00 — exato)
 ---
 
 ## JS-03 — Caso zero prazo
@@ -74,6 +78,8 @@ Quando houver séries temporais:
 **Esperado**
 - rejeitar ou retornar erro de validação
 
+
+**Materializado em código:** `backend/tests/integration/api/interest/test_errors.py` (prazo zero deve rejeitar com 422 / RFC 7807)
 ---
 
 ## 4. Casos de teste — Juros Compostos
@@ -87,6 +93,8 @@ Quando houver séries temporais:
 **Esperado**
 - montante final: aproximadamente 1.126,83
 
+
+**Materializado em código:** `backend/tests/unit/domain/interest/test_compound.py` (caso básico, 1.000,00 a 1% / 12m → ≈ 1.126,83)
 ---
 
 ## JC-02 — Caso comparativo
@@ -99,6 +107,8 @@ Quando houver séries temporais:
 - montante composto maior que montante simples
 - diferença absoluta positiva e relevante
 
+
+**Materializado em código:** `backend/tests/unit/domain/interest/test_compound.py` + `backend/tests/integration/api/interest/test_compare.py` (composto > simples para mesmas premissas)
 ---
 
 ## JC-03 — Caso com aporte mensal
@@ -112,6 +122,8 @@ Quando houver séries temporais:
 - valor final superior ao cenário sem aporte
 - tabela temporal coerente
 
+
+**Materializado em código:** `backend/tests/unit/domain/interest/test_compound.py` (caso com aporte mensal, JC-03 do Doc 15)
 ---
 
 ## 5. Casos de teste — PRICE
@@ -388,3 +400,30 @@ Este documento estará aceito quando:
 - puder ser convertido diretamente em testes automatizados;
 - cada módulo crítico tiver ao menos 2 casos positivos e 1 inválido;
 - os cenários protegerem as fórmulas principais do sistema.
+
+
+## 9. Cross-link com a matriz de rastreabilidade — Sprint 2
+
+A coluna "Caso de teste matemático" da Doc 19 (linhas RF-INT-001 e
+RF-INT-002) cita os casos abaixo como **exercidos por código** após
+a Sprint 2 (F2/F3/F4/F5):
+
+| Caso  | Onde é exercido                                                                                  |
+|-------|--------------------------------------------------------------------------------------------------|
+| JS-01 | `backend/tests/unit/domain/interest/test_simple.py`                                              |
+| JS-02 | `backend/tests/unit/domain/interest/test_simple.py`                                              |
+| JS-03 | `backend/tests/integration/api/interest/test_errors.py` (caminho de validação)                   |
+| JC-01 | `backend/tests/unit/domain/interest/test_compound.py`                                            |
+| JC-02 | `backend/tests/unit/domain/interest/test_compound.py` + `backend/tests/integration/api/interest/test_compare.py` |
+| JC-03 | `backend/tests/unit/domain/interest/test_compound.py`                                            |
+
+Os demais casos (JS-04..JS-10, JC-04..JC-10) permanecem **planejados**
+e não exercidos por código nesta sprint. A massa do Doc 15 segue como
+referência canônica; novos casos serão adicionados em sprints
+subsequentes na linha correspondente da Doc 19.
+
+Coerência com o conteúdo educacional do frontend: os exemplos
+numéricos do corpus em `frontend/src/content/juros/nivel-1.ts` e
+`nivel-2.ts` citam exatamente os números de JS-01 e JC-01 desta
+massa. Esta coerência é validada em runtime pelo teste
+`frontend/src/__tests__/content/juros/conteudo.test.ts`.

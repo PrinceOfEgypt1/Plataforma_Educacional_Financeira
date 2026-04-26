@@ -6,7 +6,7 @@
         build build-be build-fe \
         up down logs healthcheck \
         secret-scan sast deps-audit impact \
-        docs-check a11y-smoke
+        docs-check a11y-smoke lint-pedagogical
 
 PYTHON := python3
 VENV   := backend/.venv
@@ -125,3 +125,8 @@ impact:  ## Executa agente de análise de impacto
 # ── A11y ──────────────────────────────────────────────────────────────────
 a11y-smoke:  ## Teste de acessibilidade nas telas críticas
 	cd $(FE_SRC) && pnpm test:a11y
+
+# ── Lint pedagógico ────────────────────────────────────────────────────────
+lint-pedagogical:  ## Lint pedagógico (subset Doc 08 §20 — implementação Sprint 7)
+	$(PYTHON) -m tools.edu_lint
+
