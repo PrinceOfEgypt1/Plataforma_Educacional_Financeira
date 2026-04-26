@@ -16,6 +16,11 @@ import type { Route } from "next";
  *   - Prompt Sprint 1 §5.1.2 (12 rotas-base navegáveis);
  *   - PLANO_EXECUCAO_SPRINT_1.md v1.1 §5.4 (nomenclatura e slugs);
  *   - Doc 06 §§ de domínio (API paths canônicos — observar `/cartao-rotativo`).
+ *
+ * Sprint 2 / F4:
+ *   - `juros` passa de "em-construcao" → "disponivel" porque a página
+ *     real consome os endpoints F3 `/api/v1/interest/*`. Os demais
+ *     módulos permanecem como placeholder.
  */
 
 export type ModuleStatus = "disponivel" | "em-construcao";
@@ -71,7 +76,7 @@ export const MODULES: readonly ModuleEntry[] = [
       "Compare crescimento simples vs. composto e entenda o efeito do " +
       "tempo sobre o capital.",
     group: G.basicos,
-    status: "em-construcao",
+    status: "disponivel",
   },
   {
     id: "amortizacao",
