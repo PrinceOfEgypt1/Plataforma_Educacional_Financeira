@@ -1,40 +1,80 @@
 /**
  * Teste dinâmico de rotas-base — para cada módulo, importa o respectivo
- * `page.tsx` via `import()` e valida:
- *   - Renderização do título do módulo (cabeçalho);
- *   - Presença do `EducationPanel` (role complementary);
- *   - Presença do `AlertBanner` indicando "em construção".
+ * `page.tsx` via `import()` e valida contrato adequado ao status.
  *
- * Como todas as 12 páginas delegam ao mesmo `<ModulePage moduleId=... />`,
- * esse teste cobre simultaneamente (a) o fato de que todas as 12 rotas
- * existem no filesystem e (b) o contrato do template central.
+ * Sprint 1 / 2 estabeleceu dois contratos distintos por status:
+ *
+ *   - `status === "em-construcao"` — página delega ao template
+ *     `<ModulePage />`, que obriga título + AlertBanner("em construção") +
+ *     EducationPanel("sobre {shortTitle}"). É o contrato herdado e segue
+ *     válido para os módulos que ainda não foram implementados.
+ *
+ *   - `status === "disponivel"` — o módulo tem sua própria página real.
+ *     O contrato mínimo é: título do módulo como h1.
+ *
+ * Sprint 2 / F4 marcou `juros` como `disponivel`. Por isso este arquivo
+ * foi reestruturado em dois blocos — um por status.
  */
 import type { ReactElement } from "react";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 
 import { MODULES } from "@/config/modules";
 
-describe("Rotas-base dos 12 módulos", () => {
-  for (const mod of MODULES) {
+/* -------------------------------------------------------------------------
+ * Polyfill mínimo de ResizeObserver — recharts usa em runtime. Tipado sem
+ * `any`: interface local + registro via `vi.stubGlobal` (aceita `unknown`).
+ * ------------------------------------------------------------------------- */
+interface MinimalResizeObserver {
+  observe(): void;
+  unobserve(): void;
+  disconnect(): void;
+}
+class NoopResizeObserver implements MinimalResizeObserver {
+  observe(): void {}
+  unobserve(): void {}
+  disconnect(): void {}
+}
+vi.stubGlobal("ResizeObserver", NoopResizeObserver);
+
+const emConstrucao = MODULES.filter((m) => m.status === "em-construcao");
+const disponiveis = MODULES.filter((m) => m.status === "disponivel");
+
+describe("Rotas-base — módulos em construção", () => {
+  if (emConstrucao.length === 0) {
+    it.skip("(nenhum módulo em-construcao no momento)", () => {});
+  }
+  for (const mod of emConstrucao) {
     it(`/${mod.slug} renderiza título, alert-banner e education-panel`, async () => {
       const mod_ = await import(`@/app/(app)/${mod.slug}/page`);
       const Page = mod_.default as () => ReactElement;
       render(<Page />);
 
-      // Título aparece no cabeçalho (h1).
       const heading = screen.getByRole("heading", { level: 1 });
       expect(heading).toHaveTextContent(mod.title);
 
-      // AlertBanner de "em construção" (warning)
       const alert = screen.getByRole("alert");
       expect(alert).toHaveTextContent(/em construção/i);
 
-      // EducationPanel com aria-label derivado do shortTitle
       const panel = screen.getByRole("complementary", {
         name: new RegExp(`sobre ${mod.shortTitle}`, "i"),
       });
       expect(panel).toBeInTheDocument();
+    });
+  }
+});
+
+describe("Rotas-base — módulos disponíveis", () => {
+  if (disponiveis.length === 0) {
+    it.skip("(nenhum módulo disponivel no momento)", () => {});
+  }
+  for (const mod of disponiveis) {
+    it(`/${mod.slug} renderiza título do módulo`, async () => {
+      const mod_ = await import(`@/app/(app)/${mod.slug}/page`);
+      const Page = mod_.default as () => ReactElement;
+      render(<Page />);
+      const heading = screen.getByRole("heading", { level: 1 });
+      expect(heading).toHaveTextContent(mod.title);
     });
   }
 });
