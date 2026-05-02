@@ -126,7 +126,7 @@ validação oficial fica para o WSL Ubuntu.
 
 ```bash
 # 1. Aplicar o pacote (extrair ZIP por cima do repo)
-cd ~/Plataforma_Educacional_Financeira
+cd ~/workspace/Plataforma_Educacional_Financeira
 git checkout sprint-2/f5-conteudo-docs-vivos
 unzip -o ~/Downloads/F5_OFICIAL_CONTEUDO_DOCS_VIVOS_PACOTE_v2.zip
 

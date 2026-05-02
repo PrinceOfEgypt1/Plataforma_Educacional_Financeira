@@ -1,13 +1,13 @@
 {
   "$schema_version": 3,
   "generated_at": "2026-04-19",
-  "total_documents": 67,
+  "total_documents": 70,
   "categories": {
     "VIVO": 23,
     "ESTATICO": 31,
     "HIBRIDO": 6,
     "BASELINE_CANDIDATA": 1,
-    "GOVERNANCA_SPRINT": 4,
+    "GOVERNANCA_SPRINT": 7,
     "OPERACIONAL": 1,
     "META": 1
   },
@@ -557,9 +557,36 @@
       "materialized_in_repo": true,
       "added_sprint": "sprint-01",
       "note": "Matriz documental desta sprint"
+    },
+    {
+      "id": "sprint_02_execucao",
+      "path": "docs/sprints/sprint-02/relatorio-execucao.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Sprint 02 — Relatório de Execução",
+      "materialized_in_repo": true,
+      "added_sprint": "sprint-02",
+      "note": "Governança da Sprint 2 — narrativa executiva. Materializado na F6 v2 (Opção A do micro-adendo F6)."
+    },
+    {
+      "id": "sprint_02_forense",
+      "path": "docs/sprints/sprint-02/relatorio-forense.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Sprint 02 — Relatório Forense",
+      "materialized_in_repo": true,
+      "added_sprint": "sprint-02",
+      "note": "Cadeia de custódia granular da Sprint 2 (commit ↔ arquivo ↔ linhas). Materializado na F6 v2."
+    },
+    {
+      "id": "sprint_02_validacao",
+      "path": "docs/sprints/sprint-02/validacao-oficial.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Sprint 02 — Validação Oficial",
+      "materialized_in_repo": true,
+      "added_sprint": "sprint-02",
+      "note": "Veredito formal da Sprint 2. Aprovação final depende da execução do protocolo §6 (operador no WSL Ubuntu)."
     }
   ],
-  "updated_at": "2026-04-25",
-  "update_reason": "Sprint 2 — F5 oficial (Conteúdo Educacional + Docs vivos): atualização de status RF-INT-001/002 (Doc 19) para 'done'; cross-link de JS-01..03 e JC-01..03 com testes materializados (Doc 15); registro de massa F4 (19 arquivos / 112 testes — Doc 09 §16); glossário mínimo do módulo juros (Doc 08 §13.1); nota de materialização do subset de lint pedagógico (Doc 08 §20). Conteúdo educacional materializado em frontend/src/content/juros/ (níveis 1 e 2) e tools/edu_lint/ (subset determinístico). Planilha xlsx NÃO foi tocada por esta sessão de chat.",
+  "updated_at": "2026-04-26",
+  "update_reason": "Sprint 2 — F6 v2 (Fechamento + Governança, doc-only): três relatórios canônicos da Sprint 2 materializados em `docs/sprints/sprint-02/` (Opção A do micro-adendo F6 v2 — `relatorio-execucao.md`, `relatorio-forense.md`, `validacao-oficial.md`); evidências F6 (`F6-decisao-impact-agent.md`, `F6-validacao-final.md`, `F6-relatorio-final-sprint-2.md`) presentes em `docs/sprints/sprint-02/evidencias/`; decisão registrada de **preservar Impact Agent em `advisory`** (kill-switch §3.4 do PLANO Sprint 2 acionado); promoção para `blocking` adiada para Sprint 3 ou P-Refino com ADR. Encerramento formal da Sprint 2 permanece pendente de pipeline verde no WSL Ubuntu pelo operador, auditoria do pacote F6 v2, merge da PR da F6 e atualização da planilha operacional pelo PO/ChatGPT. Sessão de chat NÃO declara Sprint 2 aprovada.",
   "_migration_note": "Sincronização documental concluída em 2026-04-17. Todos os documentos do pacote AUDITORIA_PROMPT_1_FINAL foram migrados. Documentos com materialized_in_repo=false são apenas aqueles que permanecem pendentes por decisão explícita."
 }
