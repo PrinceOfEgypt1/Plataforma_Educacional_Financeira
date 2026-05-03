@@ -21,6 +21,10 @@ import type { Route } from "next";
  *   - `juros` passa de "em-construcao" → "disponivel" porque a página
  *     real consome os endpoints F3 `/api/v1/interest/*`. Os demais
  *     módulos permanecem como placeholder.
+ *
+ * Sprint 3 / F4:
+ *   - `amortizacao` passa de "em-construcao" → "disponivel" porque a página
+ *     real consome os endpoints F3 `/api/v1/amortization/*`.
  */
 
 export type ModuleStatus = "disponivel" | "em-construcao";
@@ -88,7 +92,7 @@ export const MODULES: readonly ModuleEntry[] = [
       "Visualize a diferença entre tabelas PRICE e SAC e o impacto de cada " +
       "uma na parcela e no custo total.",
     group: G.basicos,
-    status: "em-construcao",
+    status: "disponivel",
   },
   {
     id: "financiamento-imobiliario",
