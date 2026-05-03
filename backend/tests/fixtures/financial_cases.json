@@ -6,7 +6,9 @@
     "rounding": "ROUND_HALF_EVEN",
     "quantum": "0.01",
     "massa_grid_count_simples": 50,
-    "massa_grid_count_compostos": 50
+    "massa_grid_count_compostos": 50,
+    "rodada_amortization": "Sprint 3 / F2 - Dominio Amortizacao PRICE/SAC",
+    "massa_grid_count_amortization": 36
   },
   "simples": [
     {
@@ -905,6 +907,549 @@
         "prazo_meses": 36,
         "aporte_mensal": "0",
         "montante_esperado": "28982.78"
+      }
+    ]
+  },
+  "amortization": {
+    "price": [
+      {
+        "id": "PR-01",
+        "descricao": "principal=100000 i=1% por periodo n=12",
+        "principal": "100000.00",
+        "taxa_periodo": "0.01",
+        "n_periodos": 12,
+        "parcela_regular": "8884.88",
+        "ultima_parcela": "8884.85",
+        "total_pago": "106618.53",
+        "total_juros": "6618.53",
+        "saldo_final": "0.00"
+      },
+      {
+        "id": "PR-ZERO-RATE",
+        "descricao": "taxa zero com residuo na ultima parcela",
+        "principal": "1000.00",
+        "taxa_periodo": "0",
+        "n_periodos": 3,
+        "parcela_regular": "333.33",
+        "ultima_parcela": "333.34",
+        "total_pago": "1000.00",
+        "total_juros": "0.00",
+        "saldo_final": "0.00"
+      },
+      {
+        "id": "PR-UNIT",
+        "descricao": "prazo unitario",
+        "principal": "1000.00",
+        "taxa_periodo": "0.01",
+        "n_periodos": 1,
+        "parcela_regular": "1010.00",
+        "ultima_parcela": "1010.00",
+        "total_pago": "1010.00",
+        "total_juros": "10.00",
+        "saldo_final": "0.00"
+      },
+      {
+        "id": "PR-ROUNDING",
+        "descricao": "principal com divisao nao exata em centavos",
+        "principal": "10000.00",
+        "taxa_periodo": "0.0175",
+        "n_periodos": 7,
+        "parcela_regular": "1530.31",
+        "ultima_parcela": "1530.28",
+        "total_pago": "10712.14",
+        "total_juros": "712.14",
+        "saldo_final": "0.00"
+      }
+    ],
+    "sac": [
+      {
+        "id": "SAC-01",
+        "descricao": "principal=100000 i=1% por periodo n=12",
+        "principal": "100000.00",
+        "taxa_periodo": "0.01",
+        "n_periodos": 12,
+        "amortizacao_regular": "8333.33",
+        "ultima_amortizacao": "8333.37",
+        "parcela_inicial": "9333.33",
+        "ultima_parcela": "8416.70",
+        "total_pago": "106500.00",
+        "total_juros": "6500.00",
+        "saldo_final": "0.00"
+      },
+      {
+        "id": "SAC-ZERO-RATE",
+        "descricao": "taxa zero com residuo na ultima amortizacao",
+        "principal": "1000.00",
+        "taxa_periodo": "0",
+        "n_periodos": 3,
+        "amortizacao_regular": "333.33",
+        "ultima_amortizacao": "333.34",
+        "parcela_inicial": "333.33",
+        "ultima_parcela": "333.34",
+        "total_pago": "1000.00",
+        "total_juros": "0.00",
+        "saldo_final": "0.00"
+      },
+      {
+        "id": "SAC-UNIT",
+        "descricao": "prazo unitario",
+        "principal": "1000.00",
+        "taxa_periodo": "0.01",
+        "n_periodos": 1,
+        "amortizacao_regular": "1000.00",
+        "ultima_amortizacao": "1000.00",
+        "parcela_inicial": "1010.00",
+        "ultima_parcela": "1010.00",
+        "total_pago": "1010.00",
+        "total_juros": "10.00",
+        "saldo_final": "0.00"
+      },
+      {
+        "id": "SAC-ROUNDING",
+        "descricao": "principal com divisao nao exata em centavos",
+        "principal": "10000.00",
+        "taxa_periodo": "0.0175",
+        "n_periodos": 7,
+        "amortizacao_regular": "1428.57",
+        "ultima_amortizacao": "1428.58",
+        "parcela_inicial": "1603.57",
+        "ultima_parcela": "1453.58",
+        "total_pago": "10700.00",
+        "total_juros": "700.00",
+        "saldo_final": "0.00"
+      }
+    ],
+    "compare": [
+      {
+        "id": "SAC-02",
+        "descricao": "SAC tem menos juros que PRICE no caso canonico",
+        "principal": "100000.00",
+        "taxa_periodo": "0.01",
+        "n_periodos": 12,
+        "price_total_juros": "6618.53",
+        "sac_total_juros": "6500.00",
+        "sac_menor_que_price": true,
+        "diferenca_juros_price_menos_sac": "118.53"
+      },
+      {
+        "id": "CMP-24M",
+        "descricao": "comparativo 24 periodos",
+        "principal": "100000.00",
+        "taxa_periodo": "0.02",
+        "n_periodos": 24,
+        "price_total_juros": "26890.63",
+        "sac_total_juros": "25000.00",
+        "sac_menor_que_price": true,
+        "diferenca_juros_price_menos_sac": "1890.63"
+      },
+      {
+        "id": "CMP-LONG",
+        "descricao": "comparativo prazo longo",
+        "principal": "240000.00",
+        "taxa_periodo": "0.005",
+        "n_periodos": 120,
+        "price_total_juros": "79739.11",
+        "sac_total_juros": "72600.00",
+        "sac_menor_que_price": true,
+        "diferenca_juros_price_menos_sac": "7139.11"
+      }
+    ],
+    "massa_grid": [
+      {
+        "id": "AMO-001",
+        "principal": "10000.00",
+        "taxa_periodo": "0.005",
+        "n_periodos": 6,
+        "price_total_pago": "10175.73",
+        "price_total_juros": "175.73",
+        "sac_total_pago": "10175.00",
+        "sac_total_juros": "175.00",
+        "diferenca_juros_price_menos_sac": "0.73"
+      },
+      {
+        "id": "AMO-002",
+        "principal": "10000.00",
+        "taxa_periodo": "0.005",
+        "n_periodos": 12,
+        "price_total_pago": "10327.96",
+        "price_total_juros": "327.96",
+        "sac_total_pago": "10325.00",
+        "sac_total_juros": "325.00",
+        "diferenca_juros_price_menos_sac": "2.96"
+      },
+      {
+        "id": "AMO-003",
+        "principal": "10000.00",
+        "taxa_periodo": "0.005",
+        "n_periodos": 24,
+        "price_total_pago": "10636.94",
+        "price_total_juros": "636.94",
+        "sac_total_pago": "10625.00",
+        "sac_total_juros": "625.00",
+        "diferenca_juros_price_menos_sac": "11.94"
+      },
+      {
+        "id": "AMO-004",
+        "principal": "10000.00",
+        "taxa_periodo": "0.01",
+        "n_periodos": 6,
+        "price_total_pago": "10352.91",
+        "price_total_juros": "352.91",
+        "sac_total_pago": "10350.00",
+        "sac_total_juros": "350.00",
+        "diferenca_juros_price_menos_sac": "2.91"
+      },
+      {
+        "id": "AMO-005",
+        "principal": "10000.00",
+        "taxa_periodo": "0.01",
+        "n_periodos": 12,
+        "price_total_pago": "10661.86",
+        "price_total_juros": "661.86",
+        "sac_total_pago": "10650.00",
+        "sac_total_juros": "650.00",
+        "diferenca_juros_price_menos_sac": "11.86"
+      },
+      {
+        "id": "AMO-006",
+        "principal": "10000.00",
+        "taxa_periodo": "0.01",
+        "n_periodos": 24,
+        "price_total_pago": "11297.65",
+        "price_total_juros": "1297.65",
+        "sac_total_pago": "11250.00",
+        "sac_total_juros": "1250.00",
+        "diferenca_juros_price_menos_sac": "47.65"
+      },
+      {
+        "id": "AMO-007",
+        "principal": "10000.00",
+        "taxa_periodo": "0.02",
+        "n_periodos": 6,
+        "price_total_pago": "10711.54",
+        "price_total_juros": "711.54",
+        "sac_total_pago": "10700.00",
+        "sac_total_juros": "700.00",
+        "diferenca_juros_price_menos_sac": "11.54"
+      },
+      {
+        "id": "AMO-008",
+        "principal": "10000.00",
+        "taxa_periodo": "0.02",
+        "n_periodos": 12,
+        "price_total_pago": "11347.15",
+        "price_total_juros": "1347.15",
+        "sac_total_pago": "11300.00",
+        "sac_total_juros": "1300.00",
+        "diferenca_juros_price_menos_sac": "47.15"
+      },
+      {
+        "id": "AMO-009",
+        "principal": "10000.00",
+        "taxa_periodo": "0.02",
+        "n_periodos": 24,
+        "price_total_pago": "12689.07",
+        "price_total_juros": "2689.07",
+        "sac_total_pago": "12500.00",
+        "sac_total_juros": "2500.00",
+        "diferenca_juros_price_menos_sac": "189.07"
+      },
+      {
+        "id": "AMO-010",
+        "principal": "10000.00",
+        "taxa_periodo": "0.03",
+        "n_periodos": 6,
+        "price_total_pago": "11075.86",
+        "price_total_juros": "1075.86",
+        "sac_total_pago": "11050.00",
+        "sac_total_juros": "1050.00",
+        "diferenca_juros_price_menos_sac": "25.86"
+      },
+      {
+        "id": "AMO-011",
+        "principal": "10000.00",
+        "taxa_periodo": "0.03",
+        "n_periodos": 12,
+        "price_total_pago": "12055.45",
+        "price_total_juros": "2055.45",
+        "sac_total_pago": "11950.00",
+        "sac_total_juros": "1950.00",
+        "diferenca_juros_price_menos_sac": "105.45"
+      },
+      {
+        "id": "AMO-012",
+        "principal": "10000.00",
+        "taxa_periodo": "0.03",
+        "n_periodos": 24,
+        "price_total_pago": "14171.42",
+        "price_total_juros": "4171.42",
+        "sac_total_pago": "13750.00",
+        "sac_total_juros": "3750.00",
+        "diferenca_juros_price_menos_sac": "421.42"
+      },
+      {
+        "id": "AMO-013",
+        "principal": "100000.00",
+        "taxa_periodo": "0.005",
+        "n_periodos": 6,
+        "price_total_pago": "101757.27",
+        "price_total_juros": "1757.27",
+        "sac_total_pago": "101750.00",
+        "sac_total_juros": "1750.00",
+        "diferenca_juros_price_menos_sac": "7.27"
+      },
+      {
+        "id": "AMO-014",
+        "principal": "100000.00",
+        "taxa_periodo": "0.005",
+        "n_periodos": 12,
+        "price_total_pago": "103279.73",
+        "price_total_juros": "3279.73",
+        "sac_total_pago": "103250.00",
+        "sac_total_juros": "3250.00",
+        "diferenca_juros_price_menos_sac": "29.73"
+      },
+      {
+        "id": "AMO-015",
+        "principal": "100000.00",
+        "taxa_periodo": "0.005",
+        "n_periodos": 24,
+        "price_total_pago": "106369.48",
+        "price_total_juros": "6369.48",
+        "sac_total_pago": "106250.00",
+        "sac_total_juros": "6250.00",
+        "diferenca_juros_price_menos_sac": "119.48"
+      },
+      {
+        "id": "AMO-016",
+        "principal": "100000.00",
+        "taxa_periodo": "0.01",
+        "n_periodos": 6,
+        "price_total_pago": "103529.02",
+        "price_total_juros": "3529.02",
+        "sac_total_pago": "103500.00",
+        "sac_total_juros": "3500.00",
+        "diferenca_juros_price_menos_sac": "29.02"
+      },
+      {
+        "id": "AMO-017",
+        "principal": "100000.00",
+        "taxa_periodo": "0.01",
+        "n_periodos": 12,
+        "price_total_pago": "106618.53",
+        "price_total_juros": "6618.53",
+        "sac_total_pago": "106500.00",
+        "sac_total_juros": "6500.00",
+        "diferenca_juros_price_menos_sac": "118.53"
+      },
+      {
+        "id": "AMO-018",
+        "principal": "100000.00",
+        "taxa_periodo": "0.01",
+        "n_periodos": 24,
+        "price_total_pago": "112976.34",
+        "price_total_juros": "12976.34",
+        "sac_total_pago": "112500.00",
+        "sac_total_juros": "12500.00",
+        "diferenca_juros_price_menos_sac": "476.34"
+      },
+      {
+        "id": "AMO-019",
+        "principal": "100000.00",
+        "taxa_periodo": "0.02",
+        "n_periodos": 6,
+        "price_total_pago": "107115.50",
+        "price_total_juros": "7115.50",
+        "sac_total_pago": "107000.00",
+        "sac_total_juros": "7000.00",
+        "diferenca_juros_price_menos_sac": "115.50"
+      },
+      {
+        "id": "AMO-020",
+        "principal": "100000.00",
+        "taxa_periodo": "0.02",
+        "n_periodos": 12,
+        "price_total_pago": "113471.53",
+        "price_total_juros": "13471.53",
+        "sac_total_pago": "113000.00",
+        "sac_total_juros": "13000.00",
+        "diferenca_juros_price_menos_sac": "471.53"
+      },
+      {
+        "id": "AMO-021",
+        "principal": "100000.00",
+        "taxa_periodo": "0.02",
+        "n_periodos": 24,
+        "price_total_pago": "126890.63",
+        "price_total_juros": "26890.63",
+        "sac_total_pago": "125000.00",
+        "sac_total_juros": "25000.00",
+        "diferenca_juros_price_menos_sac": "1890.63"
+      },
+      {
+        "id": "AMO-022",
+        "principal": "100000.00",
+        "taxa_periodo": "0.03",
+        "n_periodos": 6,
+        "price_total_pago": "110758.50",
+        "price_total_juros": "10758.50",
+        "sac_total_pago": "110500.00",
+        "sac_total_juros": "10500.00",
+        "diferenca_juros_price_menos_sac": "258.50"
+      },
+      {
+        "id": "AMO-023",
+        "principal": "100000.00",
+        "taxa_periodo": "0.03",
+        "n_periodos": 12,
+        "price_total_pago": "120554.50",
+        "price_total_juros": "20554.50",
+        "sac_total_pago": "119500.00",
+        "sac_total_juros": "19500.00",
+        "diferenca_juros_price_menos_sac": "1054.50"
+      },
+      {
+        "id": "AMO-024",
+        "principal": "100000.00",
+        "taxa_periodo": "0.03",
+        "n_periodos": 24,
+        "price_total_pago": "141713.81",
+        "price_total_juros": "41713.81",
+        "sac_total_pago": "137500.00",
+        "sac_total_juros": "37500.00",
+        "diferenca_juros_price_menos_sac": "4213.81"
+      },
+      {
+        "id": "AMO-025",
+        "principal": "240000.00",
+        "taxa_periodo": "0.005",
+        "n_periodos": 6,
+        "price_total_pago": "244217.46",
+        "price_total_juros": "4217.46",
+        "sac_total_pago": "244200.00",
+        "sac_total_juros": "4200.00",
+        "diferenca_juros_price_menos_sac": "17.46"
+      },
+      {
+        "id": "AMO-026",
+        "principal": "240000.00",
+        "taxa_periodo": "0.005",
+        "n_periodos": 12,
+        "price_total_pago": "247871.32",
+        "price_total_juros": "7871.32",
+        "sac_total_pago": "247800.00",
+        "sac_total_juros": "7800.00",
+        "diferenca_juros_price_menos_sac": "71.32"
+      },
+      {
+        "id": "AMO-027",
+        "principal": "240000.00",
+        "taxa_periodo": "0.005",
+        "n_periodos": 24,
+        "price_total_pago": "255286.72",
+        "price_total_juros": "15286.72",
+        "sac_total_pago": "255000.00",
+        "sac_total_juros": "15000.00",
+        "diferenca_juros_price_menos_sac": "286.72"
+      },
+      {
+        "id": "AMO-028",
+        "principal": "240000.00",
+        "taxa_periodo": "0.01",
+        "n_periodos": 6,
+        "price_total_pago": "248469.65",
+        "price_total_juros": "8469.65",
+        "sac_total_pago": "248400.00",
+        "sac_total_juros": "8400.00",
+        "diferenca_juros_price_menos_sac": "69.65"
+      },
+      {
+        "id": "AMO-029",
+        "principal": "240000.00",
+        "taxa_periodo": "0.01",
+        "n_periodos": 12,
+        "price_total_pago": "255884.50",
+        "price_total_juros": "15884.50",
+        "sac_total_pago": "255600.00",
+        "sac_total_juros": "15600.00",
+        "diferenca_juros_price_menos_sac": "284.50"
+      },
+      {
+        "id": "AMO-030",
+        "principal": "240000.00",
+        "taxa_periodo": "0.01",
+        "n_periodos": 24,
+        "price_total_pago": "271143.21",
+        "price_total_juros": "31143.21",
+        "sac_total_pago": "270000.00",
+        "sac_total_juros": "30000.00",
+        "diferenca_juros_price_menos_sac": "1143.21"
+      },
+      {
+        "id": "AMO-031",
+        "principal": "240000.00",
+        "taxa_periodo": "0.02",
+        "n_periodos": 6,
+        "price_total_pago": "257077.17",
+        "price_total_juros": "17077.17",
+        "sac_total_pago": "256800.00",
+        "sac_total_juros": "16800.00",
+        "diferenca_juros_price_menos_sac": "277.17"
+      },
+      {
+        "id": "AMO-032",
+        "principal": "240000.00",
+        "taxa_periodo": "0.02",
+        "n_periodos": 12,
+        "price_total_pago": "272331.65",
+        "price_total_juros": "32331.65",
+        "sac_total_pago": "271200.00",
+        "sac_total_juros": "31200.00",
+        "diferenca_juros_price_menos_sac": "1131.65"
+      },
+      {
+        "id": "AMO-033",
+        "principal": "240000.00",
+        "taxa_periodo": "0.02",
+        "n_periodos": 24,
+        "price_total_pago": "304537.54",
+        "price_total_juros": "64537.54",
+        "sac_total_pago": "300000.00",
+        "sac_total_juros": "60000.00",
+        "diferenca_juros_price_menos_sac": "4537.54"
+      },
+      {
+        "id": "AMO-034",
+        "principal": "240000.00",
+        "taxa_periodo": "0.03",
+        "n_periodos": 6,
+        "price_total_pago": "265820.40",
+        "price_total_juros": "25820.40",
+        "sac_total_pago": "265200.00",
+        "sac_total_juros": "25200.00",
+        "diferenca_juros_price_menos_sac": "620.40"
+      },
+      {
+        "id": "AMO-035",
+        "principal": "240000.00",
+        "taxa_periodo": "0.03",
+        "n_periodos": 12,
+        "price_total_pago": "289330.80",
+        "price_total_juros": "49330.80",
+        "sac_total_pago": "286800.00",
+        "sac_total_juros": "46800.00",
+        "diferenca_juros_price_menos_sac": "2530.80"
+      },
+      {
+        "id": "AMO-036",
+        "principal": "240000.00",
+        "taxa_periodo": "0.03",
+        "n_periodos": 24,
+        "price_total_pago": "340113.09",
+        "price_total_juros": "100113.09",
+        "sac_total_pago": "330000.00",
+        "sac_total_juros": "90000.00",
+        "diferenca_juros_price_menos_sac": "10113.09"
       }
     ]
   }
