@@ -198,6 +198,46 @@ taxa real, etc.) cobrem módulos não construídos nesta sprint
 sprints subsequentes. Esta entrega **não declara o glossário do
 MVP completo** — declara apenas o subset do módulo de juros.
 
+### 13.2 Glossário materializado — Sprint 3 (módulo de amortização)
+
+A Sprint 3 / F5 materializou o **conteúdo educacional do módulo de
+amortização PRICE/SAC** em `frontend/src/content/amortizacao/`, com:
+
+- blocos Nível 1 em `nivel-1.ts`;
+- blocos Nível 2 em `nivel-2.ts`;
+- glossário mínimo em `glossario.ts`;
+- cuidados educacionais em `alertas.ts`;
+- integração visível na página `/amortizacao` por
+  `frontend/src/components/amortization/AmortizacaoSaibaMais.tsx`.
+
+O glossário materializado contém as entradas que aparecem no formulário,
+no resumo, na tabela e na comparação:
+
+| slug              | termo                | módulo relacionado |
+|-------------------|----------------------|--------------------|
+| principal         | Principal            | amortization       |
+| taxa-periodo      | Taxa por período     | amortization       |
+| numero-periodos   | Número de períodos   | amortization       |
+| parcela           | Parcela              | amortization       |
+| juros             | Juros                | amortization       |
+| amortizacao       | Amortização          | amortization       |
+| saldo-devedor     | Saldo devedor        | amortization       |
+| total-pago        | Total pago           | amortization       |
+| total-juros       | Total de juros       | amortization       |
+| saldo-final       | Saldo final          | amortization       |
+| price             | PRICE                | amortization       |
+| sac               | SAC                  | amortization       |
+
+O conteúdo cobre: conceito de amortização, parcela, juros,
+amortização, saldo devedor, total pago, total de juros, saldo final,
+PRICE, SAC, comparação PRICE x SAC e cuidados ao comparar parcela
+mensal com custo total.
+
+As mensagens educacionais deixam explícito que a simulação é ilustrativa
+e não substitui contrato real, análise profissional ou condições
+efetivas de financiamento. Os exemplos numéricos referenciam os casos
+canônicos PR-01 e SAC-01 do Doc 15.
+
 ## 14. FAQ
 - Perguntas reais (extraídas da persona) com resposta direta.
 - Linkar para módulo, glossário, Nível 2/3.
