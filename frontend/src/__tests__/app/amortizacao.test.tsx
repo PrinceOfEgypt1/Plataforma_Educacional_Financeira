@@ -204,6 +204,41 @@ describe("AmortizacaoPage", () => {
     ).not.toBeInTheDocument();
   });
 
+  it("renderiza conteudo educacional visivel de amortizacao", () => {
+    render(<AmortizacaoPage />);
+
+    const aprendaMais = screen.getByTestId("amortizacao-aprenda-mais");
+    expect(
+      within(aprendaMais).getByRole("heading", {
+        name: /Entenda a amortiza[cç][aã]o/i,
+      }),
+    ).toBeInTheDocument();
+    expect(
+      within(aprendaMais).getByText(/PRICE.*parcela constante/i),
+    ).toBeInTheDocument();
+    expect(
+      within(aprendaMais).getByText(/SAC.*amortiza[cç][aã]o constante/i),
+    ).toBeInTheDocument();
+    expect(within(aprendaMais).getByText(/PRICE x SAC/i)).toBeInTheDocument();
+    expect(
+      within(aprendaMais).getAllByTestId("amortizacao-saiba-mais-disclaimer")
+        .length,
+    ).toBeGreaterThan(0);
+
+    const glossario = screen.getByTestId("amortizacao-glossario");
+    expect(within(glossario).getByText("Principal")).toBeInTheDocument();
+    expect(within(glossario).getByText("Taxa por período")).toBeInTheDocument();
+    expect(within(glossario).getByText("Saldo final")).toBeInTheDocument();
+
+    const cuidados = screen.getByTestId("amortizacao-cuidados");
+    expect(
+      within(cuidados).getByText("Simulação não substitui contrato"),
+    ).toBeInTheDocument();
+    expect(
+      within(cuidados).getByText("Parcela não é custo total"),
+    ).toBeInTheDocument();
+  });
+
   it("valida campos obrigatorios antes de chamar a API", async () => {
     const user = userEvent.setup();
     render(<AmortizacaoPage />);

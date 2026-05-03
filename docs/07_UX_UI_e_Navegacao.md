@@ -86,6 +86,22 @@ Rotas recomendadas:
 6. interpretação educativa;
 7. aprofundamento.
 
+### 9.1 Materialização Sprint 3 — `/amortizacao`
+
+Na Sprint 3 / F5, a página `/amortizacao` passa a seguir a estrutura
+completa de módulo: simulador PRICE/SAC/Comparar no topo e, abaixo da
+área operacional, uma seção visível de aprofundamento educacional.
+
+A seção usa:
+
+- `data-testid="amortizacao-aprenda-mais"` para os blocos Nível 1;
+- `data-testid="amortizacao-glossario"` para o glossário mínimo;
+- `data-testid="amortizacao-cuidados"` para cuidados educacionais.
+
+Esse conteúdo não substitui a interpretação do resultado retornada pela
+API. Ele complementa a simulação com explicações estáticas e versionadas
+sobre PRICE, SAC, comparação, glossário e limites educacionais.
+
 ## 10. Layout oficial
 ### Desktop
 - sidebar à esquerda;

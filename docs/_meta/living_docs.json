@@ -68,7 +68,8 @@
       "path": "docs/07_UX_UI_e_Navegacao.md",
       "category": "VIVO",
       "title": "UX/UI e Navegação",
-      "materialized_in_repo": true
+      "materialized_in_repo": true,
+      "note": "Sprint 3 — F5: §9.1 registra a seção educacional visível da página /amortizacao (aprenda mais, glossário e cuidados)."
     },
     {
       "id": "doc_08",
@@ -76,7 +77,7 @@
       "category": "VIVO",
       "title": "Conteúdo Educacional",
       "materialized_in_repo": true,
-      "note": "Sprint 2 — F5: §13.1 (glossário materializado do módulo juros, 8 termos) + nota Sprint 2 em §20 (subset determinístico de lint pedagógico em tools/edu_lint/). Implementação completa do lint permanece planejada para Sprint 7."
+      "note": "Sprint 3 — F5: §13.2 materializa conteúdo educacional e glossário de amortização PRICE/SAC em frontend/src/content/amortizacao/. Mantém nota Sprint 2 sobre juros e lint pedagógico."
     },
     {
       "id": "doc_09",
@@ -156,7 +157,7 @@
       "category": "VIVO",
       "title": "Matriz de Rastreabilidade Requisitos↔Testes↔Código",
       "materialized_in_repo": true,
-      "note": "Sprint 2 — F5: RF-INT-001/002 promovidos de 'pending' para 'done' com caminhos reais dos testes. §6 adicionada com histórico de status da Sprint 2. Pendentes: regressão pedagógica de backend (não materializada nesta sprint)."
+      "note": "Sprint 3 — F5: RF-AMO-001/002/003 promovidos para done com domínio F2, API F3, frontend F4 e conteúdo/testes pedagógicos F5."
     },
     {
       "id": "doc_20",
