@@ -311,6 +311,54 @@ Persistência: tabela `idempotency_keys (key, payload_hash, response_payload, cr
 
 (Os demais payloads de Diagnóstico, PRICE/SAC, Imobiliário, Veículo, Consignado, CDC, Rotativo, Atraso, Investir vs Quitar mantêm os campos do v1.0, agora com **string decimal** em campos monetários e **enum UPPER_SNAKE_CASE** em períodos.)
 
+### 16.4 Amortizacao PRICE/SAC (request)
+```json
+{
+  "principal": "100000.00",
+  "taxa_periodo": "0.01",
+  "n_periodos": 12
+}
+```
+
+### 16.5 Amortizacao PRICE/SAC (response -- abreviada)
+```json
+{
+  "success": true,
+  "message": "amortizacao_price_calculada",
+  "data": {
+    "summary": {
+      "sistema": "PRICE",
+      "principal": "100000.00",
+      "taxa_periodo": "0.010000",
+      "n_periodos": 12,
+      "parcela": "8884.88",
+      "total_pago": "106618.53",
+      "total_juros": "6618.53",
+      "saldo_final": "0.00"
+    },
+    "tables": {
+      "amortizacao": [
+        {
+          "periodo": 1,
+          "saldo_inicial": "100000.00",
+          "juros": "1000.00",
+          "amortizacao": "7884.88",
+          "parcela": "8884.88",
+          "saldo_final": "92115.12"
+        }
+      ]
+    },
+    "charts": [{"name": "saldo_devedor", "series": []}],
+    "interpretation": {"headline": "...", "body": "..."},
+    "alerts": []
+  },
+  "meta": {"request_id": "...", "version": "v1", "generated_at": "..."}
+}
+```
+
+Contrato F3: `principal` deve ser maior que zero na borda de API/schema/service; `taxa_periodo` aceita zero e rejeita negativos; `n_periodos` deve ser inteiro positivo. Os Decimals monetarios sao serializados como string com duas casas e taxas como string com seis casas. O endpoint `POST /api/v1/amortization/compare` retorna o mesmo envelope canonico, com `tables.price`, `tables.sac` e resumo comparativo.
+
+
 ## 17. Compatibilidade e migração v1 → v2 (futuro)
 Quando ocorrer, este documento listará campo a campo as mudanças, com data de sunset e exemplos lado a lado.
 
