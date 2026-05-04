@@ -10,6 +10,7 @@
  */
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { findModuleByPathname } from "@/config/modules";
@@ -31,19 +32,35 @@ export function Header({ pathname }: HeaderProps) {
                  border-b border-slate-200 bg-white/95 px-4 py-3 shadow-sm
                  backdrop-blur sm:px-6 lg:px-8"
     >
-      <div className="flex min-w-0 items-center gap-2 text-sm">
-        <span className="font-semibold text-slate-700">Dashboard</span>
-        <span aria-hidden="true" className="text-slate-300">
-          /
-        </span>
+      <nav
+        aria-label="Localização"
+        className="flex min-w-0 items-center gap-2 text-sm"
+      >
+        {mod ? (
+          <>
+            <Link
+              href="/"
+              className="font-semibold text-slate-600 transition-colors
+                         hover:text-[var(--color-brand-primary)]
+                         focus:outline-none focus-visible:ring-2
+                         focus-visible:ring-[var(--color-focus)]
+                         focus-visible:ring-offset-2"
+            >
+              Início
+            </Link>
+            <span aria-hidden="true" className="text-slate-300">
+              /
+            </span>
+          </>
+        ) : null}
         <span
           data-testid="breadcrumb-current"
           className="truncate font-semibold text-[var(--color-brand-primary)]"
           style={{ color: "var(--color-brand-primary)" }}
         >
-          {mod ? mod.title : "Início"}
+          {mod ? mod.shortTitle : "Início"}
         </span>
-      </div>
+      </nav>
       <div
         className="hidden rounded-full border border-emerald-200 bg-emerald-50
                    px-3 py-1 text-xs font-semibold text-emerald-700 sm:block"

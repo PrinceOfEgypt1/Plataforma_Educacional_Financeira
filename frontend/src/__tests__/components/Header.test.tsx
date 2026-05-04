@@ -4,7 +4,7 @@
  * Cobre:
  *   - Presença do `role="banner"` obrigatório;
  *   - Breadcrumb exibindo "Início" na rota raiz;
- *   - Breadcrumb resolvendo o `title` do módulo em rota conhecida;
+ *   - Breadcrumb resolvendo o nome curto do módulo em rota conhecida;
  *   - Breadcrumb caindo para "Início" em rota desconhecida.
  */
 import { describe, it, expect, vi } from "vitest";
@@ -27,12 +27,24 @@ describe("<Header />", () => {
     expect(screen.getByTestId("breadcrumb-current")).toHaveTextContent(
       /início/i,
     );
+    expect(
+      screen.queryByRole("link", { name: /^início$/i }),
+    ).not.toBeInTheDocument();
   });
 
   it("exibe o título do módulo quando pathname bate com um slug", () => {
     render(<Header pathname="/amortizacao" />);
     expect(screen.getByTestId("breadcrumb-current")).toHaveTextContent(
-      /amortiza/i,
+      /^amortização$/i,
+    );
+  });
+
+  it("não usa o termo genérico Dashboard no breadcrumb", () => {
+    render(<Header pathname="/juros" />);
+    expect(screen.queryByText(/dashboard/i)).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /^início$/i })).toHaveAttribute(
+      "href",
+      "/",
     );
   });
 

@@ -25,12 +25,15 @@ calculos, backend, API e contratos.
 
 ### Shell e navegacao
 
-- `BackLink.tsx`: acao padronizada de voltar ao dashboard.
+- `BackLink.tsx`: acao padronizada de voltar ao inicio da aplicacao.
 - `ModuleHeader.tsx`: cabecalho padronizado de modulo com grupo, status,
   titulo, descricao e acao de voltar.
 - `MobileModuleNav.tsx`: menu compacto recolhivel para telas menores.
 - `ShellLayout.tsx`, `Header.tsx`, `Sidebar.tsx` e `NavItem.tsx`: reforco de
   hierarquia, estados ativos, status semantico e organizacao visual.
+- Correcao pos-inspecao visual do PR #19: o breadcrumb deixou de usar o termo
+  generico `Dashboard` e passou a orientar por `Inicio / Modulo`, reduzindo
+  ruido textual na navegacao.
 
 ### Home/dashboard
 
@@ -38,6 +41,14 @@ calculos, backend, API e contratos.
   a acao principal e os modulos disponiveis.
 - Modulos disponiveis e modulos em breve agora aparecem em secoes separadas.
 - A home deixou de apresentar todos os 12 modulos como uma massa visual unica.
+- Correcao pos-inspecao visual do PR #19: a home foi compactada para caber
+  melhor na primeira dobra, com apresentacao mais curta, botoes principais
+  diretos (`Juros` e `Amortizacao`) e estilo visual padronizado entre modulos
+  disponiveis.
+- `Proximos modulos` deixou de aparecer como grade longa aberta e passou para
+  camada progressiva recolhida com lista compacta e rolagem interna controlada.
+- O contexto educativo da home tambem passou para camada progressiva sob
+  demanda, preservando o conteudo sem alongar o fluxo principal.
 
 ### Paginas internas
 
@@ -67,8 +78,12 @@ calculos, backend, API e contratos.
 ## 3. Testes atualizados
 
 - `home.test.tsx`: valida separacao entre disponiveis e em breve.
+- `home.test.tsx`: valida que `Proximos modulos` e o contexto educativo
+  iniciam recolhidos, e que as acoes principais usam textos diretos e
+  padronizados.
 - `routes.test.tsx`: valida acao de voltar e aviso de modulo em breve.
 - `ShellLayout.test.tsx`: valida navegacao compacta mobile.
+- `Header.test.tsx`: valida breadcrumb sem o termo generico `Dashboard`.
 - `tokens.test.ts`: valida novos tokens de fundacao visual.
 - `amortizacao.test.tsx`: valida que camadas de grafico, tabela, entenda,
   glossario e cuidados iniciam recolhidas.

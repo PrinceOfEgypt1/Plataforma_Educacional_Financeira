@@ -29,6 +29,22 @@ describe("HomePage", () => {
     expect(within(plannedList).getAllByRole("listitem")).toHaveLength(
       MODULES.filter((mod) => mod.status === "em-construcao").length,
     );
+    expect(screen.getByTestId("home-planned-modules")).not.toHaveAttribute(
+      "open",
+    );
+  });
+
+  it("usa ações principais diretas e padronizadas", () => {
+    render(<HomePage />);
+    expect(screen.getByRole("link", { name: /^juros$/i })).toHaveAttribute(
+      "href",
+      "/juros",
+    );
+    expect(
+      screen.getByRole("link", { name: /^amortização$/i }),
+    ).toHaveAttribute("href", "/amortizacao");
+    expect(screen.queryByText(/abrir juros/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/ver amortização/i)).not.toBeInTheDocument();
   });
 
   it("cada card aponta para o href correto do módulo", () => {
@@ -43,6 +59,9 @@ describe("HomePage", () => {
 
   it("renderiza o EducationPanel de contextualização", () => {
     render(<HomePage />);
+    expect(screen.getByTestId("home-education-layer")).not.toHaveAttribute(
+      "open",
+    );
     expect(
       screen.getByRole("complementary", {
         name: /como a plataforma está organizada/i,
