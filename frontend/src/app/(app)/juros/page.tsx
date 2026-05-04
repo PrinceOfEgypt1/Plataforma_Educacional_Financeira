@@ -20,6 +20,7 @@ import type { Metadata } from "next";
 
 import { JurosSaibaMais, JurosTabs } from "@/components/interest";
 import { ModuleHeader } from "@/components/shell/ModuleHeader";
+import { ProgressiveSection } from "@/components/ui";
 import { MODULES } from "@/config/modules";
 import { CONTEUDO_NIVEL_1 } from "@/content/juros";
 
@@ -57,28 +58,24 @@ export default function JurosPage() {
 
       <JurosTabs />
 
-      <section
-        aria-labelledby="juros-aprenda-mais-heading"
-        className="mt-10"
-        data-testid="juros-aprenda-mais"
+      <ProgressiveSection
+        title="Aprenda mais sobre juros"
+        description="Conteúdo educacional sob demanda, sem alongar a tarefa principal."
+        headingLevel={2}
+        className="mt-6"
+        testId="juros-aprenda-mais"
+        contentClassName="space-y-3"
       >
-        <h2
-          id="juros-aprenda-mais-heading"
-          className="mb-4 text-lg font-semibold tracking-tight"
-          style={{ color: "var(--color-brand-primary)" }}
-        >
-          Aprenda mais sobre juros
-        </h2>
-        <p className="mb-4 text-sm text-slate-500">
+        <p className="text-sm text-slate-500">
           Conteúdo educacional Nível 1 (essencial). Para aprofundamento,
           consulte o Doc 08 do projeto.
         </p>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
           {CONTEUDO_NIVEL_1.map((bloco) => (
             <JurosSaibaMais key={bloco.slug} content={bloco} />
           ))}
         </div>
-      </section>
+      </ProgressiveSection>
     </div>
   );
 }

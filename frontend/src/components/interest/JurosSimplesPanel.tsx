@@ -8,6 +8,7 @@
 import { useState } from "react";
 
 import { ErrorState, EmptyState, LoadingState } from "@/components/states";
+import { ProgressiveSection } from "@/components/ui";
 import { describeApiError, type InterestApiError } from "@/lib/api/problem";
 import { simularJurosSimples } from "@/services/interest";
 import type { JurosSimplesIn, JurosSimplesOut } from "@/types/interest";
@@ -82,12 +83,26 @@ function ResultArea({
   const rows = result.tables[AMORTIZACAO_KEY] ?? [];
   const firstChart = result.charts[0];
   return (
-    <div className="space-y-6" data-testid="juros-simples-result">
+    <div className="space-y-4" data-testid="juros-simples-result">
       <SummarySimplesGrid summary={result.summary} />
-      <JurosAlerts alerts={result.alerts} />
-      {firstChart ? <EvolucaoSaldoChart chart={firstChart} /> : null}
-      <AmortizacaoSimplesTable rows={rows} />
       <JurosInterpretation interpretation={result.interpretation} />
+      <JurosAlerts alerts={result.alerts} />
+      {firstChart ? (
+        <ProgressiveSection
+          title="Gráfico"
+          description="Evolução do saldo em uma camada dedicada."
+          testId="juros-simples-chart-layer"
+        >
+          <EvolucaoSaldoChart chart={firstChart} />
+        </ProgressiveSection>
+      ) : null}
+      <ProgressiveSection
+        title="Tabela"
+        description="Memória de cálculo com rolagem interna."
+        testId="juros-simples-table-layer"
+      >
+        <AmortizacaoSimplesTable rows={rows} />
+      </ProgressiveSection>
     </div>
   );
 }

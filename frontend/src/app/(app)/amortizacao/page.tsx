@@ -7,6 +7,7 @@ import {
 } from "@/components/amortization/AmortizacaoSaibaMais";
 import { AmortizacaoTabs } from "@/components/amortization/AmortizacaoTabs";
 import { ModuleHeader } from "@/components/shell/ModuleHeader";
+import { ProgressiveSection } from "@/components/ui";
 import { MODULES } from "@/config/modules";
 import {
   CONTEUDO_NIVEL_1,
@@ -50,57 +51,42 @@ export default function AmortizacaoPage() {
 
       <AmortizacaoTabs />
 
-      <section
-        aria-labelledby="amortizacao-aprenda-mais-heading"
-        className="mt-10"
-        data-testid="amortizacao-aprenda-mais"
-      >
-        <h2
-          id="amortizacao-aprenda-mais-heading"
-          className="mb-4 text-lg font-semibold tracking-tight"
-          style={{ color: "var(--color-brand-primary)" }}
+      <section className="mt-6 space-y-3" aria-label="Camadas de apoio">
+        <ProgressiveSection
+          title="Entenda a amortização"
+          description="Explicações pedagógicas sob demanda, sem competir com a simulação."
+          headingLevel={2}
+          testId="amortizacao-aprenda-mais"
+          contentClassName="space-y-3"
         >
-          Entenda a amortização
-        </h2>
-        <p className="mb-4 text-sm text-slate-500">
-          Conteúdo educacional Nível 1 para ler a tabela, comparar PRICE e SAC e
-          separar parcela mensal de custo total.
-        </p>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          {CONTEUDO_NIVEL_1.map((bloco) => (
-            <AmortizacaoSaibaMais key={bloco.slug} content={bloco} />
-          ))}
-        </div>
-      </section>
+          <p className="text-sm text-slate-500">
+            Conteúdo educacional Nível 1 para ler a tabela, comparar PRICE e SAC
+            e separar parcela mensal de custo total.
+          </p>
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+            {CONTEUDO_NIVEL_1.map((bloco) => (
+              <AmortizacaoSaibaMais key={bloco.slug} content={bloco} />
+            ))}
+          </div>
+        </ProgressiveSection>
 
-      <section
-        aria-labelledby="amortizacao-glossario-heading"
-        className="mt-10"
-        data-testid="amortizacao-glossario"
-      >
-        <h2
-          id="amortizacao-glossario-heading"
-          className="mb-4 text-lg font-semibold tracking-tight"
-          style={{ color: "var(--color-brand-primary)" }}
+        <ProgressiveSection
+          title="Glossário da amortização"
+          description="Termos técnicos em lista compacta para consulta rápida."
+          headingLevel={2}
+          testId="amortizacao-glossario"
         >
-          Glossário da amortização
-        </h2>
-        <AmortizacaoGlossario entries={GLOSSARIO_MINIMO} />
-      </section>
+          <AmortizacaoGlossario entries={GLOSSARIO_MINIMO} />
+        </ProgressiveSection>
 
-      <section
-        aria-labelledby="amortizacao-cuidados-heading"
-        className="mt-10"
-        data-testid="amortizacao-cuidados"
-      >
-        <h2
-          id="amortizacao-cuidados-heading"
-          className="mb-4 text-lg font-semibold tracking-tight"
-          style={{ color: "var(--color-brand-primary)" }}
+        <ProgressiveSection
+          title="Cuidados educacionais"
+          description="Avisos de leitura e contratação como camada de cautela."
+          headingLevel={2}
+          testId="amortizacao-cuidados"
         >
-          Cuidados educacionais
-        </h2>
-        <AmortizacaoCuidados alerts={CUIDADOS_EDUCACIONAIS} />
+          <AmortizacaoCuidados alerts={CUIDADOS_EDUCACIONAIS} />
+        </ProgressiveSection>
       </section>
     </div>
   );

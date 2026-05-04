@@ -208,6 +208,8 @@ describe("AmortizacaoPage", () => {
     render(<AmortizacaoPage />);
 
     const aprendaMais = screen.getByTestId("amortizacao-aprenda-mais");
+    expect(aprendaMais.tagName.toLowerCase()).toBe("details");
+    expect(aprendaMais).not.toHaveAttribute("open");
     expect(
       within(aprendaMais).getByRole("heading", {
         name: /Entenda a amortiza[cç][aã]o/i,
@@ -226,11 +228,15 @@ describe("AmortizacaoPage", () => {
     ).toBeGreaterThan(0);
 
     const glossario = screen.getByTestId("amortizacao-glossario");
+    expect(glossario.tagName.toLowerCase()).toBe("details");
+    expect(glossario).not.toHaveAttribute("open");
     expect(within(glossario).getByText("Principal")).toBeInTheDocument();
     expect(within(glossario).getByText("Taxa por período")).toBeInTheDocument();
     expect(within(glossario).getByText("Saldo final")).toBeInTheDocument();
 
     const cuidados = screen.getByTestId("amortizacao-cuidados");
+    expect(cuidados.tagName.toLowerCase()).toBe("details");
+    expect(cuidados).not.toHaveAttribute("open");
     expect(
       within(cuidados).getByText("Simulação não substitui contrato"),
     ).toBeInTheDocument();
@@ -273,6 +279,12 @@ describe("AmortizacaoPage", () => {
       0,
     );
     expect(within(result).getByTestId("amortizacao-table")).toBeInTheDocument();
+    expect(
+      within(result).getByTestId("amortizacao-price-chart-layer"),
+    ).not.toHaveAttribute("open");
+    expect(
+      within(result).getByTestId("amortizacao-price-table-layer"),
+    ).not.toHaveAttribute("open");
     expect(within(result).getByText(/R\$ 7\.884,88/)).toBeInTheDocument();
     expect(
       within(result).getByTestId("amortizacao-saldo-chart"),
@@ -348,6 +360,12 @@ describe("AmortizacaoPage", () => {
     );
     expect(within(result).getByText(/SAC_PARCELA/i)).toBeInTheDocument();
     expect(
+      within(result).getByTestId("amortizacao-sac-chart-layer"),
+    ).not.toHaveAttribute("open");
+    expect(
+      within(result).getByTestId("amortizacao-sac-table-layer"),
+    ).not.toHaveAttribute("open");
+    expect(
       within(result).getByRole("heading", {
         name: /SAC reduz parcelas ao longo do tempo/i,
       }),
@@ -376,6 +394,12 @@ describe("AmortizacaoPage", () => {
     expect(
       within(result).getByTestId("amortizacao-compare-tables"),
     ).toBeInTheDocument();
+    expect(
+      within(result).getByTestId("amortizacao-compare-chart-layer"),
+    ).not.toHaveAttribute("open");
+    expect(
+      within(result).getByTestId("amortizacao-compare-table-layer"),
+    ).not.toHaveAttribute("open");
     expect(within(result).getByText(/COMPARE_SAC/i)).toBeInTheDocument();
     expect(
       within(result).getByRole("heading", {

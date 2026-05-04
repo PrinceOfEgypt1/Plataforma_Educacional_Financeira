@@ -13,6 +13,7 @@ import {
   AlertBanner,
   FormSection,
   EducationPanel,
+  ProgressiveSection,
 } from "@/components/ui";
 
 describe("<SummaryCard />", () => {
@@ -117,5 +118,33 @@ describe("<EducationPanel />", () => {
     });
     expect(panel).toBeInTheDocument();
     expect(panel).toHaveTextContent("conteúdo");
+  });
+});
+
+describe("<ProgressiveSection />", () => {
+  it("renderiza camada recolhida por padrão", () => {
+    render(
+      <ProgressiveSection title="Tabela" testId="progressive-section">
+        <p>detalhe</p>
+      </ProgressiveSection>,
+    );
+
+    const section = screen.getByTestId("progressive-section");
+    expect(section.tagName.toLowerCase()).toBe("details");
+    expect(section).not.toHaveAttribute("open");
+    expect(
+      screen.getByRole("heading", { name: /tabela/i }),
+    ).toBeInTheDocument();
+    expect(screen.getByText("detalhe")).toBeInTheDocument();
+  });
+
+  it("permite camada aberta por padrão quando solicitado", () => {
+    render(
+      <ProgressiveSection title="Resumo" defaultOpen testId="progressive-open">
+        <p>conteúdo principal</p>
+      </ProgressiveSection>,
+    );
+
+    expect(screen.getByTestId("progressive-open")).toHaveAttribute("open");
   });
 });

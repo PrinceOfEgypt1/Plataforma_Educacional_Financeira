@@ -51,6 +51,8 @@ describe("JurosPage — F5 (conteúdo educacional integrado)", () => {
     render(<JurosPage />);
     const secao = screen.getByTestId("juros-aprenda-mais");
     expect(secao).toBeInTheDocument();
+    expect(secao.tagName.toLowerCase()).toBe("details");
+    expect(secao).not.toHaveAttribute("open");
     expect(
       within(secao).getByRole("heading", {
         name: /aprenda mais sobre juros/i,

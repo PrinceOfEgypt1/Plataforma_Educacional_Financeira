@@ -12,3 +12,6 @@ export type { FormSectionProps } from "./FormSection";
 
 export { EducationPanel } from "./EducationPanel";
 export type { EducationPanelProps } from "./EducationPanel";
+
+export { ProgressiveSection } from "./ProgressiveSection";
+export type { ProgressiveSectionProps } from "./ProgressiveSection";

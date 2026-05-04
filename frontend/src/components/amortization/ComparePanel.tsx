@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import { ErrorState, EmptyState, LoadingState } from "@/components/states";
+import { ProgressiveSection } from "@/components/ui";
 import { describeApiError } from "@/lib/api/problem";
 import {
   compararAmortizacao,
@@ -87,12 +88,26 @@ function CompareResultArea({
   const firstChart = result.charts[0];
 
   return (
-    <div className="space-y-6" data-testid="amortizacao-compare-result">
+    <div className="space-y-4" data-testid="amortizacao-compare-result">
       <CompareSummaryGrid summary={result.summary} />
-      <AmortizacaoAlerts alerts={result.alerts} />
-      {firstChart ? <AmortizacaoSaldoChart chart={firstChart} /> : null}
-      <CompareTables price={result.tables.price} sac={result.tables.sac} />
       <AmortizacaoInterpretation interpretation={result.interpretation} />
+      <AmortizacaoAlerts alerts={result.alerts} />
+      {firstChart ? (
+        <ProgressiveSection
+          title="Gráfico"
+          description="Comparação visual do saldo devedor por sistema."
+          testId="amortizacao-compare-chart-layer"
+        >
+          <AmortizacaoSaldoChart chart={firstChart} />
+        </ProgressiveSection>
+      ) : null}
+      <ProgressiveSection
+        title="Tabelas"
+        description="Memória de cálculo PRICE e SAC com rolagem interna."
+        testId="amortizacao-compare-table-layer"
+      >
+        <CompareTables price={result.tables.price} sac={result.tables.sac} />
+      </ProgressiveSection>
     </div>
   );
 }

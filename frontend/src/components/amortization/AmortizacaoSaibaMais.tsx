@@ -48,28 +48,39 @@ export interface AmortizacaoGlossarioProps {
 
 export function AmortizacaoGlossario({ entries }: AmortizacaoGlossarioProps) {
   return (
-    <dl
-      className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3"
+    <div
+      className="grid grid-cols-1 gap-2 md:grid-cols-2"
       data-testid="amortizacao-glossario-list"
     >
       {entries.map((entry) => (
-        <div
+        <details
           key={entry.slug}
-          className="rounded-lg border border-slate-200 bg-white p-4 text-sm"
+          className="group rounded-xl border border-slate-200 bg-white text-sm"
         >
-          <dt
-            className="font-semibold"
-            style={{ color: "var(--color-brand-primary)" }}
+          <summary
+            className="flex cursor-pointer list-none items-center justify-between
+                       gap-3 px-3 py-2.5 font-semibold text-slate-800
+                       focus:outline-none focus-visible:ring-2
+                       focus-visible:ring-[var(--color-focus)]
+                       focus-visible:ring-offset-2"
           >
-            {entry.term}
-          </dt>
-          <dd className="mt-1 text-slate-600">{entry.shortDefinition}</dd>
-          <dd className="mt-2 text-xs leading-relaxed text-slate-500">
-            {entry.example}
-          </dd>
-        </div>
+            <span>{entry.term}</span>
+            <span
+              aria-hidden="true"
+              className="text-xs text-slate-400 group-open:text-[var(--color-brand-primary)]"
+            >
+              +
+            </span>
+          </summary>
+          <div className="border-t border-slate-100 px-3 py-3 text-slate-600">
+            <p>{entry.shortDefinition}</p>
+            <p className="mt-2 text-xs leading-relaxed text-slate-500">
+              {entry.example}
+            </p>
+          </div>
+        </details>
       ))}
-    </dl>
+    </div>
   );
 }
 
@@ -80,21 +91,34 @@ export interface AmortizacaoCuidadosProps {
 export function AmortizacaoCuidados({ alerts }: AmortizacaoCuidadosProps) {
   return (
     <ul
-      className="grid grid-cols-1 gap-3 md:grid-cols-2"
+      className="grid grid-cols-1 gap-2 md:grid-cols-2"
       data-testid="amortizacao-cuidados-list"
     >
       {alerts.map((alert) => (
-        <li
-          key={alert.slug}
-          className={cn(
-            "rounded-lg border p-4 text-sm leading-relaxed",
-            alert.severity === "warning"
-              ? "border-amber-200 bg-amber-50 text-amber-950"
-              : "border-blue-100 bg-blue-50/50 text-slate-700",
-          )}
-        >
-          <h3 className="font-semibold">{alert.title}</h3>
-          <p className="mt-1">{alert.description}</p>
+        <li key={alert.slug}>
+          <details
+            className={cn(
+              "group rounded-xl border text-sm leading-relaxed",
+              alert.severity === "warning"
+                ? "border-amber-200 bg-amber-50 text-amber-950"
+                : "border-blue-100 bg-blue-50/50 text-slate-700",
+            )}
+          >
+            <summary
+              className="flex cursor-pointer list-none items-center justify-between
+                         gap-3 px-3 py-2.5 font-semibold focus:outline-none
+                         focus-visible:ring-2 focus-visible:ring-[var(--color-focus)]
+                         focus-visible:ring-offset-2"
+            >
+              <span>{alert.title}</span>
+              <span aria-hidden="true" className="text-xs opacity-70">
+                +
+              </span>
+            </summary>
+            <p className="border-t border-current/10 px-3 py-3">
+              {alert.description}
+            </p>
+          </details>
         </li>
       ))}
     </ul>

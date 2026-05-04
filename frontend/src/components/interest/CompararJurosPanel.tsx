@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import { ErrorState, EmptyState, LoadingState } from "@/components/states";
+import { ProgressiveSection } from "@/components/ui";
 import { describeApiError, type InterestApiError } from "@/lib/api/problem";
 import { compararJuros } from "@/services/interest";
 import type { CompararJurosIn, CompararJurosOut } from "@/types/interest";
@@ -74,15 +75,29 @@ function CompararResultArea({
   const { result } = state;
   const firstChart = result.charts[0];
   return (
-    <div className="space-y-6" data-testid="comparar-juros-result">
+    <div className="space-y-4" data-testid="comparar-juros-result">
       <SummaryCompararGrid summary={result.summary} />
-      <JurosAlerts alerts={result.alerts} />
-      {firstChart ? <EvolucaoSaldoChart chart={firstChart} /> : null}
-      <CompararTabelas
-        simple={result.tables.simple}
-        compound={result.tables.compound}
-      />
       <JurosInterpretation interpretation={result.interpretation} />
+      <JurosAlerts alerts={result.alerts} />
+      {firstChart ? (
+        <ProgressiveSection
+          title="Gráfico"
+          description="Comparação visual dos regimes em uma camada dedicada."
+          testId="comparar-juros-chart-layer"
+        >
+          <EvolucaoSaldoChart chart={firstChart} />
+        </ProgressiveSection>
+      ) : null}
+      <ProgressiveSection
+        title="Tabelas"
+        description="Memória de cálculo dos dois regimes com rolagem interna."
+        testId="comparar-juros-table-layer"
+      >
+        <CompararTabelas
+          simple={result.tables.simple}
+          compound={result.tables.compound}
+        />
+      </ProgressiveSection>
     </div>
   );
 }

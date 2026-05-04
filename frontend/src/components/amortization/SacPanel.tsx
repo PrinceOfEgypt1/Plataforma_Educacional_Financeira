@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import { ErrorState, EmptyState, LoadingState } from "@/components/states";
+import { ProgressiveSection } from "@/components/ui";
 import { describeApiError } from "@/lib/api/problem";
 import {
   simularSac,
@@ -78,12 +79,26 @@ function SacResultArea({ state }: { readonly state: SimulationState<SacOut> }) {
   const firstChart = result.charts[0];
 
   return (
-    <div className="space-y-6" data-testid="amortizacao-sac-result">
+    <div className="space-y-4" data-testid="amortizacao-sac-result">
       <SacSummaryGrid summary={result.summary} />
-      <AmortizacaoAlerts alerts={result.alerts} />
-      {firstChart ? <AmortizacaoSaldoChart chart={firstChart} /> : null}
-      <AmortizacaoTable rows={rows} caption="Tabela SAC" />
       <AmortizacaoInterpretation interpretation={result.interpretation} />
+      <AmortizacaoAlerts alerts={result.alerts} />
+      {firstChart ? (
+        <ProgressiveSection
+          title="Gráfico"
+          description="Queda do saldo devedor em uma camada dedicada."
+          testId="amortizacao-sac-chart-layer"
+        >
+          <AmortizacaoSaldoChart chart={firstChart} />
+        </ProgressiveSection>
+      ) : null}
+      <ProgressiveSection
+        title="Tabela"
+        description="Memória de cálculo com rolagem interna, sem ocupar o fluxo principal."
+        testId="amortizacao-sac-table-layer"
+      >
+        <AmortizacaoTable rows={rows} caption="Tabela SAC" />
+      </ProgressiveSection>
     </div>
   );
 }

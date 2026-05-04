@@ -45,6 +45,16 @@ calculos, backend, API e contratos.
   voltar, sem redesenho profundo das areas funcionais.
 - Modulos em breve passaram a usar o mesmo header, aviso informativo e estado
   vazio visualmente mais consistente.
+- Correcao pos-inspecao visual do PR #19: `/amortizacao` e `/juros` passaram a
+  separar resultado essencial de camadas secundarias. Cards de resumo e
+  interpretacao curta ficam no fluxo principal; grafico, tabela, conteudo
+  educativo, glossario e cuidados ficam em camadas progressivas sob demanda.
+- A tabela de amortizacao nao fica mais aberta no fluxo principal; ela fica em
+  painel recolhivel com rolagem interna preservada.
+- O grafico nao compete mais com formulario, cards e conteudo pedagogico; ele
+  fica em camada recolhivel dedicada.
+- Glossario e cuidados de `/amortizacao` foram compactados em listas de
+  consulta sob demanda, preservando todo o conteudo versionado.
 
 ### Componentes UI e estados
 
@@ -60,6 +70,11 @@ calculos, backend, API e contratos.
 - `routes.test.tsx`: valida acao de voltar e aviso de modulo em breve.
 - `ShellLayout.test.tsx`: valida navegacao compacta mobile.
 - `tokens.test.ts`: valida novos tokens de fundacao visual.
+- `amortizacao.test.tsx`: valida que camadas de grafico, tabela, entenda,
+  glossario e cuidados iniciam recolhidas.
+- `juros.test.tsx` e `JurosSimplesPanel.test.tsx`: validam conteudo educativo
+  e camadas de grafico/tabela em exibicao progressiva.
+- `ui.test.tsx`: valida a primitiva `ProgressiveSection`.
 
 ## 4. Limites preservados
 
@@ -74,9 +89,8 @@ calculos, backend, API e contratos.
 
 ## 5. Residuos e proximas fatias
 
-- O polimento profundo de formulario, resultado, grafico, tabela,
-  interpretacao e conteudo educacional de `/juros` e `/amortizacao` permanece
-  para F3.
+- O polimento fino de conteudo, microcopy, responsividade e refinamento visual
+  das camadas de `/juros` e `/amortizacao` permanece para F3/F4.
 - Responsividade fina, breakpoints e validacao visual/a11y ampla permanecem
   para F4.
 - Screenshot Playwright nao foi gerado porque o Chromium do Playwright nao esta

@@ -119,6 +119,12 @@ describe("JurosSimplesPanel", () => {
     );
     expect(screen.getByTestId("summary-simples-grid")).toBeInTheDocument();
     expect(screen.getByTestId("amortizacao-simples-table")).toBeInTheDocument();
+    expect(screen.getByTestId("juros-simples-chart-layer")).not.toHaveAttribute(
+      "open",
+    );
+    expect(screen.getByTestId("juros-simples-table-layer")).not.toHaveAttribute(
+      "open",
+    );
     expect(screen.getByText(/Tudo certo/i)).toBeInTheDocument();
     expect(post).toHaveBeenCalledWith(
       "/interest/simple",

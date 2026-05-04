@@ -69,7 +69,7 @@ Resultado: `EXIT_FRONTEND_TYPECHECK=0`.
 
 ```text
 Test Files  24 passed (24)
-Tests       192 passed (192)
+Tests       194 passed (194)
 ```
 
 Resultado: `EXIT_FRONTEND_TEST=0`.
@@ -92,9 +92,9 @@ Recharts/jsdom documentado no fechamento da Sprint 3.
 ✓ Generating static pages (16/16)
 
 Route (app)                              Size     First Load JS
-┌ ○ /                                    204 B          96.5 kB
-├ ○ /amortizacao                         5.31 kB         233 kB
-└ ○ /juros                               6.16 kB         234 kB
+┌ ○ /                                    201 B          96.5 kB
+├ ○ /amortizacao                         5.5 kB          233 kB
+└ ○ /juros                               6.31 kB         234 kB
 ```
 
 Resultado: `EXIT_FRONTEND_BUILD=0`.
@@ -112,7 +112,7 @@ Resultados materiais do pipeline:
 - Backend ruff, ruff format, mypy, bandit e unit tests: OK.
 - Backend unit tests: 138 passed.
 - Frontend install, lint, format check, typecheck, tests e build: OK.
-- Frontend tests: 24 arquivos / 192 testes.
+- Frontend tests: 24 arquivos / 194 testes.
 
 Resultado: `EXIT_PIPELINE=0`.
 
@@ -141,6 +141,10 @@ instalado no WSL.
 
 ## 4. Observacoes de execucao
 
+- Apos reprova visual inicial do PR #19, a branch recebeu commit corretivo
+  para progressividade de UI. Os testes frontend passaram de 192 para 194
+  porque foram adicionadas verificacoes da primitiva `ProgressiveSection` e
+  das camadas recolhidas de resultado/conteudo.
 - Uma execucao intermediaria de `pnpm typecheck` foi descartada por corrida com
   `next build` sobre `.next/types`; o typecheck isolado posterior passou.
 - Uma execucao intermediaria de `pnpm build` dentro de here-string PowerShell

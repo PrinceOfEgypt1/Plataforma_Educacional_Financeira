@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import { ErrorState, EmptyState, LoadingState } from "@/components/states";
+import { ProgressiveSection } from "@/components/ui";
 import { describeApiError, type InterestApiError } from "@/lib/api/problem";
 import { simularJurosCompostos } from "@/services/interest";
 import type { JurosCompostosIn, JurosCompostosOut } from "@/types/interest";
@@ -77,12 +78,26 @@ function CompostosResultArea({
   const rows = result.tables[AMORTIZACAO_KEY] ?? [];
   const firstChart = result.charts[0];
   return (
-    <div className="space-y-6" data-testid="juros-compostos-result">
+    <div className="space-y-4" data-testid="juros-compostos-result">
       <SummaryCompostosGrid summary={result.summary} />
-      <JurosAlerts alerts={result.alerts} />
-      {firstChart ? <EvolucaoSaldoChart chart={firstChart} /> : null}
-      <AmortizacaoCompostaTable rows={rows} />
       <JurosInterpretation interpretation={result.interpretation} />
+      <JurosAlerts alerts={result.alerts} />
+      {firstChart ? (
+        <ProgressiveSection
+          title="Gráfico"
+          description="Evolução composta do saldo em uma camada dedicada."
+          testId="juros-compostos-chart-layer"
+        >
+          <EvolucaoSaldoChart chart={firstChart} />
+        </ProgressiveSection>
+      ) : null}
+      <ProgressiveSection
+        title="Tabela"
+        description="Memória de cálculo com rolagem interna."
+        testId="juros-compostos-table-layer"
+      >
+        <AmortizacaoCompostaTable rows={rows} />
+      </ProgressiveSection>
     </div>
   );
 }

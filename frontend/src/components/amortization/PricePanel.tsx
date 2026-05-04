@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import { ErrorState, EmptyState, LoadingState } from "@/components/states";
+import { ProgressiveSection } from "@/components/ui";
 import { describeApiError } from "@/lib/api/problem";
 import {
   simularPrice,
@@ -82,12 +83,26 @@ function PriceResultArea({
   const firstChart = result.charts[0];
 
   return (
-    <div className="space-y-6" data-testid="amortizacao-price-result">
+    <div className="space-y-4" data-testid="amortizacao-price-result">
       <PriceSummaryGrid summary={result.summary} />
-      <AmortizacaoAlerts alerts={result.alerts} />
-      {firstChart ? <AmortizacaoSaldoChart chart={firstChart} /> : null}
-      <AmortizacaoTable rows={rows} caption="Tabela PRICE" />
       <AmortizacaoInterpretation interpretation={result.interpretation} />
+      <AmortizacaoAlerts alerts={result.alerts} />
+      {firstChart ? (
+        <ProgressiveSection
+          title="Gráfico"
+          description="Evolução do saldo devedor em uma camada dedicada."
+          testId="amortizacao-price-chart-layer"
+        >
+          <AmortizacaoSaldoChart chart={firstChart} />
+        </ProgressiveSection>
+      ) : null}
+      <ProgressiveSection
+        title="Tabela"
+        description="Memória de cálculo com rolagem interna, sem ocupar o fluxo principal."
+        testId="amortizacao-price-table-layer"
+      >
+        <AmortizacaoTable rows={rows} caption="Tabela PRICE" />
+      </ProgressiveSection>
     </div>
   );
 }
