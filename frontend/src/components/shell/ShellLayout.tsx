@@ -1,9 +1,9 @@
 /**
  * `<ShellLayout />`
  *
- * Estrutura visual da shell: Sidebar + Header + área de conteúdo principal,
- * em grid responsivo. A sidebar desaparece em telas < md — o conteúdo segue
- * acessível e o Header permanece como âncora.
+ * Estrutura visual da shell: Sidebar + Header + área de conteúdo principal.
+ * Em telas menores, a navegação vira um menu compacto recolhível para manter
+ * troca de módulo sem depender do botão do navegador.
  *
  * Este componente é **orquestrador visual**; não acessa `usePathname` nem
  * estado global. A instrumentação de testes unitários fica pelo snapshot
@@ -13,6 +13,7 @@ import type { ReactNode } from "react";
 
 import { EducationalNotice } from "./EducationalNotice";
 import { Header } from "./Header";
+import { MobileModuleNav } from "./MobileModuleNav";
 import { Sidebar } from "./Sidebar";
 
 export interface ShellLayoutProps {
@@ -28,7 +29,7 @@ export function ShellLayout({ children, pathname }: ShellLayoutProps) {
   return (
     <div
       data-testid="shell-layout"
-      className="flex min-h-screen flex-col bg-slate-50"
+      className="flex min-h-screen flex-col bg-[var(--color-app-bg)]"
     >
       <EducationalNotice />
       <div className="flex flex-1 flex-col md:flex-row">
@@ -37,11 +38,12 @@ export function ShellLayout({ children, pathname }: ShellLayoutProps) {
         </aside>
         <div className="flex min-w-0 flex-1 flex-col">
           <Header {...pathnameProp} />
+          <MobileModuleNav {...pathnameProp} />
           <main
             id="main-content"
             role="main"
             aria-label="Conteúdo principal"
-            className="flex-1 px-6 py-6"
+            className="flex-1 px-4 py-5 sm:px-6 lg:px-8"
           >
             {children}
           </main>

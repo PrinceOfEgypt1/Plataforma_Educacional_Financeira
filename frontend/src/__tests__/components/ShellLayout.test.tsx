@@ -38,6 +38,18 @@ describe("<ShellLayout />", () => {
     expect(screen.getByTestId("educational-notice")).toBeInTheDocument();
   });
 
+  it("renderiza navegação compacta para mobile", () => {
+    render(
+      <ShellLayout pathname="/">
+        <span />
+      </ShellLayout>,
+    );
+    expect(screen.getByTestId("mobile-module-nav")).toBeInTheDocument();
+    expect(
+      screen.getByRole("navigation", { name: /menu compacto/i }),
+    ).toBeInTheDocument();
+  });
+
   it("renderiza múltiplos children preservando a ordem", () => {
     render(
       <ShellLayout pathname="/">

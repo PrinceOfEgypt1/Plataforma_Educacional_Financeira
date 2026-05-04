@@ -3,8 +3,9 @@
  *
  * Importa `page.tsx` do grupo `(app)`. Como a shell é montada pelo layout
  * do grupo e não pela Home em si, o render isolado de `<HomePage />` é
- * suficiente para cobrir o contrato: 12 cards, cada qual apontando para
- * o `href` correspondente em `@/config/modules`.
+ * suficiente para cobrir o contrato: módulos disponíveis priorizados,
+ * módulos futuros agrupados em seção própria e cada card apontando para o
+ * `href` correspondente em `@/config/modules`.
  */
 import { describe, it, expect } from "vitest";
 import { render, screen, within } from "@testing-library/react";
@@ -13,12 +14,21 @@ import HomePage from "@/app/(app)/page";
 import { MODULES } from "@/config/modules";
 
 describe("HomePage", () => {
-  it("renderiza grid com exatamente 12 módulos", () => {
+  it("separa módulos disponíveis e módulos em breve", () => {
     render(<HomePage />);
-    const list = screen.getByRole("list", { name: /lista de módulos/i });
-    const items = within(list).getAllByRole("listitem");
-    expect(items).toHaveLength(MODULES.length);
-    expect(items.length).toBe(12);
+    const availableList = screen.getByRole("list", {
+      name: /^lista de módulos$/i,
+    });
+    const plannedList = screen.getByRole("list", {
+      name: /^lista de módulos em breve$/i,
+    });
+
+    expect(within(availableList).getAllByRole("listitem")).toHaveLength(
+      MODULES.filter((mod) => mod.status === "disponivel").length,
+    );
+    expect(within(plannedList).getAllByRole("listitem")).toHaveLength(
+      MODULES.filter((mod) => mod.status === "em-construcao").length,
+    );
   });
 
   it("cada card aponta para o href correto do módulo", () => {

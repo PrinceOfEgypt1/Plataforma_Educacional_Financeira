@@ -5,9 +5,10 @@
  * Sprint 1 / 2 estabeleceu dois contratos distintos por status:
  *
  *   - `status === "em-construcao"` — página delega ao template
- *     `<ModulePage />`, que obriga título + AlertBanner("em construção") +
- *     EducationPanel("sobre {shortTitle}"). É o contrato herdado e segue
- *     válido para os módulos que ainda não foram implementados.
+ *     `<ModulePage />`, que obriga título + ação de voltar +
+ *     AlertBanner("em breve") + EducationPanel("sobre {shortTitle}"). É o
+ *     contrato herdado e segue válido para os módulos que ainda não foram
+ *     implementados.
  *
  *   - `status === "disponivel"` — o módulo tem sua própria página real.
  *     O contrato mínimo é: título do módulo como h1.
@@ -45,7 +46,7 @@ describe("Rotas-base — módulos em construção", () => {
     it.skip("(nenhum módulo em-construcao no momento)", () => {});
   }
   for (const mod of emConstrucao) {
-    it(`/${mod.slug} renderiza título, alert-banner e education-panel`, async () => {
+    it(`/${mod.slug} renderiza título, ação de voltar, aviso e education-panel`, async () => {
       const mod_ = await import(`@/app/(app)/${mod.slug}/page`);
       const Page = mod_.default as () => ReactElement;
       render(<Page />);
@@ -53,8 +54,15 @@ describe("Rotas-base — módulos em construção", () => {
       const heading = screen.getByRole("heading", { level: 1 });
       expect(heading).toHaveTextContent(mod.title);
 
-      const alert = screen.getByRole("alert");
-      expect(alert).toHaveTextContent(/em construção/i);
+      const back = screen.getByRole("link", {
+        name: /voltar para o dashboard inicial/i,
+      });
+      expect(back).toHaveAttribute("href", "/");
+
+      const notice = screen.getByRole("status", {
+        name: /aviso informativo/i,
+      });
+      expect(notice).toHaveTextContent(/em breve/i);
 
       const panel = screen.getByRole("complementary", {
         name: new RegExp(`sobre ${mod.shortTitle}`, "i"),
@@ -69,12 +77,16 @@ describe("Rotas-base — módulos disponíveis", () => {
     it.skip("(nenhum módulo disponivel no momento)", () => {});
   }
   for (const mod of disponiveis) {
-    it(`/${mod.slug} renderiza título do módulo`, async () => {
+    it(`/${mod.slug} renderiza título do módulo e ação de voltar`, async () => {
       const mod_ = await import(`@/app/(app)/${mod.slug}/page`);
       const Page = mod_.default as () => ReactElement;
       render(<Page />);
       const heading = screen.getByRole("heading", { level: 1 });
       expect(heading).toHaveTextContent(mod.title);
+      const back = screen.getByRole("link", {
+        name: /voltar para o dashboard inicial/i,
+      });
+      expect(back).toHaveAttribute("href", "/");
     });
   }
 });

@@ -26,8 +26,8 @@ export function EducationPanel({
       role="complementary"
       aria-label={`Conteúdo educativo: ${title}`}
       className={cn(
-        "rounded-lg border p-4 text-sm leading-relaxed",
-        "bg-blue-50/40 border-blue-100 text-slate-700",
+        "rounded-2xl border p-4 text-sm leading-relaxed shadow-sm",
+        "border-blue-100 bg-blue-50/60 text-slate-700",
         className,
       )}
     >

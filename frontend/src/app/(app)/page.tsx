@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { MODULES } from "@/config/modules";
+import { MODULES, type ModuleEntry } from "@/config/modules";
 import { EducationPanel } from "@/components/ui/EducationPanel";
+import { cn } from "@/lib/cn";
 
 export const metadata: Metadata = {
   title: "Início",
@@ -16,57 +17,106 @@ export const metadata: Metadata = {
  * da Sprint 1 §5.4 do PLANO).
  */
 export default function HomePage() {
+  const available = MODULES.filter((mod) => mod.status === "disponivel");
+  const planned = MODULES.filter((mod) => mod.status === "em-construcao");
+
   return (
-    <div className="mx-auto max-w-5xl">
-      <header className="mb-6">
-        <h1
-          className="text-2xl font-bold tracking-tight"
-          style={{ color: "var(--color-brand-primary)" }}
-        >
-          Plataforma Educacional Financeira
-        </h1>
-        <p className="mt-1 text-sm text-slate-500">
-          Simuladores e calculadoras para educação financeira pessoal. Selecione
-          um módulo para começar.
-        </p>
+    <div className="mx-auto max-w-6xl">
+      <header
+        className="mb-8 overflow-hidden rounded-2xl border border-slate-200
+                   bg-white shadow-sm"
+      >
+        <div className="border-l-4 border-[var(--color-brand-primary)] p-6 sm:p-8">
+          <span
+            className="rounded-full bg-[var(--color-learning-soft)] px-3 py-1
+                       text-[11px] font-semibold uppercase tracking-wider
+                       text-[var(--color-learning)]"
+          >
+            Educação financeira aplicada
+          </span>
+          <h1 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+            Plataforma Educacional Financeira
+          </h1>
+          <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600 sm:text-base">
+            Simule juros e amortização com contexto didático. Comece pelos
+            módulos disponíveis e acompanhe os próximos blocos planejados.
+          </p>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <Link
+              href="/juros"
+              className="rounded-full bg-[var(--color-brand-primary)] px-4 py-2
+                         text-sm font-semibold text-white shadow-sm
+                         transition-opacity hover:opacity-90 focus:outline-none
+                         focus-visible:ring-2 focus-visible:ring-[var(--color-focus)]
+                         focus-visible:ring-offset-2"
+            >
+              Abrir juros
+            </Link>
+            <Link
+              href="/amortizacao"
+              className="rounded-full border border-emerald-200 bg-emerald-50
+                         px-4 py-2 text-sm font-semibold text-emerald-700
+                         transition-colors hover:border-emerald-300
+                         focus:outline-none focus-visible:ring-2
+                         focus-visible:ring-[var(--color-focus)] focus-visible:ring-offset-2"
+            >
+              Ver amortização
+            </Link>
+          </div>
+        </div>
       </header>
 
       <section aria-label="Módulos disponíveis" className="mb-8">
-        <h2 className="mb-1 text-lg font-semibold text-slate-700">Módulos</h2>
-        <p className="mb-4 text-sm text-slate-500">
-          Nesta Sprint os módulos estão em construção — cada tela já entrega
-          contexto e aviso claro do que virá.
-        </p>
+        <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <h2 className="text-lg font-semibold text-slate-800">
+              Módulos disponíveis
+            </h2>
+            <p className="mt-1 text-sm text-slate-500">
+              Entradas reais já conectadas à API e protegidas por testes.
+            </p>
+          </div>
+          <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+            {available.length} disponíveis
+          </span>
+        </div>
 
         <ul
           role="list"
           aria-label="Lista de módulos"
+          className="grid grid-cols-1 gap-4 sm:grid-cols-2"
+        >
+          {available.map((mod) => (
+            <li key={mod.id}>
+              <ModuleCard module={mod} />
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section aria-label="Módulos em breve" className="mb-8">
+        <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <h2 className="text-lg font-semibold text-slate-800">
+              Próximos módulos
+            </h2>
+            <p className="mt-1 text-sm text-slate-500">
+              Áreas planejadas com propósito claro, ainda sem simulação ativa.
+            </p>
+          </div>
+          <span className="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
+            {planned.length} em breve
+          </span>
+        </div>
+
+        <ul
+          role="list"
+          aria-label="Lista de módulos em breve"
           className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
         >
-          {MODULES.map((mod) => (
+          {planned.map((mod) => (
             <li key={mod.id}>
-              <Link
-                href={mod.href}
-                aria-label={`Abrir módulo ${mod.title}`}
-                className="block rounded-xl border border-slate-200 bg-white p-5
-                           shadow-sm transition-all duration-200
-                           hover:border-blue-200 hover:shadow-md
-                           focus:outline-none focus-visible:ring-2
-                           focus-visible:ring-offset-2"
-              >
-                <h3 className="text-base font-semibold text-slate-800">
-                  {mod.title}
-                </h3>
-                <p className="mt-1 text-sm leading-relaxed text-slate-500">
-                  {mod.description}
-                </p>
-                <span
-                  className="mt-3 inline-block rounded-full bg-slate-100 px-2
-                             py-0.5 text-xs font-medium text-slate-500"
-                >
-                  Em construção
-                </span>
-              </Link>
+              <ModuleCard module={mod} />
             </li>
           ))}
         </ul>
@@ -74,10 +124,9 @@ export default function HomePage() {
 
       <EducationPanel title="Como a plataforma está organizada">
         <p>
-          Cada módulo representa uma situação financeira típica. A partir da
-          Sprint 2 os cálculos passarão a rodar contra a API do backend,
-          respeitando o envelope de sucesso e o contrato de erros RFC 7807
-          materializados na Fatia 1.
+          Cada módulo representa uma situação financeira típica. Módulos
+          disponíveis já consomem a API do backend; módulos em breve mostram
+          escopo e caminho de evolução sem prometer funcionalidade inexistente.
         </p>
         <p className="text-xs text-slate-500">
           Os valores exibidos nas simulações são sempre aproximações
@@ -86,5 +135,46 @@ export default function HomePage() {
         </p>
       </EducationPanel>
     </div>
+  );
+}
+
+function ModuleCard({ module }: { readonly module: ModuleEntry }) {
+  const available = module.status === "disponivel";
+  return (
+    <Link
+      href={module.href}
+      aria-label={`Abrir módulo ${module.title}`}
+      className={cn(
+        "block h-full rounded-2xl border bg-white p-5 shadow-sm",
+        "transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md",
+        "focus:outline-none focus-visible:ring-2",
+        "focus-visible:ring-[var(--color-focus)] focus-visible:ring-offset-2",
+        available
+          ? "border-emerald-200 hover:border-emerald-300"
+          : "border-slate-200 hover:border-amber-200",
+      )}
+    >
+      <div className="flex items-start justify-between gap-3">
+        <h3 className="text-base font-semibold text-slate-900">
+          {module.title}
+        </h3>
+        <span
+          className={cn(
+            "shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold",
+            available
+              ? "bg-emerald-50 text-emerald-700"
+              : "bg-amber-50 text-amber-700",
+          )}
+        >
+          {available ? "Disponível" : "Em breve"}
+        </span>
+      </div>
+      <p className="mt-2 text-sm leading-relaxed text-slate-600">
+        {module.description}
+      </p>
+      <span className="mt-4 inline-flex text-sm font-semibold text-[var(--color-brand-primary)]">
+        {available ? "Abrir simulador" : "Ver escopo planejado"}
+      </span>
+    </Link>
   );
 }

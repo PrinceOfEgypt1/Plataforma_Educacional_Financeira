@@ -31,18 +31,21 @@ export function Sidebar({ pathname }: SidebarProps) {
       aria-label="Módulos"
       data-testid="sidebar"
       className="h-full w-full shrink-0 overflow-y-auto
-                 border-r border-slate-200 bg-white px-3 py-5"
+                 border-r border-slate-200 bg-white px-3 py-5 shadow-sm"
     >
-      <div className="mb-4 px-3">
+      <div className="mb-5 rounded-2xl bg-[var(--color-brand-soft)] px-3 py-4">
         <span
           className="text-[11px] font-semibold uppercase tracking-wider
-                     text-slate-400"
+                     text-[var(--color-brand-secondary)]"
         >
           Plataforma
         </span>
-        <h2 className="text-sm font-semibold text-slate-800">
+        <h2 className="mt-1 text-sm font-bold leading-5 text-slate-900">
           Plataforma Educacional Financeira
         </h2>
+        <p className="mt-2 text-xs leading-5 text-slate-600">
+          Simule, compare e aprenda com contexto.
+        </p>
       </div>
 
       {grouped.map(({ group, items }) => (
@@ -54,7 +57,7 @@ export function Sidebar({ pathname }: SidebarProps) {
           <h3
             id={`nav-group-${group.id}`}
             className="px-3 pb-1 text-[11px] font-semibold uppercase
-                       tracking-wider text-slate-400"
+                       tracking-wider text-slate-500"
           >
             {group.label}
           </h3>

@@ -115,6 +115,29 @@ sobre PRICE, SAC, comparação, glossário e limites educacionais.
 - cards empilhados;
 - tabelas adaptadas ou com scroll horizontal controlado.
 
+### 10.1 Materialização Sprint 3.5/F2 — fundação visual
+
+Na Sprint 3.5/F2, a shell global passa a materializar a fundação visual
+necessária antes do polimento profundo de `/juros` e `/amortizacao`.
+
+Padrões materializados:
+
+- fundo global por token de superfície da aplicação;
+- sidebar desktop com agrupamento visual, item ativo e status semântico;
+- menu compacto recolhível em telas menores;
+- header superior com breadcrumb e identificação de produto educacional;
+- `ModuleHeader` canônico para páginas internas;
+- ação clara de voltar ao dashboard em páginas internas;
+- home organizada entre módulos disponíveis e módulos em breve;
+- estados visuais reutilizáveis para vazio, carregamento, erro e avisos;
+- Tailwind consumindo tokens do design system para marca, aprendizagem e
+  superfície.
+
+Limite da F2: esta fundação não altera cálculos financeiros, contratos,
+backend, API/OpenAPI ou o fluxo funcional dos simuladores. O redesenho profundo
+de formulário, resultado, gráfico, tabela, interpretação e conteúdo educacional
+permanece planejado para F3.
+
 ## 11. Formulários
 Princípios:
 - clareza;

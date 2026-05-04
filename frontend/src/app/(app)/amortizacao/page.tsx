@@ -6,6 +6,7 @@ import {
   AmortizacaoSaibaMais,
 } from "@/components/amortization/AmortizacaoSaibaMais";
 import { AmortizacaoTabs } from "@/components/amortization/AmortizacaoTabs";
+import { ModuleHeader } from "@/components/shell/ModuleHeader";
 import { MODULES } from "@/config/modules";
 import {
   CONTEUDO_NIVEL_1,
@@ -32,18 +33,20 @@ export default function AmortizacaoPage() {
 
   return (
     <div className="mx-auto max-w-6xl" data-testid="amortizacao-page">
-      <header className="mb-6">
-        <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-          {AMORTIZACAO_MODULE?.group.label ?? "Modulo"}
-        </span>
-        <h1
-          className="mt-1 text-2xl font-bold tracking-tight"
-          style={{ color: "var(--color-brand-primary)" }}
-        >
-          {title}
-        </h1>
-        <p className="mt-1 text-sm text-slate-500">{description}</p>
-      </header>
+      {AMORTIZACAO_MODULE ? (
+        <ModuleHeader
+          module={AMORTIZACAO_MODULE}
+          description={description}
+          className="mb-6"
+        />
+      ) : (
+        <header className="mb-6">
+          <h1 className="text-2xl font-bold tracking-tight text-slate-950">
+            {title}
+          </h1>
+          <p className="mt-1 text-sm text-slate-500">{description}</p>
+        </header>
+      )}
 
       <AmortizacaoTabs />
 

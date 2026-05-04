@@ -26,7 +26,9 @@ export function ErrorState({
     <div
       data-testid="error-state"
       role="alert"
-      className="flex flex-col items-center justify-center gap-3 py-12 text-center"
+      className="flex flex-col items-center justify-center gap-3 rounded-2xl
+                 border border-red-100 bg-red-50/60 px-4 py-12 text-center
+                 shadow-sm"
     >
       <div
         aria-hidden="true"

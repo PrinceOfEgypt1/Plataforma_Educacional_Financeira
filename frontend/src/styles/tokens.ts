@@ -15,6 +15,11 @@ export const tokens = {
       primary: "#1B4F72" as const, // Azul confiança — cor principal
       secondary: "#2E75B6" as const, // Azul médio — CTAs secundários
       accent: "#27AE60" as const, // Verde — destaques positivos
+      soft: "#E8F1F7" as const,
+    },
+    learning: {
+      primary: "#7C3AED" as const,
+      soft: "#F3E8FF" as const,
     },
     semantic: {
       success: "#16A34A" as const,
@@ -40,6 +45,12 @@ export const tokens = {
       700: "#334155" as const,
       800: "#1E293B" as const,
       900: "#0F172A" as const,
+    },
+    surface: {
+      app: "#F5F7FB" as const,
+      default: "#FFFFFF" as const,
+      muted: "#F8FAFC" as const,
+      focus: "#2E75B6" as const,
     },
   },
   typography: {
@@ -71,6 +82,7 @@ export const tokens = {
   },
   borderRadius: {
     card: "0.75rem" as const,
+    panel: "1rem" as const,
     button: "0.5rem" as const,
     badge: "9999px" as const,
     input: "0.375rem" as const,

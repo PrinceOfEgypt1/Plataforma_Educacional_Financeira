@@ -242,6 +242,21 @@ Docs vivos provavelmente impactados em F5:
 - `docs/ui/INVENTARIO_TELAS.md`
 - `docs/_meta/living_docs.json`
 
+### 10.1 Atualizacao Sprint 3.5/F2
+
+A F2 materializou parte da fundacao visual prevista neste plano e, por isso,
+atualizou `docs/07_UX_UI_e_Navegacao.md` e `docs/_meta/living_docs.json` para
+registrar:
+
+- tokens de superficie, aprendizagem, foco, radius e sombra;
+- `ModuleHeader` e acao clara de voltar em paginas internas;
+- menu compacto mobile;
+- home separando modulos disponiveis e modulos em breve;
+- estados visuais reutilizaveis mais consistentes.
+
+O polimento profundo das paginas reais `/juros` e `/amortizacao` continua
+reservado para F3.
+
 ## 11. Regra de planilha
 
 A planilha operacional nao deve ser alterada pela Codex nesta branch. O registro

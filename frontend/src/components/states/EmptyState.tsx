@@ -25,12 +25,14 @@ export function EmptyState({
     <div
       data-testid="empty-state"
       role="status"
-      className="flex flex-col items-center justify-center gap-3 py-12 text-center"
+      className="flex flex-col items-center justify-center gap-3 rounded-2xl
+                 border border-slate-200 bg-white px-4 py-12 text-center
+                 shadow-sm"
     >
       <div
         aria-hidden="true"
         className="flex h-10 w-10 items-center justify-center rounded-full
-                   bg-slate-100 text-slate-500"
+                   bg-[var(--color-surface-muted)] text-slate-500"
       >
         {icon}
       </div>

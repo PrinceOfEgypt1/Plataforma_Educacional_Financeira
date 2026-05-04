@@ -19,6 +19,7 @@ import { MODULES, type ModuleEntry } from "@/config/modules";
 import { AlertBanner } from "@/components/ui/AlertBanner";
 import { EducationPanel } from "@/components/ui/EducationPanel";
 import { EmptyState } from "@/components/states";
+import { ModuleHeader } from "@/components/shell/ModuleHeader";
 
 export function buildModuleMetadata(moduleId: string): Metadata {
   const mod = MODULES.find((m) => m.id === moduleId);
@@ -43,38 +44,28 @@ export function ModulePage({ moduleId }: ModulePageProps) {
   }
 
   return (
-    <div className="mx-auto max-w-3xl" data-testid={`module-page-${mod.id}`}>
-      <header className="mb-6">
-        <span
-          className="text-[11px] font-semibold uppercase tracking-wider
-                     text-slate-400"
-        >
-          {mod.group.label}
-        </span>
-        <h1
-          className="mt-1 text-2xl font-bold tracking-tight"
-          style={{ color: "var(--color-brand-primary)" }}
-        >
-          {mod.title}
-        </h1>
-        <p className="mt-1 text-sm text-slate-500">{mod.description}</p>
-      </header>
+    <div
+      className="mx-auto max-w-4xl space-y-6"
+      data-testid={`module-page-${mod.id}`}
+    >
+      <ModuleHeader module={mod} />
 
-      <AlertBanner level="warning" title="Módulo em construção">
-        A calculadora deste módulo será integrada à API da plataforma a partir
-        da próxima Sprint. Até lá, esta página serve como ponto de entrada
-        navegável e descrição do escopo.
+      <AlertBanner level="info" title="Módulo em breve">
+        Esta área faz parte do roadmap da plataforma. Ela já tem navegação,
+        contexto e retorno claro para o dashboard, mas ainda não executa
+        simulações.
       </AlertBanner>
 
-      <div className="mt-6">
+      <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
         <EmptyState
-          title="Ainda não há simulações para este módulo"
-          description="Em breve, esta tela receberá formulário de entrada e
-                       apresentação de resultado padronizada."
+          title="Simulador ainda não disponível"
+          description="Esta tela receberá formulário, resultado, interpretação
+                       educativa e estados padronizados em uma fatia futura."
+          icon="•"
         />
       </div>
 
-      <div className="mt-6">
+      <div>
         <EducationPanel title={`Sobre ${mod.shortTitle}`}>
           <p>{mod.description}</p>
           <p className="text-xs text-slate-500">

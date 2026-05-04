@@ -19,6 +19,7 @@
 import type { Metadata } from "next";
 
 import { JurosSaibaMais, JurosTabs } from "@/components/interest";
+import { ModuleHeader } from "@/components/shell/ModuleHeader";
 import { MODULES } from "@/config/modules";
 import { CONTEUDO_NIVEL_1 } from "@/content/juros";
 
@@ -39,18 +40,20 @@ export default function JurosPage() {
 
   return (
     <div className="mx-auto max-w-6xl" data-testid="juros-page">
-      <header className="mb-6">
-        <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-          {JUROS_MODULE?.group.label ?? "Módulo"}
-        </span>
-        <h1
-          className="mt-1 text-2xl font-bold tracking-tight"
-          style={{ color: "var(--color-brand-primary)" }}
-        >
-          {title}
-        </h1>
-        <p className="mt-1 text-sm text-slate-500">{description}</p>
-      </header>
+      {JUROS_MODULE ? (
+        <ModuleHeader
+          module={JUROS_MODULE}
+          description={description}
+          className="mb-6"
+        />
+      ) : (
+        <header className="mb-6">
+          <h1 className="text-2xl font-bold tracking-tight text-slate-950">
+            {title}
+          </h1>
+          <p className="mt-1 text-sm text-slate-500">{description}</p>
+        </header>
+      )}
 
       <JurosTabs />
 

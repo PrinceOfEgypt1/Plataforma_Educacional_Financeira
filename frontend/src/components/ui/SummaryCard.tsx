@@ -41,7 +41,7 @@ export function SummaryCard({
       data-testid="summary-card"
       aria-label={`Resumo: ${label}`}
       className={cn(
-        "rounded-xl border border-slate-200 bg-white p-4 shadow-sm",
+        "rounded-2xl border border-slate-200 bg-white p-4 shadow-sm",
         className,
       )}
     >

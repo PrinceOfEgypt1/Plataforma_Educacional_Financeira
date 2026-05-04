@@ -69,7 +69,7 @@
       "category": "VIVO",
       "title": "UX/UI e Navegação",
       "materialized_in_repo": true,
-      "note": "Sprint 3 — F5: §9.1 registra a seção educacional visível da página /amortizacao (aprenda mais, glossário e cuidados)."
+      "note": "Sprint 3.5 — F2: §10.1 registra fundação visual aplicada (tokens, shell, navegação mobile, ModuleHeader, voltar, home e estados). Mantém Sprint 3 — F5: §9.1 sobre seção educacional de /amortizacao."
     },
     {
       "id": "doc_08",

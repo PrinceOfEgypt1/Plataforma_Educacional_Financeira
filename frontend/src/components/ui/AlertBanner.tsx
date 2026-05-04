@@ -40,6 +40,13 @@ const LEVEL_LABEL: Record<AlertLevel, string> = {
   error: "Aviso de erro",
 };
 
+const LEVEL_SURFACE: Record<AlertLevel, string> = {
+  info: "border-blue-100 bg-blue-50/70",
+  success: "border-emerald-100 bg-emerald-50/70",
+  warning: "border-amber-100 bg-amber-50/70",
+  error: "border-red-100 bg-red-50/70",
+};
+
 export function AlertBanner({
   level = "info",
   title,
@@ -53,8 +60,8 @@ export function AlertBanner({
       role={LEVEL_ROLE[level]}
       aria-label={LEVEL_LABEL[level]}
       className={cn(
-        "flex items-start gap-3 rounded-md border px-4 py-3 text-sm",
-        "border-slate-200 bg-white",
+        "flex items-start gap-3 rounded-xl border px-4 py-3 text-sm shadow-sm",
+        LEVEL_SURFACE[level],
         className,
       )}
       style={{

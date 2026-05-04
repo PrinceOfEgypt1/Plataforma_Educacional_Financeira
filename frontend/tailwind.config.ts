@@ -10,9 +10,18 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          50: "#eff6ff",
-          500: "#3b82f6",
-          900: "#1e3a5f",
+          50: "var(--color-brand-soft)",
+          500: "var(--color-brand-secondary)",
+          900: "var(--color-brand-primary)",
+        },
+        learning: {
+          50: "var(--color-learning-soft)",
+          600: "var(--color-learning)",
+        },
+        surface: {
+          app: "var(--color-app-bg)",
+          default: "var(--color-surface)",
+          muted: "var(--color-surface-muted)",
         },
       },
     },

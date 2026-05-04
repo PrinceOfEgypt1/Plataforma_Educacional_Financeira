@@ -10,6 +10,9 @@
   --color-brand-primary: #1b4f72;
   --color-brand-secondary: #2e75b6;
   --color-brand-accent: #27ae60;
+  --color-brand-soft: #e8f1f7;
+  --color-learning: #7c3aed;
+  --color-learning-soft: #f3e8ff;
 
   /* ── Semantic ───────────────────────────────── */
   --color-success: #16a34a;
@@ -27,9 +30,19 @@
   --color-neutral-50: #f8fafc;
   --color-neutral-100: #f1f5f9;
   --color-neutral-200: #e2e8f0;
+  --color-neutral-300: #cbd5e1;
+  --color-neutral-400: #94a3b8;
   --color-neutral-500: #64748b;
+  --color-neutral-600: #475569;
   --color-neutral-700: #334155;
+  --color-neutral-800: #1e293b;
   --color-neutral-900: #0f172a;
+
+  /* ── Surfaces/focus ─────────────────────────── */
+  --color-app-bg: #f5f7fb;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f8fafc;
+  --color-focus: #2e75b6;
 
   /* ── Typography ─────────────────────────────── */
   --font-sans: Inter, system-ui, -apple-system, sans-serif;
@@ -43,7 +56,13 @@
 
   /* ── Border radius ──────────────────────────── */
   --radius-card: 0.75rem;
+  --radius-panel: 1rem;
   --radius-button: 0.5rem;
   --radius-badge: 9999px;
   --radius-input: 0.375rem;
+
+  /* ── Shadows ────────────────────────────────── */
+  --shadow-card:
+    0 1px 3px 0 rgb(15 23 42 / 0.08), 0 1px 2px -1px rgb(15 23 42 / 0.08);
+  --shadow-elevated: 0 16px 40px -24px rgb(15 23 42 / 0.35);
 }

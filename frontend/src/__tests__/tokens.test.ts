@@ -17,6 +17,18 @@ describe("Design Tokens — Brand", () => {
   it("define cor de destaque", () => {
     expect(tokens.colors.brand.accent).toBe("#27AE60");
   });
+  it("define cor suave de marca para superfícies", () => {
+    expect(tokens.colors.brand.soft).toBe("#E8F1F7");
+  });
+});
+
+describe("Design Tokens — Visual foundation", () => {
+  it("define tokens de aprendizado e superfície", () => {
+    expect(tokens.colors.learning.primary).toBe("#7C3AED");
+    expect(tokens.colors.learning.soft).toBe("#F3E8FF");
+    expect(tokens.colors.surface.app).toBe("#F5F7FB");
+    expect(tokens.colors.surface.default).toBe("#FFFFFF");
+  });
 });
 
 describe("Design Tokens — Financial", () => {
