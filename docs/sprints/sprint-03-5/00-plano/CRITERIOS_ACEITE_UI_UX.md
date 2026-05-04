@@ -8,6 +8,9 @@ Base: `4a9d30e`
 - [ ] A home comunica claramente quais modulos estao disponiveis e quais estao
   em construcao.
 - [ ] A primeira dobra parece produto real, nao scaffold tecnico.
+- [ ] A primeira tela prioriza a acao principal e o resultado principal.
+- [ ] A aplicacao usa cores de forma mais expressiva, semantica e coerente com
+  risco, informacao, sucesso e decisao financeira.
 - [ ] Hierarquia visual separa titulo, contexto, entrada, resultado-chave,
   detalhes e educacao.
 - [ ] Cards nao competem todos com o mesmo peso.
@@ -28,6 +31,12 @@ Base: `4a9d30e`
 - [ ] Ajuda de campo explica unidade, periodo e exemplo.
 - [ ] Erros aparecem perto do campo afetado.
 - [ ] Resultado-chave aparece antes dos detalhes longos.
+- [ ] Telas internas oferecem botao, link ou acao clara de voltar.
+- [ ] Conteudo extenso e detalhes auxiliares nao competem com a tarefa
+  principal.
+- [ ] Formulas, memoria de calculo, glossario, detalhes pedagogicos e
+  explicacoes complementares sao considerados para modais, accordions, abas ou
+  secoes colapsaveis.
 - [ ] Comparacoes explicam o trade-off financeiro, nao apenas a diferenca
   numerica.
 - [ ] Placeholders indicam roadmap sem parecer tela abandonada.
@@ -42,6 +51,8 @@ Base: `4a9d30e`
 - [ ] Graficos mantem altura, legenda e eixos legiveis.
 - [ ] Formularios permanecem utilizaveis em coluna unica.
 - [ ] Botoes e tabs nao quebram texto nem criam overflow incoerente.
+- [ ] Quando o conteudo nao couber com clareza em uma tela, a organizacao usa
+  abas, modais, accordions, paineis ou colapso progressivo.
 - [ ] Aviso educacional persistente nao bloqueia uso em mobile.
 
 ## 4. Checklist de acessibilidade
@@ -65,6 +76,8 @@ Base: `4a9d30e`
   explicita para variacoes.
 - [ ] `SummaryCard`, `AlertBanner`, `EducationPanel`, `FormSection` e estados
   compartilham escala visual.
+- [ ] Formulario, resultado, interpretacao, tabela, grafico e conteudo
+  educacional aparecem como blocos claramente distintos.
 - [ ] `tokens.ts`, `tokens.css` e Tailwind nao divergem.
 - [ ] Cores hardcoded fora de tokens sao eliminadas ou justificadas.
 - [ ] Modulos prontos e placeholders usam o mesmo shell, mas com estados
@@ -94,6 +107,11 @@ Uma fatia da Sprint 3.5 deve ser rejeitada se:
 - Melhorar desktop e piorar mobile.
 - Criar componente bonito que nao respeita tokens ou acessibilidade.
 - Esconder problemas de tabela/grafico atras de overflow sem orientacao.
+- Manter muita informacao simultanea sem divisao por prioridade, abas, modais,
+  accordions ou secoes colapsaveis.
+- Manter telas internas sem acao clara de voltar.
+- Manter conteudo educacional extenso competindo visualmente com a tarefa
+  principal.
 - Manter home dizendo que tudo esta em construcao.
 - Manter pagina real com aparencia de scaffold.
 - Introduzir calculo financeiro no frontend.
@@ -111,6 +129,10 @@ A Sprint 3.5 deve ser considerada concluida quando:
 - Cards, formularios, tabelas, graficos, alertas e estados tem padrao visual
   coerente.
 - Conteudo educacional aparece no momento certo da jornada.
+- Conteudo complementar pode ser acessado progressivamente por modais,
+  accordions, abas ou paineis, sem sobrecarregar a primeira tela.
+- A interface deixa de parecer scaffold tecnico e passa a parecer produto
+  educacional financeiro profissional.
 - Docs vivos e inventario de telas foram atualizados na fatia de fechamento.
 - Gates minimos passaram.
 - Evidencias de desktop/tablet/mobile e acessibilidade basica foram registradas

@@ -161,6 +161,40 @@ Gravidade: media.
 Tipo: visual, usabilidade, consistencia.
 Fatia recomendada: F3.
 
+
+### Adendo do PO Moises - inspecao visual real de `/juros`
+
+Apos a entrega inicial da F1, o PO Moises inspecionou a aplicacao real em
+`localhost:3000/juros` e acrescentou observacoes visuais obrigatorias para o
+diagnostico. Esses pontos passam a fazer parte do criterio real de produto, nao
+como comentario cosmetico.
+
+Observacoes incorporadas:
+
+- faltam botoes ou acoes claras de voltar nas telas internas;
+- o conteudo precisa caber melhor na primeira tela e, quando nao couber, deve
+  ser organizado por abas, modais, accordions, secoes colapsaveis ou padrao
+  equivalente;
+- faltam cores com uso semantico e expressivo;
+- algumas informacoes devem migrar para modais, especialmente formulas, memoria
+  de calculo, glossario, detalhes pedagogicos e explicacoes complementares;
+- a tela atual contem muita informacao simultanea e precisa de divisao mais
+  clara entre formulario, resultado, interpretacao, tabela, grafico e conteudo
+  educacional.
+
+Interpretacao tecnica: `/juros` esta funcional, mas ainda tem aparencia tecnica
+e de scaffold. A tela mostra pouca forca visual, uso semantico de cores aquem do
+esperado, excesso de conteudo educacional exposto ao mesmo tempo e hierarquia
+visual insuficiente. A primeira tela deve priorizar a acao principal e o
+resultado principal; conteudo extenso deve apoiar a tarefa, nao competir com ela.
+
+Impacto: as proximas fatias devem tratar densidade, navegacao interna, cor,
+hierarquia e divulgacao progressiva como requisitos de produto.
+
+Gravidade: alta.
+Tipo: visual, usabilidade, conteudo, responsividade.
+Fatia recomendada: F2/F3/F4.
+
 ### Pagina `/amortizacao`
 
 Forcas:
@@ -504,6 +538,11 @@ Fatia recomendada: F2.
 | UIUX-008 | Graficos | media | visual/acessibilidade | charts com hex hardcoded | Tokenizar cores e melhorar fallback textual | F3/F4 |
 | UIUX-009 | Estados | media | visual/consistencia | `states/*`, panels | Criar acabamento visual e sucesso padrao | F4 |
 | UIUX-010 | Placeholders | media | visual/conteudo | `ModulePage.tsx` | Tratar roadmap de forma mais elegante | F2/F4 |
+| UIUX-011 | Voltar em telas internas | alta | usabilidade/navegacao | observacao PO em `localhost:3000/juros` | Adicionar acao clara de voltar ou breadcrumb acionavel | F2/F4 |
+| UIUX-012 | Excesso simultaneo de informacao | alta | visual/usabilidade/conteudo | observacao PO em `/juros` | Dividir conteudo em abas, modais, accordions ou secoes colapsaveis | F3/F4 |
+| UIUX-013 | Pouca cor | alta | visual/consistencia | observacao PO em `/juros` + diagnostico de tokens | Aplicar cores semanticas com intencao pedagogica e financeira | F2/F3 |
+| UIUX-014 | Modais para detalhes | media | usabilidade/conteudo | observacao PO em `/juros` | Considerar modais para formulas, memoria de calculo, glossario e detalhes | F3 |
+| UIUX-015 | Primeira tela sem foco suficiente | alta | visual/usabilidade | observacao PO em `/juros` | Priorizar acao principal e resultado principal antes de conteudo extenso | F3 |
 
 ## 5. Analise de consistencia visual
 
@@ -550,3 +589,6 @@ falta de comprovacao visual/e2e e ausencia de navegacao mobile global.
 4. Atualizar docs vivos apenas em F5, quando a UI final estiver comprovada.
 5. Instalar ou preparar browsers Playwright antes de exigir screenshot/a11y
    como gate bloqueante.
+6. Incorporar as observacoes do PO: voltar nas telas internas, uso mais
+   expressivo de cor, divulgacao progressiva por abas/modais/accordions e
+   reducao de informacao simultanea na primeira tela.

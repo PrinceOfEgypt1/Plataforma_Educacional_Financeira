@@ -15,6 +15,12 @@ backend, pipeline ou escopo de negocio. O foco e aplicar melhoria UI/UX sobre
 as superficies ja materializadas e deixar criterios objetivos para rejeitar
 entregas visualmente fracas.
 
+Adendo do PO Moises: a inspecao real de `localhost:3000/juros` confirmou que a
+interface funcional ainda parece tecnica/scaffold, com pouca cor, excesso de
+informacao simultanea, falta de acao clara de voltar e conteudo educacional
+competindo com a tarefa principal. Esses pontos passam a orientar as fatias F2 a
+F4.
+
 ## 2. Motivo da insercao antes da Sprint 4
 
 A Sprint 3 fechou tecnicamente verde e entregou o modulo PRICE/SAC de ponta a
@@ -89,6 +95,8 @@ Escopo recomendado:
 - Eliminar drift entre `tokens.ts`, `tokens.css`, Tailwind e componentes.
 - Melhorar shell global, sidebar, header, home e tratamento mobile de
   navegacao.
+- Definir padrao de acao "voltar" ou breadcrumb acionavel para telas internas.
+- Aumentar uso semantico de cores sem quebrar acessibilidade ou tokens.
 
 Arquivos provaveis:
 
@@ -116,6 +124,11 @@ Escopo recomendado:
 - Tornar a leitura de resultado mais orientada a decisao.
 - Padronizar copy, acentos, labels, unidades e tom pedagogico.
 - Reforcar que o calculo oficial segue no backend.
+- Reduzir excesso simultaneo de informacao usando abas, modais, accordions,
+  secoes colapsaveis ou organizacao equivalente.
+- Considerar modais para formulas, memoria de calculo, glossario, detalhes
+  pedagogicos e explicacoes complementares.
+- Priorizar na primeira tela a acao principal e o resultado principal.
 
 Arquivos provaveis:
 
@@ -140,6 +153,8 @@ Escopo recomendado:
 - Revisar breakpoints 375px, 768px, 1280px e 1920px quando possivel.
 - Validar foco, contraste, labels, aria, estados loading/error/empty/success.
 - Melhorar tabelas e graficos em telas pequenas.
+- Validar que a divisao entre formulario, resultado, interpretacao, tabela,
+  grafico e conteudo educacional permanece clara em mobile/tablet/desktop.
 - Registrar evidencia visual real se Playwright/browser estiver disponivel.
 
 Arquivos provaveis:
@@ -186,6 +201,10 @@ Arquivos provaveis:
 - Tabelas longas e graficos podem funcionar tecnicamente, mas ainda parecer
   densos e pouco premium.
 - Falta de browser Playwright no WSL limita evidencia visual automatizada.
+- Persistir excesso de informacao simultanea pode manter a percepcao de
+  scaffold tecnico mesmo com componentes funcionais.
+- Resolver cor sem criterio semantico pode gerar aparencia decorativa, nao
+  pedagogica.
 
 ## 8. Dependencias
 
