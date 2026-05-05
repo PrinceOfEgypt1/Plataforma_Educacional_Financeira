@@ -1,109 +1,226 @@
-/**
- * Smoke + integração — `/juros` renderiza o módulo real e expõe o
- * conteúdo educacional da F5 abaixo das tabs.
- *
- * Camadas validadas:
- *   1. F4 (PR #9): tabs + formulário inicial (juros simples).
- *   2. F5 (Sprint 2): seção "Aprenda mais sobre juros" com os quatro
- *      blocos de Nível 1, ligados ao backend educacional via
- *      `frontend/src/content/juros/nivel-1.ts`. Cada bloco é renderizado
- *      pelo `<JurosSaibaMais />` dentro de um `<EducationPanel />`
- *      (`role="complementary"` herdado).
- */
-import { render, screen, within } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { render, screen, waitFor, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
-/* ResizeObserver — recharts usa em runtime; jsdom não traz nativamente.
- * Tipado sem `any`: interface local + `vi.stubGlobal`. */
-interface MinimalResizeObserver {
-  observe(): void;
-  unobserve(): void;
-  disconnect(): void;
-}
-class NoopResizeObserver implements MinimalResizeObserver {
+import type {
+  CompararJurosOut,
+  JurosCompostosOut,
+  JurosSimplesOut,
+} from "@/types/interest";
+
+class NoopResizeObserver {
   observe(): void {}
   unobserve(): void {}
   disconnect(): void {}
 }
+
 vi.stubGlobal("ResizeObserver", NoopResizeObserver);
 
 vi.mock("next/navigation", () => ({
   usePathname: () => "/juros",
-  useRouter: () => ({ push: () => {} }),
+}));
+
+vi.mock("@/services/interest", () => ({
+  simularJurosSimples: vi.fn(),
+  simularJurosCompostos: vi.fn(),
+  compararJuros: vi.fn(),
 }));
 
 import JurosPage from "@/app/(app)/juros/page";
-import { CONTEUDO_NIVEL_1 } from "@/content/juros";
+import {
+  compararJuros,
+  simularJurosCompostos,
+  simularJurosSimples,
+} from "@/services/interest";
 
-describe("JurosPage — F4 (módulo real, não placeholder)", () => {
-  it("renderiza tabs e formulário inicial (juros simples)", () => {
-    render(<JurosPage />);
-    expect(screen.getByTestId("juros-page")).toBeInTheDocument();
-    expect(screen.getByTestId("juros-tabs")).toBeInTheDocument();
-    expect(screen.getByTestId("juros-simples-form")).toBeInTheDocument();
-    // NÃO deve aparecer o texto do placeholder genérico.
-    expect(screen.queryByText(/Módulo em construção/i)).not.toBeInTheDocument();
+const SIMPLE_OUT: JurosSimplesOut = {
+  summary: {
+    principal: "180000.00",
+    taxa_mensal: "0.015000",
+    prazo_meses: 60,
+    juros_totais: "162000.00",
+    montante_final: "342000.00",
+  },
+  tables: {
+    amortizacao: [
+      {
+        periodo: 1,
+        saldo_inicial: "180000.00",
+        juros_periodo: "2700.00",
+        saldo_final: "182700.00",
+      },
+    ],
+  },
+  charts: [
+    {
+      x_label: "Mês",
+      y_label: "Saldo",
+      series: [
+        {
+          label: "Simples",
+          kind: "simples",
+          points: ["182700.00", "185400.00"],
+        },
+      ],
+    },
+  ],
+  interpretation: { headline: "Linear", body: "Crescimento linear." },
+  alerts: [],
+};
+
+const COMPOUND_OUT: JurosCompostosOut = {
+  summary: {
+    principal: "180000.00",
+    taxa_mensal: "0.015000",
+    prazo_meses: 60,
+    aporte_mensal: "0.00",
+    juros_totais: "260000.00",
+    total_aportado: "0.00",
+    total_investido: "180000.00",
+    montante_final: "440000.00",
+  },
+  tables: {
+    amortizacao: [
+      {
+        periodo: 1,
+        saldo_inicial: "180000.00",
+        juros_periodo: "2700.00",
+        aporte: "0.00",
+        saldo_final: "182700.00",
+      },
+    ],
+  },
+  charts: [
+    {
+      x_label: "Mês",
+      y_label: "Saldo",
+      series: [{ label: "Composto", kind: "composto", points: ["182700.00"] }],
+    },
+  ],
+  interpretation: { headline: "Composto", body: "Crescimento composto." },
+  alerts: [],
+};
+
+const COMPARE_OUT: CompararJurosOut = {
+  summary: {
+    principal: "180000.00",
+    taxa_mensal: "0.015000",
+    prazo_meses: 60,
+    montante_simples: "342000.00",
+    montante_composto: "440000.00",
+    diferenca: "98000.00",
+    razao: "1.286550",
+  },
+  tables: {
+    simple: [
+      {
+        periodo: 1,
+        saldo_inicial: "180000.00",
+        juros_periodo: "2700.00",
+        saldo_final: "182700.00",
+      },
+    ],
+    compound: [
+      {
+        periodo: 1,
+        saldo_inicial: "180000.00",
+        juros_periodo: "2700.00",
+        aporte: "0.00",
+        saldo_final: "182700.00",
+      },
+    ],
+  },
+  charts: [
+    {
+      x_label: "Mês",
+      y_label: "Saldo",
+      series: [
+        { label: "Simples", kind: "simples", points: ["182700.00"] },
+        { label: "Composto", kind: "composto", points: ["182700.00"] },
+      ],
+    },
+  ],
+  interpretation: { headline: "Diferença", body: "Composto diverge." },
+  alerts: [],
+};
+
+const simpleMock = vi.mocked(simularJurosSimples);
+const compoundMock = vi.mocked(simularJurosCompostos);
+const compareMock = vi.mocked(compararJuros);
+
+describe("/juros — Financial Cockpit", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    simpleMock.mockResolvedValue(SIMPLE_OUT);
+    compoundMock.mockResolvedValue(COMPOUND_OUT);
+    compareMock.mockResolvedValue(COMPARE_OUT);
   });
-});
 
-describe("JurosPage — F5 (conteúdo educacional integrado)", () => {
-  it("renderiza a seção 'Aprenda mais sobre juros' abaixo das tabs", () => {
+  it("renderiza cockpit com subtabs, KPIs, gráfico central e painel educacional", async () => {
     render(<JurosPage />);
-    const secao = screen.getByTestId("juros-aprenda-mais");
-    expect(secao).toBeInTheDocument();
+
+    expect(screen.getByTestId("juros-cockpit")).toBeInTheDocument();
+    expect(screen.getByTestId("cockpit-subtab-simples")).toBeInTheDocument();
+    expect(screen.getByTestId("cockpit-input-panel")).toBeInTheDocument();
+    expect(screen.getByTestId("cockpit-kpi-strip")).toBeInTheDocument();
+    expect(screen.getByTestId("cockpit-chart-panel")).toBeInTheDocument();
+    expect(screen.getByTestId("cockpit-education-panel")).toBeInTheDocument();
+    expect(screen.getByTestId("cockpit-insight-bar")).toBeInTheDocument();
+
+    await waitFor(() => expect(simpleMock).toHaveBeenCalled());
+    expect(simpleMock).toHaveBeenCalledWith({
+      principal: "180000.00",
+      taxa_mensal: "0.015000",
+      prazo_meses: 60,
+    });
+  });
+
+  it("navega por juros compostos e comparar usando os services existentes", async () => {
+    const user = userEvent.setup();
+    render(<JurosPage />);
+
+    await user.click(screen.getByRole("tab", { name: /juros compostos/i }));
+    await waitFor(() => expect(compoundMock).toHaveBeenCalled());
+    expect(screen.getByText(/CRESCIMENTO COMPOSTO/i)).toBeInTheDocument();
+
+    await user.click(screen.getByRole("tab", { name: /^Comparar$/i }));
+    await waitFor(() => expect(compareMock).toHaveBeenCalled());
     expect(
-      within(secao).getByRole("heading", {
-        name: /aprenda mais sobre juros/i,
-        level: 2,
-      }),
+      screen.getByText(/CRESCIMENTOS SIMPLES × COMPOSTO/i),
     ).toBeInTheDocument();
   });
 
-  it.each(CONTEUDO_NIVEL_1)(
-    "expõe o bloco de Nível 1 '$slug' com seu título completo",
-    (bloco) => {
-      render(<JurosPage />);
-      // Cada bloco vira um EducationPanel (role=complementary) com h3=título.
-      expect(
-        screen.getByRole("heading", { name: bloco.title }),
-      ).toBeInTheDocument();
-    },
-  );
-
-  it("renderiza um EducationPanel por bloco (4 ao todo) — role=complementary", () => {
-    render(<JurosPage />);
-    const paineis = screen.getAllByRole("complementary");
-    // 4 = quatro blocos de Nível 1 da F5; o módulo real (F4) não usa
-    // EducationPanel fora deles na rota /juros antes da simulação.
-    expect(paineis.length).toBe(CONTEUDO_NIVEL_1.length);
-  });
-
-  it("o bloco 'juros-simples' Nível 1 cita os números canônicos de JS-01", () => {
+  it("abre modal educacional com todas as abas obrigatórias", async () => {
+    const user = userEvent.setup();
     render(<JurosPage />);
 
-    const paineis = screen.getAllByRole("complementary");
-    const painelJurosSimples = paineis.find((painel) =>
-      within(painel).queryByRole("heading", {
-        name: /juros simples/i,
-      }),
+    await user.click(
+      screen.getByRole("button", { name: /aprofundar leitura/i }),
     );
-
-    expect(painelJurosSimples).toBeDefined();
-
-    const escopoJurosSimples = within(painelJurosSimples!);
-
-    // Fragmentos literais que o teste de coerência numérica
-    // (`conteudo.test.ts`) também verifica no nível dos dados — aqui
-    // garantimos que eles chegam ao bloco correto renderizado pela rota /juros.
-    expect(escopoJurosSimples.getByText(/1\.000,00/)).toBeInTheDocument();
-    expect(escopoJurosSimples.getByText(/1\.120,00/)).toBeInTheDocument();
+    const dialog = screen.getByRole("dialog", {
+      name: /aprenda mais sobre juros/i,
+    });
+    expect(within(dialog).getByTestId("modal-tab-js")).toBeInTheDocument();
+    expect(within(dialog).getByTestId("modal-tab-jc")).toBeInTheDocument();
+    expect(
+      within(dialog).getByTestId("modal-tab-comparacao"),
+    ).toBeInTheDocument();
+    expect(within(dialog).getByTestId("modal-tab-aportes")).toBeInTheDocument();
+    expect(
+      within(dialog).getByTestId("modal-tab-cuidados"),
+    ).toBeInTheDocument();
+    expect(
+      within(dialog).getByRole("button", { name: /fechar modal/i }),
+    ).toBeInTheDocument();
   });
 
-  it("o disclaimer 'produto educacional, não consultoria' aparece na rota /juros", () => {
+  it("não usa botão Abrir como mecanismo essencial", async () => {
     render(<JurosPage />);
-    // Cada bloco carrega o mesmo DISCLAIMER_EDUCACIONAL — devem aparecer
-    // 4 cópias (uma por painel). getAllByText falha se não existir.
-    const ocorrencias = screen.getAllByText(/educacional/i);
-    expect(ocorrencias.length).toBeGreaterThanOrEqual(CONTEUDO_NIVEL_1.length);
+
+    await waitFor(() => expect(simpleMock).toHaveBeenCalled());
+
+    expect(
+      screen.queryByRole("button", { name: /^abrir/i }),
+    ).not.toBeInTheDocument();
   });
 });
