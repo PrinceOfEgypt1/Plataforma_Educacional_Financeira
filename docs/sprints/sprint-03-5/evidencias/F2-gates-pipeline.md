@@ -1,43 +1,52 @@
-# F2 - Gates e pipeline
+# Sprint 3.5/F2 — Gates e pipeline
 
 ## Gates frontend
 
-Executar antes do fechamento:
-
-- `pnpm lint`
-- `pnpm format:check`
-- `pnpm typecheck`
-- `pnpm test -- --run`
-- `pnpm build`
-
-## Gates raiz
-
-Executar antes do fechamento:
-
-- `make lint-pedagogical`
-- `bash scripts/pipeline.sh`
-
-## Resultado final
-
 ```text
-pnpm lint: OK
-pnpm format:check: OK
-pnpm typecheck: OK
-pnpm test -- --run: OK - 25 arquivos / 177 testes
-pnpm build: OK - 16/16 paginas estaticas
-make lint-pedagogical: OK - 11 arquivos analisados, 0 bloqueios, 0 avisos
-bash scripts/pipeline.sh: OK
-EXIT_LINT_PED=0
-EXIT_PIPELINE=0
-PIPELINE VERDE
+pnpm lint
+EXIT=0
+
+pnpm format:check
+EXIT=0
+
+pnpm typecheck
+EXIT=0
+
+pnpm test -- --run
+EXIT=0
+26 arquivos / 187 testes
+
+pnpm build
+EXIT=0
+16/16 páginas estáticas
 ```
 
-## Observacoes
+## Lint pedagógico
 
-O pipeline oficial executou backend ruff, ruff format check, mypy, bandit,
-pytest unitario, frontend install, lint, format check, typecheck, testes e
-build. Todos os gates obrigatorios passaram.
+```text
+make lint-pedagogical
+edu_lint: 11 arquivo(s) analisado(s)
+edu_lint: 0 bloqueio(s), 0 aviso(s)
+EXIT_LINT_PED=0
+```
 
-Aviso nao bloqueante observado durante os testes frontend: warning conhecido de
-Recharts/jsdom sobre dimensao zero em ambiente de teste. Nao houve falha
-funcional, de teste, typecheck ou build.
+## Pipeline oficial
+
+```text
+bash scripts/pipeline.sh
+Resultado: PIPELINE VERDE
+EXIT_PIPELINE=0
+```
+
+Resumo do pipeline:
+
+- backend ruff: OK;
+- backend ruff format check: OK;
+- backend mypy: OK;
+- backend bandit: OK;
+- backend unit: 138 testes passando;
+- frontend install/lint/format/typecheck/test/build: OK;
+- frontend test: 26 arquivos / 187 testes;
+- frontend build: 16/16 páginas estáticas.
+
+Observação: o warning de Recharts/jsdom permanece como ruído de ambiente de teste, sem falha funcional.

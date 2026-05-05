@@ -1,47 +1,44 @@
-# F2 - Testes executados
+# Sprint 3.5/F2 — Testes da correção final consolidada
 
-## Cobertura adicionada/atualizada
+## Testes criados/ajustados
 
-- `/juros` renderiza cockpit, subtabs, KPIs, grafico central, painel educacional
-  e insight inferior.
-- `/juros` navega por Juros Simples, Juros Compostos e Comparar usando services
-  existentes.
-- `/juros` abre modal educacional com Juros Simples, Juros Compostos,
-  Comparacao, Aportes e Cuidados.
-- `/amortizacao` renderiza cockpit PRICE com subtabs, KPIs, grafico, painel
-  direito e insight.
-- `/amortizacao` navega por PRICE, SAC e Comparar usando services existentes.
-- `/amortizacao` abre modal com O que a tabela mostra, PRICE, SAC, PRICE x SAC,
-  Glossario e Cuidados.
-- Shell global renderiza topbar sem sidebar antiga.
-- Modulos em breve renderizam empty state elegante.
-- Governanca de frontend verifica ausencia de calculo financeiro critico novo
-  e ausencia de botao "Abrir" como mecanismo essencial.
+- `frontend/src/__tests__/app/juros.test.tsx`
+- `frontend/src/__tests__/app/amortizacao.test.tsx`
+- `frontend/src/__tests__/app/cockpitGovernance.test.ts`
+- `frontend/src/__tests__/components/cockpitDynamicData.test.tsx`
 
-## Resultado
+## Cobertura adicionada
 
-`pnpm test -- --run`
+- taxa com vírgula e ponto em Juros Simples, Juros Compostos e Comparar Juros;
+- taxa com vírgula e ponto em PRICE, SAC e Comparar Amortização;
+- ausência de `type="number"` nos campos reais de taxa do cockpit;
+- presença de `noValidate` nos formulários do cockpit;
+- normalização interna de vírgula para ponto antes de chamar services/API;
+- tabelas de juros com 24 linhas;
+- tabelas PRICE/SAC/comparação com 60 linhas;
+- gráficos de juros com 24 pontos;
+- gráficos PRICE/SAC/comparação com 60 pontos;
+- conteúdo educativo obrigatório dos painéis e modais;
+- ausência de truncamento artificial de 12 períodos;
+- preservação do shell sem sidebar renderizada.
 
-Resultado obtido:
+## Execução
 
 ```text
-Test Files  25 passed (25)
-Tests       177 passed (177)
+pnpm lint
+Resultado: OK — No ESLint warnings or errors
+
+pnpm format:check
+Resultado: OK — All matched files use Prettier code style
+
+pnpm typecheck
+Resultado: OK — tsc --noEmit
+
+pnpm test -- --run
+Resultado: OK — 26 arquivos / 187 testes
+
+pnpm build
+Resultado: OK — 16/16 páginas estáticas
 ```
 
-Aviso nao bloqueante observado: warning conhecido de Recharts/jsdom sobre
-dimensao zero em ambiente de teste. Nao houve falha de teste.
-
-## Grep de seguranca - calculo financeiro
-
-Comando executado:
-
-```bash
-grep -RInE "Math\\.pow|\\*\\*|principal.*taxa|taxa.*principal|total_juros\\s*=|total_pago\\s*=|saldo_final\\s*=|amortizacao\\s*=|juros\\s*=|pmt\\s*=|montante\\s*=" frontend/src || true
-```
-
-Resultado: o grep encontrou comentarios, fixtures de teste, tipos, textos
-educacionais e strings canonicas existentes. Nao foi identificado calculo
-financeiro critico novo no frontend; o cockpit usa apenas parse/formatacao de
-valores retornados pelos services/API para renderizar KPIs, graficos, tabelas e
-insights.
+Observação: os testes com Recharts em jsdom continuam emitindo warning conhecido de largura/altura zero. O warning não bloqueia os testes e já existia como resíduo ambiental de jsdom.

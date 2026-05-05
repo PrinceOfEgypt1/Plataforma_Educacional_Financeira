@@ -77,7 +77,7 @@ export interface CockpitFieldProps {
   readonly onChange: (value: string) => void;
   readonly unit?: string;
   readonly hint?: string;
-  readonly type?: "text" | "number";
+  readonly type?: "text";
   readonly step?: string;
   readonly min?: string;
   readonly inputMode?: "decimal" | "numeric";

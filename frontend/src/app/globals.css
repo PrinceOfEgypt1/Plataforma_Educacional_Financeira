@@ -695,6 +695,14 @@ body {
   background: rgba(0, 212, 200, 0.03);
 }
 
+.cockpit-table .delta-amber {
+  color: var(--amber);
+}
+
+.cockpit-table .delta-green {
+  color: var(--green);
+}
+
 .cockpit-modal-overlay {
   position: fixed;
   inset: 0;
@@ -828,6 +836,12 @@ body {
   font-family: var(--font-ibm-plex-mono), monospace;
   font-size: 12px;
   line-height: 1.7;
+}
+
+.modal-gloss-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
 }
 
 .cockpit-modal-disclaimer {

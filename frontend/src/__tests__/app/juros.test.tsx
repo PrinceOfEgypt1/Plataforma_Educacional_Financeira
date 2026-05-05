@@ -2,6 +2,7 @@ import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { pctInputToRateString } from "@/lib/money";
 import type {
   CompararJurosOut,
   JurosCompostosOut,
@@ -222,5 +223,104 @@ describe("/juros — Financial Cockpit", () => {
     expect(
       screen.queryByRole("button", { name: /^abrir/i }),
     ).not.toBeInTheDocument();
+  });
+
+  it("aceita vírgula e ponto em taxa sem validação nativa nos três regimes", async () => {
+    const user = userEvent.setup();
+    render(<JurosPage />);
+
+    const requiredCases = [
+      ["1", "0.010000"],
+      ["1,5", "0.015000"],
+      ["1,50", "0.015000"],
+      ["1.5", "0.015000"],
+      ["1.50", "0.015000"],
+      ["0,8", "0.008000"],
+      ["0,80", "0.008000"],
+      ["0.8", "0.008000"],
+      ["0.80", "0.008000"],
+      ["22", "0.220000"],
+      ["2,0", "0.020000"],
+      ["2,00", "0.020000"],
+      ["2.0", "0.020000"],
+      ["2.00", "0.020000"],
+      ["10,75", "0.107500"],
+      ["10.75", "0.107500"],
+    ] as const;
+    for (const [input, normalized] of requiredCases) {
+      expect(pctInputToRateString(input)).toBe(normalized);
+    }
+
+    const rateInput = screen.getByLabelText(/taxa mensal/i);
+    expect(rateInput).toHaveAttribute("type", "text");
+    expect(rateInput).toHaveAttribute("inputmode", "decimal");
+    expect(rateInput.closest("form")).toHaveAttribute("novalidate");
+
+    await user.clear(rateInput);
+    await user.type(rateInput, "1,50");
+    await user.click(screen.getByRole("button", { name: /calcular/i }));
+    await waitFor(() =>
+      expect(simpleMock).toHaveBeenLastCalledWith({
+        principal: "180000.00",
+        taxa_mensal: "0.015000",
+        prazo_meses: 60,
+      }),
+    );
+
+    await user.click(screen.getByRole("tab", { name: /juros compostos/i }));
+    const compoundRate = screen.getByLabelText(/taxa mensal/i);
+    await user.clear(compoundRate);
+    await user.type(compoundRate, "0,80");
+    await user.click(screen.getByRole("button", { name: /calcular/i }));
+    await waitFor(() =>
+      expect(compoundMock).toHaveBeenLastCalledWith({
+        principal: "180000.00",
+        taxa_mensal: "0.008000",
+        prazo_meses: 60,
+      }),
+    );
+
+    await user.click(screen.getByRole("tab", { name: /^Comparar$/i }));
+    const compareRate = screen.getByLabelText(/taxa mensal/i);
+    await user.clear(compareRate);
+    await user.type(compareRate, "10.75");
+    await user.click(screen.getByRole("button", { name: /comparar/i }));
+    await waitFor(() =>
+      expect(compareMock).toHaveBeenLastCalledWith({
+        principal: "180000.00",
+        taxa_mensal: "0.107500",
+        prazo_meses: 60,
+      }),
+    );
+  });
+
+  it("mantém conteúdo educativo completo do cockpit de juros", async () => {
+    const user = userEvent.setup();
+    render(<JurosPage />);
+
+    expect(
+      screen.getByText(/Juros simples — em uma frase/i),
+    ).toBeInTheDocument();
+    await user.click(screen.getByRole("tab", { name: /^Tabela$/i }));
+    expect(screen.getByText(/Evolução mês a mês/i)).toBeInTheDocument();
+
+    await user.click(screen.getByRole("tab", { name: /juros compostos/i }));
+    expect(screen.getByText(/Juros sobre juros/i)).toBeInTheDocument();
+
+    await user.click(screen.getByRole("tab", { name: /^Comparar$/i }));
+    expect(screen.getByText(/Quando divergem/i)).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: /leitura completa/i }));
+    const dialog = screen.getByRole("dialog", {
+      name: /aprenda mais sobre juros/i,
+    });
+    await user.click(within(dialog).getByTestId("modal-tab-aportes"));
+    expect(
+      within(dialog).getByText(/Aportes mensais — entrando dinheiro novo/i),
+    ).toBeInTheDocument();
+    await user.click(within(dialog).getByTestId("modal-tab-cuidados"));
+    expect(
+      within(dialog).getByText(/Cuidados gerais — juros/i),
+    ).toBeInTheDocument();
   });
 });

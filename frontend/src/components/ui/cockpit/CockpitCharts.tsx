@@ -17,12 +17,12 @@ import type {
 } from "@/types/amortization";
 import type { Chart as InterestChart } from "@/types/interest";
 
-interface Point {
+export interface CockpitChartPoint {
   readonly periodo: number;
   readonly [key: string]: number;
 }
 
-interface SeriesMeta {
+export interface CockpitChartSeriesMeta {
   readonly key: string;
   readonly label: string;
   readonly color: string;
@@ -44,9 +44,9 @@ function money(value: number): string {
   return formatBRL(value.toFixed(2));
 }
 
-function buildFromInterest(chart: InterestChart): {
-  readonly points: ReadonlyArray<Point>;
-  readonly series: ReadonlyArray<SeriesMeta>;
+export function buildInterestChartData(chart: InterestChart): {
+  readonly points: ReadonlyArray<CockpitChartPoint>;
+  readonly series: ReadonlyArray<CockpitChartSeriesMeta>;
 } {
   const series = chart.series.map((item, index) => ({
     key: `s${index}`,
@@ -61,24 +61,24 @@ function buildFromInterest(chart: InterestChart): {
     (acc, item) => Math.max(acc, item.points.length),
     0,
   );
-  const points: Point[] = [];
+  const points: CockpitChartPoint[] = [];
   for (let index = 0; index < max; index += 1) {
     const point: Record<string, number> = { periodo: index + 1 };
     chart.series.forEach((item, seriesIndex) => {
       const raw = item.points[index];
       if (raw !== undefined) point[`s${seriesIndex}`] = toNumber(raw);
     });
-    points.push(point as Point);
+    points.push(point as CockpitChartPoint);
   }
   return { points, series };
 }
 
-function buildFromAmortizationRows(
+export function buildAmortizationRowsChartData(
   rows: ReadonlyArray<AmortizationPeriodRow>,
   mode: "composition" | "installments",
 ): {
-  readonly points: ReadonlyArray<Point>;
-  readonly series: ReadonlyArray<SeriesMeta>;
+  readonly points: ReadonlyArray<CockpitChartPoint>;
+  readonly series: ReadonlyArray<CockpitChartSeriesMeta>;
 } {
   if (mode === "installments") {
     return {
@@ -126,9 +126,9 @@ function buildFromAmortizationRows(
   };
 }
 
-function buildFromAmortizationChart(chart: AmortizationChart): {
-  readonly points: ReadonlyArray<Point>;
-  readonly series: ReadonlyArray<SeriesMeta>;
+export function buildAmortizationCompareChartData(chart: AmortizationChart): {
+  readonly points: ReadonlyArray<CockpitChartPoint>;
+  readonly series: ReadonlyArray<CockpitChartSeriesMeta>;
 } {
   const series = chart.series.map((item, index) => ({
     key: `s${index}`,
@@ -143,14 +143,14 @@ function buildFromAmortizationChart(chart: AmortizationChart): {
     (acc, item) => Math.max(acc, item.points.length),
     0,
   );
-  const points: Point[] = [];
+  const points: CockpitChartPoint[] = [];
   for (let index = 0; index < max; index += 1) {
     const point: Record<string, number> = { periodo: index + 1 };
     chart.series.forEach((item, seriesIndex) => {
       const raw = item.points[index];
       if (raw !== undefined) point[`s${seriesIndex}`] = toNumber(raw);
     });
-    points.push(point as Point);
+    points.push(point as CockpitChartPoint);
   }
   return { points, series };
 }
@@ -170,7 +170,7 @@ function RichTooltip({
         readonly value?: unknown;
       }>
     | undefined;
-  readonly series: ReadonlyArray<SeriesMeta>;
+  readonly series: ReadonlyArray<CockpitChartSeriesMeta>;
   readonly context: string;
 }) {
   if (!active || !payload || payload.length === 0) return null;
@@ -202,14 +202,14 @@ function CockpitLineChart({
   series,
   context,
 }: {
-  readonly points: ReadonlyArray<Point>;
-  readonly series: ReadonlyArray<SeriesMeta>;
+  readonly points: ReadonlyArray<CockpitChartPoint>;
+  readonly series: ReadonlyArray<CockpitChartSeriesMeta>;
   readonly context: string;
 }) {
   return (
     <ResponsiveContainer width="100%" height="100%">
       <LineChart
-        data={points as Point[]}
+        data={points as CockpitChartPoint[]}
         margin={{ top: 8, right: 8, bottom: 0, left: 0 }}
       >
         <CartesianGrid stroke="rgba(0,212,200,0.10)" strokeDasharray="3 3" />
@@ -263,7 +263,7 @@ export function InterestCockpitChart({
   readonly context: string;
 }) {
   if (!chart) return <div className="cockpit-error">Gráfico indisponível.</div>;
-  const { points, series } = buildFromInterest(chart);
+  const { points, series } = buildInterestChartData(chart);
   return <CockpitLineChart points={points} series={series} context={context} />;
 }
 
@@ -276,7 +276,7 @@ export function AmortizationCompositionChart({
   readonly context: string;
   readonly mode?: "composition" | "installments";
 }) {
-  const { points, series } = buildFromAmortizationRows(rows, mode);
+  const { points, series } = buildAmortizationRowsChartData(rows, mode);
   return <CockpitLineChart points={points} series={series} context={context} />;
 }
 
@@ -286,7 +286,7 @@ export function AmortizationCompareChart({
   readonly chart: AmortizationChart | null;
 }) {
   if (!chart) return <div className="cockpit-error">Gráfico indisponível.</div>;
-  const { points, series } = buildFromAmortizationChart(chart);
+  const { points, series } = buildAmortizationCompareChartData(chart);
   return (
     <CockpitLineChart points={points} series={series} context="PRICE × SAC" />
   );

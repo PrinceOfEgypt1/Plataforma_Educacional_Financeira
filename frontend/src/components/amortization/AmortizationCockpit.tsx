@@ -11,6 +11,7 @@ import {
 import { validateAmortizationDraft } from "@/components/amortization/formValidation";
 import {
   AmortizationCockpitTable,
+  AmortizationCompareTable,
   AmortizationCompareChart,
   AmortizationCompositionChart,
   CautionItem,
@@ -22,7 +23,6 @@ import {
   CockpitModal,
   CockpitSlider,
   CockpitSubTabs,
-  EduFormula,
   EducationPanel,
   EduText,
   EduTitle,
@@ -245,7 +245,7 @@ function PricePane({
         title="Sistema PRICE"
         subtitle="Parcela fixa"
       >
-        <form onSubmit={submit} className="contents">
+        <form onSubmit={submit} className="contents" noValidate>
           <AmortizationFields draft={draft} setDraft={setDraft} />
           <CockpitButton busy={state.status === "loading"}>
             ▶ Calcular PRICE
@@ -359,7 +359,7 @@ function SacPane({
         title="Sistema SAC"
         subtitle="Amortização constante"
       >
-        <form onSubmit={submit} className="contents">
+        <form onSubmit={submit} className="contents" noValidate>
           <AmortizationFields draft={draft} setDraft={setDraft} />
           <CockpitButton busy={state.status === "loading"}>
             ▶ Calcular SAC
@@ -472,7 +472,7 @@ function ComparePane({
         title="Comparar PRICE × SAC"
         subtitle="Mesmos parâmetros, métodos diferentes"
       >
-        <form onSubmit={submit} className="contents">
+        <form onSubmit={submit} className="contents" noValidate>
           <AmortizationFields draft={draft} setDraft={setDraft} />
           <CockpitButton busy={state.status === "loading"}>
             ▶ Comparar
@@ -512,9 +512,11 @@ function ComparePane({
         ) : null}
         {eduTab === "tabela" ? (
           <>
-            <EduTitle>📋 PRICE e SAC lado a lado</EduTitle>
-            <AmortizationCockpitTable rows={result?.tables.price ?? []} />
-            <AmortizationCockpitTable rows={result?.tables.sac ?? []} />
+            <EduTitle>📋 Tabela Comparativa</EduTitle>
+            <AmortizationCompareTable
+              priceRows={result?.tables.price ?? []}
+              sacRows={result?.tables.sac ?? []}
+            />
           </>
         ) : null}
         {eduTab === "cuidados" ? (
@@ -547,9 +549,6 @@ function AmortizationFields({
         label="Taxa do período"
         value={draft.taxaPeriodoPct}
         onChange={(taxaPeriodoPct) => setDraft({ ...draft, taxaPeriodoPct })}
-        type="number"
-        step="0.1"
-        min="0.01"
         unit="%"
         hint="Ex.: 1,00 = 1% por período"
       />
@@ -626,14 +625,16 @@ function SacVsPrice({
     <>
       <EduTitle>⚖️ SAC vs PRICE</EduTitle>
       <EduText>
-        <strong>SAC</strong> mantém amortização constante; por isso a parcela
-        começa maior e cai ao longo do tempo.
+        <strong>SAC</strong>: amortização constante, parcela inicial maior e
+        queda gradual ao longo do prazo.
       </EduText>
       <EduText>
-        Caso de referência: SAC começa em R$9.333,33 e termina em R$8.416,70.
+        <strong>Total juros</strong>: SAC tende a cobrar menos juros porque o
+        saldo devedor cai mais rápido.
       </EduText>
       <EduText>
-        O trade-off é fluxo de caixa inicial contra custo total de juros.
+        <strong>Trade-off</strong>: fluxo de caixa inicial mais pesado contra
+        custo total menor.
       </EduText>
       <MoreButton onClick={() => openModal("price-sac")}>
         📊 Comparar PRICE × SAC →
@@ -649,14 +650,19 @@ function CompareAnalysis({
 }) {
   return (
     <>
-      <EduTitle>📊 Leitura comparativa</EduTitle>
+      <EduTitle>⚖️ PRICE × SAC — o essencial</EduTitle>
       <EduText>
         PRICE privilegia previsibilidade da parcela. SAC tende a reduzir juros
         totais, mas exige parcela inicial mais alta.
       </EduText>
-      <EduFormula>mesmo principal · mesma taxa · mesmo prazo</EduFormula>
+      <EduTitle>🔢 Caso de referência</EduTitle>
+      <EduText>
+        R$100.000 · 1% a.m. · 12 períodos → PRICE parcela R$8.884,88 e juros
+        R$6.618,53; SAC começa em R$9.333,33, termina em R$8.416,70 e soma
+        R$6.500,00 de juros.
+      </EduText>
       <MoreButton onClick={() => openModal("price-sac")}>
-        📚 Entender a comparação →
+        📖 Leitura completa →
       </MoreButton>
     </>
   );
@@ -671,10 +677,15 @@ function CompareCautions({
     <>
       <EduTitle>⚠ Cuidados</EduTitle>
       <CautionItem icon="🔴">
-        A menor soma de juros nem sempre cabe no orçamento mensal.
+        A menor soma de juros nem sempre cabe no orçamento mensal no começo do
+        contrato.
       </CautionItem>
       <CautionItem icon="🟡">
         Contratos reais podem incluir seguros, tarifas e CET.
+      </CautionItem>
+      <CautionItem icon="🔵">
+        Compare fluxo mensal, total pago e saldo devedor antes de escolher um
+        sistema.
       </CautionItem>
       <MoreButton onClick={() => openModal("cuidados")}>
         📋 Ver cuidados →
@@ -703,98 +714,207 @@ function AmortizationEducationModal({
       case "intro":
         return (
           <>
-            <ModalHeading>O que a tabela mostra</ModalHeading>
+            <ModalHeading>📋 Amortização — o que a tabela mostra</ModalHeading>
+            <ModalText>
+              Amortização é a parte da parcela que reduz o saldo devedor. A
+              tabela mostra, período a período, quanto foi pago, quanto virou
+              juros, quanto reduziu a dívida e qual saldo permanece.
+            </ModalText>
+            <ModalText>
+              A leitura correta separa custo financeiro de devolução do
+              principal. Juros remuneram o tempo e o risco; amortização devolve
+              o valor financiado.
+            </ModalText>
             <ModalText>
               Cada linha apresenta período, parcela, juros, amortização e saldo
-              devedor. A regra de fechamento é o saldo final chegar a zero.
+              devedor, permitindo acompanhar a trajetória completa até o final.
             </ModalText>
             <ModalExample>
-              Principal R$100.000 · 1% a.m. · 12 períodos → 12 linhas de
-              evolução.
+              <strong>Regra de fechamento da tabela:</strong>
+              <br />
+              Uma tabela consistente termina com saldo final igual a zero, ou
+              residual apenas de arredondamento documentado.
             </ModalExample>
+            <ModalText>
+              Por isso a tabela deve ter uma linha por período real retornado
+              pela API, sem truncar o prazo escolhido.
+            </ModalText>
             <ModalDisclaimer />
           </>
         );
       case "price":
         return (
           <>
-            <ModalHeading>PRICE</ModalHeading>
+            <ModalHeading>🏦 PRICE — parcela constante</ModalHeading>
             <ModalText>
-              O sistema PRICE mantém parcela constante. A composição muda por
-              dentro: juros caem e amortização cresce.
+              O sistema PRICE mantém a parcela constante ao longo do contrato.
+              Essa previsibilidade facilita planejamento, mas a composição da
+              parcela muda por dentro.
+            </ModalText>
+            <ModalText>
+              No início, como o saldo devedor ainda é alto, a parte de juros é
+              maior e a amortização é menor. Com o tempo, os juros caem e a
+              amortização aumenta.
             </ModalText>
             <ModalFormula>
               PMT constante · juros sobre saldo devedor
             </ModalFormula>
             <ModalExample>
-              R$100.000 · 1% a.m. · 12 períodos → parcela R$8.884,88, total de
-              juros R$6.618,53.
+              <strong>Caso de referência PR-01:</strong>
+              <br />
+              Principal R$100.000 · Taxa 1% a.m. · Prazo 12 períodos
+              <br />
+              Parcela R$8.884,88 · Total de juros R$6.618,53
             </ModalExample>
+            <ModalText>
+              A vantagem visual do PRICE é enxergar o mesmo valor de parcela em
+              todos os períodos, enquanto a tabela revela a troca interna entre
+              juros e amortização.
+            </ModalText>
             <ModalDisclaimer />
           </>
         );
       case "sac":
         return (
           <>
-            <ModalHeading>SAC</ModalHeading>
+            <ModalHeading>📉 SAC — amortização constante</ModalHeading>
             <ModalText>
-              No SAC, a amortização é constante. Como o saldo cai a cada
-              período, os juros e as parcelas também caem.
+              No SAC, a amortização é constante: a mesma fatia do principal é
+              reduzida em cada período. Como o saldo cai mais rápido, os juros
+              também caem.
+            </ModalText>
+            <ModalText>
+              O efeito prático é uma parcela inicial maior e parcelas
+              decrescentes ao longo do tempo. O custo total de juros costuma ser
+              menor que no PRICE para as mesmas condições.
             </ModalText>
             <ModalFormula>
               amortização constante · juros decrescentes
             </ModalFormula>
             <ModalExample>
-              R$100.000 · 1% a.m. · 12 períodos → primeira parcela R$9.333,33,
-              última R$8.416,70, juros R$6.500,00.
+              <strong>Caso de referência SAC-01:</strong>
+              <br />
+              Principal R$100.000 · Taxa 1% a.m. · Prazo 12 períodos
+              <br />
+              Primeira parcela R$9.333,33 · Última R$8.416,70 · Total de juros
+              R$6.500,00
             </ModalExample>
+            <ModalText>
+              SAC exige mais fôlego no início, mas acelera a redução do saldo
+              devedor.
+            </ModalText>
             <ModalDisclaimer />
           </>
         );
       case "price-sac":
         return (
           <>
-            <ModalHeading>PRICE × SAC</ModalHeading>
+            <ModalHeading>⚖️ PRICE × SAC — leitura lado a lado</ModalHeading>
             <ModalText>
-              PRICE facilita planejamento por parcela fixa. SAC costuma reduzir
-              juros totais, mas começa com prestação mais alta.
+              PRICE e SAC usam os mesmos ingredientes — principal, taxa e prazo
+              — mas distribuem a amortização de formas diferentes.
+            </ModalText>
+            <ModalText>
+              PRICE entrega parcela constante e previsibilidade mensal. SAC
+              acelera a amortização, reduz saldo mais rápido e tende a diminuir
+              o total de juros.
             </ModalText>
             <ModalExample>
-              Compare fluxo mensal, total pago e juros totais antes de escolher.
+              <strong>Caso de referência:</strong>
+              <br />
+              R$100.000 · 1% a.m. · 12 períodos → PRICE: parcela R$8.884,88 e
+              juros R$6.618,53 · SAC: primeira R$9.333,33, última R$8.416,70 e
+              juros R$6.500,00.
             </ModalExample>
+            <ModalText>
+              A escolha não é apenas matemática: envolve fluxo de caixa,
+              capacidade de pagamento no começo e leitura do custo total.
+            </ModalText>
             <ModalDisclaimer />
           </>
         );
       case "glossario":
         return (
           <>
-            <ModalHeading>Glossário</ModalHeading>
-            <ModalExample>
-              Principal: valor financiado · Taxa por período: percentual sobre
-              saldo · Parcela: juros + amortização · Juros: custo do período ·
-              Amortização: redução do saldo · Saldo devedor: principal ainda em
-              aberto · Total pago: soma das parcelas · Total de juros: soma dos
-              juros · Saldo final: após última linha · Número de períodos:
-              linhas da tabela.
-            </ModalExample>
+            <ModalHeading>📚 Glossário da amortização</ModalHeading>
+            <div className="modal-gloss-grid">
+              <ModalExample>
+                <strong>Principal</strong>
+                <br />
+                Valor financiado que será amortizado ao longo do prazo.
+              </ModalExample>
+              <ModalExample>
+                <strong>Taxa por período</strong>
+                <br />
+                Percentual aplicado sobre o saldo devedor de cada período.
+              </ModalExample>
+              <ModalExample>
+                <strong>Parcela</strong>
+                <br />
+                Valor pago no período: juros mais amortização.
+              </ModalExample>
+              <ModalExample>
+                <strong>Juros do período</strong>
+                <br />
+                Custo financeiro calculado sobre o saldo devedor.
+              </ModalExample>
+              <ModalExample>
+                <strong>Amortização</strong>
+                <br />
+                Parte da parcela que reduz efetivamente a dívida.
+              </ModalExample>
+              <ModalExample>
+                <strong>Saldo devedor</strong>
+                <br />
+                Principal ainda não amortizado após cada pagamento.
+              </ModalExample>
+              <ModalExample>
+                <strong>Total pago</strong>
+                <br />
+                Soma de todas as parcelas ao final do prazo.
+              </ModalExample>
+              <ModalExample>
+                <strong>Total de juros</strong>
+                <br />
+                Soma dos juros cobrados em todos os períodos.
+              </ModalExample>
+              <ModalExample>
+                <strong>Saldo final</strong>
+                <br />
+                Valor remanescente após a última linha da tabela.
+              </ModalExample>
+              <ModalExample>
+                <strong>Número de períodos</strong>
+                <br />
+                Quantidade de linhas esperada na tabela.
+              </ModalExample>
+            </div>
             <ModalDisclaimer />
           </>
         );
       case "cuidados":
         return (
           <>
-            <ModalHeading>Cuidados</ModalHeading>
+            <ModalHeading>⚠ Cuidados educacionais</ModalHeading>
             <CautionItem icon="🔴">
-              Simulação não substitui contrato, CET ou proposta formal.
+              <strong>Simulação não substitui contrato.</strong> Os valores
+              exibidos ajudam a entender PRICE e SAC, mas um contrato real pode
+              incluir tarifas, seguros, impostos, indexadores e regras de
+              vencimento.
             </CautionItem>
             <CautionItem icon="🟡">
-              Parcela menor pode significar custo total maior.
+              <strong>Parcela menor não significa custo menor.</strong> Compare
+              sempre total pago, total de juros e evolução do saldo devedor.
             </CautionItem>
             <CautionItem icon="🟡">
-              Liquidação antecipada depende das regras contratuais.
+              <strong>Liquidação antecipada muda a leitura.</strong> O impacto
+              depende das regras contratuais e do método usado para recalcular o
+              saldo.
             </CautionItem>
             <CautionItem icon="🔵">
-              Produto educacional, não consultoria financeira.
+              <strong>Produto educacional.</strong> A ferramenta explica a
+              mecânica dos sistemas, mas não recomenda contratação nem substitui
+              análise profissional.
             </CautionItem>
             <ModalDisclaimer />
           </>

@@ -2,6 +2,7 @@ import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { pctInputToRateString } from "@/lib/money";
 import type {
   CompareAmortizationOut,
   PriceOut,
@@ -182,6 +183,107 @@ describe("/amortizacao — Financial Cockpit", () => {
     ).toBeInTheDocument();
     expect(
       within(dialog).getByTestId("modal-tab-cuidados"),
+    ).toBeInTheDocument();
+  });
+
+  it("aceita vírgula e ponto na taxa sem validação nativa em PRICE, SAC e Comparar", async () => {
+    const user = userEvent.setup();
+    render(<AmortizacaoPage />);
+
+    for (const [input, normalized] of [
+      ["1", "0.010000"],
+      ["1,5", "0.015000"],
+      ["1,50", "0.015000"],
+      ["1.5", "0.015000"],
+      ["1.50", "0.015000"],
+      ["0,8", "0.008000"],
+      ["0,80", "0.008000"],
+      ["0.8", "0.008000"],
+      ["0.80", "0.008000"],
+      ["22", "0.220000"],
+      ["2,0", "0.020000"],
+      ["2,00", "0.020000"],
+      ["2.0", "0.020000"],
+      ["2.00", "0.020000"],
+      ["10,75", "0.107500"],
+      ["10.75", "0.107500"],
+    ] as const) {
+      expect(pctInputToRateString(input)).toBe(normalized);
+    }
+
+    const priceRate = screen.getByLabelText(/taxa do período/i);
+    expect(priceRate).toHaveAttribute("type", "text");
+    expect(priceRate).toHaveAttribute("inputmode", "decimal");
+    expect(priceRate.closest("form")).toHaveAttribute("novalidate");
+
+    await user.clear(priceRate);
+    await user.type(priceRate, "1,50");
+    await user.click(screen.getByRole("button", { name: /calcular price/i }));
+    await waitFor(() =>
+      expect(priceMock).toHaveBeenLastCalledWith({
+        principal: "100000.00",
+        taxa_periodo: "0.015000",
+        n_periodos: 12,
+      }),
+    );
+
+    await user.click(screen.getByRole("tab", { name: /^SAC$/i }));
+    const sacRate = screen.getByLabelText(/taxa do período/i);
+    await user.clear(sacRate);
+    await user.type(sacRate, "0,80");
+    await user.click(screen.getByRole("button", { name: /calcular sac/i }));
+    await waitFor(() =>
+      expect(sacMock).toHaveBeenLastCalledWith({
+        principal: "100000.00",
+        taxa_periodo: "0.008000",
+        n_periodos: 12,
+      }),
+    );
+
+    await user.click(screen.getByRole("tab", { name: /^Comparar$/i }));
+    const compareRate = screen.getByLabelText(/taxa do período/i);
+    await user.clear(compareRate);
+    await user.type(compareRate, "10.75");
+    await user.click(screen.getByRole("button", { name: /comparar/i }));
+    await waitFor(() =>
+      expect(compareMock).toHaveBeenLastCalledWith({
+        principal: "100000.00",
+        taxa_periodo: "0.107500",
+        n_periodos: 12,
+      }),
+    );
+  });
+
+  it("mantém conteúdo educativo completo do cockpit de amortização", async () => {
+    const user = userEvent.setup();
+    render(<AmortizacaoPage />);
+
+    expect(screen.getAllByText(/Tabela PRICE/i).length).toBeGreaterThan(0);
+
+    await user.click(screen.getByRole("tab", { name: /^SAC$/i }));
+    expect(screen.getByText(/Tabela SAC/i)).toBeInTheDocument();
+    await user.click(screen.getByRole("tab", { name: /SAC × PRICE/i }));
+    expect(screen.getByText(/SAC vs PRICE/i)).toBeInTheDocument();
+
+    await user.click(screen.getByRole("tab", { name: /^Comparar$/i }));
+    expect(screen.getByText(/PRICE × SAC — o essencial/i)).toBeInTheDocument();
+    await user.click(screen.getByRole("tab", { name: /^Tabela$/i }));
+    expect(screen.getByText(/Tabela Comparativa/i)).toBeInTheDocument();
+
+    await user.click(screen.getByRole("tab", { name: /^Análise$/i }));
+    await user.click(screen.getByRole("button", { name: /leitura completa/i }));
+    const dialog = screen.getByRole("dialog", {
+      name: /entenda a amortização/i,
+    });
+    await user.click(within(dialog).getByTestId("modal-tab-glossario"));
+    expect(
+      within(dialog).getByText(/Glossário da amortização/i),
+    ).toBeInTheDocument();
+    expect(within(dialog).getByText(/^Principal$/i)).toBeInTheDocument();
+    expect(within(dialog).getByText(/Número de períodos/i)).toBeInTheDocument();
+    await user.click(within(dialog).getByTestId("modal-tab-cuidados"));
+    expect(
+      within(dialog).getByText(/Cuidados educacionais/i),
     ).toBeInTheDocument();
   });
 });

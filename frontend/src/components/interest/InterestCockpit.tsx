@@ -240,7 +240,7 @@ function InterestSimplePane({
         title="Juros Simples"
         subtitle="J = P × i × n"
       >
-        <form onSubmit={submit} className="contents">
+        <form onSubmit={submit} className="contents" noValidate>
           <InterestFormFields draft={draft} setDraft={setDraft} />
           <CockpitButton busy={state.status === "loading"}>
             ▶ Calcular
@@ -355,7 +355,7 @@ function InterestCompoundPane({
         title="Juros Compostos"
         subtitle="M = P × (1 + i)ⁿ"
       >
-        <form onSubmit={submit} className="contents">
+        <form onSubmit={submit} className="contents" noValidate>
           <InterestFormFields draft={draft} setDraft={setDraft} />
           <CockpitButton busy={state.status === "loading"}>
             ▶ Calcular
@@ -473,7 +473,7 @@ function InterestComparePane({
         title="Comparar Regimes"
         subtitle="Simples × Composto"
       >
-        <form onSubmit={submit} className="contents">
+        <form onSubmit={submit} className="contents" noValidate>
           <InterestFormFields draft={draft} setDraft={setDraft} max={240} />
           <CockpitButton busy={state.status === "loading"}>
             ▶ Comparar
@@ -514,15 +514,18 @@ function InterestComparePane({
       >
         <EduTitle>📊 Quando divergem</EduTitle>
         <EduText>
-          Para um período, os regimes tendem a ficar próximos. A partir de
-          prazos maiores, o composto acumula juros sobre juros e se distancia.
+          Para n = 1, simples e composto são iguais. Para n &gt; 1, o composto
+          supera o simples — a diferença cresce de forma não-linear.
         </EduText>
-        <EduFormula>
-          Composto &gt; Simples quando o prazo amplia a capitalização
-        </EduFormula>
+        <EduFormula>Composto &gt; Simples (n &gt; 1)</EduFormula>
+        <EduTitle>🔢 Caso de referência</EduTitle>
         <EduText>
-          Em dívidas, isso ajuda a entender por que atrasos longos custam caro.
-          Em investimentos, mostra por que tempo e reinvestimento importam.
+          R$1.000 · 1% a.m. · 12 meses: simples R$1.120 vs composto R$1.126,83.
+          Em prazos longos a diferença se torna muito relevante.
+        </EduText>
+        <EduText>
+          Na dívida: pagar mais cedo reduz a capitalização. No investimento:
+          manter mais tempo aumenta o efeito.
         </EduText>
         <MoreButton onClick={() => openModal("comparacao")}>
           📚 Leitura completa →
@@ -556,9 +559,6 @@ function InterestFormFields({
         label="Taxa mensal"
         value={draft.taxaMensalPct}
         onChange={(taxaMensalPct) => setDraft({ ...draft, taxaMensalPct })}
-        type="number"
-        step="0.1"
-        min="0.01"
         unit="%"
         hint="Ex.: 1,00 = 1% a.m."
       />
@@ -613,14 +613,14 @@ function CompoundConcept({
     <>
       <EduTitle>📖 Juros sobre juros</EduTitle>
       <EduText>
-        A taxa incide sobre o saldo acumulado. O crescimento deixa de ser linear
-        e passa a ganhar força com o tempo.
+        A cada período, os juros incidem sobre o saldo acumulado. O crescimento
+        é exponencial — não linear.
       </EduText>
       <EduFormula>M = P × (1 + i)ⁿ</EduFormula>
       <EduTitle>🔢 Caso de referência</EduTitle>
       <EduText>
-        R$1.000 · 1% a.m. · 12 meses → <strong>R$1.126,83</strong>, contra
-        R$1.120,00 no simples.
+        R$1.000 · 1% a.m. · 12 meses → montante <strong>R$1.126,83</strong> vs
+        R$1.120,00 no simples. Diferença cresce com o prazo.
       </EduText>
       <MoreButton onClick={() => openModal("jc")}>
         📚 Aportes e aprofundamento →
@@ -638,10 +638,15 @@ function InterestCautions({
     <>
       <EduTitle>⚠ Atenção</EduTitle>
       <CautionItem icon="🔴">
-        <strong>Contratos reais</strong> quase sempre usam regime composto.
+        <strong>Não confunda regimes.</strong> Contratos reais quase sempre usam
+        juros compostos.
       </CautionItem>
       <CautionItem icon="🟡">
-        <strong>Prazos longos</strong> ampliam a distância entre os regimes.
+        <strong>Taxa por período importa.</strong> Compare sempre mensal com
+        mensal, anual com anual.
+      </CautionItem>
+      <CautionItem icon="🟡">
+        <strong>Prazos longos</strong> ampliam diferenças pequenas de taxa.
       </CautionItem>
       <CautionItem icon="🔵">
         <strong>Produto educacional.</strong> Não substitui contrato real.
@@ -666,6 +671,10 @@ function CompoundCautions({
       </CautionItem>
       <CautionItem icon="🟡">
         Verifique se a taxa é mensal, anual ou diária antes de comparar.
+      </CautionItem>
+      <CautionItem icon="🔵">
+        Use a comparação para entender ordem de grandeza, não para substituir
+        contrato, CET ou assessoria.
       </CautionItem>
       <MoreButton onClick={() => openModal("comparacao")}>
         ⚖️ Ver comparação simples × composto →
@@ -694,14 +703,30 @@ function InterestEducationModal({
       case "js":
         return (
           <>
-            <ModalHeading>Juros simples</ModalHeading>
+            <ModalHeading>📖 Juros simples — em uma frase</ModalHeading>
             <ModalText>
-              Juros simples aplicam a taxa sempre sobre o principal original. A
-              leitura é direta: o acréscimo por período é constante.
+              Juros simples são juros que incidem sempre sobre o{" "}
+              <strong>valor inicial (o principal)</strong>. Mesmo passando o
+              tempo, o cálculo de cada período ignora os juros já acumulados.
             </ModalText>
-            <ModalFormula>J = P × i × n · M = P + J</ModalFormula>
+            <ModalText>
+              Por isso o crescimento é <strong>linear</strong>: a cada mês entra
+              a mesma quantia de juros. É como se você somasse parcelas iguais à
+              sua dívida ou ao seu saldo, mês a mês.
+            </ModalText>
+            <ModalFormula>M = P × (1 + i × n)</ModalFormula>
+            <ModalText>
+              Os termos que aparecem nas telas são: <strong>principal</strong>{" "}
+              (o valor inicial), <strong>taxa</strong> (o percentual cobrado por
+              período), <strong>prazo</strong> (quantos períodos) e{" "}
+              <strong>montante</strong> (o valor final).
+            </ModalText>
             <ModalExample>
-              R$1.000 · 1% a.m. · 12 meses → R$120,00 de juros → R$1.120,00.
+              <strong>Caso de referência JS-01:</strong>
+              <br />
+              Principal R$1.000,00 · Taxa 1% a.m. · Prazo 12 meses
+              <br />
+              Juros R$120,00 · Montante R$1.120,00
             </ModalExample>
             <ModalDisclaimer />
           </>
@@ -709,50 +734,94 @@ function InterestEducationModal({
       case "jc":
         return (
           <>
-            <ModalHeading>Juros compostos</ModalHeading>
+            <ModalHeading>📖 Juros compostos — em uma frase</ModalHeading>
             <ModalText>
-              No regime composto, a taxa incide sobre o saldo acumulado. Por
-              isso a curva acelera e o prazo passa a ser decisivo.
+              Juros compostos são juros que, a cada novo período, passam a
+              incidir sobre o <strong>saldo já acumulado</strong> — e não apenas
+              sobre o principal. Por isso costumam aparecer descritos como{" "}
+              <strong>juros sobre juros</strong>.
+            </ModalText>
+            <ModalText>
+              O efeito prático é que o crescimento não é mais linear: ele{" "}
+              <strong>acelera ao longo do tempo</strong>, mesmo quando a taxa é
+              a mesma dos juros simples.
             </ModalText>
             <ModalFormula>M = P × (1 + i)ⁿ</ModalFormula>
             <ModalExample>
-              R$1.000 · 1% a.m. · 12 meses → R$1.126,83.
+              <strong>Caso de referência JC-01:</strong>
+              <br />
+              Principal R$1.000,00 · Taxa 1% a.m. · Prazo 12 meses
+              <br />
+              Montante R$1.126,83 · Diferença de R$6,83 contra o simples
             </ModalExample>
+            <ModalText>
+              Quanto maior o prazo, maior tende a ser a diferença entre os dois
+              regimes, porque cada período parte de uma base acumulada maior.
+            </ModalText>
             <ModalDisclaimer />
           </>
         );
       case "comparacao":
         return (
           <>
-            <ModalHeading>Comparação</ModalHeading>
+            <ModalHeading>
+              ⚖️ Comparação — quando os compostos superam os simples
+            </ModalHeading>
             <ModalText>
-              Simples e composto podem parecer próximos no início. A diferença
-              aparece quando o prazo cresce e o composto reinveste os juros.
+              Para n = 1, simples e composto chegam ao mesmo resultado. A partir
+              de n &gt; 1, o composto supera o simples porque os juros de um
+              período passam a compor a base do período seguinte.
             </ModalText>
-            <ModalFormula>
-              Composto tende a superar simples quando n &gt; 1
-            </ModalFormula>
+            <ModalText>
+              A divergência cresce de forma não-linear: em 12 meses ela pode
+              parecer pequena; em 60 meses, 120 meses ou mais, tende a se tornar
+              muito relevante.
+            </ModalText>
             <ModalExample>
-              Use a aba Comparar para ver a divergência com os mesmos
-              parâmetros, sempre com retorno oficial do backend.
+              <strong>Mesmas condições · Resultado diferente:</strong>
+              <br />
+              R$1.000 · 1% a.m. · 12 meses → simples R$1.120,00 · composto
+              R$1.126,83.
             </ModalExample>
+            <ModalText>
+              Na dívida, pagar mais cedo reduz a capitalização futura. No
+              investimento, manter mais tempo aumenta o efeito dos juros sobre
+              juros.
+            </ModalText>
             <ModalDisclaimer />
           </>
         );
       case "aportes":
         return (
           <>
-            <ModalHeading>Aportes</ModalHeading>
+            <ModalHeading>
+              ➕ Aportes mensais — entrando dinheiro novo no caminho
+            </ModalHeading>
             <ModalText>
-              Aporte não é juro: é dinheiro novo entrando no saldo. A leitura
-              correta separa principal, valores aportados e remuneração.
+              Aporte mensal é um valor que entra no saldo a cada período, somado
+              ao principal. Ele aumenta a base sobre a qual o cálculo passa a
+              incidir nos períodos seguintes.
+            </ModalText>
+            <ModalText>
+              <strong>Aporte não é juro.</strong> Aporte é dinheiro novo que
+              você coloca; juro é o resultado do cálculo aplicado sobre o saldo.
+              As duas coisas aparecem em colunas separadas na tabela de
+              evolução.
+            </ModalText>
+            <ModalText>
+              Quando há aporte mensal, o saldo final passa a ser composto por
+              três parcelas: o <strong>principal inicial</strong>, o{" "}
+              <strong>total aportado</strong> ao longo do período e os{" "}
+              <strong>juros acumulados</strong>.
             </ModalText>
             <ModalFormula>
               Saldo final = principal + aportes + juros
             </ModalFormula>
             <ModalExample>
-              Quando houver aportes, a API retorna total aportado, total
-              investido e juros para não misturar origem dos valores.
+              <strong>Efeito dos aportes:</strong>
+              <br />
+              Mais aportes aumentam o saldo e podem ampliar os juros futuros,
+              mas o dinheiro novo não deve ser confundido com rentabilidade.
             </ModalExample>
             <ModalDisclaimer />
           </>
@@ -760,19 +829,25 @@ function InterestEducationModal({
       case "cuidados":
         return (
           <>
-            <ModalHeading>Cuidados</ModalHeading>
+            <ModalHeading>⚠ Cuidados gerais — juros</ModalHeading>
             <CautionItem icon="🔴">
-              Contratos reais geralmente usam composto, tarifas e regras
-              próprias de arredondamento.
+              <strong>Não confunda regimes.</strong> Contratos reais quase
+              sempre usam juros compostos. Usar juros simples para estimar uma
+              dívida real tende a subestimar o custo.
             </CautionItem>
             <CautionItem icon="🟡">
-              Compare taxas na mesma base: mensal com mensal, anual com anual.
+              <strong>Prazos longos amplificam tudo.</strong> Uma diferença de
+              0,1% na taxa pode representar valores significativos em 10 ou 20
+              anos.
             </CautionItem>
             <CautionItem icon="🟡">
-              Prazos longos amplificam diferenças pequenas de taxa.
+              <strong>Base da taxa importa.</strong> Taxa mensal, anual e diária
+              não são intercambiáveis sem conversão adequada.
             </CautionItem>
             <CautionItem icon="🔵">
-              O simulador é educacional e não substitui análise profissional.
+              <strong>Produto educacional.</strong> A simulação ajuda a entender
+              o mecanismo, mas não substitui contrato, CET ou análise
+              profissional.
             </CautionItem>
             <ModalDisclaimer />
           </>
