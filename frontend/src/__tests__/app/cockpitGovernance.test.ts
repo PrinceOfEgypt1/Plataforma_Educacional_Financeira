@@ -34,6 +34,20 @@ describe("Financial Cockpit — governança de código", () => {
     expect(shell).not.toMatch(/Sidebar/);
   });
 
+  it("mantém adaptação básica para tablet e mobile sem scroll de página", () => {
+    const globals = readFileSync(join(ROOT, "src/app/globals.css"), "utf8");
+
+    expect(globals).toMatch(/@media\s*\(max-width:\s*1100px\)/);
+    expect(globals).toMatch(/@media\s*\(max-width:\s*767px\)/);
+    expect(globals).toMatch(
+      /\.cockpit-content-grid\s*{[^}]*overflow-y:\s*auto/s,
+    );
+    expect(globals).toMatch(/grid-template-columns:\s*minmax\(0,\s*1fr\)/);
+    expect(globals).toMatch(
+      /\.cockpit-module-tabs,\s*\.cockpit-sub-tabs\s*{[^}]*overflow-x:\s*auto/s,
+    );
+  });
+
   it("campos de taxa do cockpit não usam validação nativa de input number", () => {
     const files = [
       "src/components/interest/InterestCockpit.tsx",
