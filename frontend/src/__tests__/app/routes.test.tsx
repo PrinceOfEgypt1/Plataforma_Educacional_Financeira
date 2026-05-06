@@ -1,80 +1,177 @@
-/**
- * Teste dinâmico de rotas-base — para cada módulo, importa o respectivo
- * `page.tsx` via `import()` e valida contrato adequado ao status.
- *
- * Sprint 1 / 2 estabeleceu dois contratos distintos por status:
- *
- *   - `status === "em-construcao"` — página delega ao template
- *     `<ModulePage />`, que obriga título + AlertBanner("em construção") +
- *     EducationPanel("sobre {shortTitle}"). É o contrato herdado e segue
- *     válido para os módulos que ainda não foram implementados.
- *
- *   - `status === "disponivel"` — o módulo tem sua própria página real.
- *     O contrato mínimo é: título do módulo como h1.
- *
- * Sprint 2 / F4 marcou `juros` como `disponivel`. Por isso este arquivo
- * foi reestruturado em dois blocos — um por status.
- */
 import type { ReactElement } from "react";
-import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
 
 import { MODULES } from "@/config/modules";
 
-/* -------------------------------------------------------------------------
- * Polyfill mínimo de ResizeObserver — recharts usa em runtime. Tipado sem
- * `any`: interface local + registro via `vi.stubGlobal` (aceita `unknown`).
- * ------------------------------------------------------------------------- */
-interface MinimalResizeObserver {
-  observe(): void;
-  unobserve(): void;
-  disconnect(): void;
-}
-class NoopResizeObserver implements MinimalResizeObserver {
+class NoopResizeObserver {
   observe(): void {}
   unobserve(): void {}
   disconnect(): void {}
 }
+
 vi.stubGlobal("ResizeObserver", NoopResizeObserver);
 
-const emConstrucao = MODULES.filter((m) => m.status === "em-construcao");
-const disponiveis = MODULES.filter((m) => m.status === "disponivel");
+vi.mock("next/navigation", () => ({
+  usePathname: () => "/",
+}));
 
-describe("Rotas-base — módulos em construção", () => {
-  if (emConstrucao.length === 0) {
-    it.skip("(nenhum módulo em-construcao no momento)", () => {});
-  }
+vi.mock("@/services/interest", () => ({
+  simularJurosSimples: vi.fn().mockResolvedValue({
+    summary: {
+      principal: "180000.00",
+      taxa_mensal: "0.015000",
+      prazo_meses: 60,
+      juros_totais: "162000.00",
+      montante_final: "342000.00",
+    },
+    tables: { amortizacao: [] },
+    charts: [],
+    interpretation: { headline: "", body: "" },
+    alerts: [],
+  }),
+  simularJurosCompostos: vi.fn().mockResolvedValue({
+    summary: {
+      principal: "180000.00",
+      taxa_mensal: "0.015000",
+      prazo_meses: 60,
+      aporte_mensal: "0.00",
+      juros_totais: "260000.00",
+      total_aportado: "0.00",
+      total_investido: "180000.00",
+      montante_final: "440000.00",
+    },
+    tables: { amortizacao: [] },
+    charts: [],
+    interpretation: { headline: "", body: "" },
+    alerts: [],
+  }),
+  compararJuros: vi.fn().mockResolvedValue({
+    summary: {
+      principal: "180000.00",
+      taxa_mensal: "0.015000",
+      prazo_meses: 60,
+      montante_simples: "342000.00",
+      montante_composto: "440000.00",
+      diferenca: "98000.00",
+      razao: "1.286550",
+    },
+    tables: { simple: [], compound: [] },
+    charts: [],
+    interpretation: { headline: "", body: "" },
+    alerts: [],
+  }),
+}));
+
+vi.mock("@/services/amortization/amortizationService", () => ({
+  simularPrice: vi.fn().mockResolvedValue({
+    summary: {
+      sistema: "PRICE",
+      principal: "100000.00",
+      taxa_periodo: "0.010000",
+      n_periodos: 12,
+      parcela: "8884.88",
+      total_pago: "106618.53",
+      total_juros: "6618.53",
+      saldo_final: "0.00",
+    },
+    tables: { amortizacao: [] },
+    charts: [],
+    interpretation: { headline: "", body: "" },
+    alerts: [],
+  }),
+  simularSac: vi.fn().mockResolvedValue({
+    summary: {
+      sistema: "SAC",
+      principal: "100000.00",
+      taxa_periodo: "0.010000",
+      n_periodos: 12,
+      amortizacao_constante: "8333.33",
+      parcela_inicial: "9333.33",
+      parcela_final: "8416.70",
+      total_pago: "106500.00",
+      total_juros: "6500.00",
+      saldo_final: "0.00",
+    },
+    tables: { amortizacao: [] },
+    charts: [],
+    interpretation: { headline: "", body: "" },
+    alerts: [],
+  }),
+  compararAmortizacao: vi.fn().mockResolvedValue({
+    summary: {
+      principal: "100000.00",
+      taxa_periodo: "0.010000",
+      n_periodos: 12,
+      price: {
+        sistema: "PRICE",
+        principal: "100000.00",
+        taxa_periodo: "0.010000",
+        n_periodos: 12,
+        parcela: "8884.88",
+        total_pago: "106618.53",
+        total_juros: "6618.53",
+        saldo_final: "0.00",
+      },
+      sac: {
+        sistema: "SAC",
+        principal: "100000.00",
+        taxa_periodo: "0.010000",
+        n_periodos: 12,
+        amortizacao_constante: "8333.33",
+        parcela_inicial: "9333.33",
+        parcela_final: "8416.70",
+        total_pago: "106500.00",
+        total_juros: "6500.00",
+        saldo_final: "0.00",
+      },
+      diferenca_juros: "118.53",
+      diferenca_total_pago: "118.53",
+      menor_total_juros: "SAC",
+    },
+    tables: { price: [], sac: [] },
+    charts: [],
+    interpretation: { headline: "", body: "" },
+    alerts: [],
+  }),
+}));
+
+const emConstrucao = MODULES.filter(
+  (module) => module.status === "em-construcao",
+);
+const disponiveis = MODULES.filter((module) => module.status === "disponivel");
+
+describe("Rotas-base — módulos em breve", () => {
   for (const mod of emConstrucao) {
-    it(`/${mod.slug} renderiza título, alert-banner e education-panel`, async () => {
+    it(`/${mod.slug} renderiza empty state elegante sem funcionalidade falsa`, async () => {
       const mod_ = await import(`@/app/(app)/${mod.slug}/page`);
       const Page = mod_.default as () => ReactElement;
       render(<Page />);
 
-      const heading = screen.getByRole("heading", { level: 1 });
-      expect(heading).toHaveTextContent(mod.title);
-
-      const alert = screen.getByRole("alert");
-      expect(alert).toHaveTextContent(/em construção/i);
-
-      const panel = screen.getByRole("complementary", {
-        name: new RegExp(`sobre ${mod.shortTitle}`, "i"),
-      });
-      expect(panel).toBeInTheDocument();
+      expect(screen.getByTestId(`module-page-${mod.id}`)).toBeInTheDocument();
+      expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+        mod.title,
+      );
+      expect(screen.getByText(/sem funcionalidade falsa/i)).toBeInTheDocument();
     });
   }
 });
 
 describe("Rotas-base — módulos disponíveis", () => {
-  if (disponiveis.length === 0) {
-    it.skip("(nenhum módulo disponivel no momento)", () => {});
-  }
   for (const mod of disponiveis) {
-    it(`/${mod.slug} renderiza título do módulo`, async () => {
+    it(`/${mod.slug} renderiza cockpit com título acessível`, async () => {
       const mod_ = await import(`@/app/(app)/${mod.slug}/page`);
       const Page = mod_.default as () => ReactElement;
       render(<Page />);
-      const heading = screen.getByRole("heading", { level: 1 });
-      expect(heading).toHaveTextContent(mod.title);
+      expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+        mod.title,
+      );
+      if (mod.slug === "juros") {
+        expect(await screen.findByText("R$ 342.000,00")).toBeInTheDocument();
+      }
+      if (mod.slug === "amortizacao") {
+        expect(await screen.findAllByText("R$ 8.884,88")).not.toHaveLength(0);
+      }
     });
   }
 });

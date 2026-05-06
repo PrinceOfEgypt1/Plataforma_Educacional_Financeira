@@ -247,3 +247,52 @@ Docs vivos provavelmente impactados em F5:
 A planilha operacional nao deve ser alterada pela Codex nesta branch. O registro
 permanece sob decisao do PO Moises apos auditoria do Camaleao e materializacao
 via GitHub/pipeline.
+
+## 12. Adendo F2 - Financial Cockpit fiel
+
+Data: 2026-05-04
+Branch: `sprint-3.5/f2-financial-cockpit-fiel-codex`
+Base operacional: `main = origin/main = fc21560`
+
+A F2 foi reorientada para uma transposicao fiel do Financial Cockpit da Claude
+para React/Next, usando `redesign-financeiro.html` como fonte visual de
+verdade. A entrega nao deve ser apenas inspirada no prototipo: precisa manter a
+composicao, proporcoes, paleta, topbar, subtabs, paineis, KPIs, graficos,
+modais, badges, tipografia e experiencia de cockpit.
+
+Condicionantes obrigatorios registrados antes da materializacao:
+
+- A branch correta e `sprint-3.5/f2-financial-cockpit-fiel-codex`.
+- A base correta e `main = origin/main = fc21560`.
+- A sidebar antiga deve desaparecer do shell operacional.
+- A aplicacao deve usar Syne e IBM Plex Mono via `next/font/google`.
+- A pagina nao pode ter scroll vertical nem horizontal no viewport desktop.
+- Scroll interno so e permitido em tabela, modal ou painel educacional quando
+  inevitavel.
+- O frontend nao pode copiar calculos JavaScript do HTML de referencia.
+- Os dados financeiros devem vir dos services/API existentes.
+- Recharts pode ser usado, desde que a aparencia se aproxime do HTML da Claude.
+- Juros deve conter Juros Simples, Juros Compostos e Comparar.
+- Amortizacao deve conter PRICE, SAC e Comparar.
+- A tela inicial de cada modulo deve carregar com valores padrao uteis e
+  resultado inicial.
+- As tabelas devem exibir uma linha por periodo, sem `...` ou truncamento
+  artificial.
+- Tooltips ricos dos graficos devem mostrar periodo, serie e valores
+  formatados.
+- Modulos `Imovel`, `Consignado`, `CDC`, `Cartao` e `Investir x Quitar` devem
+  exibir empty state elegante de "Em breve", sem funcionalidade falsa.
+- O modal de Juros deve conter as abas Juros Simples, Juros Compostos,
+  Comparacao, Aportes e Cuidados.
+- O modal de Amortizacao deve conter as abas O que a tabela mostra, PRICE, SAC,
+  PRICE x SAC, Glossario e Cuidados.
+- Cada aba dos modais deve ter conteudo real, navegavel e testavel.
+- Devem ser gerados screenshots versionados das telas principais, modulos "Em
+  breve" e abas dos modais.
+- Deve existir evidencia `F2-user-navigation-script-proof.md`.
+- Os testes devem cobrir o roteiro de navegacao, modais, modulos em breve,
+  limites de prazo e ausencia de calculo financeiro critico no frontend.
+- Permanecem proibidas alteracoes em backend, OpenAPI, baseline,
+  `docs/_meta/living_docs.json`, Makefile, scripts, workflows, planilha e
+  Prompt-Mestre.
+- Nao ha autorizacao para push, PR ou merge nesta entrega local.

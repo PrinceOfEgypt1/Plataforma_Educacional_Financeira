@@ -1,20 +1,15 @@
-import { act, render, screen, within } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { pctInputToRateString } from "@/lib/money";
 import type {
   CompareAmortizationOut,
   PriceOut,
   SacOut,
 } from "@/types/amortization";
 
-interface MinimalResizeObserver {
-  observe(): void;
-  unobserve(): void;
-  disconnect(): void;
-}
-
-class NoopResizeObserver implements MinimalResizeObserver {
+class NoopResizeObserver {
   observe(): void {}
   unobserve(): void {}
   disconnect(): void {}
@@ -24,7 +19,6 @@ vi.stubGlobal("ResizeObserver", NoopResizeObserver);
 
 vi.mock("next/navigation", () => ({
   usePathname: () => "/amortizacao",
-  useRouter: () => ({ push: () => {} }),
 }));
 
 vi.mock("@/services/amortization/amortizationService", () => ({
@@ -70,30 +64,9 @@ const PRICE_OUT: PriceOut = {
     saldo_final: "0.00",
   },
   tables: { amortizacao: [PRICE_ROW] },
-  charts: [
-    {
-      x_label: "Periodo",
-      y_label: "Saldo devedor",
-      series: [
-        {
-          label: "PRICE",
-          kind: "price",
-          points: ["92115.12", "84151.75"],
-        },
-      ],
-    },
-  ],
-  interpretation: {
-    headline: "PRICE mantem parcelas constantes",
-    body: "A tabela PRICE reduz o saldo com amortizacao crescente.",
-  },
-  alerts: [
-    {
-      code: "PRICE_TOTAL",
-      severity: "info",
-      message: "Confira o custo total antes de contratar.",
-    },
-  ],
+  charts: [],
+  interpretation: { headline: "PRICE", body: "Parcela constante." },
+  alerts: [],
 };
 
 const SAC_OUT: SacOut = {
@@ -110,30 +83,9 @@ const SAC_OUT: SacOut = {
     saldo_final: "0.00",
   },
   tables: { amortizacao: [SAC_ROW] },
-  charts: [
-    {
-      x_label: "Periodo",
-      y_label: "Saldo devedor",
-      series: [
-        {
-          label: "SAC",
-          kind: "sac",
-          points: ["91666.67", "83333.34"],
-        },
-      ],
-    },
-  ],
-  interpretation: {
-    headline: "SAC reduz parcelas ao longo do tempo",
-    body: "A amortizacao constante faz os juros cairem a cada periodo.",
-  },
-  alerts: [
-    {
-      code: "SAC_PARCELA",
-      severity: "warning",
-      message: "A parcela inicial e maior no SAC.",
-    },
-  ],
+  charts: [],
+  interpretation: { headline: "SAC", body: "Parcela decrescente." },
+  alerts: [],
 };
 
 const COMPARE_OUT: CompareAmortizationOut = {
@@ -147,240 +99,191 @@ const COMPARE_OUT: CompareAmortizationOut = {
     diferenca_total_pago: "118.53",
     menor_total_juros: "SAC",
   },
-  tables: {
-    price: [PRICE_ROW],
-    sac: [SAC_ROW],
-  },
+  tables: { price: [PRICE_ROW], sac: [SAC_ROW] },
   charts: [
     {
-      x_label: "Periodo",
-      y_label: "Saldo devedor",
+      x_label: "Período",
+      y_label: "Saldo",
       series: [
-        { label: "PRICE", kind: "price", points: ["92115.12", "84151.75"] },
-        { label: "SAC", kind: "sac", points: ["91666.67", "83333.34"] },
+        { label: "PRICE", kind: "price", points: ["92115.12"] },
+        { label: "SAC", kind: "sac", points: ["91666.67"] },
       ],
     },
   ],
-  interpretation: {
-    headline: "SAC cobra menos juros neste cenario",
-    body: "Com taxa positiva e prazo maior que 1, o SAC tem menor total de juros.",
-  },
-  alerts: [
-    {
-      code: "COMPARE_SAC",
-      severity: "info",
-      message: "SAC apresentou menor custo total de juros.",
-    },
-  ],
+  interpretation: { headline: "Comparar", body: "SAC cobra menos juros." },
+  alerts: [],
 };
 
-const simularPriceMock = vi.mocked(simularPrice);
-const simularSacMock = vi.mocked(simularSac);
-const compararAmortizacaoMock = vi.mocked(compararAmortizacao);
+const priceMock = vi.mocked(simularPrice);
+const sacMock = vi.mocked(simularSac);
+const compareMock = vi.mocked(compararAmortizacao);
 
-async function fillBaseForm(): Promise<void> {
-  const user = userEvent.setup();
-  await user.type(screen.getByLabelText(/Principal \(BRL\)/i), "100.000,00");
-  await user.type(screen.getByLabelText(/Taxa do periodo/i), "1,00");
-  await user.type(screen.getByLabelText(/Prazo \(periodos\)/i), "12");
-}
-
-describe("AmortizacaoPage", () => {
+describe("/amortizacao — Financial Cockpit", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    simularPriceMock.mockResolvedValue(PRICE_OUT);
-    simularSacMock.mockResolvedValue(SAC_OUT);
-    compararAmortizacaoMock.mockResolvedValue(COMPARE_OUT);
+    priceMock.mockResolvedValue(PRICE_OUT);
+    sacMock.mockResolvedValue(SAC_OUT);
+    compareMock.mockResolvedValue(COMPARE_OUT);
   });
 
-  it("renderiza modulo real e nao usa placeholder", () => {
+  it("renderiza cockpit PRICE com subtabs, KPIs, gráfico e painel direito", async () => {
     render(<AmortizacaoPage />);
 
-    expect(screen.getByTestId("amortizacao-page")).toBeInTheDocument();
-    expect(screen.getByTestId("amortizacao-tabs")).toBeInTheDocument();
-    expect(screen.getByTestId("amortizacao-price-form")).toBeInTheDocument();
-    expect(
-      screen.queryByText(/M[oó]dulo em constru[cç][aã]o/i),
-    ).not.toBeInTheDocument();
-  });
+    expect(screen.getByTestId("amortizacao-cockpit")).toBeInTheDocument();
+    expect(screen.getByTestId("cockpit-subtab-price")).toBeInTheDocument();
+    expect(screen.getByTestId("cockpit-input-panel")).toBeInTheDocument();
+    expect(screen.getByTestId("cockpit-kpi-strip")).toBeInTheDocument();
+    expect(screen.getByTestId("cockpit-chart-panel")).toBeInTheDocument();
+    expect(screen.getByTestId("cockpit-education-panel")).toBeInTheDocument();
+    expect(screen.getByTestId("cockpit-insight-bar")).toBeInTheDocument();
 
-  it("renderiza conteudo educacional visivel de amortizacao", () => {
-    render(<AmortizacaoPage />);
-
-    const aprendaMais = screen.getByTestId("amortizacao-aprenda-mais");
-    expect(
-      within(aprendaMais).getByRole("heading", {
-        name: /Entenda a amortiza[cç][aã]o/i,
-      }),
-    ).toBeInTheDocument();
-    expect(
-      within(aprendaMais).getByText(/PRICE.*parcela constante/i),
-    ).toBeInTheDocument();
-    expect(
-      within(aprendaMais).getByText(/SAC.*amortiza[cç][aã]o constante/i),
-    ).toBeInTheDocument();
-    expect(within(aprendaMais).getByText(/PRICE x SAC/i)).toBeInTheDocument();
-    expect(
-      within(aprendaMais).getAllByTestId("amortizacao-saiba-mais-disclaimer")
-        .length,
-    ).toBeGreaterThan(0);
-
-    const glossario = screen.getByTestId("amortizacao-glossario");
-    expect(within(glossario).getByText("Principal")).toBeInTheDocument();
-    expect(within(glossario).getByText("Taxa por período")).toBeInTheDocument();
-    expect(within(glossario).getByText("Saldo final")).toBeInTheDocument();
-
-    const cuidados = screen.getByTestId("amortizacao-cuidados");
-    expect(
-      within(cuidados).getByText("Simulação não substitui contrato"),
-    ).toBeInTheDocument();
-    expect(
-      within(cuidados).getByText("Parcela não é custo total"),
-    ).toBeInTheDocument();
-  });
-
-  it("valida campos obrigatorios antes de chamar a API", async () => {
-    const user = userEvent.setup();
-    render(<AmortizacaoPage />);
-
-    await user.click(screen.getByRole("button", { name: /Calcular PRICE/i }));
-
-    expect(screen.getByText(/Informe o valor financiado/i)).toBeInTheDocument();
-    expect(screen.getByText(/Informe a taxa do periodo/i)).toBeInTheDocument();
-    expect(
-      screen.getByText(/Informe o prazo em periodos/i),
-    ).toBeInTheDocument();
-    expect(simularPriceMock).not.toHaveBeenCalled();
-  });
-
-  it("executa happy path PRICE com resumo, tabela, grafico, alerta e interpretacao", async () => {
-    const user = userEvent.setup();
-    render(<AmortizacaoPage />);
-
-    await fillBaseForm();
-    await user.click(screen.getByRole("button", { name: /Calcular PRICE/i }));
-
-    const result = await screen.findByTestId("amortizacao-price-result");
-    expect(simularPriceMock).toHaveBeenCalledWith({
+    await waitFor(() => expect(priceMock).toHaveBeenCalled());
+    expect(priceMock).toHaveBeenCalledWith({
       principal: "100000.00",
       taxa_periodo: "0.010000",
       n_periodos: 12,
     });
-    expect(
-      within(result).getByTestId("summary-price-grid"),
-    ).toBeInTheDocument();
-    expect(within(result).getAllByText(/R\$ 8\.884,88/).length).toBeGreaterThan(
-      0,
-    );
-    expect(within(result).getByTestId("amortizacao-table")).toBeInTheDocument();
-    expect(within(result).getByText(/R\$ 7\.884,88/)).toBeInTheDocument();
-    expect(
-      within(result).getByTestId("amortizacao-saldo-chart"),
-    ).toBeInTheDocument();
-    expect(within(result).getByText(/PRICE_TOTAL/i)).toBeInTheDocument();
-    expect(
-      within(result).getByRole("heading", {
-        name: /PRICE mantem parcelas constantes/i,
-      }),
-    ).toBeInTheDocument();
   });
 
-  it("mostra estado loading durante chamada PRICE", async () => {
-    const user = userEvent.setup();
-    let resolvePromise: (value: PriceOut) => void = () => {};
-    simularPriceMock.mockReturnValue(
-      new Promise<PriceOut>((resolve) => {
-        resolvePromise = resolve;
-      }),
-    );
-    render(<AmortizacaoPage />);
-
-    await fillBaseForm();
-    await user.click(screen.getByRole("button", { name: /Calcular PRICE/i }));
-
-    expect(screen.getByText(/Calculando PRICE/i)).toBeInTheDocument();
-
-    await act(async () => {
-      resolvePromise(PRICE_OUT);
-    });
-
-    expect(
-      await screen.findByTestId("amortizacao-price-result"),
-    ).toBeInTheDocument();
-  });
-
-  it("mostra erro de API", async () => {
-    const user = userEvent.setup();
-    simularPriceMock.mockRejectedValue({
-      kind: "problem",
-      status: 422,
-      title: "Validation Error",
-      detail: "principal deve ser maior que zero",
-      raw: {},
-    });
-    render(<AmortizacaoPage />);
-
-    await fillBaseForm();
-    await user.click(screen.getByRole("button", { name: /Calcular PRICE/i }));
-
-    expect(
-      await screen.findByText(/principal deve ser maior que zero/i),
-    ).toBeInTheDocument();
-  });
-
-  it("executa happy path SAC", async () => {
+  it("navega por SAC e Comparar usando os services existentes", async () => {
     const user = userEvent.setup();
     render(<AmortizacaoPage />);
 
-    await user.click(screen.getByRole("tab", { name: "SAC" }));
-    await fillBaseForm();
-    await user.click(screen.getByRole("button", { name: /Calcular SAC/i }));
+    await user.click(screen.getByRole("tab", { name: /^SAC$/i }));
+    await waitFor(() => expect(sacMock).toHaveBeenCalled());
+    expect(screen.getByText(/EVOLUÇÃO DAS PARCELAS SAC/i)).toBeInTheDocument();
 
-    const result = await screen.findByTestId("amortizacao-sac-result");
-    expect(simularSacMock).toHaveBeenCalledWith({
-      principal: "100000.00",
-      taxa_periodo: "0.010000",
-      n_periodos: 12,
-    });
-    expect(within(result).getByTestId("summary-sac-grid")).toBeInTheDocument();
-    expect(within(result).getAllByText(/R\$ 9\.333,33/).length).toBeGreaterThan(
-      0,
-    );
-    expect(within(result).getByText(/SAC_PARCELA/i)).toBeInTheDocument();
+    await user.click(screen.getByRole("tab", { name: /^Comparar$/i }));
+    await waitFor(() => expect(compareMock).toHaveBeenCalled());
     expect(
-      within(result).getByRole("heading", {
-        name: /SAC reduz parcelas ao longo do tempo/i,
-      }),
+      screen.getByText(/EVOLUÇÃO DAS PARCELAS — PRICE × SAC/i),
     ).toBeInTheDocument();
   });
 
-  it("executa happy path compare com tabelas PRICE e SAC", async () => {
+  it("abre modal de amortização com as seis abas obrigatórias", async () => {
     const user = userEvent.setup();
     render(<AmortizacaoPage />);
 
-    await user.click(screen.getByRole("tab", { name: /Comparar/i }));
-    await fillBaseForm();
     await user.click(
-      screen.getByRole("button", { name: /Comparar sistemas/i }),
+      screen.getByRole("button", { name: /entender a tabela/i }),
     );
-
-    const result = await screen.findByTestId("amortizacao-compare-result");
-    expect(compararAmortizacaoMock).toHaveBeenCalledWith({
-      principal: "100000.00",
-      taxa_periodo: "0.010000",
-      n_periodos: 12,
+    const dialog = screen.getByRole("dialog", {
+      name: /entenda a amortização/i,
     });
     expect(
-      within(result).getByTestId("summary-compare-grid"),
+      within(dialog).getByText(/O que a tabela mostra/i),
+    ).toBeInTheDocument();
+    expect(within(dialog).getByTestId("modal-tab-price")).toBeInTheDocument();
+    expect(within(dialog).getByTestId("modal-tab-sac")).toBeInTheDocument();
+    expect(
+      within(dialog).getByTestId("modal-tab-price-sac"),
     ).toBeInTheDocument();
     expect(
-      within(result).getByTestId("amortizacao-compare-tables"),
+      within(dialog).getByTestId("modal-tab-glossario"),
     ).toBeInTheDocument();
-    expect(within(result).getByText(/COMPARE_SAC/i)).toBeInTheDocument();
     expect(
-      within(result).getByRole("heading", {
-        name: /SAC cobra menos juros neste cenario/i,
+      within(dialog).getByTestId("modal-tab-cuidados"),
+    ).toBeInTheDocument();
+  });
+
+  it("aceita vírgula e ponto na taxa sem validação nativa em PRICE, SAC e Comparar", async () => {
+    const user = userEvent.setup();
+    render(<AmortizacaoPage />);
+
+    for (const [input, normalized] of [
+      ["1", "0.010000"],
+      ["1,5", "0.015000"],
+      ["1,50", "0.015000"],
+      ["1.5", "0.015000"],
+      ["1.50", "0.015000"],
+      ["0,8", "0.008000"],
+      ["0,80", "0.008000"],
+      ["0.8", "0.008000"],
+      ["0.80", "0.008000"],
+      ["2", "0.020000"],
+      ["2,0", "0.020000"],
+      ["2,00", "0.020000"],
+      ["2.0", "0.020000"],
+      ["2.00", "0.020000"],
+      ["10,75", "0.107500"],
+      ["10.75", "0.107500"],
+    ] as const) {
+      expect(pctInputToRateString(input)).toBe(normalized);
+    }
+
+    const priceRate = screen.getByLabelText(/taxa do período/i);
+    expect(priceRate).toHaveAttribute("type", "text");
+    expect(priceRate).toHaveAttribute("inputmode", "decimal");
+    expect(priceRate.closest("form")).toHaveAttribute("novalidate");
+
+    await user.clear(priceRate);
+    await user.type(priceRate, "1,50");
+    await user.click(screen.getByRole("button", { name: /calcular price/i }));
+    await waitFor(() =>
+      expect(priceMock).toHaveBeenLastCalledWith({
+        principal: "100000.00",
+        taxa_periodo: "0.015000",
+        n_periodos: 12,
       }),
+    );
+
+    await user.click(screen.getByRole("tab", { name: /^SAC$/i }));
+    const sacRate = screen.getByLabelText(/taxa do período/i);
+    await user.clear(sacRate);
+    await user.type(sacRate, "0,80");
+    await user.click(screen.getByRole("button", { name: /calcular sac/i }));
+    await waitFor(() =>
+      expect(sacMock).toHaveBeenLastCalledWith({
+        principal: "100000.00",
+        taxa_periodo: "0.008000",
+        n_periodos: 12,
+      }),
+    );
+
+    await user.click(screen.getByRole("tab", { name: /^Comparar$/i }));
+    const compareRate = screen.getByLabelText(/taxa do período/i);
+    await user.clear(compareRate);
+    await user.type(compareRate, "10.75");
+    await user.click(screen.getByRole("button", { name: /comparar/i }));
+    await waitFor(() =>
+      expect(compareMock).toHaveBeenLastCalledWith({
+        principal: "100000.00",
+        taxa_periodo: "0.107500",
+        n_periodos: 12,
+      }),
+    );
+  });
+
+  it("mantém conteúdo educativo completo do cockpit de amortização", async () => {
+    const user = userEvent.setup();
+    render(<AmortizacaoPage />);
+
+    expect(screen.getAllByText(/Tabela PRICE/i).length).toBeGreaterThan(0);
+
+    await user.click(screen.getByRole("tab", { name: /^SAC$/i }));
+    expect(screen.getByText(/Tabela SAC/i)).toBeInTheDocument();
+    await user.click(screen.getByRole("tab", { name: /SAC × PRICE/i }));
+    expect(screen.getByText(/SAC vs PRICE/i)).toBeInTheDocument();
+
+    await user.click(screen.getByRole("tab", { name: /^Comparar$/i }));
+    expect(screen.getByText(/PRICE × SAC — o essencial/i)).toBeInTheDocument();
+    await user.click(screen.getByRole("tab", { name: /^Tabela$/i }));
+    expect(screen.getByText(/Tabela Comparativa/i)).toBeInTheDocument();
+
+    await user.click(screen.getByRole("tab", { name: /^Análise$/i }));
+    await user.click(screen.getByRole("button", { name: /leitura completa/i }));
+    const dialog = screen.getByRole("dialog", {
+      name: /entenda a amortização/i,
+    });
+    await user.click(within(dialog).getByTestId("modal-tab-glossario"));
+    expect(
+      within(dialog).getByText(/Glossário da amortização/i),
+    ).toBeInTheDocument();
+    expect(within(dialog).getByText(/^Principal$/i)).toBeInTheDocument();
+    expect(within(dialog).getByText(/Número de períodos/i)).toBeInTheDocument();
+    await user.click(within(dialog).getByTestId("modal-tab-cuidados"));
+    expect(
+      within(dialog).getByText(/Cuidados educacionais/i),
     ).toBeInTheDocument();
   });
 });
