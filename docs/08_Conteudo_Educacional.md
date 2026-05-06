@@ -238,6 +238,24 @@ e não substitui contrato real, análise profissional ou condições
 efetivas de financiamento. Os exemplos numéricos referenciam os casos
 canônicos PR-01 e SAC-01 do Doc 15.
 
+### 13.3 Integração educacional — Sprint 3.5
+
+Na Sprint 3.5, os conteúdos educacionais de juros e amortização foram
+reorganizados no Financial Cockpit.
+
+O conteúdo deixa de competir com a tarefa principal em blocos longos abertos e
+passa a aparecer em:
+
+- painel contextual à direita;
+- abas educacionais por tema;
+- modais de aprofundamento;
+- tabelas sob demanda;
+- cuidados educacionais em camada própria.
+
+Essa organização preserva o princípio editorial de profundidade opcional:
+o usuário consegue simular primeiro e aprofundar depois, sem perder o contexto
+pedagógico.
+
 ## 14. FAQ
 - Perguntas reais (extraídas da persona) com resposta direta.
 - Linkar para módulo, glossário, Nível 2/3.

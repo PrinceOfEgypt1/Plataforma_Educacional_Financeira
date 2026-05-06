@@ -102,6 +102,25 @@ Esse conteúdo não substitui a interpretação do resultado retornada pela
 API. Ele complementa a simulação com explicações estáticas e versionadas
 sobre PRICE, SAC, comparação, glossário e limites educacionais.
 
+### 9.2 Materialização Sprint 3.5 — Financial Cockpit
+
+Na Sprint 3.5, a experiência dos módulos ativos passou a usar o padrão
+Financial Cockpit em `/juros` e `/amortizacao`.
+
+Esse padrão usa:
+
+- topbar global com módulos;
+- subtabs por assunto dentro do módulo;
+- painel esquerdo para entradas;
+- área central para KPIs, gráfico/tabela e insight;
+- painel direito para conteúdo educacional contextual;
+- modais para aprofundamento;
+- rolagem de página evitada no desktop, com rolagem interna controlada quando
+  inevitável em telas menores.
+
+Para os módulos ainda não implementados, a navegação deve exibir estado
+`Em breve` sem simular funcionalidade inexistente.
+
 ## 10. Layout oficial
 ### Desktop
 - sidebar à esquerda;
