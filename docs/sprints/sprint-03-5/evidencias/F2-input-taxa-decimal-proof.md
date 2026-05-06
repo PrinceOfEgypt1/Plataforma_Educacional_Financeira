@@ -34,7 +34,7 @@ Os testes cobrem a normalização dos seguintes valores:
 0,80
 0.8
 0.80
-22
+2
 2,0
 2,00
 2.0
