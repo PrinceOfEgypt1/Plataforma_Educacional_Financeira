@@ -296,3 +296,34 @@ Condicionantes obrigatorios registrados antes da materializacao:
   `docs/_meta/living_docs.json`, Makefile, scripts, workflows, planilha e
   Prompt-Mestre.
 - Nao ha autorizacao para push, PR ou merge nesta entrega local.
+
+## 13. Adendo F2.1 - Reconciliacao documental PR #20
+
+Data: 2026-05-06
+Branch: `sprint-3.5/f2-1-reconciliacao-documental-pr20-codex`
+Base operacional: `main = origin/main = e4cd127`
+
+A auditoria forense de realidade material reconciliou a cadeia de custodia da
+Sprint 3.5/F2:
+
+- PR #18 materializou a Sprint 3.5/F1 diagnostica/documental no commit
+  `fc21560`.
+- PR #19 foi fechado sem merge, com `mergedAt = null` e `mergeCommit = null`.
+- PR #19 nao deve ser usado como referencia de fechamento da Sprint 3.5/F2.
+- PR #20 materializou a Sprint 3.5/F2 no commit `e4cd127`.
+- `main = origin/main = e4cd127` passa a ser a verdade operacional pos-F2.
+- O PR #20 trouxe o Financial Cockpit para `/juros` e `/amortizacao`, com Home
+  compactada, botoes principais padronizados e breadcrumb sem `Dashboard` no
+  frontend.
+- Backend, API/OpenAPI, calculos financeiros, pipeline/workflows, baseline,
+  Prompt-Mestre e planilha permaneceram fora do escopo alterado da F2.
+- Pipeline oficial e runtime local ficaram verdes.
+
+Decisao registrada: aceitar PR #20 / `e4cd127` como materializacao real da
+Sprint 3.5/F2 e tratar o PR #19 como supersedido.
+
+Residuo nao bloqueante: warning Recharts/jsdom em ambiente de testes permanece
+documentado como aviso conhecido sem falha de gate.
+
+Proxima etapa: Sprint 3.5/F3 somente apos auditoria e aprovacao desta
+reconciliacao documental pelo Camaleao/Moises.
