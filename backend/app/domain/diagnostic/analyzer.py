@@ -69,6 +69,33 @@ class DiagnosticoResultado:
     alertas: tuple[DiagnosticAlert, ...] = field(default_factory=tuple)
 
 
+def _ensure_decimal(field: str, value: object) -> Decimal:
+    from . import DomainValidationError
+
+    if isinstance(value, bool):
+        raise DomainValidationError(
+            code="TIPO_INVALIDO",
+            message=f"'{field}' deve ser Decimal, não bool.",
+            field=field,
+            value=value,
+        )
+    if not isinstance(value, Decimal):
+        raise DomainValidationError(
+            code="TIPO_INVALIDO",
+            message=f"'{field}' deve ser Decimal.",
+            field=field,
+            value=value,
+        )
+    if not value.is_finite():
+        raise DomainValidationError(
+            code="VALOR_NAO_FINITO",
+            message=f"'{field}' deve ser um valor finito.",
+            field=field,
+            value=value,
+        )
+    return value
+
+
 def _validate(
     renda_mensal: object,
     total_despesas_fixas: object,
@@ -78,42 +105,11 @@ def _validate(
 ) -> None:
     from . import DomainValidationError
 
-    campos_decimal = [
-        ("renda_mensal", renda_mensal),
-        ("total_despesas_fixas", total_despesas_fixas),
-        ("total_despesas_variaveis", total_despesas_variaveis),
-        ("total_dividas_mensais", total_dividas_mensais),
-        ("total_reserva_atual", total_reserva_atual),
-    ]
-
-    for fname, val in campos_decimal:
-        if isinstance(val, bool):
-            raise DomainValidationError(
-                code="TIPO_INVALIDO",
-                message=f"'{fname}' deve ser Decimal, não bool.",
-                field=fname,
-                value=val,
-            )
-        if not isinstance(val, Decimal):
-            raise DomainValidationError(
-                code="TIPO_INVALIDO",
-                message=f"'{fname}' deve ser Decimal.",
-                field=fname,
-                value=val,
-            )
-        if not val.is_finite():
-            raise DomainValidationError(
-                code="VALOR_NAO_FINITO",
-                message=f"'{fname}' deve ser um valor finito.",
-                field=fname,
-                value=val,
-            )
-
-    renda: Decimal = renda_mensal  # type: ignore[assignment]
-    fixas: Decimal = total_despesas_fixas  # type: ignore[assignment]
-    variaveis: Decimal = total_despesas_variaveis  # type: ignore[assignment]
-    dividas: Decimal = total_dividas_mensais  # type: ignore[assignment]
-    reserva: Decimal = total_reserva_atual  # type: ignore[assignment]
+    renda = _ensure_decimal("renda_mensal", renda_mensal)
+    fixas = _ensure_decimal("total_despesas_fixas", total_despesas_fixas)
+    variaveis = _ensure_decimal("total_despesas_variaveis", total_despesas_variaveis)
+    dividas = _ensure_decimal("total_dividas_mensais", total_dividas_mensais)
+    reserva = _ensure_decimal("total_reserva_atual", total_reserva_atual)
 
     if renda <= _ZERO:
         raise DomainValidationError(

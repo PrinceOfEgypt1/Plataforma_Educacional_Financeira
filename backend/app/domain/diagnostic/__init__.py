@@ -20,8 +20,6 @@ Política de erros:
 
 from __future__ import annotations
 
-from typing import Any
-
 from .analyzer import DiagnosticAlert, DiagnosticoResultado, analisar_diagnostico
 
 
@@ -41,7 +39,7 @@ class DomainValidationError(ValueError):
         code: str,
         message: str,
         field: str | None = None,
-        value: Any = None,
+        value: object | None = None,
     ) -> None:
         super().__init__(message)
         self.code = code
