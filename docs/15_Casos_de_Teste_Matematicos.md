@@ -173,31 +173,52 @@ Quando houver séries temporais:
 
 ## DG-01 — Situação saudável
 **Entrada**
-- renda mensal: 5.000,00
-- despesas fixas: 2.000,00
-- despesas variáveis: 800,00
-- dívidas mensais: 500,00
-- valor guardado: 4.000,00
+- renda_mensal: 5.000,00
+- total_despesas_fixas: 2.000,00
+- total_despesas_variaveis: 800,00
+- total_dividas_mensais: 500,00
+- total_reserva_atual: 4.000,00
 
 **Esperado**
-- saldo mensal positivo
-- capacidade de poupança positiva
-- classificação não crítica
+- sobra_mensal: 1.700,00
+- despesas_essenciais_mensais: 2.800,00
+- comprometimento_percentual: 10,00%
+- reserva_em_meses: 1,43 (4000 / 2800 = 1,4285... → arredondado)
+- sobra_percentual: 34,00%
+- comprometimento_nivel: "baixo" (3 pts)
+- reserva_nivel: "insuficiente" (1 pt)
+- sobra_nivel: "boa" (3 pts)
+- score: 7
+- saude_nivel: "boa"
+- alertas: [RESERVA_INSUFICIENTE (warning)]
+
+**Materializado em código:** `backend/tests/unit/domain/diagnostic/test_analyzer.py` — `test_dg01_saude_boa`
 
 ---
 
 ## DG-02 — Situação crítica
 **Entrada**
-- renda mensal: 3.000,00
-- despesas fixas: 2.200,00
-- despesas variáveis: 700,00
-- dívidas mensais: 500,00
+- renda_mensal: 3.000,00
+- total_despesas_fixas: 2.200,00
+- total_despesas_variaveis: 700,00
+- total_dividas_mensais: 500,00
+- total_reserva_atual: 0,00
 
 **Esperado**
-- saldo mensal negativo
-- capacidade de poupança nula
-- alerta forte
-- classificação crítica
+- sobra_mensal: -400,00
+- despesas_essenciais_mensais: 2.900,00
+- comprometimento_percentual: 16,67% (500/3000×100)
+- reserva_em_meses: 0,00
+- sobra_percentual: -13,33%
+- comprometimento_nivel: "baixo" (3 pts)
+- reserva_nivel: "critica" (0 pts)
+- sobra_nivel: "negativa" (0 pts)
+- score: 3 (raw → "fragil")
+- Override: sobra < 0 E reserva_em_meses < 1 → saude_nivel = "critica"
+- saude_nivel: "critica"
+- alertas: [RESERVA_CRITICA (critical), SOBRA_NEGATIVA (critical)]
+
+**Materializado em código:** `backend/tests/unit/domain/diagnostic/test_analyzer.py` — `test_dg02_saude_critica_por_override`
 
 ---
 
