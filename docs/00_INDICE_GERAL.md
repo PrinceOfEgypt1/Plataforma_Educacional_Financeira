@@ -18,6 +18,8 @@ Este pacote reúne os arquivos produzidos até agora para o projeto **Plataforma
 - Documento 13 — Backlog Técnico Detalhado
 - Planilha operacional de acompanhamento (`backlog_operacional_acompanhamento.xlsx`)
 
+- Documento de Jornada — Da Visão ao Produto (`docs/projeto/DA_VISAO_AO_PRODUTO__A_JORNADA_DA_PLATAFORMA_EDUCACIONAL_FINANCEIRA.md`)
+
 ## Observação
 A sequência documental planejada está **completa** neste pacote.
 Não há documentos conceituais pendentes antes da disponibilização dos arquivos.
