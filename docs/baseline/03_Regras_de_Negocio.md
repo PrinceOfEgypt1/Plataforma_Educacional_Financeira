@@ -126,12 +126,18 @@ Se Despesas_essenciais_mensais = 0, retornar erro de entrada.
 | Crítico | > 40% | Crítico | "critico" |
 
 **Âncoras documentais:**
-- 30% como fronteira principal: média empírica das famílias brasileiras ~29,7%
-  (BCB, série BCB-29037, fev/2026); limite do crédito consignado (Lei 10.820/2003,
-  art. 1º §1º); critério jurisprudencial de comprometimento excessivo (TJDFT/TJSP,
-  Lei 14.181/2021). DECISÃO DE PRODUTO: extensão como threshold educacional geral.
-- 40% como fronteira crítica: acima do limite da CMN 5.115/2024 (35% para crédito
-  pessoal especial, vigência 01/07/2027). DECISÃO DE PRODUTO: threshold educacional.
+- 30% como fronteira educacional conservadora: FATO — média empírica das famílias
+  brasileiras ~29,7% (BCB, série BCB-29037, fev/2026); FATO — Lei 10.820/2003
+  (art. 1º §1º) limita desconto em folha para crédito consignado de trabalhadores
+  formais a 30% do salário líquido (não é limite universal para todo tipo de crédito);
+  INFERÊNCIA — tribunais brasileiros usam esse referencial por analogia em casos de
+  superendividamento (Lei 14.181/2021). DECISÃO DE PRODUTO: adotado como threshold
+  educacional conservador, não como norma legal geral.
+- 40% como fronteira crítica: HEURÍSTICA — valor claramente acima de qualquer
+  referência conservadora nacional ou internacional disponível. DECISÃO DE PRODUTO.
+  LIMITAÇÃO: a referência regulatória específica para este corte (mencionada em versão
+  anterior como "CMN 5.115/2024") não foi confirmada com fonte primária verificável;
+  foi removida das âncoras. O threshold 40% permanece como HEURÍSTICA.
 - 20% como fronteira "Baixo": HEURÍSTICA — abaixo da média empírica nacional.
   DECISÃO DE PRODUTO.
 
@@ -207,10 +213,17 @@ Score total = pontos_comprometimento + pontos_reserva + pontos_sobra (intervalo 
 | 6–7 | "boa" | Situação financeira boa |
 | 8–9 | "otima" | Situação financeira ótima |
 
-#### Override de sobra negativa
+#### Override de sobra negativa (dois níveis — DECISÃO DO PO)
 
-Se `Sobra_mensal < 0`, o saude_nivel é no máximo `"fragil"`, independente do
-score total. Déficit orçamentário é incompatível com classificação "Boa" ou "Ótima".
+Se `Sobra_mensal < 0`:
+- E `Reserva_em_meses < 1`: `saude_nivel = "critica"` (déficit + sem colchão).
+- E `Reserva_em_meses >= 1`: `saude_nivel` máximo = `"fragil"` (déficit com colchão mínimo).
+
+Justificativa: déficit orçamentário com reserva zero é situação de crise imediata
+(sem capacidade de absorver qualquer imprevisto). Déficit com alguma reserva (≥ 1 mês)
+é insustentável mas tem margem de manobra mínima — frágil, não crítica.
+Déficit orçamentário é incompatível com classificação "Moderada", "Boa" ou "Ótima"
+em qualquer caso.
 
 #### Natureza do algoritmo
 
@@ -239,9 +252,10 @@ financeiros específicos ou instituições.
 
 | Referência | Tipo | Uso |
 | --- | --- | --- |
-| BCB — série BCB-29037 (comprometimento de renda, fev/2026) | FATO | Âncora do threshold 30% |
-| CMN 5.115/2024 — limite 35% crédito pessoal especial | FATO | Âncora do threshold 40% |
-| Lei 10.820/2003 — 30% crédito consignado | FATO | Âncora jurídica do threshold 30% |
+| BCB — série BCB-29037 (comprometimento de renda, fev/2026) | FATO | Âncora empírica do threshold 30% |
+| Lei 10.820/2003 — 30% crédito consignado (trabalhadores formais) | FATO | Âncora normativa do threshold 30% (específica para consignado) |
+| Jurisprudência (TJDFT/TJSP) — analogia 30% em superendividamento | INFERÊNCIA | Referencial indireto — Lei 14.181/2021 |
+| Threshold 40% — critério educacional | HEURÍSTICA (DECISÃO DE PRODUTO) | Sem norma confirmada; referência regulatória anterior removida |
 | Lei 14.181/2021 — superendividamento | FATO | Contexto regulatório brasileiro |
 | St. Louis Fed — "3 a 6 meses de reserva de emergência" | HEURÍSTICA | Âncora dos breakpoints 3/6 |
 | Warren & Tyagi — "All Your Worth" (2006) — regra 50/30/20 | HEURÍSTICA | Âncora do threshold 20% |
