@@ -38,7 +38,8 @@
       "path": "docs/baseline/03_Regras_de_Negocio.md",
       "category": "ESTATICO",
       "title": "Regras de Negócio e Matemática Financeira",
-      "materialized_in_repo": true
+      "materialized_in_repo": true,
+      "note": "Sprint 4/F0.1: §7 (Diagnóstico Financeiro) expandido para v1.1 com thresholds documentados, fórmulas detalhadas, algoritmo de saúde financeira composta e referências (BCB, St. Louis Fed, Warren & Tyagi). Âncoras: Lei 10.820/2003, CMN 5.115/2024, BCB série BCB-29037."
     },
     {
       "id": "doc_04",
@@ -587,7 +588,7 @@
       "note": "Veredito formal da Sprint 2. Aprovação final depende da execução do protocolo §6 (operador no WSL Ubuntu)."
     }
   ],
-  "updated_at": "2026-04-26",
-  "update_reason": "Sprint 2 — F6 v2 (Fechamento + Governança, doc-only): três relatórios canônicos da Sprint 2 materializados em `docs/sprints/sprint-02/` (Opção A do micro-adendo F6 v2 — `relatorio-execucao.md`, `relatorio-forense.md`, `validacao-oficial.md`); evidências F6 (`F6-decisao-impact-agent.md`, `F6-validacao-final.md`, `F6-relatorio-final-sprint-2.md`) presentes em `docs/sprints/sprint-02/evidencias/`; decisão registrada de **preservar Impact Agent em `advisory`** (kill-switch §3.4 do PLANO Sprint 2 acionado); promoção para `blocking` adiada para Sprint 3 ou P-Refino com ADR. Encerramento formal da Sprint 2 permanece pendente de pipeline verde no WSL Ubuntu pelo operador, auditoria do pacote F6 v2, merge da PR da F6 e atualização da planilha operacional pelo PO/ChatGPT. Sessão de chat NÃO declara Sprint 2 aprovada.",
+  "updated_at": "2026-05-06",
+  "update_reason": "Sprint 4/F0.1 — Rebaseline Doc 03: §7 (Diagnóstico Financeiro) expandido com thresholds documentados (v1.1). Âncoras: BCB série BCB-29037, Lei 10.820/2003, CMN 5.115/2024, St. Louis Fed, Warren & Tyagi (50/30/20). Nota adicionada ao entry doc_03. | Histórico anterior: Sprint 2 — F6 v2 (Fechamento + Governança, doc-only): três relatórios canônicos da Sprint 2 materializados em `docs/sprints/sprint-02/` (Opção A do micro-adendo F6 v2 — `relatorio-execucao.md`, `relatorio-forense.md`, `validacao-oficial.md`); evidências F6 (`F6-decisao-impact-agent.md`, `F6-validacao-final.md`, `F6-relatorio-final-sprint-2.md`) presentes em `docs/sprints/sprint-02/evidencias/`; decisão registrada de **preservar Impact Agent em `advisory`** (kill-switch §3.4 do PLANO Sprint 2 acionado); promoção para `blocking` adiada para Sprint 3 ou P-Refino com ADR. Encerramento formal da Sprint 2 permanece pendente de pipeline verde no WSL Ubuntu pelo operador, auditoria do pacote F6 v2, merge da PR da F6 e atualização da planilha operacional pelo PO/ChatGPT. Sessão de chat NÃO declara Sprint 2 aprovada.",
   "_migration_note": "Sincronização documental concluída em 2026-04-17. Todos os documentos do pacote AUDITORIA_PROMPT_1_FINAL foram migrados. Documentos com materialized_in_repo=false são apenas aqueles que permanecem pendentes por decisão explícita."
 }

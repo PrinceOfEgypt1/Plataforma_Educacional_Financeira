@@ -14,6 +14,7 @@ Status: AGUARDANDO AUDITORIA E APROVAÇÃO DO PO
 | --- | --- | --- | --- |
 | 1.0 | 2026-05-06 | Claude Code (F0) | Criação inicial — planejamento documental auditável |
 | 1.1 | 2026-05-06 | Claude Code (F0 — amend pós-auditoria) | Correções pós-auditoria Camaleão/Moisés: working tree em baseline, cobertura harmonizada (75% global / 80% domínio), Doc 03 com caminho real, trava de thresholds explícita, RF-DIAG-001 clarificado |
+| 1.2 | 2026-05-06 | Claude Code (F0.1 — rebaseline Doc 03) | Sprint 4/F0.1 executada: thresholds do diagnóstico pesquisados e documentados; Doc 03 §7 expandido (v1.1); LIMITAÇÃO de thresholds resolvida condicionalmente (pendente aprovação do PO); §3 LIMITAÇÃO atualizada; §9 DoR da F1 atualizado; §18 evidências F0.1 adicionadas |
 
 ---
 
@@ -62,10 +63,21 @@ Status: AGUARDANDO AUDITORIA E APROVAÇÃO DO PO
 
 ### Limitações (não confirmadas ou indisponíveis)
 
-- LIMITAÇÃO: os thresholds numéricos exatos das regras de diagnóstico (comprometimento, reserva, saúde) precisam ser confirmados em `docs/baseline/03_Regras_de_Negocio.md` no início da F1. Esta análise usa valores de referência comuns como estimativa. A F1 NÃO deve codificar thresholds antes de confirmar esta fonte ou obter decisão explícita do PO.
-- LIMITAÇÃO: os casos de teste matemáticos do Doc 15 para diagnóstico não foram verificados — podem estar ausentes. Se ausentes, precisam ser criados na F1 ou F2.
-- LIMITAÇÃO: o texto educacional específico para /diagnostico não foi lido em detalhe além do heading do Doc 08 §12.1.
-- LIMITAÇÃO: o lint pedagógico será executado na F4; não há prova de conformidade anterior para conteúdo de diagnóstico.
+- LIMITAÇÃO RESOLVIDA (F0.1): os thresholds numéricos do diagnóstico foram pesquisados
+  na Sprint 4/F0.1. O Doc 03 §7 foi expandido com thresholds documentados, fórmulas
+  detalhadas e referências. A LIMITAÇÃO original está condicionalmente resolvida —
+  depende de aprovação explícita do PO dos valores propostos em
+  `docs/sprints/sprint-04/evidencias/F0.1-decisao-thresholds-diagnostico.md`.
+  Após aprovação, a F1 está DESBLOQUEADA para codificar.
+- LIMITAÇÃO: os casos de teste matemáticos do Doc 15 para diagnóstico não foram
+  verificados — podem estar ausentes. Se ausentes, precisam ser criados na F1 ou F2.
+  Os casos DG-01 e DG-02 existem (verificado via F0-analise-escopo) mas sem
+  thresholds numéricos de classificação (apenas entradas e saída qualitativa).
+  F0.1 provê os thresholds — a F1 deve criar os casos com valores esperados numéricos.
+- LIMITAÇÃO: o texto educacional específico para /diagnostico não foi lido em
+  detalhe além do heading do Doc 08 §12.1.
+- LIMITAÇÃO: o lint pedagógico será executado na F4; não há prova de conformidade
+  anterior para conteúdo de diagnóstico.
 
 ---
 
@@ -201,25 +213,34 @@ backend/tests/unit/domain/diagnostic/test_properties.py  (hypothesis)
 - Testes de propriedade (hypothesis): invariantes matemáticas (comprometimento ∈ [0%,100%], reserva ≥ 0, sobra = renda - despesas - dividas).
 - Cobertura mínima: 80% nas funções de domínio.
 
-**TRAVA OBRIGATÓRIA DE THRESHOLDS:**
+**TRAVA OBRIGATÓRIA DE THRESHOLDS (STATUS F0.1):**
 
-Antes de escrever qualquer linha de código na F1, a Claude Code deve:
+A Sprint 4/F0.1 foi executada em 2026-05-06. O Doc 03 §7 foi expandido com:
+- Fórmulas detalhadas (sobra, comprometimento, reserva em meses)
+- Tabelas de classificação por dimensão (comprometimento, reserva, sobra)
+- Algoritmo de saúde financeira consolidada (score 0-9, 5 níveis)
+- Override de sobra negativa
+- Referências documentais para cada threshold
 
-1. Ler `docs/baseline/03_Regras_de_Negocio.md` e localizar as seções de diagnóstico financeiro.
-2. Verificar se os seguintes valores estão documentados de forma inequívoca:
-   - threshold de comprometimento de renda (ex.: ≤30% = saudável);
-   - threshold de reserva de emergência em meses (ex.: ≥3 meses = mínimo);
-   - definição de sobra mensal (renda - despesas fixas - dívidas mensais);
-   - classificação dos níveis de saúde financeira (ex.: crítica / frágil / moderada / boa / ótima) com limites numéricos associados.
-3. Se estes valores **estiverem presentes e inequívocos**: prosseguir, registrar como FATO na evidência F1.
-4. Se estes valores **estiverem ausentes ou ambíguos**: parar imediatamente, registrar LIMITAÇÃO com o trecho exato do documento, e aguardar decisão explícita do PO antes de codificar.
+**Estado da trava após F0.1:**
+Os thresholds estão documentados em `docs/baseline/03_Regras_de_Negocio.md` §7.
+A F1 PODE iniciar após aprovação explícita do PO dos valores propostos em
+`docs/sprints/sprint-04/evidencias/F0.1-decisao-thresholds-diagnostico.md`.
 
-**É proibido transformar valores estimados (ex.: "30% é comum no mercado") em regra de negócio sem fonte documental ou decisão formal registrada.**
+**Ao iniciar F1, a Claude Code deve:**
+1. Confirmar que o PO aprovou os thresholds (ou verificar se houve ajustes).
+2. Ler `docs/baseline/03_Regras_de_Negocio.md` §7 e registrar como FATO na
+   evidência F1 que os thresholds estão aprovados e documentados.
+3. Se o PO tiver ajustado valores: aplicar os valores aprovados, não os propostos.
+4. Criar casos de teste DG-01 e DG-02 no Doc 15 com thresholds numéricos concretos
+   (os casos existem mas sem valores esperados de classificação — F0.1 os provê).
+
+**É proibido transformar valores estimados em regra de negócio sem aprovação do PO.**
 
 **DoR:**
-- Plano F0 aprovado pelo PO.
-- main atualizada; branch sprint-4/f1-dominio-diagnostico criada a partir de main.
-- Trava de thresholds acima executada; resultado registrado na evidência F1-dominio-regras.md.
+- Plano F0 aprovado pelo PO; F0.1 executada e aprovada pelo PO.
+- main atualizada com PR da F0.1; branch sprint-4/f1-dominio-diagnostico criada.
+- Thresholds confirmados como aprovados na evidência F1-dominio-regras.md.
 
 **DoD:**
 - Domínio puro implementado sem dependência de DB, framework ou external.
@@ -470,6 +491,7 @@ Claude Code NÃO faz push, PR, merge ou atualização de planilha.
 | Fatia | Evidências obrigatórias |
 | --- | --- |
 | F0 | F0-git-baseline.md, F0-inventario-base.md, F0-analise-escopo-sprint-4.md, PLANO_EXECUCAO_SPRINT_4.md |
+| F0.1 | F0.1-pesquisa-diagnostico-financeiro.md, F0.1-decisao-thresholds-diagnostico.md |
 | F1 | F1-git-baseline.md, F1-dominio-regras.md, F1-testes-unitarios.md |
 | F2 | F2-git-baseline.md, F2-endpoint.md, F2-openapi.md, F2-testes-integracao.md |
 | F3 | F3-git-baseline.md, F3-frontend-cockpit.md, F3-testes-frontend.md, F3-runtime.md |
