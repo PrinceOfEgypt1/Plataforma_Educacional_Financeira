@@ -279,3 +279,48 @@ Componentes mínimos recomendados:
 - EmptyState
 - ErrorState
 - LoadingState
+
+---
+
+## Sprint 4 — Módulo /diagnostico (F3 + F4)
+
+### Rota e status
+
+| Rota | Status | Sprint |
+|------|--------|--------|
+| `/diagnostico` | funcional — cockpit completo com conteúdo educacional | Sprint 4 F3+F4 |
+
+### Componentes da UI
+
+| Componente | Arquivo | Função |
+|------------|---------|--------|
+| `DiagnosticoCockpit` | `components/diagnostic/DiagnosticoCockpit.tsx` | Orquestra formulário, resultado e modal educacional |
+| `DiagnosticoForm` | `components/diagnostic/DiagnosticoForm.tsx` | 5 campos com validação local |
+| `DiagnosticoSummary` | `components/diagnostic/DiagnosticoSummary.tsx` | KPIs: score, sobra, comprometimento, reserva, despesas |
+| `DiagnosticoAlerts` | `components/diagnostic/DiagnosticoAlerts.tsx` | Alertas por severidade (warning/critical) |
+| `DiagnosticoInterpretation` | `components/diagnostic/DiagnosticoInterpretation.tsx` | Interpretação textual por saude_nivel |
+| `DiagnosticoSaibaMais` | `components/diagnostic/DiagnosticoSaibaMais.tsx` | Modal educacional com 5 abas |
+
+### Integração do conteúdo educacional na UI
+
+O conteúdo educacional está acessível via modal `DiagnosticoSaibaMais`:
+- Acionado por botão "📖 Entenda o diagnóstico financeiro →"
+- Aparece no estado idle (antes do diagnóstico) e no estado de resultado
+- 5 abas: Essencial, Aprofundado, Glossário, Alertas, Aviso educacional
+- Não interrompe o fluxo principal (formulário → resultado)
+
+### Decisão de UX compacta
+
+O conteúdo educacional foi intencionalmente colocado em modal para:
+- Manter o formulário e o resultado como fluxo principal visível
+- Evitar excesso de rolagem na página de diagnóstico
+- Seguir o padrão do módulo AmortizationCockpit (modal educacional)
+
+### Estados de interação
+
+| Estado | Exibe |
+|--------|-------|
+| idle | Instrução + botão "Saiba Mais" |
+| loading | Spinner de análise |
+| error | AlertBanner com descrição do erro |
+| ok | Summary + Alerts + Interpretation + botão "Saiba Mais" |

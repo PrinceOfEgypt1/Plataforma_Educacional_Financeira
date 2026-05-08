@@ -345,3 +345,80 @@ Aceito quando:
 - lint pedagógico está especificado;
 - versionamento está formalizado;
 - referências cruzadas (Docs 02, 03, 06, 16, 18) consistentes.
+
+---
+
+## Sprint 4 — Conteúdo educacional do Diagnóstico Financeiro (F4)
+
+### Módulo: /diagnostico
+
+**Fatia:** F4  
+**Sprint:** 4  
+**Status:** materializado
+
+#### Arquivos de conteúdo
+
+```
+frontend/src/content/diagnostico/
+  types.ts        ← EducationalContent, GlossaryEntry, AlertEducationalContent, DISCLAIMER_DIAGNOSTICO
+  nivel-1.ts      ← 5 blocos educacionais nível essencial
+  nivel-2.ts      ← 5 blocos educacionais nível intermediário
+  glossario.ts    ← 12 termos obrigatórios (GlossaryEntry[])
+  alertas.ts      ← 6 alertas educacionais + getAlertaEducacional()
+  index.ts        ← re-exports
+```
+
+#### Níveis pedagógicos
+
+**Nível 1 — Essencial** (5 blocos):
+- Diagnóstico financeiro: o que é e para que serve
+- Despesas fixas e variáveis: por que separar
+- Dívidas mensais: comprometimento de renda
+- Reserva de emergência: meses de proteção
+- Sobra mensal e saúde financeira: como ler o resultado
+
+**Nível 2 — Intermediário** (5 blocos):
+- Renda, despesas, dívidas e reserva: como se relacionam
+- Por que dívida mensal alta pressiona o orçamento
+- Por que reserva em meses é mais intuitiva que valor em reais
+- Diferença entre ganhar bem e ter equilíbrio financeiro
+- Como interpretar score e alertas sem transformar em recomendação
+
+#### Glossário (12 termos)
+
+`renda-mensal`, `despesa-fixa`, `despesa-variavel`, `divida-mensal`,
+`reserva-emergencia`, `sobra-mensal`, `comprometimento-renda`,
+`score-financeiro`, `alerta-critico`, `alerta-atencao`,
+`saude-financeira`, `diagnostico-financeiro`
+
+#### Alertas educacionais (6 códigos)
+
+`COMPROMETIMENTO_CRITICO`, `COMPROMETIMENTO_ALTO`, `RESERVA_CRITICA`,
+`RESERVA_INSUFICIENTE`, `SOBRA_NEGATIVA`, `SOBRA_MINIMA`
+
+Cada alerta contém: code, title, explanation, whyItMatters, pedagogicalNote.
+
+#### Aviso educacional obrigatório
+
+> "Este diagnóstico é educacional. Ele ajuda você a entender sinais da sua
+> vida financeira, mas não substitui análise profissional nem garante
+> resultado financeiro."
+
+#### Integração ao cockpit
+
+O componente `DiagnosticoSaibaMais` exibe um modal com 5 abas:
+- Essencial (Nível 1)
+- Aprofundado (Nível 2)
+- Glossário
+- Alertas
+- Aviso educacional
+
+Um botão "📖 Entenda o diagnóstico financeiro →" aparece no estado idle
+e no estado de resultado do cockpit.
+
+#### Lint pedagógico
+
+```
+edu_lint: 17 arquivo(s) analisado(s)
+edu_lint: 0 bloqueio(s), 0 aviso(s)
+```

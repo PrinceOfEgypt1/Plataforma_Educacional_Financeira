@@ -253,3 +253,41 @@ documento vivo não armazena resultados pontuais de execução —
 isso fica a cargo dos relatórios de sprint e da planilha
 operacional.
 
+
+---
+
+## Sprint 4 — Testes do módulo Diagnóstico Financeiro (F4)
+
+### Testes de conteúdo educacional
+
+| Arquivo | Testes | Cobertura |
+|---------|--------|-----------|
+| `frontend/src/__tests__/content/diagnostico/conteudo.test.ts` | 51 | Estrutura, cobertura pedagógica N1/N2, disclaimer, glossário, alertas, lint pedagógico |
+
+### Testes de componentes (F4)
+
+| Arquivo | Testes | Cobertura |
+|---------|--------|-----------|
+| `frontend/src/__tests__/components/diagnostic/DiagnosticoSaibaMais.test.tsx` | 9 | Botão, modal, abas, glossário, alertas, aviso, nível 2, Escape |
+| `frontend/src/__tests__/components/diagnostic/DiagnosticoInterpretation.test.tsx` | 4 | Interpretação por nível, aviso educacional |
+
+### Totais pós-F4
+
+| Momento | Testes |
+|---------|--------|
+| Antes da Sprint 4 | 190 |
+| Após F3 | 229 (+39) |
+| Após F4 | 293 (+64) |
+
+Nenhuma regressão introduzida.
+
+### Gates de qualidade (F4)
+
+| Gate | Resultado |
+|------|-----------|
+| Prettier | VERDE |
+| Vitest 293/293 | VERDE |
+| Next.js build | VERDE |
+| edu_lint 0 bloqueios | VERDE |
+| ESLint | LIMITAÇÃO AMBIENTAL (pré-existente) |
+| tsc typecheck | LIMITAÇÃO AMBIENTAL (pré-existente) |
