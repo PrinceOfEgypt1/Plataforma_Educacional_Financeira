@@ -34,7 +34,7 @@ Cada linha cruza:
 | RF-AMO-001 | amortization | `POST /api/v1/amortization/price` | `PriceIn/PriceOut` | `simular_price`, `CalcularAmortizacaoService` | `domain.amortization.price.calcular_price` | PR-01..PR-10; canonico PV=100000, i=1%, n=12 exercido | `backend/tests/unit/domain/amortization/test_price.py`, `backend/tests/unit/domain/amortization/test_properties.py`, `backend/tests/unit/services/amortization/test_calcular_amortizacao_service.py` | `backend/tests/integration/api/amortization/test_price.py`, `backend/tests/integration/api/amortization/test_errors.py` | `backend/tests/contract/test_amortization.py` | `frontend/src/__tests__/content/amortizacao/conteudo.test.ts`, `frontend/src/__tests__/app/amortizacao.test.tsx` | 03,06,07,08,09,15,19 | done (Sprint 3 F2/F3/F4/F5) |
 | RF-AMO-002 | amortization | `POST /api/v1/amortization/sac` | `SacIn/SacOut` | `simular_sac`, `CalcularAmortizacaoService` | `domain.amortization.sac.calcular_sac` | SAC-01..SAC-10; canonico PV=100000, i=1%, n=12 exercido | `backend/tests/unit/domain/amortization/test_sac.py`, `backend/tests/unit/domain/amortization/test_properties.py`, `backend/tests/unit/services/amortization/test_calcular_amortizacao_service.py` | `backend/tests/integration/api/amortization/test_sac.py`, `backend/tests/integration/api/amortization/test_errors.py` | `backend/tests/contract/test_amortization.py` | `frontend/src/__tests__/content/amortizacao/conteudo.test.ts`, `frontend/src/__tests__/app/amortizacao.test.tsx` | 03,06,07,08,09,15,19 | done (Sprint 3 F2/F3/F4/F5) |
 | RF-AMO-003 | amortization | `POST /api/v1/amortization/compare` | `CompareIn/CompareOut` | `comparar_price_sac`, `CalcularAmortizacaoService` | `domain.amortization.price.calcular_price` + `domain.amortization.sac.calcular_sac` | comparativo PRICE vs SAC; SAC.total_juros < PRICE.total_juros quando i>0 e n>1 | `backend/tests/unit/services/amortization/test_calcular_amortizacao_service.py` | `backend/tests/integration/api/amortization/test_compare.py`, `backend/tests/integration/api/amortization/test_errors.py` | `backend/tests/contract/test_amortization.py` | `frontend/src/__tests__/content/amortizacao/conteudo.test.ts`, `frontend/src/__tests__/app/amortizacao.test.tsx` | 03,06,07,08,09,15,19 | done (Sprint 3 F2/F3/F4/F5) |
-| RF-DIAG-001 | diagnostic | `POST /api/v1/diagnostic/analyze` | `DiagnosticAnalyzeRequest`, `DiagnosticAnalyzeResponseData`, `DiagnosticAlertResponse` | `services.diagnostic.diagnostico_service.analisar` | `domain.diagnostic.analisar_diagnostico` | DG-01, DG-02 (exercidos, Doc 15 §7) | `backend/tests/unit/domain/diagnostic/`, `backend/tests/unit/services/diagnostic/test_diagnostico_service.py` | `backend/tests/integration/api/diagnostic/test_analyze.py`, `backend/tests/integration/api/diagnostic/test_errors.py` | `backend/tests/contract/test_diagnostic.py` | (F4 pendente) | 03,06,09,15,19 | in_progress (backend/API concluído — F3/F4 pendentes) |
+| RF-DIAG-001 | diagnostic | `POST /api/v1/diagnostic/analyze` | `DiagnosticAnalyzeRequest`, `DiagnosticAnalyzeResponseData`, `DiagnosticAlertResponse` | `services.diagnostic.diagnostico_service.analisar` | `domain.diagnostic.analisar_diagnostico` | DG-01, DG-02 (exercidos, Doc 15 §7) | `backend/tests/unit/domain/diagnostic/`, `backend/tests/unit/services/diagnostic/test_diagnostico_service.py` | `backend/tests/integration/api/diagnostic/test_analyze.py`, `backend/tests/integration/api/diagnostic/test_errors.py` | `backend/tests/contract/test_diagnostic.py` | `frontend/src/__tests__/content/diagnostico/conteudo.test.ts`, `frontend/src/__tests__/app/diagnostico.test.tsx`, `frontend/src/__tests__/components/diagnostic/DiagnosticoSaibaMais.test.tsx` | 03,06,07,08,09,15,19 | done (Sprint 4 F1/F2/F3/F4) |
 | RF-FIN-001 | financing | `POST /api/v1/financing/real_estate` | `FinanciamentoImobIn/Out` | ... | ... | FI-01..FI-10 | ... | ... | ... | ... | 03,06,09,15,19 | pending |
 | RF-FIN-002 | financing | `POST /api/v1/financing/vehicle` | `FinanciamentoVeicIn/Out` | ... | ... | FV-01..FV-10 | ... | ... | ... | ... | 03,06,09,15,19 | pending |
 | RF-LOA-001 | loans | `POST /api/v1/loans/payroll` | `ConsignadoIn/Out` | ... | ... | CO-01..CO-08 | ... | ... | ... | ... | 03,06,09,15,18,19 | pending |
@@ -101,3 +101,18 @@ Notas:
   glossário e cuidados educacionais.
 - A F3 também sincronizou `docs/api/openapi.json`, incluindo catch-up dos
   endpoints de juros já existentes e os três endpoints públicos de amortização.
+
+## 8. Atualizações de status — Sprint 4 (F1/F2/F3/F4 oficiais)
+
+| Linha | Mudança | Sprint / Fatia |
+|-------|---------|----------------|
+| RF-DIAG-001 | `in_progress` -> `done` com domínio puro F1, service/API F2, frontend cockpit F3 e conteúdo educacional/docs vivos F4. | Sprint 4 F1/F2/F3/F4 |
+
+Notas:
+- A F1 materializou `backend/app/domain/diagnostic/` com regras puras, score e alertas.
+- A F2 materializou `POST /api/v1/diagnostic/analyze` com contrato OpenAPI e testes.
+- A F3 materializou a página `/diagnostico` com cockpit, formulário, KPIs, alertas e interpretação.
+- A F4 materializou `frontend/src/content/diagnostico/` com conteúdo nível-1/2, glossário,
+  alertas educacionais e o componente `DiagnosticoSaibaMais` integrado ao cockpit.
+- Testes de conteúdo editoral exercem o lint pedagógico via `conteudo.test.ts`.
+- O módulo diagnostico referencia docs 03, 06, 07, 08, 09, 15, 19 como docs vivos associados.

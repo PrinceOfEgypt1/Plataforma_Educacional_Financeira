@@ -14,6 +14,7 @@ import type { DiagnosticAnalyzeResponseData } from "@/types/diagnostic";
 import { DiagnosticoAlerts } from "./DiagnosticoAlerts";
 import { DiagnosticoForm } from "./DiagnosticoForm";
 import { DiagnosticoInterpretation } from "./DiagnosticoInterpretation";
+import { DiagnosticoSaibaMais } from "./DiagnosticoSaibaMais";
 import { DiagnosticoSummary } from "./DiagnosticoSummary";
 import {
   validateDiagnosticoDraft,
@@ -93,15 +94,18 @@ export function DiagnosticoCockpit() {
         >
           {state.status === "idle" && (
             <div
-              className="cockpit-insight-bar"
+              className="flex flex-col gap-3"
               data-testid="diagnostico-idle-state"
             >
-              <span aria-hidden="true">🩺</span>
-              <span>
-                Preencha os dados ao lado e clique em{" "}
-                <strong>Analisar situação</strong> para ver seu diagnóstico
-                financeiro.
-              </span>
+              <div className="cockpit-insight-bar">
+                <span aria-hidden="true">🩺</span>
+                <span>
+                  Preencha os dados ao lado e clique em{" "}
+                  <strong>Analisar situação</strong> para ver seu diagnóstico
+                  financeiro.
+                </span>
+              </div>
+              <DiagnosticoSaibaMais />
             </div>
           )}
 
@@ -131,6 +135,7 @@ export function DiagnosticoCockpit() {
               <DiagnosticoSummary data={state.result} />
               <DiagnosticoAlerts alerts={state.result.alertas} />
               <DiagnosticoInterpretation data={state.result} />
+              <DiagnosticoSaibaMais initialTab="nivel-1" />
             </div>
           )}
         </section>

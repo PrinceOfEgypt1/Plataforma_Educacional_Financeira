@@ -448,3 +448,25 @@ numéricos do corpus em `frontend/src/content/juros/nivel-1.ts` e
 `nivel-2.ts` citam exatamente os números de JS-01 e JC-01 desta
 massa. Esta coerência é validada em runtime pelo teste
 `frontend/src/__tests__/content/juros/conteudo.test.ts`.
+
+---
+
+## Sprint 4 — Testes pedagógicos do módulo Diagnóstico Financeiro (F4)
+
+Os testes matemáticos DG-01 e DG-02 do diagnóstico financeiro foram exercidos
+nas fatias F1/F2 (backend) e F3 (frontend). A F4 adicionou testes pedagógicos:
+
+### Casos de teste pedagógicos (conteúdo educacional)
+
+| ID | Arquivo | Critério |
+|----|---------|----------|
+| PED-DIAG-01 | `conteudo.test.ts` | Nível 1 cobre 5 temas obrigatórios |
+| PED-DIAG-02 | `conteudo.test.ts` | Nível 2 cobre os mesmos 5 temas |
+| PED-DIAG-03 | `conteudo.test.ts` | Cada bloco tem ≥ 4 parágrafos e disclaimer obrigatório |
+| PED-DIAG-04 | `conteudo.test.ts` | Cobertura N1: diagnóstico, despesas fixas/variáveis, dívidas, reserva, sobra |
+| PED-DIAG-05 | `conteudo.test.ts` | Cobertura N2: relação variáveis, pressão de dívidas, meses vs reais, equilíbrio, score/alertas |
+| PED-DIAG-06 | `conteudo.test.ts` | Disclaimer menciona "educacional", "não substitui", "análise profissional", "garante resultado" |
+| PED-DIAG-07 | `conteudo.test.ts` | Glossário contém 12 termos obrigatórios |
+| PED-DIAG-08 | `conteudo.test.ts` | Cada termo tem definição, exemplo e relatedModule = "diagnostic" |
+| PED-DIAG-09 | `conteudo.test.ts` | Alertas educacionais cobrem 6 códigos do backend |
+| PED-DIAG-10 | `conteudo.test.ts` | Corpus não contém promessa financeira, recomendação individualizada ou placeholder |

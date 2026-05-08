@@ -72,7 +72,9 @@
       "category": "VIVO",
       "title": "UX/UI e Navegação",
       "materialized_in_repo": true,
-      "note": "Sprint 3.5 — F3: §9.2 registra o Financial Cockpit para /juros e /amortizacao, com topbar, subtabs, painel contextual e modais."
+      "note": "Sprint 3.5 — F3: §9.2 registra o Financial Cockpit para /juros e /amortizacao, com topbar, subtabs, painel contextual e modais.",
+      "last_updated": "2026-05-08",
+      "sprint_4_f4_note": "Sprint 4/F4: módulo /diagnostico registrado como módulo funcional com cockpit, formulário, KPIs, alertas e conteúdo educacional via DiagnosticoSaibaMais modal."
     },
     {
       "id": "doc_08",
@@ -80,7 +82,9 @@
       "category": "VIVO",
       "title": "Conteúdo Educacional",
       "materialized_in_repo": true,
-      "note": "Sprint 3.5 — F3: §13.3 registra a reorganizacao do conteudo educacional no Financial Cockpit por painel contextual, abas e modais."
+      "note": "Sprint 3.5 — F3: §13.3 registra a reorganizacao do conteudo educacional no Financial Cockpit por painel contextual, abas e modais.",
+      "last_updated": "2026-05-08",
+      "sprint_4_f4_note": "Sprint 4/F4: conteúdo educacional do diagnóstico financeiro materializado em frontend/src/content/diagnostico/ (6 arquivos: types, nivel-1, nivel-2, glossario, alertas, index). 5 blocos nível-1, 5 nível-2, 12 termos de glossário, 6 alertas educacionais com DISCLAIMER_DIAGNOSTICO."
     },
     {
       "id": "doc_09",
@@ -88,7 +92,9 @@
       "category": "VIVO",
       "title": "Qualidade, Testes e Critérios de Aceite",
       "materialized_in_repo": true,
-      "note": "Sprint 2 — F5: §16 acrescentada com massa frontend F4 (19 arquivos / 112 testes confirmados no pipeline WSL Ubuntu) e §16.3 com a política de registro de execução oficial (sem armazenar valores pontuais de runtime no doc vivo)."
+      "note": "Sprint 2 — F5: §16 acrescentada com massa frontend F4 (19 arquivos / 112 testes confirmados no pipeline WSL Ubuntu) e §16.3 com a política de registro de execução oficial (sem armazenar valores pontuais de runtime no doc vivo).",
+      "last_updated": "2026-05-08",
+      "sprint_4_f4_note": "Sprint 4/F4: 64 testes novos adicionados (conteúdo diagnóstico + DiagnosticoSaibaMais + DiagnosticoInterpretation). Total consolidado: 293/293 verdes. Gates: Prettier verde, Vitest 293/293, build Next.js verde, lint pedagógico 0 bloqueios."
     },
     {
       "id": "doc_10",
@@ -131,7 +137,9 @@
       "category": "HIBRIDO",
       "title": "Casos de Teste Matemáticos e Massa de Validação",
       "materialized_in_repo": true,
-      "note": "Sprint 2 — F5: JS-01..03 e JC-01..03 marcados como exercidos por código (cross-link com Doc 19 em §9). Demais casos seguem planejados."
+      "note": "Sprint 2 — F5: JS-01..03 e JC-01..03 marcados como exercidos por código (cross-link com Doc 19 em §9). Demais casos seguem planejados.",
+      "last_updated": "2026-05-08",
+      "sprint_4_f4_note": "Sprint 4/F4: casos pedagógicos PED-DIAG-01..10 adicionados em §10 — exercem cobertura editorial do conteúdo diagnóstico (nível-1, nível-2, glossário, alertas, disclaimer)."
     },
     {
       "id": "doc_16",
@@ -162,7 +170,8 @@
       "materialized_in_repo": true,
       "note": "Sprint 3 — F5: RF-AMO-001/002/003 promovidos para done com domínio F2, API F3, frontend F4 e conteúdo/testes pedagógicos F5.",
       "last_updated": "2026-05-08",
-      "sprint_4_f2_note": "RF-DIAG-001 adicionado com status in_progress (backend/API concluído, F3/F4 pendentes)"
+      "sprint_4_f2_note": "RF-DIAG-001 adicionado com status in_progress (backend/API concluído, F3/F4 pendentes)",
+      "sprint_4_f4_note": "RF-DIAG-001 promovido para done (Sprint 4 F1/F2/F3/F4). Vertical slice completo: domínio F1 + API F2 + frontend cockpit F3 + conteúdo educacional F4. §8 adicionado à tabela canônica."
     },
     {
       "id": "doc_20",
@@ -601,7 +610,7 @@
       "note": "Documento histórico vivo. Criado na branch docs/jornada-plataforma-educacional-financeira. Cobre pré-história, Sprints 0–4/F1-A, arquitetura, qualidade, governança, motor matemático, camada educacional, roadmap, glossário, rastreabilidade e métricas acumuladas. Adendo Jornada PEF-A corrigiu fatos sobre Sprint 3.5, Sprint 4/F0, F0.1/F0.1-A, sequência oficial da Sprint 4, nota doc_03 e índice geral."
     }
   ],
-  "updated_at": "2026-05-07",
-  "update_reason": "Sprint 4 / docs(projeto) — Adendo Jornada PEF-A: documento histórico vivo 'Da Visão ao Produto — A Jornada da Plataforma Educacional Financeira' corrigido com 6 ajustes factuais; nota doc_03 corrigida para rebaixar CMN 5.115/2024 a LIMITAÇÃO e manter o threshold de 40% como heurística educacional / decisão de produto. Histórico anterior preservado nos registros individuais e evidências de sprint.",
+  "updated_at": "2026-05-08",
+  "update_reason": "Sprint 4/F4 — fechamento do módulo Diagnóstico Financeiro: conteúdo educacional materializado (6 arquivos content/diagnostico/), DiagnosticoSaibaMais modal integrado ao cockpit, 64 testes novos (293/293 verdes), RF-DIAG-001 promovido para done na Matriz de Rastreabilidade. Docs vivos atualizados: 07, 08, 09, 15, 19.",
   "_migration_note": "Sincronização documental concluída em 2026-04-17. Todos os documentos do pacote AUDITORIA_PROMPT_1_FINAL foram migrados. Documentos com materialized_in_repo=false são apenas aqueles que permanecem pendentes por decisão explícita."
 }
