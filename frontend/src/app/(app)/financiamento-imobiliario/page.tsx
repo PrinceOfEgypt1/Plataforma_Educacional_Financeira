@@ -1,11 +1,26 @@
 import type { Metadata } from "next";
 
-import { ModulePage, buildModuleMetadata } from "@/components/shell/ModulePage";
+import { FinanciamentoCockpit } from "@/components/financing/FinanciamentoCockpit";
+import { MODULES } from "@/config/modules";
 
-export const metadata: Metadata = buildModuleMetadata(
-  "financiamento-imobiliario",
+const FINANCIAMENTO_MODULE = MODULES.find(
+  (m) => m.id === "financiamento-imobiliario",
 );
 
-export default function Page() {
-  return <ModulePage moduleId="financiamento-imobiliario" />;
+export const metadata: Metadata = {
+  title: FINANCIAMENTO_MODULE?.title ?? "Financiamento Imobiliário",
+  description:
+    FINANCIAMENTO_MODULE?.description ??
+    "Simule prazos, entrada e sistema de amortização para compra de imóvel.",
+};
+
+export default function FinanciamentoImobiliarioPage() {
+  return (
+    <>
+      <h1 className="sr-only">
+        {FINANCIAMENTO_MODULE?.title ?? "Financiamento Imobiliário"}
+      </h1>
+      <FinanciamentoCockpit />
+    </>
+  );
 }

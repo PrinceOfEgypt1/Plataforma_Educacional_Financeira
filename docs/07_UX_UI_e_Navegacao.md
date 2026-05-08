@@ -324,3 +324,37 @@ O conteúdo educacional foi intencionalmente colocado em modal para:
 | loading | Spinner de análise |
 | error | AlertBanner com descrição do erro |
 | ok | Summary + Alerts + Interpretation + botão "Saiba Mais" |
+
+---
+
+## Sprint 4 F5 — Módulo Financiamento Imobiliário
+
+### Rota
+`/financiamento-imobiliario` — status `disponivel` (atualizado de `em-construcao` em Sprint 4/F5).
+
+### Componentes
+
+| Componente | Arquivo | Responsabilidade |
+|------------|---------|-----------------|
+| `FinanciamentoCockpit` | `components/financing/FinanciamentoCockpit.tsx` | Orquestra formulário, resultado e modal educacional |
+| `FinanciamentoForm` | `components/financing/FinanciamentoForm.tsx` | 7 campos com validação local |
+| `FinanciamentoSummary` | `components/financing/FinanciamentoSummary.tsx` | Resumo: sistema, valores, parcelas, custos |
+| `FinanciamentoTable` | `components/financing/FinanciamentoTable.tsx` | Tabela de parcelas (até 24 exibidas, totais indicados) |
+| `FinanciamentoSaibaMais` | `components/financing/FinanciamentoSaibaMais.tsx` | Modal educacional com 4 abas |
+
+### Integração do conteúdo educacional na UI
+
+O conteúdo educacional está acessível via modal `FinanciamentoSaibaMais`:
+- Acionado por botão "🏠 Entenda o financiamento imobiliário →"
+- Aparece no estado idle e no estado de resultado
+- 4 abas: Essencial, Aprofundado, Glossário, Aviso educacional
+- Não interrompe o fluxo principal (formulário → resultado)
+
+### Estados de interação — Financiamento
+
+| Estado | Exibe |
+|--------|-------|
+| idle | Instrução + botão "Saiba Mais" |
+| loading | Spinner "Simulando seu financiamento..." |
+| error | AlertBanner com descrição do erro |
+| ok | FinanciamentoSummary + FinanciamentoTable + botão "Saiba Mais" (Nível 2) |

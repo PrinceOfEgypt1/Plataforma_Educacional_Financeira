@@ -1,4 +1,11 @@
-# F4 — Fechamento da Sprint 4
+# F4 — Fechamento do RF-DIAG-001 — Diagnóstico Financeiro
+
+> **Nota de governança (corrigido no adendo Sprint 4/F5):**
+> Este arquivo foi renomeado e corrigido para remover a interpretação indevida de que a F4
+> teria fechado a Sprint 4 inteira. A F4 fechou apenas o **RF-DIAG-001**. A Sprint 4 permaneceu
+> em andamento após a F4 porque RF-FIN-001 ainda estava pendente naquele momento. O fechamento
+> da Sprint 4 depende da validação posterior do RF-FIN-001, da planilha operacional, da auditoria
+> de Camaleão/Moisés e da materialização em main.
 
 ## O que a Sprint 4 entregou por fatia
 

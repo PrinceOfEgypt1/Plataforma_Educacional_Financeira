@@ -35,7 +35,7 @@ Cada linha cruza:
 | RF-AMO-002 | amortization | `POST /api/v1/amortization/sac` | `SacIn/SacOut` | `simular_sac`, `CalcularAmortizacaoService` | `domain.amortization.sac.calcular_sac` | SAC-01..SAC-10; canonico PV=100000, i=1%, n=12 exercido | `backend/tests/unit/domain/amortization/test_sac.py`, `backend/tests/unit/domain/amortization/test_properties.py`, `backend/tests/unit/services/amortization/test_calcular_amortizacao_service.py` | `backend/tests/integration/api/amortization/test_sac.py`, `backend/tests/integration/api/amortization/test_errors.py` | `backend/tests/contract/test_amortization.py` | `frontend/src/__tests__/content/amortizacao/conteudo.test.ts`, `frontend/src/__tests__/app/amortizacao.test.tsx` | 03,06,07,08,09,15,19 | done (Sprint 3 F2/F3/F4/F5) |
 | RF-AMO-003 | amortization | `POST /api/v1/amortization/compare` | `CompareIn/CompareOut` | `comparar_price_sac`, `CalcularAmortizacaoService` | `domain.amortization.price.calcular_price` + `domain.amortization.sac.calcular_sac` | comparativo PRICE vs SAC; SAC.total_juros < PRICE.total_juros quando i>0 e n>1 | `backend/tests/unit/services/amortization/test_calcular_amortizacao_service.py` | `backend/tests/integration/api/amortization/test_compare.py`, `backend/tests/integration/api/amortization/test_errors.py` | `backend/tests/contract/test_amortization.py` | `frontend/src/__tests__/content/amortizacao/conteudo.test.ts`, `frontend/src/__tests__/app/amortizacao.test.tsx` | 03,06,07,08,09,15,19 | done (Sprint 3 F2/F3/F4/F5) |
 | RF-DIAG-001 | diagnostic | `POST /api/v1/diagnostic/analyze` | `DiagnosticAnalyzeRequest`, `DiagnosticAnalyzeResponseData`, `DiagnosticAlertResponse` | `services.diagnostic.diagnostico_service.analisar` | `domain.diagnostic.analisar_diagnostico` | DG-01, DG-02 (exercidos, Doc 15 §7) | `backend/tests/unit/domain/diagnostic/`, `backend/tests/unit/services/diagnostic/test_diagnostico_service.py` | `backend/tests/integration/api/diagnostic/test_analyze.py`, `backend/tests/integration/api/diagnostic/test_errors.py` | `backend/tests/contract/test_diagnostic.py` | `frontend/src/__tests__/content/diagnostico/conteudo.test.ts`, `frontend/src/__tests__/app/diagnostico.test.tsx`, `frontend/src/__tests__/components/diagnostic/DiagnosticoSaibaMais.test.tsx` | 03,06,07,08,09,15,19 | done (Sprint 4 F1/F2/F3/F4) |
-| RF-FIN-001 | financing | `POST /api/v1/financing/real_estate` | `FinanciamentoImobIn/Out` | ... | ... | FI-01..FI-10 | ... | ... | ... | ... | 03,06,09,15,19 | pending |
+| RF-FIN-001 | financing | `POST /api/v1/financing/real_estate` | `FinanciamentoImobIn`, `FinanciamentoImobOut`, `FinanciamentoImobSummary`, `FinanciamentoPeriodoRow` | `services.financing.simular_financiamento_service.simular_financiamento_imobiliario` | `domain.financing.real_estate.calcular_financiamento_imobiliario` | FI-01..FI-10 (Doc 15 Sprint 4 F5) | `backend/tests/unit/domain/financing/test_real_estate.py`, `backend/tests/unit/services/financing/test_simular_financiamento_service.py` | `backend/tests/integration/api/financing/test_real_estate.py`, `backend/tests/integration/api/financing/test_errors.py` | `backend/tests/contract/test_financing.py` | `frontend/src/__tests__/app/financiamento-imobiliario.test.tsx`, `frontend/src/__tests__/components/financing/FinanciamentoSaibaMais.test.tsx`, `frontend/src/__tests__/content/financiamento-imobiliario/conteudo.test.ts`, `frontend/src/__tests__/services/financing/financiamentoService.test.ts` | 06,07,08,09,15,19 | done (Sprint 4 F5) |
 | RF-FIN-002 | financing | `POST /api/v1/financing/vehicle` | `FinanciamentoVeicIn/Out` | ... | ... | FV-01..FV-10 | ... | ... | ... | ... | 03,06,09,15,19 | pending |
 | RF-LOA-001 | loans | `POST /api/v1/loans/payroll` | `ConsignadoIn/Out` | ... | ... | CO-01..CO-08 | ... | ... | ... | ... | 03,06,09,15,18,19 | pending |
 | RF-LOA-002 | loans | `POST /api/v1/loans/cdc` | `CdcIn/Out` | ... | ... | CDC-01..CDC-08 | ... | ... | ... | ... | 03,06,09,15,18,19 | pending |
@@ -116,3 +116,18 @@ Notas:
   alertas educacionais e o componente `DiagnosticoSaibaMais` integrado ao cockpit.
 - Testes de conteúdo editoral exercem o lint pedagógico via `conteudo.test.ts`.
 - O módulo diagnostico referencia docs 03, 06, 07, 08, 09, 15, 19 como docs vivos associados.
+
+## 9. Atualizações de status — Sprint 4 F5
+
+| Linha | Mudança | Sprint / Fatia |
+|-------|---------|----------------|
+| RF-FIN-001 | `pending` -> `done` com fatia vertical completa F5: domínio puro, schemas, service, endpoint API, frontend cockpit + componentes, conteúdo educacional N1/N2/glossário e todos os testes. | Sprint 4 F5 |
+
+Notas:
+- O domínio `backend/app/domain/financing/real_estate.py` implementa PRICE e SAC com Decimal (sem float), encargos separados, validações puras e reutilização de `calcular_price`/`calcular_sac` do domínio de amortização.
+- O endpoint `POST /api/v1/financing/real_estate` retorna envelope canônico com `summary` (13 campos) e `parcelas` (N linhas).
+- A página `/financiamento-imobiliario` foi promovida de `em-construcao` para `disponivel`.
+- O cockpit `FinanciamentoCockpit` orquestra 4 estados: idle, loading, error, ok.
+- O conteúdo educacional em `frontend/src/content/financiamento-imobiliario/` cobre 5 temas em N1/N2 e 12 termos no glossário.
+- 58 testes de backend (29 domínio + 9 service + 6 integração + 7 contract + 6 erros API) e 62 testes de frontend todos verdes.
+- Gates executados com prova real: ruff lint/format, pytest, Prettier, Vitest 354/354, ESLint, tsc, Next.js build.

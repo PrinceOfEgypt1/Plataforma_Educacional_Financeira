@@ -396,6 +396,71 @@ Erros retornam RFC 7807 (`application/problem+json`) com `code: VALIDATION_ERROR
 Contrato F3: `principal` deve ser maior que zero na borda de API/schema/service; `taxa_periodo` aceita zero e rejeita negativos; `n_periodos` deve ser inteiro positivo. Os Decimals monetarios sao serializados como string com duas casas e taxas como string com seis casas. O endpoint `POST /api/v1/amortization/compare` retorna o mesmo envelope canonico, com `tables.price`, `tables.sac` e resumo comparativo.
 
 
+## 16.1. Endpoint de Financiamento Imobiliário (Sprint 4 F5)
+
+### `POST /api/v1/financing/real_estate`
+
+Calcula a tabela de parcelas e o resumo de um financiamento imobiliário nos sistemas PRICE ou SAC.
+
+**Request body:**
+```json
+{
+  "valor_imovel": "300000.00",
+  "valor_entrada": "60000.00",
+  "prazo_meses": 360,
+  "taxa_juros_mensal_percentual": "0.7",
+  "sistema_amortizacao": "PRICE",
+  "seguro_mensal": "150.00",
+  "tarifa_mensal": "25.00"
+}
+```
+
+Campos obrigatórios: `valor_imovel`, `valor_entrada`, `prazo_meses`, `taxa_juros_mensal_percentual`, `sistema_amortizacao`.
+Campos opcionais: `seguro_mensal`, `tarifa_mensal` (default 0).
+Restrições: `valor_entrada < valor_imovel`; `prazo_meses` 1–600; `taxa_juros_mensal_percentual` 0–100; todos os valores monetários ≥ 0.
+
+**Response envelope:**
+```json
+{
+  "success": true,
+  "message": "financiamento_imobiliario_simulado",
+  "data": {
+    "summary": {
+      "sistema_amortizacao": "PRICE",
+      "valor_imovel": "300000.00",
+      "valor_entrada": "60000.00",
+      "valor_financiado": "240000.00",
+      "prazo_meses": 360,
+      "taxa_juros_mensal": "0.007000",
+      "primeira_parcela": "...",
+      "ultima_parcela": "...",
+      "total_pago": "...",
+      "total_juros": "...",
+      "total_amortizado": "240000.00",
+      "total_encargos": "...",
+      "custo_total": "..."
+    },
+    "parcelas": [
+      {
+        "numero": 1,
+        "saldo_inicial": "240000.00",
+        "juros": "...",
+        "amortizacao": "...",
+        "encargos": "...",
+        "prestacao": "...",
+        "saldo_final": "..."
+      }
+    ]
+  },
+  "meta": {"request_id": "...", "version": "v1", "generated_at": "..."}
+}
+```
+
+**Erros RFC 7807:** `422 Unprocessable Entity` para validação de campo (schema Pydantic) ou regra de domínio (e.g., entrada ≥ imóvel).
+
+**Contrato F5:** `taxa_juros_mensal_percentual` é aceita em % (0,7 = 0,7% a.m.); convertida para decimal pela camada de serviço. `custo_total = total_juros + total_encargos` (custo acima do principal). `total_pago = valor_financiado + custo_total`. Nenhum float em cálculos financeiros — Decimal com precisão 34 e ROUND_HALF_EVEN.
+
+
 ## 17. Compatibilidade e migração v1 → v2 (futuro)
 Quando ocorrer, este documento listará campo a campo as mudanças, com data de sunset e exemplos lado a lado.
 

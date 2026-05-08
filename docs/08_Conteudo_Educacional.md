@@ -422,3 +422,51 @@ e no estado de resultado do cockpit.
 edu_lint: 17 arquivo(s) analisado(s)
 edu_lint: 0 bloqueio(s), 0 aviso(s)
 ```
+
+---
+
+## Sprint 4 F5 — Conteúdo educacional do módulo Financiamento Imobiliário
+
+### Estrutura
+
+| Arquivo | Descrição |
+|---------|-----------|
+| `frontend/src/content/financiamento-imobiliario/types.ts` | Tipos + `DISCLAIMER_FINANCIAMENTO` |
+| `frontend/src/content/financiamento-imobiliario/nivel-1.ts` | 5 blocos Nível 1 (Essencial) |
+| `frontend/src/content/financiamento-imobiliario/nivel-2.ts` | 5 blocos Nível 2 (Aprofundado) |
+| `frontend/src/content/financiamento-imobiliario/glossario.ts` | 12 termos obrigatórios |
+| `frontend/src/content/financiamento-imobiliario/index.ts` | Barrel de exportações |
+
+### Temas cobertos (5 blocos por nível)
+
+1. O que é financiamento imobiliário (entrada, valor financiado, prazo)
+2. Entrada e valor financiado (custo de oportunidade, entrada mínima)
+3. PRICE vs SAC (fórmulas, comparação, parcela inicial)
+4. Juros e amortização (composição da parcela, antecipação)
+5. Encargos declarados (seguro, tarifa, separação dos componentes)
+
+### Conteúdo de nível 2 (aprofundado)
+
+Temas incluem: CET, sistema SFH/SFI, indexadores, custo de oportunidade de capital, antecipação de parcelas, fórmulas matemáticas completas.
+
+### Glossário (12 termos)
+
+`financiamento-imobiliario`, `valor-imovel`, `entrada`, `valor-financiado`, `prazo`, `taxa-juros-mensal`, `amortizacao`, `saldo-devedor`, `sistema-price`, `sistema-sac`, `encargos-mensais`, `custo-total`.
+
+### Disclaimer
+
+`DISCLAIMER_FINANCIAMENTO` cobre: uso educacional, não substituição por proposta bancária, ausência de CET oficial, análise jurídica e profissional.
+
+### Integração ao cockpit
+
+O componente `FinanciamentoSaibaMais` exibe um modal com 4 abas:
+- Essencial (Nível 1)
+- Aprofundado (Nível 2)
+- Glossário
+- Aviso educacional
+
+Um botão "🏠 Entenda o financiamento imobiliário →" aparece no estado idle e no estado de resultado do cockpit.
+
+#### Lint pedagógico (F5)
+
+Testes em `conteudo.test.ts` verificam que o corpus não contém linguagem prescritiva, promessas financeiras ou marcadores de rascunho. Regex de lint usa word-boundaries para evitar falsos positivos com palavras portuguesas comuns.

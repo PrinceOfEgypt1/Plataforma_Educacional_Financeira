@@ -6,7 +6,7 @@ O router resultante é montado em ``app.main`` com prefixo ``/api/v1``.
 
 from fastapi import APIRouter
 
-from app.api.v1 import amortization, contract, diagnostic, interest
+from app.api.v1 import amortization, contract, diagnostic, financing, interest
 
 v1_router = APIRouter()
 v1_router.include_router(contract.public_router, tags=["contract"])
@@ -24,4 +24,9 @@ v1_router.include_router(
     diagnostic.router,
     prefix="/diagnostic",
     tags=["diagnostic"],
+)
+v1_router.include_router(
+    financing.router,
+    prefix="/financing",
+    tags=["financing"],
 )

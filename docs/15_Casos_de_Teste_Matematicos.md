@@ -470,3 +470,38 @@ nas fatias F1/F2 (backend) e F3 (frontend). A F4 adicionou testes pedagógicos:
 | PED-DIAG-08 | `conteudo.test.ts` | Cada termo tem definição, exemplo e relatedModule = "diagnostic" |
 | PED-DIAG-09 | `conteudo.test.ts` | Alertas educacionais cobrem 6 códigos do backend |
 | PED-DIAG-10 | `conteudo.test.ts` | Corpus não contém promessa financeira, recomendação individualizada ou placeholder |
+
+---
+
+## Sprint 4 F5 — Casos de teste matemáticos do módulo Financiamento Imobiliário
+
+### Casos canônicos (domínio puro)
+
+| ID | Arquivo | Descrição |
+|----|---------|-----------|
+| FI-01 | `test_real_estate.py` | PRICE canônico: R$ 240.000 / 360m / 0,7% a.m. — primeira parcela ≈ R$ 1.796,86; soma amortizações = principal; saldo final = 0 |
+| FI-02 | `test_real_estate.py` | SAC canônico: mesmo input — amortização constante; parcelas decrescentes; total_juros < PRICE total_juros |
+| FI-03 | `test_real_estate.py` | PRICE taxa zero — juros = 0 em todos os períodos; saldo fecha |
+| FI-04 | `test_real_estate.py` | SAC taxa zero — juros = 0; saldo fecha |
+| FI-05 | `test_real_estate.py` | Encargos mensais — aparecem em cada período; total_encargos = encargo × n; prestação = juros + amortização + encargos |
+| FI-06 | `test_real_estate.py` | valor_imovel = 0 → DomainValidationError |
+| FI-07 | `test_real_estate.py` | entrada = imóvel → DomainValidationError |
+| FI-08 | `test_real_estate.py` | entrada > imóvel → DomainValidationError |
+| FI-09 | `test_real_estate.py` | prazo = 0 → DomainValidationError |
+| FI-10 | `test_real_estate.py` | taxa negativa → DomainValidationError |
+| FI-11 | `test_real_estate.py` | encargo negativo → DomainValidationError |
+| FI-12 | `test_real_estate.py` | sistema inválido / bool prazo → DomainValidationError |
+
+### Casos pedagógicos (conteúdo educacional)
+
+| ID | Arquivo | Critério |
+|----|---------|----------|
+| PED-FIN-01 | `conteudo.test.ts` | Nível 1 cobre 5 temas obrigatórios |
+| PED-FIN-02 | `conteudo.test.ts` | Nível 2 cobre os mesmos 5 slugs |
+| PED-FIN-03 | `conteudo.test.ts` | Cada bloco tem ≥ 4 parágrafos e disclaimer obrigatório |
+| PED-FIN-04 | `conteudo.test.ts` | N1 explica PRICE, SAC, entrada e valor financiado |
+| PED-FIN-05 | `conteudo.test.ts` | N2 menciona reais e CET |
+| PED-FIN-06 | `conteudo.test.ts` | Disclaimer menciona "educacional", "proposta bancária", "profissional", "CET" |
+| PED-FIN-07 | `conteudo.test.ts` | Glossário contém 12 termos obrigatórios |
+| PED-FIN-08 | `conteudo.test.ts` | Cada termo tem definição, exemplo e relatedModule = "financing" |
+| PED-FIN-09 | `conteudo.test.ts` | Corpus não contém linguagem prescritiva, promessa financeira ou marcador de rascunho |
