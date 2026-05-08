@@ -37,18 +37,16 @@ describe("DiagnosticoAlerts", () => {
   });
 
   it("renderiza múltiplos alertas", () => {
-    render(
-      <DiagnosticoAlerts alerts={[WARNING_ALERT, CRITICAL_ALERT]} />,
-    );
-    expect(screen.getByText(/reserva de emergência insuficiente/i)).toBeInTheDocument();
+    render(<DiagnosticoAlerts alerts={[WARNING_ALERT, CRITICAL_ALERT]} />);
+    expect(
+      screen.getByText(/reserva de emergência insuficiente/i),
+    ).toBeInTheDocument();
     expect(screen.getByText(/despesas superam a renda/i)).toBeInTheDocument();
   });
 
   it("não inventa alerta — exibe apenas os retornados pela API", () => {
     render(<DiagnosticoAlerts alerts={[WARNING_ALERT]} />);
-    expect(
-      screen.queryByText(/comprometimento/i),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText(/comprometimento/i)).not.toBeInTheDocument();
   });
 
   it("aplica data-level=warning para alerta de warning", () => {

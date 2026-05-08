@@ -140,7 +140,9 @@ describe("/diagnostico — DiagnosticoCockpit", () => {
     render(<DiagnosticoPage />);
     const fill = fillForm(user);
     await fill("5000", "2000", "800", "500", "4000");
-    await user.click(screen.getByRole("button", { name: /analisar situação/i }));
+    await user.click(
+      screen.getByRole("button", { name: /analisar situação/i }),
+    );
     expect(screen.getByTestId("diagnostico-loading-state")).toBeInTheDocument();
     resolvePromise(DG01);
     await waitFor(() =>
@@ -160,7 +162,9 @@ describe("/diagnostico — DiagnosticoCockpit", () => {
     render(<DiagnosticoPage />);
     const fill = fillForm(user);
     await fill("5000", "2000", "800", "500", "4000");
-    await user.click(screen.getByRole("button", { name: /analisar situação/i }));
+    await user.click(
+      screen.getByRole("button", { name: /analisar situação/i }),
+    );
     await waitFor(() =>
       expect(screen.getByTestId("diagnostico-summary")).toBeInTheDocument(),
     );
@@ -174,7 +178,9 @@ describe("/diagnostico — DiagnosticoCockpit", () => {
     render(<DiagnosticoPage />);
     const fill = fillForm(user);
     await fill("5000", "2000", "800", "500", "4000");
-    await user.click(screen.getByRole("button", { name: /analisar situação/i }));
+    await user.click(
+      screen.getByRole("button", { name: /analisar situação/i }),
+    );
     await waitFor(() =>
       expect(screen.getByTestId("diagnostico-alerts")).toBeInTheDocument(),
     );
@@ -189,7 +195,9 @@ describe("/diagnostico — DiagnosticoCockpit", () => {
     render(<DiagnosticoPage />);
     const fill = fillForm(user);
     await fill("3000", "2200", "700", "500", "0");
-    await user.click(screen.getByRole("button", { name: /analisar situação/i }));
+    await user.click(
+      screen.getByRole("button", { name: /analisar situação/i }),
+    );
     await waitFor(() =>
       expect(screen.getByTestId("diagnostico-summary")).toBeInTheDocument(),
     );
@@ -208,7 +216,9 @@ describe("/diagnostico — DiagnosticoCockpit", () => {
     render(<DiagnosticoPage />);
     const fill = fillForm(user);
     await fill("5000", "2000", "800", "500", "4000");
-    await user.click(screen.getByRole("button", { name: /analisar situação/i }));
+    await user.click(
+      screen.getByRole("button", { name: /analisar situação/i }),
+    );
     await waitFor(() =>
       expect(screen.getByTestId("diagnostico-error-state")).toBeInTheDocument(),
     );
@@ -218,7 +228,9 @@ describe("/diagnostico — DiagnosticoCockpit", () => {
   it("valida campos obrigatórios — não chama API com renda vazia", async () => {
     const user = userEvent.setup();
     render(<DiagnosticoPage />);
-    await user.click(screen.getByRole("button", { name: /analisar situação/i }));
+    await user.click(
+      screen.getByRole("button", { name: /analisar situação/i }),
+    );
     expect(analisarMock).not.toHaveBeenCalled();
     expect(screen.getAllByText(/campo obrigatório/i).length).toBeGreaterThan(0);
   });
@@ -231,7 +243,9 @@ describe("/diagnostico — DiagnosticoCockpit", () => {
     await user.type(screen.getByLabelText(/despesas variáveis/i), "0");
     await user.type(screen.getByLabelText(/dívidas mensais/i), "0");
     await user.type(screen.getByLabelText(/reserva atual/i), "0");
-    await user.click(screen.getByRole("button", { name: /analisar situação/i }));
+    await user.click(
+      screen.getByRole("button", { name: /analisar situação/i }),
+    );
     expect(analisarMock).not.toHaveBeenCalled();
     expect(
       screen.getByText(/renda mensal deve ser maior que zero/i),
@@ -243,14 +257,14 @@ describe("/diagnostico — DiagnosticoCockpit", () => {
     render(<DiagnosticoPage />);
     const fill = fillForm(user);
     await fill("5000", "2000", "800", "500", "4000");
-    await user.click(screen.getByRole("button", { name: /analisar situação/i }));
+    await user.click(
+      screen.getByRole("button", { name: /analisar situação/i }),
+    );
     await waitFor(() =>
       expect(
         screen.getByTestId("diagnostico-interpretation"),
       ).toBeInTheDocument(),
     );
-    expect(
-      screen.getByText(/situação financeira boa/i),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/situação financeira boa/i)).toBeInTheDocument();
   });
 });

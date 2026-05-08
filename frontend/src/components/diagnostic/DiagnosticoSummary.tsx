@@ -1,4 +1,7 @@
-import { SummaryCard, type SummaryCardTrend } from "@/components/ui/SummaryCard";
+import {
+  SummaryCard,
+  type SummaryCardTrend,
+} from "@/components/ui/SummaryCard";
 import { formatBRL } from "@/lib/money";
 import type {
   DiagnosticAnalyzeResponseData,
@@ -68,19 +71,23 @@ function saudeTrend(nivel: NivelSaude): SummaryCardTrend {
 function formatPct(value: string): string {
   const n = Number(value);
   if (!Number.isFinite(n)) return value;
-  return n.toLocaleString("pt-BR", {
-    minimumFractionDigits: 1,
-    maximumFractionDigits: 1,
-  }) + "%";
+  return (
+    n.toLocaleString("pt-BR", {
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1,
+    }) + "%"
+  );
 }
 
 function formatMeses(value: string): string {
   const n = Number(value);
   if (!Number.isFinite(n)) return value;
-  return n.toLocaleString("pt-BR", {
-    minimumFractionDigits: 1,
-    maximumFractionDigits: 1,
-  }) + " meses";
+  return (
+    n.toLocaleString("pt-BR", {
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1,
+    }) + " meses"
+  );
 }
 
 export interface DiagnosticoSummaryProps {
@@ -89,10 +96,7 @@ export interface DiagnosticoSummaryProps {
 
 export function DiagnosticoSummary({ data }: DiagnosticoSummaryProps) {
   return (
-    <div
-      data-testid="diagnostico-summary"
-      className="flex flex-col gap-4"
-    >
+    <div data-testid="diagnostico-summary" className="flex flex-col gap-4">
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
         <SummaryCard
           label="Score"

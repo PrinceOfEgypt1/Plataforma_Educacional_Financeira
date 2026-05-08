@@ -110,7 +110,9 @@ describe("DiagnosticoForm", () => {
         onSubmit={onSubmit}
       />,
     );
-    await user.click(screen.getByRole("button", { name: /analisar situação/i }));
+    await user.click(
+      screen.getByRole("button", { name: /analisar situação/i }),
+    );
     expect(onSubmit).toHaveBeenCalledOnce();
   });
 
@@ -124,6 +126,8 @@ describe("DiagnosticoForm", () => {
         onSubmit={vi.fn()}
       />,
     );
-    expect(screen.getByTestId("diagnostico-form")).toHaveAttribute("novalidate");
+    expect(screen.getByTestId("diagnostico-form")).toHaveAttribute(
+      "novalidate",
+    );
   });
 });

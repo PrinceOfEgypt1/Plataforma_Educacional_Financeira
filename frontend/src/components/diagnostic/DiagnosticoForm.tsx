@@ -8,7 +8,10 @@ import {
   CockpitInputPanel,
 } from "@/components/ui/cockpit";
 
-import type { DiagnosticoFieldErrors, DiagnosticoFormDraft } from "./formValidation";
+import type {
+  DiagnosticoFieldErrors,
+  DiagnosticoFormDraft,
+} from "./formValidation";
 
 export interface DiagnosticoFormProps {
   readonly draft: DiagnosticoFormDraft;

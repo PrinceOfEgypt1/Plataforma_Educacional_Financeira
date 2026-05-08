@@ -21,11 +21,10 @@ export async function analisarDiagnostico(
   options: PostOptions = {},
 ): Promise<DiagnosticAnalyzeResponseData> {
   try {
-    return await postJson<DiagnosticAnalyzeRequest, DiagnosticAnalyzeResponseData>(
-      PATH_ANALYZE,
-      input,
-      options,
-    );
+    return await postJson<
+      DiagnosticAnalyzeRequest,
+      DiagnosticAnalyzeResponseData
+    >(PATH_ANALYZE, input, options);
   } catch (error) {
     throw toInterestApiError(error);
   }

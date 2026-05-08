@@ -18,7 +18,9 @@ export interface ValidatedDiagnosticoInput {
 
 export type DiagnosticoFieldKey = keyof DiagnosticoFormDraft;
 
-export type DiagnosticoFieldErrors = Partial<Record<DiagnosticoFieldKey, string>>;
+export type DiagnosticoFieldErrors = Partial<
+  Record<DiagnosticoFieldKey, string>
+>;
 
 export interface DiagnosticoValidationResult {
   readonly ok: boolean;
@@ -26,9 +28,7 @@ export interface DiagnosticoValidationResult {
   readonly value: ValidatedDiagnosticoInput | null;
 }
 
-function parseMoneyField(
-  raw: string,
-): { value: string; error?: string } {
+function parseMoneyField(raw: string): { value: string; error?: string } {
   const trimmed = raw.trim();
   if (trimmed.length === 0) {
     return { value: "", error: "Campo obrigatório." };
@@ -44,9 +44,7 @@ function parseMoneyField(
   return { value: n.toFixed(2) };
 }
 
-function parseRendaMensal(
-  raw: string,
-): { value: string; error?: string } {
+function parseRendaMensal(raw: string): { value: string; error?: string } {
   const result = parseMoneyField(raw);
   if (result.error) return result;
   if (Number(result.value) <= 0) {

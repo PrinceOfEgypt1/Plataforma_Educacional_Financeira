@@ -72,9 +72,9 @@ describe("analisarDiagnostico", () => {
   });
 
   it("chama POST /diagnostic/analyze com payload em snake_case", async () => {
-    const postMock = vi.fn().mockResolvedValue(
-      makeAxiosResponse(200, envelope(DG01_DATA)),
-    );
+    const postMock = vi
+      .fn()
+      .mockResolvedValue(makeAxiosResponse(200, envelope(DG01_DATA)));
     __setApiClientForTests(makeFakeInstance(postMock));
 
     await analisarDiagnostico({
@@ -98,9 +98,9 @@ describe("analisarDiagnostico", () => {
   });
 
   it("preserva valores decimais como string no payload", async () => {
-    const postMock = vi.fn().mockResolvedValue(
-      makeAxiosResponse(200, envelope(DG01_DATA)),
-    );
+    const postMock = vi
+      .fn()
+      .mockResolvedValue(makeAxiosResponse(200, envelope(DG01_DATA)));
     __setApiClientForTests(makeFakeInstance(postMock));
 
     await analisarDiagnostico({
@@ -111,16 +111,19 @@ describe("analisarDiagnostico", () => {
       total_reserva_atual: "4000.00",
     });
 
-    const [, body] = postMock.mock.calls[0] as [string, Record<string, unknown>];
+    const [, body] = postMock.mock.calls[0] as [
+      string,
+      Record<string, unknown>,
+    ];
     expect(typeof body["renda_mensal"]).toBe("string");
     expect(typeof body["total_despesas_fixas"]).toBe("string");
     expect(typeof body["total_reserva_atual"]).toBe("string");
   });
 
   it("retorna data desembrulhada corretamente (caso DG-01)", async () => {
-    const postMock = vi.fn().mockResolvedValue(
-      makeAxiosResponse(200, envelope(DG01_DATA)),
-    );
+    const postMock = vi
+      .fn()
+      .mockResolvedValue(makeAxiosResponse(200, envelope(DG01_DATA)));
     __setApiClientForTests(makeFakeInstance(postMock));
 
     const result = await analisarDiagnostico({
@@ -148,9 +151,9 @@ describe("analisarDiagnostico", () => {
       detail: "renda_mensal deve ser maior que zero",
       code: "VALIDATION_ERROR",
     };
-    const postMock = vi.fn().mockRejectedValue(
-      makeAxiosError(422, problemBody),
-    );
+    const postMock = vi
+      .fn()
+      .mockRejectedValue(makeAxiosError(422, problemBody));
     __setApiClientForTests(makeFakeInstance(postMock));
 
     await expect(
