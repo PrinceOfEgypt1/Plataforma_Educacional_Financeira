@@ -217,11 +217,9 @@ def calcular_financiamento_imobiliario(
     valor_financiado_q = money(valor_imovel_q - valor_entrada_q)
 
     if sistema_amortizacao == SistemaAmortizacao.PRICE:
-        resultado_amort = calcular_price(valor_financiado_q, taxa_juros_mensal, prazo_meses)
-        periodos_base = resultado_amort.tabela_periodo
+        periodos_base = calcular_price(valor_financiado_q, taxa_juros_mensal, prazo_meses).tabela_periodo
     else:
-        resultado_amort = calcular_sac(valor_financiado_q, taxa_juros_mensal, prazo_meses)
-        periodos_base = resultado_amort.tabela_periodo
+        periodos_base = calcular_sac(valor_financiado_q, taxa_juros_mensal, prazo_meses).tabela_periodo
 
     rows: list[FinanciamentoPeriodo] = []
     for p in periodos_base:
