@@ -101,8 +101,8 @@ export const MODULES: readonly ModuleEntry[] = [
     title: "Financiamento Imobiliário",
     shortTitle: "Imóvel",
     description:
-      "Simule prazos, entrada e sistema de amortização para compra de " +
-      "imóvel com CET detalhado.",
+      "Simule prazos, entrada e sistemas PRICE/SAC com custo total educacional " +
+      "e encargos declarados.",
     group: G.financiamentos,
     status: "disponivel",
   },

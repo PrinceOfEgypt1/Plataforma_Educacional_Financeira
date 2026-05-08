@@ -21,7 +21,7 @@ export const CONTEUDO_NIVEL_1: ReadonlyArray<EducationalContent> = [
     title: "Entrada e valor financiado",
     paragraphs: [
       "A entrada é o valor que você paga no ato da compra, com recursos próprios. O valor financiado é a diferença entre o preço do imóvel e a entrada. É sobre o valor financiado que os juros são cobrados.",
-      "Quanto maior a entrada, menor o valor financiado e, consequentemente, menores as parcelas e o total de juros pago. Uma entrada maior também pode facilitar a aprovação do crédito e reduzir o risco para o banco.",
+      "Quanto maior a entrada, menor o valor financiado e, consequentemente, menores as parcelas e o total de juros pago. Uma entrada maior reduz o valor financiado e pode influenciar a avaliação da instituição financeira, mas a aprovação depende de critérios próprios do banco.",
       "Muitos programas de financiamento exigem uma entrada mínima de 20% do valor do imóvel. Entradas menores são possíveis em alguns programas habitacionais, mas costumam ter condições específicas.",
       "Calcular a entrada ideal envolve equilibrar quanto você tem disponível hoje, quanto você vai pagar por mês e quanto esse dinheiro poderia render se aplicado. Esta simulação não faz essa análise por você.",
     ],

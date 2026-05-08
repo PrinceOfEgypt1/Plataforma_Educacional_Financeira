@@ -36,7 +36,7 @@ export const CONTEUDO_NIVEL_2: ReadonlyArray<EducationalContent> = [
       "No PRICE, a parcela base é calculada pela fórmula PMT = PV × [i × (1+i)^n] / [(1+i)^n − 1]. O resultado é uma parcela constante onde os juros decrescem e a amortização cresce a cada período.",
       "No SAC, a amortização constante é A = PV / n. Os juros de cada período são J_t = Saldo_t × i. A parcela diminui linearmente: P_t = A + J_t. O SAC sempre resulta em menor total de juros quando i > 0 e n > 1.",
       "A diferença de total de juros entre PRICE e SAC aumenta com a taxa de juros e com o prazo. Em financiamentos longos (30 anos) com taxas moderadas (0,7% ao mês), a diferença pode ser de dezenas de milhares de reais.",
-      "A escolha entre PRICE e SAC também considera a capacidade de pagamento inicial: o SAC tem parcela inicial maior, o que pode inviabilizar a aprovação do crédito para quem tem renda mais restrita.",
+      "A escolha entre PRICE e SAC também considera a capacidade de pagamento inicial: o SAC tem parcela inicial maior, o que pode aumentar a relação prestação/renda exigida pela instituição financeira.",
     ],
     disclaimer: DISCLAIMER_FINANCIAMENTO,
   },
