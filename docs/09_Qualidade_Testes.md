@@ -291,3 +291,50 @@ Nenhuma regressão introduzida.
 | edu_lint 0 bloqueios | VERDE |
 | ESLint | LIMITAÇÃO AMBIENTAL (pré-existente) |
 | tsc typecheck | LIMITAÇÃO AMBIENTAL (pré-existente) |
+
+---
+
+## Sprint 4 F5 — Testes do módulo Financiamento Imobiliário
+
+### Testes de backend
+
+| Arquivo | Testes | Cobertura |
+|---------|--------|-----------|
+| `backend/tests/unit/domain/financing/test_real_estate.py` | 29 | Domínio puro: PRICE, SAC, taxa zero, encargos, 7 casos de erro de validação |
+| `backend/tests/unit/services/financing/test_simular_financiamento_service.py` | 9 | Conversão taxa%, sumário, parcelas, SAC<PRICE juros, erros |
+| `backend/tests/integration/api/financing/test_real_estate.py` | 6 | Envelope, summary, 360 parcelas, encargos |
+| `backend/tests/integration/api/financing/test_errors.py` | 6 | 422 para payload inválido, sistema inválido, entrada≥imóvel, prazo zero, imóvel zero, encargo negativo |
+| `backend/tests/contract/test_financing.py` | 7 | Estrutura do envelope, chaves do summary/parcela, RFC 7807, PRICE e SAC retornam 200 |
+
+### Testes de frontend
+
+| Arquivo | Testes | Cobertura |
+|---------|--------|-----------|
+| `frontend/src/__tests__/app/financiamento-imobiliario.test.tsx` | 12 | Cockpit, formulário, campos, seletor sistema, submit, idle, SaibaMais, status disponível |
+| `frontend/src/__tests__/components/financing/FinanciamentoSaibaMais.test.tsx` | 8 | Botão, modal, abas, glossário, aviso, nível 2, Escape |
+| `frontend/src/__tests__/content/financiamento-imobiliario/conteudo.test.ts` | 39 | Disclaimer, N1, N2, glossário 12 termos, lint pedagógico |
+| `frontend/src/__tests__/services/financing/financiamentoService.test.ts` | 3 | Endpoint correto, dados desembrulhados, falha de rede |
+
+### Totais pós-F5
+
+| Momento | Testes |
+|---------|--------|
+| Antes da Sprint 4 | 190 |
+| Após F3 | 229 (+39) |
+| Após F4 | 293 (+64) |
+| Após F5 | 354 (+61) |
+
+Nenhuma regressão introduzida.
+
+### Gates de qualidade (F5)
+
+| Gate | Resultado |
+|------|-----------|
+| ruff check (backend) | VERDE |
+| ruff format --check (backend) | VERDE |
+| pytest 58/58 (backend financing unit + integration + contract) | VERDE |
+| Prettier (frontend) | VERDE |
+| Vitest 354/354 | VERDE |
+| ESLint | VERDE |
+| tsc typecheck | VERDE |
+| Next.js build | VERDE |

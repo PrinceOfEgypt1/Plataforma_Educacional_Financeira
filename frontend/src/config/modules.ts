@@ -104,7 +104,7 @@ export const MODULES: readonly ModuleEntry[] = [
       "Simule prazos, entrada e sistema de amortização para compra de " +
       "imóvel com CET detalhado.",
     group: G.financiamentos,
-    status: "em-construcao",
+    status: "disponivel",
   },
   {
     id: "financiamento-veiculo",

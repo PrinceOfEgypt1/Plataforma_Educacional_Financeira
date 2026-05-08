@@ -71,6 +71,8 @@ export function CockpitModal<T extends string>({
             <button
               key={tab.id}
               type="button"
+              role="tab"
+              aria-selected={tab.id === active}
               className={cn("cockpit-modal-tab", tab.id === active && "active")}
               onClick={() => onTabChange(tab.id)}
               data-testid={`modal-tab-${tab.id}`}

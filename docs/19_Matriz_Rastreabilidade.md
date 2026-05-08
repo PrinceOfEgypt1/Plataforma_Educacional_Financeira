@@ -116,3 +116,18 @@ Notas:
   alertas educacionais e o componente `DiagnosticoSaibaMais` integrado ao cockpit.
 - Testes de conteúdo editoral exercem o lint pedagógico via `conteudo.test.ts`.
 - O módulo diagnostico referencia docs 03, 06, 07, 08, 09, 15, 19 como docs vivos associados.
+
+## 9. Atualizações de status — Sprint 4 F5
+
+| Linha | Mudança | Sprint / Fatia |
+|-------|---------|----------------|
+| RF-FIN-001 | `pending` -> `done` com fatia vertical completa F5: domínio puro, schemas, service, endpoint API, frontend cockpit + componentes, conteúdo educacional N1/N2/glossário e todos os testes. | Sprint 4 F5 |
+
+Notas:
+- O domínio `backend/app/domain/financing/real_estate.py` implementa PRICE e SAC com Decimal (sem float), encargos separados, validações puras e reutilização de `calcular_price`/`calcular_sac` do domínio de amortização.
+- O endpoint `POST /api/v1/financing/real_estate` retorna envelope canônico com `summary` (13 campos) e `parcelas` (N linhas).
+- A página `/financiamento-imobiliario` foi promovida de `em-construcao` para `disponivel`.
+- O cockpit `FinanciamentoCockpit` orquestra 4 estados: idle, loading, error, ok.
+- O conteúdo educacional em `frontend/src/content/financiamento-imobiliario/` cobre 5 temas em N1/N2 e 12 termos no glossário.
+- 58 testes de backend (29 domínio + 9 service + 6 integração + 7 contract + 6 erros API) e 62 testes de frontend todos verdes.
+- Gates executados com prova real: ruff lint/format, pytest, Prettier, Vitest 354/354, ESLint, tsc, Next.js build.
