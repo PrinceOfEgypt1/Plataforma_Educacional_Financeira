@@ -68,7 +68,7 @@ export const MODULES: readonly ModuleEntry[] = [
       "Faça um mapeamento inicial de receitas, despesas e dívidas para " +
       "orientar os próximos passos.",
     group: G.diagnostico,
-    status: "em-construcao",
+    status: "disponivel",
   },
   {
     id: "juros",
