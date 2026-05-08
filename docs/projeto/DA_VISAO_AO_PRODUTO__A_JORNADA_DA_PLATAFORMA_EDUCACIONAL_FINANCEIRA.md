@@ -299,7 +299,7 @@ A sprint produziu evidências fotográficas do estado final da interface — scr
 
 **APROVADA** (2026-05-06) com pendências não bloqueantes: warning Recharts/jsdom (herdado) e refino mobile dedicado para sprint futura.
 
-Estado final após Sprint 3.5: `main = origin/main = 16c2aa4`.
+Estado final após Sprint 3.5: `main = origin/main = c645138` (PR #22). O commit `16c2aa4` pertence à Sprint 4/F1, materializada depois via PR #25.
 
 ---
 
@@ -309,13 +309,13 @@ Estado final após Sprint 3.5: `main = origin/main = 16c2aa4`.
 
 A Sprint 4 inicia o épico mais estratégico do MVP: o Diagnóstico Financeiro. Este módulo é o coração da proposta educacional da plataforma — ele não simula um produto financeiro, ele analisa a saúde financeira do usuário e devolve uma interpretação compreensível, com alertas e orientações.
 
-### 9.2 F0 — Rebaseline documental
+### 9.2 F0 — Planejamento auditável da Sprint 4
 
-Antes de implementar, foi necessário rebasear a documentação matemática do diagnóstico. O Doc 03 §7 e o Doc 15 §7 foram auditados e atualizados com valores canônicos exatos para os casos DG-01 e DG-02. Essa fase garantiu que a implementação partiria de uma especificação inequívoca.
+Antes de implementar o diagnóstico, a Sprint 4 começou com planejamento auditável. A F0 produziu o plano de execução da sprint e evidências iniciais de baseline, escopo e inventário. Essa fase não foi o rebaseline do Documento 03; seu papel foi garantir que a Sprint 4 tivesse escopo, fatias, critérios de aceite e governança claros antes de qualquer implementação.
 
 ### 9.3 F0.1 — Pesquisa e decisão matemática
 
-Uma fase de pesquisa sobre as regras de negócio do diagnóstico produziu o documento `F1-dominio-regras.md`, que formalizou:
+A F0.1 foi a fase de pesquisa e decisão matemática para o diagnóstico financeiro. Ela produziu `F0.1-pesquisa-diagnostico-financeiro.md` e `F0.1-decisao-thresholds-diagnostico.md`. Em seguida, a F0.1-A produziu `F0.1-A-adendo-corretivo.md`, corrigindo referências normativas e consolidando o override. O documento `F1-dominio-regras.md` nasceu somente na F1, quando o domínio puro foi implementado. A decisão matemática consolidada passou a formalizar:
 
 - As 5 entradas: renda_mensal, total_despesas_fixas, total_despesas_variaveis, total_dividas_mensais, total_reserva_atual
 - As 5 fórmulas base (sobra, comprometimento, despesas essenciais, reserva em meses, sobra percentual)
@@ -363,7 +363,7 @@ Após F1-A: zero `type: ignore` em código de produção. Zero uso de `Any`. myp
 
 ### 9.6 Estado atual da Sprint 4
 
-A Sprint 4 está em curso. As fases F0, F0.1, F0.1-A, F1 e F1-A foram concluídas. As fases seguintes (F2: service e API; F3: schemas; F4: frontend; F5: conteúdo e docs vivos; F6: fechamento) aguardam aprovação da F1 pelo Camaleão/Moisés para prosseguir.
+A Sprint 4 está em curso. As fases F0, F0.1, F0.1-A, F1 e F1-A foram concluídas, e a F1 foi materializada em `main` via PR #25 / `16c2aa4`. A sequência oficial remanescente é: F2 — service + API + contrato + OpenAPI; F3 — frontend `/diagnostico`; F4 — conteúdo educacional + docs vivos + fechamento. Não há F5/F6 planejadas para a Sprint 4 no plano oficial.
 
 ---
 
@@ -675,9 +675,9 @@ A camada de domínio (`backend/app/domain/`) é o único componente do sistema q
 | Sprint 2 | PR #6 `e4e56ac`, PR #7 `2ae0bb2`, PR #8 `7841049`, PR #9 `f1336d8`, PR #10 `f20a180` | Motor de juros completo |
 | Sprint 3 | PR #12 `55d5d44`, PR #13 `dd23c6d`, PR #14 `a297b9c`, PR #15 `f20780e`, PR #16 `81e8cbb` | Motor de amortização |
 | Sprint 3.5 | PRs #19, #20 + reconciliação | UI/UX cockpit |
-| Sprint 3.5 final | `16c2aa4` | main após Sprint 3.5 |
-| Sprint 4/F1 | `601dc59` | Domínio puro do diagnóstico |
-| Sprint 4/F1-A | `fea3b99` | Adendo corretivo de qualidade |
+| Sprint 3.5 final | PR #22 / `c645138` | Fechamento da melhoria UI/UX antes da Sprint 4 |
+| Sprint 4/F1 | PR #25 / `16c2aa4` | Domínio puro do diagnóstico materializado em main |
+| Sprint 4/F1-A | `fea3b99` | Adendo corretivo de qualidade incorporado ao PR #25 |
 
 ---
 
