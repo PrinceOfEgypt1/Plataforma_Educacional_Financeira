@@ -34,6 +34,7 @@ Cada linha cruza:
 | RF-AMO-001 | amortization | `POST /api/v1/amortization/price` | `PriceIn/PriceOut` | `simular_price`, `CalcularAmortizacaoService` | `domain.amortization.price.calcular_price` | PR-01..PR-10; canonico PV=100000, i=1%, n=12 exercido | `backend/tests/unit/domain/amortization/test_price.py`, `backend/tests/unit/domain/amortization/test_properties.py`, `backend/tests/unit/services/amortization/test_calcular_amortizacao_service.py` | `backend/tests/integration/api/amortization/test_price.py`, `backend/tests/integration/api/amortization/test_errors.py` | `backend/tests/contract/test_amortization.py` | `frontend/src/__tests__/content/amortizacao/conteudo.test.ts`, `frontend/src/__tests__/app/amortizacao.test.tsx` | 03,06,07,08,09,15,19 | done (Sprint 3 F2/F3/F4/F5) |
 | RF-AMO-002 | amortization | `POST /api/v1/amortization/sac` | `SacIn/SacOut` | `simular_sac`, `CalcularAmortizacaoService` | `domain.amortization.sac.calcular_sac` | SAC-01..SAC-10; canonico PV=100000, i=1%, n=12 exercido | `backend/tests/unit/domain/amortization/test_sac.py`, `backend/tests/unit/domain/amortization/test_properties.py`, `backend/tests/unit/services/amortization/test_calcular_amortizacao_service.py` | `backend/tests/integration/api/amortization/test_sac.py`, `backend/tests/integration/api/amortization/test_errors.py` | `backend/tests/contract/test_amortization.py` | `frontend/src/__tests__/content/amortizacao/conteudo.test.ts`, `frontend/src/__tests__/app/amortizacao.test.tsx` | 03,06,07,08,09,15,19 | done (Sprint 3 F2/F3/F4/F5) |
 | RF-AMO-003 | amortization | `POST /api/v1/amortization/compare` | `CompareIn/CompareOut` | `comparar_price_sac`, `CalcularAmortizacaoService` | `domain.amortization.price.calcular_price` + `domain.amortization.sac.calcular_sac` | comparativo PRICE vs SAC; SAC.total_juros < PRICE.total_juros quando i>0 e n>1 | `backend/tests/unit/services/amortization/test_calcular_amortizacao_service.py` | `backend/tests/integration/api/amortization/test_compare.py`, `backend/tests/integration/api/amortization/test_errors.py` | `backend/tests/contract/test_amortization.py` | `frontend/src/__tests__/content/amortizacao/conteudo.test.ts`, `frontend/src/__tests__/app/amortizacao.test.tsx` | 03,06,07,08,09,15,19 | done (Sprint 3 F2/F3/F4/F5) |
+| RF-DIAG-001 | diagnostic | `POST /api/v1/diagnostic/analyze` | `DiagnosticAnalyzeRequest`, `DiagnosticAnalyzeResponseData`, `DiagnosticAlertResponse` | `services.diagnostic.diagnostico_service.analisar` | `domain.diagnostic.analisar_diagnostico` | DG-01, DG-02 (exercidos, Doc 15 §7) | `backend/tests/unit/domain/diagnostic/`, `backend/tests/unit/services/diagnostic/test_diagnostico_service.py` | `backend/tests/integration/api/diagnostic/test_analyze.py`, `backend/tests/integration/api/diagnostic/test_errors.py` | `backend/tests/contract/test_diagnostic.py` | (F4 pendente) | 03,06,09,15,19 | in_progress (backend/API concluído — F3/F4 pendentes) |
 | RF-FIN-001 | financing | `POST /api/v1/financing/real_estate` | `FinanciamentoImobIn/Out` | ... | ... | FI-01..FI-10 | ... | ... | ... | ... | 03,06,09,15,19 | pending |
 | RF-FIN-002 | financing | `POST /api/v1/financing/vehicle` | `FinanciamentoVeicIn/Out` | ... | ... | FV-01..FV-10 | ... | ... | ... | ... | 03,06,09,15,19 | pending |
 | RF-LOA-001 | loans | `POST /api/v1/loans/payroll` | `ConsignadoIn/Out` | ... | ... | CO-01..CO-08 | ... | ... | ... | ... | 03,06,09,15,18,19 | pending |
@@ -56,6 +57,12 @@ Cada linha cruza:
 4. `regression_safe` quando o requisito está coberto também por mutação ≥80% e snapshot visual (se aplicável).
 5. Mudança em qualquer célula de uma linha exige atualização nos documentos vivos listados.
 
+
+## 7. Atualizações de status — Sprint 4/F2
+
+| Linha | Mudança | Sprint / Fatia |
+|-------|---------|----------------|
+| RF-DIAG-001 | Linha criada com status `in_progress`. Domínio (F1) + Service/API (F2) concluídos. Frontend (F3) e conteúdo educacional (F4) pendentes. Não declarado `done` enquanto vertical slice incompleto. | Sprint 4/F2 |
 
 ## 6. Atualizações de status — Sprint 2 (F2/F3/F4/F5 oficiais)
 

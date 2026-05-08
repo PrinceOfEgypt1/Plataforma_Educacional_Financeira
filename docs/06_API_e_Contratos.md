@@ -200,7 +200,7 @@ Persistência: tabela `idempotency_keys (key, payload_hash, response_payload, cr
 - `GET /api/v1/openapi.json` — schema OpenAPI 3.1.
 
 ### 15.2 Diagnóstico financeiro
-- `POST /api/v1/diagnostic`
+- `POST /api/v1/diagnostic/analyze` — **implementado (Sprint 4/F2)**
 
 ### 15.3 Juros
 - `POST /api/v1/interest/simple`
@@ -256,17 +256,54 @@ Persistência: tabela `idempotency_keys (key, payload_hash, response_payload, cr
 
 ## 16. Exemplos canônicos de payloads
 
-### 16.1 Diagnóstico (request)
+### 16.1 Diagnóstico (request / response) — Sprint 4/F2
+
+`POST /api/v1/diagnostic/analyze` — contrato canônico DG-01:
+
+**Request:**
 ```json
 {
-  "monthly_income": "5000.00",
-  "fixed_expenses": "2200.00",
-  "variable_expenses": "900.00",
-  "monthly_debt_payments": "600.00",
-  "saved_amount": "3500.00",
-  "financial_goal": "Build emergency fund"
+  "renda_mensal": "5000.00",
+  "total_despesas_fixas": "2000.00",
+  "total_despesas_variaveis": "800.00",
+  "total_dividas_mensais": "500.00",
+  "total_reserva_atual": "4000.00"
 }
 ```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "diagnostico_financeiro_analisado",
+  "data": {
+    "renda_mensal": "5000.00",
+    "total_despesas_fixas": "2000.00",
+    "total_despesas_variaveis": "800.00",
+    "total_dividas_mensais": "500.00",
+    "total_reserva_atual": "4000.00",
+    "sobra_mensal": "1700.00",
+    "despesas_essenciais_mensais": "2800.00",
+    "comprometimento_percentual": "10.00",
+    "sobra_percentual": "34.00",
+    "reserva_em_meses": "1.43",
+    "comprometimento_nivel": "baixo",
+    "reserva_nivel": "insuficiente",
+    "sobra_nivel": "boa",
+    "pontos_comprometimento": 3,
+    "pontos_reserva": 1,
+    "pontos_sobra": 3,
+    "score": 7,
+    "saude_nivel": "boa",
+    "alertas": [
+      {"code": "RESERVA_INSUFICIENTE", "level": "warning", "dimension": "reserva"}
+    ]
+  },
+  "meta": {"request_id": "...", "version": "v1", "generated_at": "..."}
+}
+```
+
+Erros retornam RFC 7807 (`application/problem+json`) com `code: VALIDATION_ERROR` e status 422.
 
 ### 16.2 Juros compostos (request)
 ```json

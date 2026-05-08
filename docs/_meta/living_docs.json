@@ -1,6 +1,6 @@
 {
   "$schema_version": 3,
-  "generated_at": "2026-05-07",
+  "generated_at": "2026-05-08",
   "total_documents": 71,
   "categories": {
     "VIVO": 24,
@@ -62,7 +62,9 @@
       "category": "VIVO",
       "title": "API e Contratos de Integração",
       "materialized_in_repo": true,
-      "note": "Sprint 2 — endpoints de juros confirmados em §15.3."
+      "note": "Sprint 2 — endpoints de juros confirmados em §15.3.",
+      "last_updated": "2026-05-08",
+      "sprint_4_f2_note": "Endpoint POST /api/v1/diagnostic/analyze adicionado (§15.2, §16.1)"
     },
     {
       "id": "doc_07",
@@ -158,7 +160,9 @@
       "category": "VIVO",
       "title": "Matriz de Rastreabilidade Requisitos↔Testes↔Código",
       "materialized_in_repo": true,
-      "note": "Sprint 3 — F5: RF-AMO-001/002/003 promovidos para done com domínio F2, API F3, frontend F4 e conteúdo/testes pedagógicos F5."
+      "note": "Sprint 3 — F5: RF-AMO-001/002/003 promovidos para done com domínio F2, API F3, frontend F4 e conteúdo/testes pedagógicos F5.",
+      "last_updated": "2026-05-08",
+      "sprint_4_f2_note": "RF-DIAG-001 adicionado com status in_progress (backend/API concluído, F3/F4 pendentes)"
     },
     {
       "id": "doc_20",

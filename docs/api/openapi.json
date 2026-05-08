@@ -458,6 +458,61 @@
           }
         }
       }
+    },
+    "/api/v1/diagnostic/analyze": {
+      "post": {
+        "tags": [
+          "diagnostic"
+        ],
+        "summary": "Executa o diagnóstico financeiro completo.",
+        "operationId": "post_diagnostic_analyze_api_v1_diagnostic_analyze_post",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DiagnosticAnalyzeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseEnvelope_DiagnosticAnalyzeResponseData_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validação de entrada falhou (Problem+JSON).",
+            "content": {
+              "application/problem+json": {}
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -744,6 +799,247 @@
           "menor_total_juros"
         ],
         "title": "CompareSummary"
+      },
+      "DiagnosticAlertResponse": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "Code",
+            "description": "Identificador estável em UPPER_SNAKE_CASE."
+          },
+          "level": {
+            "type": "string",
+            "enum": [
+              "info",
+              "warning",
+              "critical"
+            ],
+            "title": "Level",
+            "description": "Severidade do alerta."
+          },
+          "dimension": {
+            "type": "string",
+            "title": "Dimension",
+            "description": "Dimensão financeira afetada."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "code",
+          "level",
+          "dimension"
+        ],
+        "title": "DiagnosticAlertResponse",
+        "description": "Alerta educativo retornado pelo diagnóstico."
+      },
+      "DiagnosticAnalyzeRequest": {
+        "properties": {
+          "renda_mensal": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Renda Mensal",
+            "description": "Renda líquida mensal total em BRL. Deve ser maior que zero.",
+            "examples": [
+              "5000.00"
+            ]
+          },
+          "total_despesas_fixas": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Total Despesas Fixas",
+            "description": "Total de despesas fixas mensais em BRL.",
+            "examples": [
+              "2000.00"
+            ]
+          },
+          "total_despesas_variaveis": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Total Despesas Variaveis",
+            "description": "Total de despesas variáveis mensais em BRL.",
+            "examples": [
+              "800.00"
+            ]
+          },
+          "total_dividas_mensais": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Total Dividas Mensais",
+            "description": "Total de parcelas mensais de dívidas em BRL.",
+            "examples": [
+              "500.00"
+            ]
+          },
+          "total_reserva_atual": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Total Reserva Atual",
+            "description": "Reserva de emergência disponível em BRL.",
+            "examples": [
+              "4000.00"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "renda_mensal",
+          "total_despesas_fixas",
+          "total_despesas_variaveis",
+          "total_dividas_mensais",
+          "total_reserva_atual"
+        ],
+        "title": "DiagnosticAnalyzeRequest",
+        "description": "Corpo da requisição para o diagnóstico financeiro."
+      },
+      "DiagnosticAnalyzeResponseData": {
+        "properties": {
+          "renda_mensal": {
+            "type": "string",
+            "title": "Renda Mensal"
+          },
+          "total_despesas_fixas": {
+            "type": "string",
+            "title": "Total Despesas Fixas"
+          },
+          "total_despesas_variaveis": {
+            "type": "string",
+            "title": "Total Despesas Variaveis"
+          },
+          "total_dividas_mensais": {
+            "type": "string",
+            "title": "Total Dividas Mensais"
+          },
+          "total_reserva_atual": {
+            "type": "string",
+            "title": "Total Reserva Atual"
+          },
+          "sobra_mensal": {
+            "type": "string",
+            "title": "Sobra Mensal"
+          },
+          "despesas_essenciais_mensais": {
+            "type": "string",
+            "title": "Despesas Essenciais Mensais"
+          },
+          "comprometimento_percentual": {
+            "type": "string",
+            "title": "Comprometimento Percentual"
+          },
+          "sobra_percentual": {
+            "type": "string",
+            "title": "Sobra Percentual"
+          },
+          "reserva_em_meses": {
+            "type": "string",
+            "title": "Reserva Em Meses"
+          },
+          "comprometimento_nivel": {
+            "type": "string",
+            "title": "Comprometimento Nivel"
+          },
+          "reserva_nivel": {
+            "type": "string",
+            "title": "Reserva Nivel"
+          },
+          "sobra_nivel": {
+            "type": "string",
+            "title": "Sobra Nivel"
+          },
+          "pontos_comprometimento": {
+            "type": "integer",
+            "title": "Pontos Comprometimento"
+          },
+          "pontos_reserva": {
+            "type": "integer",
+            "title": "Pontos Reserva"
+          },
+          "pontos_sobra": {
+            "type": "integer",
+            "title": "Pontos Sobra"
+          },
+          "score": {
+            "type": "integer",
+            "title": "Score"
+          },
+          "saude_nivel": {
+            "type": "string",
+            "title": "Saude Nivel"
+          },
+          "alertas": {
+            "items": {
+              "$ref": "#/components/schemas/DiagnosticAlertResponse"
+            },
+            "type": "array",
+            "title": "Alertas"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "renda_mensal",
+          "total_despesas_fixas",
+          "total_despesas_variaveis",
+          "total_dividas_mensais",
+          "total_reserva_atual",
+          "sobra_mensal",
+          "despesas_essenciais_mensais",
+          "comprometimento_percentual",
+          "sobra_percentual",
+          "reserva_em_meses",
+          "comprometimento_nivel",
+          "reserva_nivel",
+          "sobra_nivel",
+          "pontos_comprometimento",
+          "pontos_reserva",
+          "pontos_sobra",
+          "score",
+          "saude_nivel",
+          "alertas"
+        ],
+        "title": "DiagnosticAnalyzeResponseData",
+        "description": "Carga útil (data) da resposta do diagnóstico financeiro."
       },
       "HTTPValidationError": {
         "properties": {
@@ -1315,6 +1611,36 @@
           "meta"
         ],
         "title": "ResponseEnvelope[CompareAmortizationOut]"
+      },
+      "ResponseEnvelope_DiagnosticAnalyzeResponseData_": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Sempre True em respostas 2xx.",
+            "default": true
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Mensagem curta legível para o consumidor."
+          },
+          "data": {
+            "$ref": "#/components/schemas/DiagnosticAnalyzeResponseData",
+            "description": "Carga útil tipada da resposta."
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta",
+            "description": "Metadados da resposta."
+          }
+        },
+        "type": "object",
+        "required": [
+          "message",
+          "data",
+          "meta"
+        ],
+        "title": "ResponseEnvelope[DiagnosticAnalyzeResponseData]"
       },
       "ResponseEnvelope_JurosCompostosOut_": {
         "properties": {
