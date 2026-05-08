@@ -1,9 +1,9 @@
 {
   "$schema_version": 3,
-  "generated_at": "2026-05-03",
-  "total_documents": 70,
+  "generated_at": "2026-05-07",
+  "total_documents": 71,
   "categories": {
-    "VIVO": 23,
+    "VIVO": 24,
     "ESTATICO": 31,
     "HIBRIDO": 6,
     "BASELINE_CANDIDATA": 1,
@@ -39,7 +39,7 @@
       "category": "ESTATICO",
       "title": "Regras de Negócio e Matemática Financeira",
       "materialized_in_repo": true,
-      "note": "Sprint 4/F0.1: §7 (Diagnóstico Financeiro) expandido para v1.1 com thresholds documentados, fórmulas detalhadas, algoritmo de saúde financeira composta e referências (BCB, St. Louis Fed, Warren & Tyagi). Âncoras: Lei 10.820/2003, CMN 5.115/2024, BCB série BCB-29037."
+      "note": "Sprint 4/F0.1: §7 (Diagnóstico Financeiro) expandido para v1.1 com thresholds documentados, fórmulas detalhadas, algoritmo de saúde financeira composta e referências (BCB, St. Louis Fed, Warren & Tyagi). Âncoras verificadas: Lei 10.820/2003 (consignado) e BCB série BCB-29037. LIMITAÇÃO (F0.1-A): a referência 'CMN 5.115/2024' foi rebaixada para limitação por não ter sido confirmada em fonte primária BCB/CMN/DOU. O threshold de 40% permanece como heurística educacional / decisão de produto, não como âncora normativa."
     },
     {
       "id": "doc_04",
@@ -586,9 +586,18 @@
       "materialized_in_repo": true,
       "added_sprint": "sprint-02",
       "note": "Veredito formal da Sprint 2. Aprovação final depende da execução do protocolo §6 (operador no WSL Ubuntu)."
+    },
+    {
+      "id": "doc_jornada_pef",
+      "path": "docs/projeto/DA_VISAO_AO_PRODUTO__A_JORNADA_DA_PLATAFORMA_EDUCACIONAL_FINANCEIRA.md",
+      "category": "VIVO",
+      "title": "Da Visão ao Produto — A Jornada da Plataforma Educacional Financeira",
+      "materialized_in_repo": true,
+      "added_sprint": "sprint-04-documental",
+      "note": "Documento histórico vivo. Criado na branch docs/jornada-plataforma-educacional-financeira. Cobre pré-história, Sprints 0–4/F1-A, arquitetura, qualidade, governança, motor matemático, camada educacional, roadmap, glossário, rastreabilidade e métricas acumuladas. Adendo Jornada PEF-A corrigiu fatos sobre Sprint 3.5, Sprint 4/F0, F0.1/F0.1-A, sequência oficial da Sprint 4, nota doc_03 e índice geral."
     }
   ],
-  "updated_at": "2026-05-06",
-  "update_reason": "Sprint 4/F0.1 — Rebaseline Doc 03: §7 (Diagnóstico Financeiro) expandido com thresholds documentados (v1.1). Âncoras: BCB série BCB-29037, Lei 10.820/2003, CMN 5.115/2024, St. Louis Fed, Warren & Tyagi (50/30/20). Nota adicionada ao entry doc_03. | Histórico anterior: Sprint 2 — F6 v2 (Fechamento + Governança, doc-only): três relatórios canônicos da Sprint 2 materializados em `docs/sprints/sprint-02/` (Opção A do micro-adendo F6 v2 — `relatorio-execucao.md`, `relatorio-forense.md`, `validacao-oficial.md`); evidências F6 (`F6-decisao-impact-agent.md`, `F6-validacao-final.md`, `F6-relatorio-final-sprint-2.md`) presentes em `docs/sprints/sprint-02/evidencias/`; decisão registrada de **preservar Impact Agent em `advisory`** (kill-switch §3.4 do PLANO Sprint 2 acionado); promoção para `blocking` adiada para Sprint 3 ou P-Refino com ADR. Encerramento formal da Sprint 2 permanece pendente de pipeline verde no WSL Ubuntu pelo operador, auditoria do pacote F6 v2, merge da PR da F6 e atualização da planilha operacional pelo PO/ChatGPT. Sessão de chat NÃO declara Sprint 2 aprovada.",
+  "updated_at": "2026-05-07",
+  "update_reason": "Sprint 4 / docs(projeto) — Adendo Jornada PEF-A: documento histórico vivo 'Da Visão ao Produto — A Jornada da Plataforma Educacional Financeira' corrigido com 6 ajustes factuais; nota doc_03 corrigida para rebaixar CMN 5.115/2024 a LIMITAÇÃO e manter o threshold de 40% como heurística educacional / decisão de produto. Histórico anterior preservado nos registros individuais e evidências de sprint.",
   "_migration_note": "Sincronização documental concluída em 2026-04-17. Todos os documentos do pacote AUDITORIA_PROMPT_1_FINAL foram migrados. Documentos com materialized_in_repo=false são apenas aqueles que permanecem pendentes por decisão explícita."
 }
