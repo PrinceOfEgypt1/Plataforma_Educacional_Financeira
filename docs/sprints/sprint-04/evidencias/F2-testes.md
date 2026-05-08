@@ -1,8 +1,8 @@
 # Evidência F2 — Testes e Gates
 
-**Sprint:** 4 / Fatia F2  
-**Data:** 2026-05-08  
-**Executor:** Claude Code  
+**Sprint:** 4 / Fatia F2
+**Data:** 2026-05-08
+**Executor:** Claude Code
 
 ---
 
@@ -126,10 +126,10 @@ backend/.venv/bin/pytest tests/integration -q
 51 passed, 1 failed in 1.77s
 ```
 
-**1 falha pré-existente:** `test_health_ready_with_real_db`
+**Resultado original não aprovado:** `test_health_ready_with_real_db` falhou no ambiente da Claude
 
-Causa: PostgreSQL indisponível neste ambiente local (não há serviço de banco rodando).  
-Status: falha pré-existente, não introduzida pela F2. Confirmado que o test existia antes da F2 e não passa nem com a codebase limpa da main.
+Causa corrigida pela auditoria WSL oficial: PostgreSQL disponível; pef_dev e pef_test responderam SELECT 1; a suíte completa de integração passou com 52 passed.
+Status corrigido: falha ambiental da execução original da Claude; a revalidação no WSL oficial demonstrou que o projeto passa a suíte completa de integração.
 
 ---
 
@@ -139,17 +139,52 @@ Status: falha pré-existente, não introduzida pela F2. Confirmado que o test ex
 make impact || backend/.venv/bin/python scripts/impact_analysis_guard.py || true
 ```
 
-**LIMITAÇÃO AMBIENTAL:** `Makefile` não tem target `impact` e o script `scripts/impact_analysis_guard.py` não existe no repositório. O agente de impacto opera no CI (GitHub Actions), não localmente.
+**Correção de auditoria WSL oficial:** o script `scripts/impact_analysis_guard.py` existe no repositório oficial WSL e foi executado localmente.
 
-Status declarado: **COMANDO NÃO EXECUTADO — script inexistente no repositório local.**
+Status corrigido: Impact Agent executado localmente no WSL oficial, com resultado `HIGH/advisory` para API, schemas, services e OpenAPI do domínio diagnostic.
 
-O CI exercerá o impact agent na PR, conforme padrão da plataforma.
+A auditoria no WSL oficial executou o Impact Agent localmente; o CI também poderá exercê-lo na PR.
 
 ---
 
 ## Pendências honestas
 
-1. **F1-A não mergeada**: commit `fea3b99` não está em `origin/main`. Não impactou a F2.
-2. **PostgreSQL indisponível**: `test_health_ready_with_real_db` falha localmente — pré-existente.
-3. **Impact Agent**: executado apenas em CI, não disponível localmente.
-4. **Vertical slice incompleto**: RF-DIAG-001 status `in_progress` — F3 (frontend) e F4 (conteúdo) pendentes.
+1. **F1-A materialmente incorporada**: o conteúdo da F1-A está na `main` por squash; a ausência do hash original `fea3b99` no histórico linear não significa ausência da correção.
+2. **PostgreSQL disponível no WSL oficial**: `pg_isready` respondeu `accepting connections`, `pef_dev` e `pef_test` responderam `SELECT 1`, e a suíte completa de integração passou com `52 passed`.
+3. **Impact Agent disponível e executado localmente**: `scripts/impact_analysis_guard.py` existe no WSL oficial e foi executado; resultado `HIGH/advisory` para API, schemas, services e OpenAPI do domínio diagnostic.
+4. **Vertical slice incompleto**: RF-DIAG-001 permanece `in_progress` até F3 (frontend) e F4 (conteúdo educacional/docs vivos) serem concluídas.
+
+## Adendo de auditoria Camaleão/Moisés — correções de narrativa
+
+Durante a auditoria no repositório oficial WSL, foram identificadas imprecisões na resposta original da Claude Code:
+
+- `scripts/impact_analysis_guard.py` existe no repositório oficial WSL e não deve ser tratado como inexistente.
+- A F1-A está materialmente incorporada à `main` por squash; ausência do hash `fea3b99` não significa ausência da correção.
+- A falha de `test_health_ready_with_real_db` no ambiente da Claude não pode ser classificada como pré-existente sem revalidação no WSL oficial.
+- Gate com `51 passed / 1 failed` não é gate verde.
+- A aprovação da F2 depende dos gates reais executados no WSL oficial.
+
+
+## Adendo de auditoria WSL oficial — revalidação local
+
+Revalidação executada no repositório oficial WSL de Moisés.
+
+Resultados materiais observados:
+
+- PostgreSQL disponível no WSL oficial.
+- `pg_isready`: `/var/run/postgresql:5432 - accepting connections`.
+- `pef_dev`: `SELECT current_database(), current_user, 1 AS ok;` executado com sucesso.
+- `pef_test`: `SELECT current_database(), current_user, 1 AS ok;` executado com sucesso.
+- Testes unitários do service diagnostic: 10 passed.
+- Testes de integração API diagnostic: 16 passed.
+- Testes de contrato: 30 passed.
+- Testes unitários backend completos: 224 passed.
+- Testes de integração backend completos: 52 passed.
+- Impact Agent executado localmente no WSL oficial.
+- Resultado do Impact Agent: HIGH/advisory para api, schemas, services e openapi no domínio diagnostic.
+
+Correção adicional aplicada após mypy:
+
+- A primeira correção removeu `Any` de produção usando `TypedDict`.
+- O `mypy` apontou incompatibilidade porque `ValidationError` ainda espera `list[dict[str, Any]] | None`.
+- O service foi ajustado para não declarar `Any` novo e passar o literal de erro diretamente ao `ValidationError`.

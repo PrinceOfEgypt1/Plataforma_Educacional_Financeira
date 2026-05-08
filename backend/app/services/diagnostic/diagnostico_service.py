@@ -3,21 +3,55 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import Any
+from typing import TypedDict
 
 from app.core.errors import ValidationError
 from app.domain.diagnostic import DomainValidationError, analisar_diagnostico
 
 
+class DiagnosticAlertData(TypedDict):
+    """Alerta canônico produzido pelo domínio para serialização HTTP."""
+
+    code: str
+    level: str
+    dimension: str
+
+
+class DiagnosticData(TypedDict):
+    """Resultado canônico do diagnóstico financeiro usado pelo schema HTTP."""
+
+    renda_mensal: Decimal
+    total_despesas_fixas: Decimal
+    total_despesas_variaveis: Decimal
+    total_dividas_mensais: Decimal
+    total_reserva_atual: Decimal
+    sobra_mensal: Decimal
+    despesas_essenciais_mensais: Decimal
+    comprometimento_percentual: Decimal
+    sobra_percentual: Decimal
+    reserva_em_meses: Decimal
+    comprometimento_nivel: str
+    reserva_nivel: str
+    sobra_nivel: str
+    pontos_comprometimento: int
+    pontos_reserva: int
+    pontos_sobra: int
+    score: int
+    saude_nivel: str
+    alertas: list[DiagnosticAlertData]
+
+
 def _raise_as_validation(exc: DomainValidationError) -> None:
-    errors: list[dict[str, Any]] = [
-        {
-            "code": exc.code,
-            "field": exc.field,
-            "message": exc.message,
-        }
-    ]
-    raise ValidationError(exc.message, errors=errors) from exc
+    raise ValidationError(
+        exc.message,
+        errors=[
+            {
+                "code": exc.code,
+                "field": exc.field,
+                "message": exc.message,
+            }
+        ],
+    ) from exc
 
 
 def analisar(
@@ -26,7 +60,7 @@ def analisar(
     total_despesas_variaveis: Decimal,
     total_dividas_mensais: Decimal,
     total_reserva_atual: Decimal,
-) -> dict[str, Any]:
+) -> DiagnosticData:
     """Orquestra o diagnóstico financeiro e devolve data canônico para o schema."""
     try:
         resultado = analisar_diagnostico(
@@ -75,7 +109,7 @@ class DiagnosticoService:
         total_despesas_variaveis: Decimal,
         total_dividas_mensais: Decimal,
         total_reserva_atual: Decimal,
-    ) -> dict[str, Any]:
+    ) -> DiagnosticData:
         return analisar(
             renda_mensal=renda_mensal,
             total_despesas_fixas=total_despesas_fixas,
