@@ -1,3 +1,4 @@
+export * from "./CockpitActionButton";
 export * from "./CockpitModal";
 export * from "./CockpitPrimitives";
 export * from "./CockpitTables";

@@ -15,6 +15,8 @@ export interface FinanciamentoFormProps {
   readonly busy: boolean;
   readonly onChange: (field: keyof FinanciamentoDraft, value: string) => void;
   readonly onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  readonly submitLabel?: string;
+  readonly showAmortizacaoSelector?: boolean;
 }
 
 export function FinanciamentoForm({
@@ -23,6 +25,8 @@ export function FinanciamentoForm({
   busy,
   onChange,
   onSubmit,
+  submitLabel = "Simular financiamento",
+  showAmortizacaoSelector = true,
 }: FinanciamentoFormProps) {
   return (
     <CockpitInputPanel
@@ -69,29 +73,34 @@ export function FinanciamentoForm({
           inputMode="decimal"
         />
 
-        <div className="flex flex-col gap-1 mt-1">
-          <label className="text-sm font-medium text-gray-700">
-            Sistema de amortização
-          </label>
-          <div
-            className="flex gap-3"
-            data-testid="sistema-amortizacao-selector"
-          >
-            {(["PRICE", "SAC"] as const).map((s) => (
-              <label key={s} className="flex items-center gap-1 cursor-pointer">
-                <input
-                  type="radio"
-                  name="sistemaAmortizacao"
-                  value={s}
-                  checked={draft.sistemaAmortizacao === s}
-                  onChange={() => onChange("sistemaAmortizacao", s)}
-                  data-testid={`sistema-${s.toLowerCase()}`}
-                />
-                <span className="text-sm">{s}</span>
-              </label>
-            ))}
+        {showAmortizacaoSelector && (
+          <div className="flex flex-col gap-1 mt-1">
+            <label className="text-sm font-medium text-gray-700">
+              Sistema de amortização
+            </label>
+            <div
+              className="flex gap-3"
+              data-testid="sistema-amortizacao-selector"
+            >
+              {(["PRICE", "SAC"] as const).map((s) => (
+                <label
+                  key={s}
+                  className="flex items-center gap-1 cursor-pointer"
+                >
+                  <input
+                    type="radio"
+                    name="sistemaAmortizacao"
+                    value={s}
+                    checked={draft.sistemaAmortizacao === s}
+                    onChange={() => onChange("sistemaAmortizacao", s)}
+                    data-testid={`sistema-${s.toLowerCase()}`}
+                  />
+                  <span className="text-sm">{s}</span>
+                </label>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         <CockpitField
           id="seguroMensal"
@@ -116,7 +125,7 @@ export function FinanciamentoForm({
           disabled={busy}
           data-testid="financiamento-submit"
         >
-          {busy ? "Simulando…" : "Simular financiamento"}
+          {busy ? "Aguarde…" : submitLabel}
         </button>
       </form>
     </CockpitInputPanel>

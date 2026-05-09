@@ -60,3 +60,18 @@ export interface FinanciamentoProblem {
   readonly detail?: string;
   readonly code?: string;
 }
+
+export interface FinanciamentoImobCompareRequest {
+  readonly valor_imovel: MoneyString;
+  readonly valor_entrada: MoneyString;
+  readonly prazo_meses: number;
+  readonly taxa_juros_mensal_percentual: MoneyString;
+  readonly seguro_mensal?: MoneyString;
+  readonly tarifa_mensal?: MoneyString;
+  readonly custo_administrativo_mensal?: MoneyString;
+}
+
+export interface FinanciamentoImobCompareOut {
+  readonly price: FinanciamentoImobOut;
+  readonly sac: FinanciamentoImobOut;
+}

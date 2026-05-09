@@ -58,6 +58,42 @@ def _resultado_to_dict(resultado: FinanciamentoImobResultado) -> dict[str, Any]:
     }
 
 
+def comparar_financiamentos(
+    valor_imovel: Decimal,
+    valor_entrada: Decimal,
+    prazo_meses: int,
+    taxa_juros_mensal_percentual: Decimal,
+    seguro_mensal: Decimal = Decimal("0.00"),
+    tarifa_mensal: Decimal = Decimal("0.00"),
+    custo_administrativo_mensal: Decimal = Decimal("0.00"),
+) -> dict[str, Any]:
+    """Compara PRICE x SAC com os mesmos parametros e devolve ambos os resultados.
+
+    O frontend nao calcula amortizacoes — ambos os resultados vem do dominio.
+    """
+    price = simular_financiamento_imobiliario(
+        valor_imovel=valor_imovel,
+        valor_entrada=valor_entrada,
+        prazo_meses=prazo_meses,
+        taxa_juros_mensal_percentual=taxa_juros_mensal_percentual,
+        sistema_amortizacao="PRICE",
+        seguro_mensal=seguro_mensal,
+        tarifa_mensal=tarifa_mensal,
+        custo_administrativo_mensal=custo_administrativo_mensal,
+    )
+    sac = simular_financiamento_imobiliario(
+        valor_imovel=valor_imovel,
+        valor_entrada=valor_entrada,
+        prazo_meses=prazo_meses,
+        taxa_juros_mensal_percentual=taxa_juros_mensal_percentual,
+        sistema_amortizacao="SAC",
+        seguro_mensal=seguro_mensal,
+        tarifa_mensal=tarifa_mensal,
+        custo_administrativo_mensal=custo_administrativo_mensal,
+    )
+    return {"price": price, "sac": sac}
+
+
 def simular_financiamento_imobiliario(
     valor_imovel: Decimal,
     valor_entrada: Decimal,

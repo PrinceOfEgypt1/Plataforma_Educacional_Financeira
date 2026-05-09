@@ -18,12 +18,18 @@ export default function HomePage() {
           oficiais da API. Escolha um módulo ativo na topbar ou avance pelos
           atalhos abaixo.
         </p>
-        <div className="mt-5 flex gap-3">
+        <div className="mt-5 flex flex-wrap gap-3">
+          <Link className="cockpit-btn-more" href="/diagnostico">
+            🩺 Diagnóstico
+          </Link>
           <Link className="cockpit-btn-more" href="/juros">
             ⚡ Juros
           </Link>
           <Link className="cockpit-btn-more" href="/amortizacao">
             📊 Amortização
+          </Link>
+          <Link className="cockpit-btn-more" href="/financiamento-imobiliario">
+            🏠 Financiamento Imobiliário
           </Link>
         </div>
       </div>

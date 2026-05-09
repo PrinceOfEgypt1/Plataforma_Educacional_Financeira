@@ -18,24 +18,40 @@ type ValidationResult =
   | { readonly ok: true; readonly value: FinanciamentoImobRequest }
   | { readonly ok: false; readonly errors: FinanciamentoFieldErrors };
 
+function parsePtBr(raw: string): number {
+  const trimmed = raw.trim();
+  if (trimmed.includes(",")) {
+    // pt-BR format: dots are thousands separators, comma is decimal
+    return parseFloat(trimmed.replace(/\./g, "").replace(",", "."));
+  }
+  return parseFloat(trimmed);
+}
+
 function parsePositiveMoney(raw: string): number | null {
-  const v = parseFloat(raw.replace(",", "."));
+  const v = parsePtBr(raw);
   return isFinite(v) && v > 0 ? v : null;
 }
 
 function parseNonNegativeMoney(raw: string): number | null {
-  if (raw === "" || raw === "0" || raw === "0.00") return 0;
-  const v = parseFloat(raw.replace(",", "."));
+  const trimmed = raw.trim();
+  if (
+    trimmed === "" ||
+    trimmed === "0" ||
+    trimmed === "0.00" ||
+    trimmed === "0,00"
+  )
+    return 0;
+  const v = parsePtBr(trimmed);
   return isFinite(v) && v >= 0 ? v : null;
 }
 
 function parsePositiveInt(raw: string): number | null {
-  const v = parseInt(raw, 10);
+  const v = parseInt(raw.trim(), 10);
   return isFinite(v) && v > 0 && v === Math.floor(v) ? v : null;
 }
 
 function parsePositiveRate(raw: string): number | null {
-  const v = parseFloat(raw.replace(",", "."));
+  const v = parsePtBr(raw);
   return isFinite(v) && v >= 0 ? v : null;
 }
 
