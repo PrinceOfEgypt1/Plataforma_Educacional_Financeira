@@ -195,7 +195,7 @@ class FinanciamentoImobCompareIn(BaseModel):
     )
 
     @model_validator(mode="after")
-    def _validar_entrada_menor_que_imovel(self) -> "FinanciamentoImobCompareIn":
+    def _validar_entrada_menor_que_imovel(self) -> FinanciamentoImobCompareIn:
         if self.valor_entrada >= self.valor_imovel:
             raise ValueError("valor_entrada deve ser menor que valor_imovel.")
         return self

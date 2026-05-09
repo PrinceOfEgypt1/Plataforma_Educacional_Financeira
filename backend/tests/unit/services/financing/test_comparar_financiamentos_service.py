@@ -11,7 +11,7 @@ from app.services.financing.simular_financiamento_service import (
 )
 
 
-@pytest.fixture()
+@pytest.fixture
 def base_params() -> dict:
     return {
         "valor_imovel": Decimal("300000.00"),
