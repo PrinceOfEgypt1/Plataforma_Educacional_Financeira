@@ -6,73 +6,32 @@ import type { Route } from "next";
 import type { ReactNode } from "react";
 
 import { cn } from "@/lib/cn";
+import { MODULES } from "@/config/modules";
 
-interface CockpitModule {
-  readonly id: string;
-  readonly href: Route;
-  readonly icon: string;
-  readonly label: string;
-  readonly status: "ATIVO" | "EM BREVE";
-  readonly match: ReadonlyArray<string>;
-}
+const MODULE_ICONS: Record<string, string> = {
+  diagnostico: "🩺",
+  juros: "⚡",
+  amortizacao: "📊",
+  "financiamento-imobiliario": "🏠",
+  "financiamento-veiculo": "🚗",
+  consignado: "💼",
+  cdc: "💳",
+  "cartao-rotativo": "💳",
+  atraso: "⏰",
+  indicadores: "📈",
+  "investir-vs-quitar": "⚖️",
+  educacao: "📚",
+};
 
-const COCKPIT_MODULES: readonly CockpitModule[] = [
-  {
-    id: "juros",
-    href: "/juros",
-    icon: "⚡",
-    label: "Juros",
-    status: "ATIVO",
-    match: ["/juros"],
-  },
-  {
-    id: "amortizacao",
-    href: "/amortizacao",
-    icon: "📊",
-    label: "Amortização",
-    status: "ATIVO",
-    match: ["/amortizacao"],
-  },
-  {
-    id: "imovel",
-    href: "/financiamento-imobiliario",
-    icon: "🏠",
-    label: "Imóvel",
-    status: "EM BREVE",
-    match: ["/financiamento-imobiliario"],
-  },
-  {
-    id: "consignado",
-    href: "/consignado",
-    icon: "💼",
-    label: "Consignado",
-    status: "EM BREVE",
-    match: ["/consignado"],
-  },
-  {
-    id: "cdc",
-    href: "/cdc",
-    icon: "🚗",
-    label: "CDC",
-    status: "EM BREVE",
-    match: ["/cdc", "/financiamento-veiculo"],
-  },
-  {
-    id: "cartao",
-    href: "/cartao-rotativo",
-    icon: "💳",
-    label: "Cartão",
-    status: "EM BREVE",
-    match: ["/cartao-rotativo"],
-  },
-  {
-    id: "investir",
-    href: "/investir-vs-quitar",
-    icon: "⚖️",
-    label: "Investir × Quitar",
-    status: "EM BREVE",
-    match: ["/investir-vs-quitar"],
-  },
+const VISIBLE_MODULE_IDS = [
+  "diagnostico",
+  "juros",
+  "amortizacao",
+  "financiamento-imobiliario",
+  "consignado",
+  "cdc",
+  "cartao-rotativo",
+  "investir-vs-quitar",
 ];
 
 export interface FinancialCockpitShellProps {
@@ -87,6 +46,10 @@ export function FinancialCockpitShell({
   const currentPath = usePathname();
   const current = pathname ?? currentPath ?? "/";
 
+  const visibleModules = MODULES.filter((m) =>
+    VISIBLE_MODULE_IDS.includes(m.id),
+  );
+
   return (
     <div className="cockpit-app" data-testid="financial-cockpit-shell">
       <div aria-hidden="true" className="cockpit-glow cockpit-glow-teal" />
@@ -96,21 +59,26 @@ export function FinancialCockpitShell({
           PEF <span>/ Lab</span>
         </Link>
         <nav className="cockpit-module-tabs" aria-label="Módulos">
-          {COCKPIT_MODULES.map((module) => {
-            const active = module.match.some(
-              (path) => current === path || current.startsWith(`${path}/`),
-            );
+          {visibleModules.map((module) => {
+            const active =
+              current === module.href ||
+              current.startsWith(`${module.href}/`);
+            const statusLabel =
+              module.status === "disponivel" ? "ATIVO" : "EM BREVE";
             return (
               <Link
                 key={module.id}
-                href={module.href}
+                href={module.href as Route}
                 className={cn("cockpit-module-tab", active && "active")}
                 aria-current={active ? "page" : undefined}
                 data-testid={`cockpit-module-${module.id}`}
+                data-status={module.status}
               >
-                <span aria-hidden="true">{module.icon}</span>
-                <span>{module.label}</span>
-                <span className="cockpit-badge">{module.status}</span>
+                <span aria-hidden="true">
+                  {MODULE_ICONS[module.id] ?? "◆"}
+                </span>
+                <span>{module.shortTitle}</span>
+                <span className="cockpit-badge">{statusLabel}</span>
               </Link>
             );
           })}

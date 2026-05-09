@@ -142,3 +142,69 @@ class FinanciamentoImobOut(BaseModel):
 
     summary: FinanciamentoImobSummary
     parcelas: list[FinanciamentoPeriodoRow] = Field(default_factory=list)
+
+
+class FinanciamentoImobCompareIn(BaseModel):
+    """Corpo da requisicao para comparacao PRICE x SAC com os mesmos dados."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    valor_imovel: Decimal = Field(
+        ...,
+        gt=0,
+        description="Valor total do imovel em BRL.",
+        examples=["300000.00"],
+    )
+    valor_entrada: Decimal = Field(
+        ...,
+        ge=0,
+        description="Valor da entrada em BRL. Deve ser menor que valor_imovel.",
+        examples=["60000.00"],
+    )
+    prazo_meses: int = Field(
+        ...,
+        ge=1,
+        le=600,
+        description="Prazo do financiamento em meses (max 600 = 50 anos).",
+        examples=[360],
+    )
+    taxa_juros_mensal_percentual: Decimal = Field(
+        ...,
+        ge=0,
+        le=100,
+        description="Taxa de juros mensal em percentual (ex.: 0.7 = 0,7% ao mes).",
+        examples=["0.7"],
+    )
+    seguro_mensal: Decimal = Field(
+        default=Decimal("0.00"),
+        ge=0,
+        description="Seguro habitacional mensal em BRL (opcional).",
+        examples=["150.00"],
+    )
+    tarifa_mensal: Decimal = Field(
+        default=Decimal("0.00"),
+        ge=0,
+        description="Tarifa de administracao mensal em BRL (opcional).",
+        examples=["25.00"],
+    )
+    custo_administrativo_mensal: Decimal = Field(
+        default=Decimal("0.00"),
+        ge=0,
+        description="Outros custos administrativos mensais em BRL (opcional).",
+        examples=["0.00"],
+    )
+
+    @model_validator(mode="after")
+    def _validar_entrada_menor_que_imovel(self) -> "FinanciamentoImobCompareIn":
+        if self.valor_entrada >= self.valor_imovel:
+            raise ValueError("valor_entrada deve ser menor que valor_imovel.")
+        return self
+
+
+class FinanciamentoImobCompareOut(BaseModel):
+    """Resultado da comparacao PRICE x SAC com os mesmos parametros de entrada."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    price: FinanciamentoImobOut
+    sac: FinanciamentoImobOut

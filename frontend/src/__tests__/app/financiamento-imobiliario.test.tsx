@@ -13,6 +13,7 @@ import { MODULES } from "@/config/modules";
 
 vi.mock("@/services/financing/financiamentoService", () => ({
   simularFinanciamentoImobiliario: vi.fn(),
+  compararFinanciamentos: vi.fn(),
 }));
 
 describe("FinanciamentoCockpit", () => {

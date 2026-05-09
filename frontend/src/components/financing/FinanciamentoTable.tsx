@@ -3,15 +3,9 @@ import type { FinanciamentoPeriodo } from "@/types/financing";
 
 interface FinanciamentoTableProps {
   readonly parcelas: ReadonlyArray<FinanciamentoPeriodo>;
-  readonly maxRows?: number;
 }
 
-export function FinanciamentoTable({
-  parcelas,
-  maxRows = 24,
-}: FinanciamentoTableProps) {
-  const visible = parcelas.slice(0, maxRows);
-  const hasMore = parcelas.length > maxRows;
+export function FinanciamentoTable({ parcelas }: FinanciamentoTableProps) {
   const hasEncargos = parcelas.some((p) => parseFloat(p.encargos) > 0);
 
   return (
@@ -22,18 +16,19 @@ export function FinanciamentoTable({
     >
       <h3 className="text-sm font-semibold text-gray-800">
         Tabela de parcelas
-        {hasMore && (
-          <span className="text-gray-500 font-normal ml-1">
-            (exibindo {maxRows} de {parcelas.length})
-          </span>
-        )}
+        <span
+          className="text-gray-500 font-normal ml-1"
+          data-testid="financiamento-table-count"
+        >
+          ({parcelas.length} parcelas)
+        </span>
       </h3>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto overflow-y-auto max-h-[32rem] border border-gray-100 rounded">
         <table
           className="w-full text-xs border-collapse"
           aria-label="Parcelas do financiamento"
         >
-          <thead>
+          <thead className="sticky top-0 z-10">
             <tr className="bg-blue-100 text-blue-900">
               <th className="px-2 py-1 text-right">#</th>
               <th className="px-2 py-1 text-right">Saldo inicial</th>
@@ -47,7 +42,7 @@ export function FinanciamentoTable({
             </tr>
           </thead>
           <tbody>
-            {visible.map((p) => (
+            {parcelas.map((p) => (
               <tr
                 key={p.numero}
                 className="border-b border-gray-100 hover:bg-gray-50"
@@ -81,11 +76,6 @@ export function FinanciamentoTable({
           </tbody>
         </table>
       </div>
-      {hasMore && (
-        <p className="text-xs text-gray-400 text-center">
-          … e mais {parcelas.length - maxRows} parcelas
-        </p>
-      )}
     </div>
   );
 }
