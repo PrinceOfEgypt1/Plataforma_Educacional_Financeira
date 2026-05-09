@@ -529,7 +529,7 @@ Camada 2 — Layout de Módulo
   EducationPanel (painel educativo — lado direito)
 
 Camada 3 — Conteúdo
-  Tabelas financeiras (FinancialTable — componente único proposto)
+  Tabelas financeiras (contrato visual comum; abstração final a decidir na F2)
   Gráficos (ChartCard com padrão Recharts)
   Resumos (KpiStrip, SummaryCard)
   Alertas (AlertBanner — níveis info/success/warning/error)
@@ -597,12 +597,19 @@ Valores hardcoded são violação do contrato.
 - `caption` com `sr-only` para leitores de tela.
 - Totalizadores na última linha quando relevante (total de juros, total pago).
 
-### 11.4 Componente único proposto
+### 11.4 Decisão de abstração adiada para F2
 
-A F3 deve consolidar todas as tabelas financeiras em um componente base único
-`FinancialTable` parametrizado, eliminando os 9 componentes de tabela paralelos
-atuais. Os atributos de dados permanecem intactos; apenas o wrapper visual é
-unificado.
+Esta F0 não decide definitivamente se haverá um único componente
+`FinancialTable` para todas as tabelas. A F1 deve inventariar todas as tabelas
+reais e a F2 deve decidir formalmente entre:
+
+1. um componente único `FinancialTable` parametrizado;
+2. componentes por módulo com contrato visual comum;
+3. abordagem híbrida, com wrapper/base comum e renderização específica por
+   domínio.
+
+Até essa decisão ser formalizada na F2, a Sprint 4.5 exige contrato visual
+comum para tabelas financeiras, sem impor abstração única prematuramente.
 
 ### 11.5 Critérios de detecção pelo auditor_de_interface
 
@@ -675,6 +682,11 @@ sobre violações do contrato visual.
 
 Modo advisory significa: o build não falha, mas o relatório deve ser lido e
 cada alerta respondido formalmente antes do merge.
+
+Enquanto permanecer em modo advisory, o auditor não deve bloquear a Sprint 4.5.
+Seus alertas, porém, não podem ser ignorados: alertas remanescentes devem ser
+documentados, justificados, classificados por severidade, vinculados a decisão
+formal de Moisés/Camaleão e rastreados como pendência ou exceção temporária.
 
 ### 13.2 Verificações propostas para a F5
 
@@ -828,7 +840,8 @@ do Camaleão.
 **Natureza:** frontend + testes
 **Branch proposta:** `claude/sprint-4-5-f3-base-components`
 **Entregáveis:**
-- Componente `FinancialTable` unificado (ou consolidação dos existentes).
+- Contrato visual comum para tabelas financeiras implementado conforme decisão
+  da F2 (`FinancialTable`, componentes por módulo ou abordagem híbrida).
 - Resolução do conflito `EducationPanel` duplo.
 - Remoção formal de `Header.tsx`, `Sidebar.tsx` (se confirmados como órfãos na F1).
 - Correção de `VISIBLE_MODULE_IDS` → derivação dinâmica de `MODULES.status`.
@@ -861,7 +874,10 @@ do Camaleão.
 - `scripts/auditor_de_interface.sh` ou `.py`.
 - `docs/09_Qualidade_Testes.md` atualizado.
 - Primeira execução com relatório `reports/auditor_de_interface_YYYY-MM-DD.txt`.
-- Zero alertas remanescentes sobre `overflow-x-auto` após F4.
+- Zero violações obrigatórias não justificadas sobre itens já corrigidos.
+- Alertas advisory remanescentes, se existirem, documentados, justificados,
+  classificados por severidade, vinculados a decisão formal de Moisés/Camaleão
+  e rastreados como pendência ou exceção temporária.
 
 ---
 
@@ -876,7 +892,8 @@ do Camaleão.
 - Atualização de `docs/10_Roadmap.md`, `docs/13_Backlog_Tecnico.md`,
   `docs/19_Matriz_Rastreabilidade.md`, `docs/00_INDICE_GERAL.md`.
 - `docs/_meta/living_docs.json` com todos os documentos da Sprint 4.5.
-- Gates: todos os gates de F3-F5 + auditor_de_interface com zero alertas.
+- Gates: todos os gates de F3-F5 + auditor_de_interface executado, com zero
+  violações obrigatórias não justificadas e exceções advisory documentadas.
 - Declaração formal de que a Sprint 5 pode ser iniciada.
 
 ---
@@ -890,7 +907,7 @@ do Camaleão.
 | F2 | Três políticas materializadas em docs; docs vivos atualizados; aprovação antes da F3 |
 | F3 | Componentes base consolidados; zero conflito de nome; gates passando; testes unitários |
 | F4 | `overflow-x-auto` eliminado de tabelas financeiras; dados íntegros; responsividade verificada; zero regressão financeira; gates passando |
-| F5 | Script auditor executando; relatório gerado; zero alertas sobre violações já corrigidas |
+| F5 | Script auditor executando; relatório gerado; zero violações obrigatórias não justificadas sobre itens já corrigidos; alertas advisory remanescentes classificados e rastreados |
 | F6 | Documentação forense completa; living_docs.json atualizado; declaração formal de prontidão para Sprint 5 |
 
 ---
@@ -930,7 +947,10 @@ do Camaleão.
 
 ### F5
 - [ ] Script `auditor_de_interface` executando sem erro de runtime
-- [ ] Relatório gerado com zero alertas sobre violações já corrigidas
+- [ ] Relatório gerado com zero violações obrigatórias não justificadas sobre
+      itens já corrigidos
+- [ ] Alertas advisory remanescentes, se existirem, documentados, justificados,
+      classificados por severidade e vinculados a decisão formal
 - [ ] Saída incluída como evidência no commit
 
 ### F6
@@ -975,7 +995,7 @@ pnpm test --run               # todos os testes passando
 ### Auditoria de interface (F5-F6)
 
 ```bash
-scripts/auditor_de_interface.sh  # zero alertas remanescentes
+scripts/auditor_de_interface.sh  # zero violações obrigatórias não justificadas
 ```
 
 ---
@@ -985,7 +1005,7 @@ scripts/auditor_de_interface.sh  # zero alertas remanescentes
 | Risco | Probabilidade | Impacto | Mitigação |
 |---|---|---|---|
 | Refatoração de tabelas quebra testes existentes | MÉDIA | ALTO | Rodar testes antes e depois; não avançar se count cair |
-| Componente `FinancialTable` unificado muda layout visual | MÉDIA | MÉDIO | Implementar incrementalmente; manter componentes antigos até validação |
+| Escolha de abstração para tabelas muda layout visual | MÉDIA | MÉDIO | Decidir na F2 entre `FinancialTable`, componentes por módulo ou abordagem híbrida; implementar incrementalmente; manter componentes antigos até validação |
 | Sprint 5 é iniciada em paralelo por outra sessão antes do fechamento da Sprint 4.5 | BAIXA | ALTO | Documentar bloqueio explícito; Moisés deve controlar abertura da Sprint 5 |
 | Diagnóstico de F1 revela problema maior que o esperado | MÉDIA | MÉDIO | Registrar como bloqueio; escalar para decisão antes de F2 |
 | auditor_de_interface detecta violações não previstas na F4 | BAIXA | MÉDIO | Tratar como oportunidade de melhoria, não como falha de sprint |
@@ -1058,8 +1078,8 @@ O fechamento da Sprint 4.5 (F6) deve produzir:
 - Estado de cada problema identificado (P-01 a P-08) após a sprint.
 - Evidência de resolução ou decisão de adiar.
 - Componentes órfãos: status final (removidos / mantidos com justificativa).
-- Estado do auditor_de_interface: zero alertas remanescentes ou lista de
-  alertas aceitos formalmente.
+- Estado do auditor_de_interface: zero violações obrigatórias não justificadas,
+  com alertas advisory remanescentes documentados e aceitos formalmente.
 
 ### validacao-oficial.md
 
@@ -1085,10 +1105,12 @@ As seguintes decisões requerem input de Moisés/Camaleão antes da F1:
 > dinamicamente, ou a lista hardcoded deve ser mantida por controle explícito?
 > (Proposta: derivação dinâmica, mas decisão de Moisés)
 
-**D-04 — Componente único `FinancialTable`**
-> A F3 deve consolidar os 9 componentes de tabela em um único `FinancialTable`
-> parametrizado, ou manter componentes por módulo com padronização visual comum?
-> (Proposta: componente único com render props para colunas)
+**D-04 — Estratégia de abstração para tabelas financeiras**
+> Após o inventário completo da F1, a F2 deve decidir entre: (1) componente
+> único `FinancialTable` parametrizado; (2) componentes por módulo com contrato
+> visual comum; ou (3) abordagem híbrida com wrapper/base comum e renderização
+> específica por domínio. Até essa decisão, a Sprint 4.5 exige contrato visual
+> comum sem impor abstração única.
 
 **D-05 — Estratégia mobile para tabelas financeiras**
 > Para tabelas de 6+ colunas em mobile (< 480px): preferência entre:
@@ -1174,22 +1196,32 @@ git checkout -B claude/sprint-4-5-f0-plano-ui-components origin/main
 
 ## 25. ANEXO — PROVA OPERACIONAL DA BRANCH DE ENTREGA
 
-*(Esta seção será preenchida com os hashes reais após o commit e push.)*
+### Entrega original da F0 por Claude Code
 
 ```
-Branch criada: claude/sprint-4-5-f0-plano-ui-components
+Branch original: claude/sprint-4-5-f0-plano-ui-components
 Base: origin/main @ 7cd90c2
-
-# Após git commit:
-git status -sb
-git log --oneline -1
-git diff --name-only origin/main...HEAD
-
-# Após git push:
-git push -u origin claude/sprint-4-5-f0-plano-ui-components
+Commit original da F0: f477dff
+Arquivo entregue: docs/sprints/sprint-04-5/00-plano/PLANO_EXECUCAO_SPRINT_4_5.md
+Diff original em relação à main: somente este arquivo
+Status: branch publicada no GitHub e depois buscada no WSL de Moisés para auditoria
 ```
 
-Os valores reais serão reportados no chat após execução.
+### Adendo corretivo pós-auditoria por Codex
+
+Este adendo corretivo foi produzido localmente por Codex no WSL de Moisés, em
+branch própria de correção:
+
+```
+Branch local de correção: codex/sprint-4-5-f0-adendo-corretivo
+Base local de trabalho: auditoria/sprint-4-5-f0-plano @ f477dff
+Escopo: ajustes documentais menores solicitados pelo Camaleão
+Arquivo alterado: docs/sprints/sprint-04-5/00-plano/PLANO_EXECUCAO_SPRINT_4_5.md
+Implementação: nenhuma
+F1: não iniciada
+Sprint 5: não iniciada
+Commit/push do adendo: aguardando autorização expressa de Moisés
+```
 
 ---
 
