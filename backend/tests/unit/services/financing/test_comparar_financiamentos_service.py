@@ -75,7 +75,4 @@ class TestCompararFinanciamentos:
             result["price"]["summary"]["valor_financiado"]
             == result["sac"]["summary"]["valor_financiado"]
         )
-        assert (
-            result["price"]["summary"]["prazo_meses"]
-            == result["sac"]["summary"]["prazo_meses"]
-        )
+        assert result["price"]["summary"]["prazo_meses"] == result["sac"]["summary"]["prazo_meses"]

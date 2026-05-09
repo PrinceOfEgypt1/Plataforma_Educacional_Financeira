@@ -17,8 +17,7 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
     "bg-blue-600 hover:bg-blue-500 text-white font-semibold focus-visible:outline-blue-400",
 };
 
-export interface CockpitActionButtonProps
-  extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface CockpitActionButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   readonly variant?: ButtonVariant;
   readonly icon?: ReactNode;
   readonly children: ReactNode;

@@ -61,8 +61,7 @@ export function FinancialCockpitShell({
         <nav className="cockpit-module-tabs" aria-label="Módulos">
           {visibleModules.map((module) => {
             const active =
-              current === module.href ||
-              current.startsWith(`${module.href}/`);
+              current === module.href || current.startsWith(`${module.href}/`);
             const statusLabel =
               module.status === "disponivel" ? "ATIVO" : "EM BREVE";
             return (
@@ -74,9 +73,7 @@ export function FinancialCockpitShell({
                 data-testid={`cockpit-module-${module.id}`}
                 data-status={module.status}
               >
-                <span aria-hidden="true">
-                  {MODULE_ICONS[module.id] ?? "◆"}
-                </span>
+                <span aria-hidden="true">{MODULE_ICONS[module.id] ?? "◆"}</span>
                 <span>{module.shortTitle}</span>
                 <span className="cockpit-badge">{statusLabel}</span>
               </Link>
