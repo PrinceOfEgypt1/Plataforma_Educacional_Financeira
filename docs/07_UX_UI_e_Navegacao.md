@@ -59,6 +59,17 @@ A sidebar deve conter:
 - destaque do item ativo;
 - acesso a conteúdo educacional.
 
+### Sprint 4.5/F2 — Navegação e componentes oficiais
+
+A Sprint 4.5/F2 formaliza que a navegação global deve ser consistente, mas
+não exige que todos os módulos usem uma sidebar física como componente único.
+Nos módulos financeiros já materializados, `FinancialCockpitShell` é a concha
+funcional ativa, com topbar global, subtabs e painéis operacionais. `Sidebar`,
+`Header` e `NavItem` permanecem como legado ou candidatos a adaptação futura.
+
+O contrato oficial de componentes passa a residir em
+`docs/ui/CONTRATO_UI_COMPONENTS.md`.
+
 ## 8. Estrutura oficial das páginas
 Rotas recomendadas:
 - `/`
@@ -132,7 +143,7 @@ Para os módulos ainda não implementados, a navegação deve exibir estado
 - menu recolhível;
 - coluna única;
 - cards empilhados;
-- tabelas adaptadas ou com scroll horizontal controlado.
+- tabelas adaptadas; rolagem horizontal apenas como fallback justificado.
 
 ## 11. Formulários
 Princípios:
@@ -183,6 +194,17 @@ Devem mostrar:
 - boa legibilidade;
 - detalhamento, não substituição do resumo.
 
+Para tabelas financeiras, a política oficial está em
+`docs/ui/POLITICA_TABELAS_FINANCEIRAS.md`.
+
+Diretrizes normativas da Sprint 4.5/F2:
+- não usar rolagem horizontal como experiência principal;
+- não ocultar parcelas, saldos ou linhas relevantes por `overflow-hidden`;
+- não cortar séries financeiras por `.slice()` ou limite visual arbitrário;
+- manter cabeçalhos, unidades, alinhamento numérico e contexto educacional;
+- escolher na F3 entre componente único, componentes por módulo ou abordagem
+  híbrida com base comum e renderização específica por domínio.
+
 ## 16. Gráficos
 Usar para:
 - evolução temporal;
@@ -212,6 +234,10 @@ Pode aparecer como:
 - painel lateral;
 - tooltip controlado;
 - link para aprofundamento.
+
+Modais e abas podem apoiar aprofundamento, glossário e material complementar,
+mas não devem substituir o fluxo principal de simulação, resultado e decisão.
+A política oficial está em `docs/ui/POLITICA_MODAIS_ABAS.md`.
 
 ## 19. Página inicial
 Deve conter:
@@ -280,6 +306,25 @@ Componentes mínimos recomendados:
 - ErrorState
 - LoadingState
 
+### Sprint 4.5/F2 — Contrato de componentes
+
+O sistema de componentes acima permanece como referência histórica e lista de
+capacidades esperadas. A partir da Sprint 4.5/F2, a fonte normativa para novas
+decisões de UI é:
+
+- `docs/ui/CONTRATO_UI_COMPONENTS.md`;
+- `docs/ui/POLITICA_TABELAS_FINANCEIRAS.md`;
+- `docs/ui/POLITICA_MODAIS_ABAS.md`.
+
+Decisões documentais:
+- `FinancialCockpitShell` é o shell ativo dos módulos financeiros;
+- `EducationPanel` precisa de convergência semântica antes de ser expandido;
+- `LoadingState`, `ErrorState` e `EmptyState` são componentes transversais
+  recomendados;
+- `cockpit-insight-bar` é padrão contextual permitido dentro do cockpit;
+- a F2 exige contrato visual comum para tabelas financeiras, sem impor uma
+  abstração única prematura.
+
 ---
 
 ## Sprint 4 — Módulo /diagnostico (F3 + F4)
@@ -339,7 +384,7 @@ O conteúdo educacional foi intencionalmente colocado em modal para:
 | `FinanciamentoCockpit` | `components/financing/FinanciamentoCockpit.tsx` | Orquestra formulário, resultado e modal educacional |
 | `FinanciamentoForm` | `components/financing/FinanciamentoForm.tsx` | 7 campos com validação local |
 | `FinanciamentoSummary` | `components/financing/FinanciamentoSummary.tsx` | Resumo: sistema, valores, parcelas, custos |
-| `FinanciamentoTable` | `components/financing/FinanciamentoTable.tsx` | Tabela de parcelas (até 24 exibidas, totais indicados) |
+| `FinanciamentoTable` | `components/financing/FinanciamentoTable.tsx` | Tabela de parcelas com detalhamento da série retornada e totais indicados |
 | `FinanciamentoSaibaMais` | `components/financing/FinanciamentoSaibaMais.tsx` | Modal educacional com 4 abas |
 
 ### Integração do conteúdo educacional na UI

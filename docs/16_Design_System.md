@@ -22,6 +22,34 @@ Ele define:
 - wireframes textuais por tela;
 - regras de responsividade.
 
+### Sprint 4.5/F2 — Contrato oficial de UI Components
+
+A partir da Sprint 4.5/F2, este documento passa a ser complementado por
+três documentos normativos em `docs/ui/`:
+
+- `docs/ui/CONTRATO_UI_COMPONENTS.md`;
+- `docs/ui/POLITICA_TABELAS_FINANCEIRAS.md`;
+- `docs/ui/POLITICA_MODAIS_ABAS.md`.
+
+Esses documentos formalizam o contrato visual e estrutural que deve orientar
+novas implementações e refatorações de interface. O inventário da F1 permanece
+como evidência do estado encontrado; a F2 define o padrão desejado para avanço
+da Sprint 4.5.
+
+Decisões oficiais da F2:
+- os tokens canônicos continuam em `frontend/src/styles/tokens.ts` e
+  `frontend/src/styles/tokens.css`;
+- variáveis locais do cockpit podem existir apenas como camada temporária de
+  compatibilidade e não devem virar nova fonte normativa;
+- `FinancialCockpitShell` é a concha funcional ativa dos módulos financeiros;
+- `ShellLayout`, `Header`, `Sidebar` e `NavItem` permanecem como legado ou
+  candidatos a adaptação, não como padrão obrigatório de novas telas;
+- tabelas financeiras devem seguir contrato visual comum, sem impor ainda um
+  componente único universal;
+- decisões de abstração entre `FinancialTable` único, componentes por domínio
+  ou abordagem híbrida ficam formalmente atribuídas à F3, com base no inventário
+  da F1 e nas políticas da F2.
+
 ---
 
 ## 2. Tokens oficiais
@@ -75,7 +103,7 @@ Escala recomendada:
 - menu recolhível
 - coluna única
 - cards empilhados
-- tabelas com scroll horizontal controlado
+- tabelas adaptadas; rolagem horizontal apenas como fallback justificado
 
 ---
 
@@ -135,8 +163,12 @@ Níveis:
 Deve suportar:
 - cabeçalhos
 - linhas
-- rolagem horizontal
+- rolagem vertical para séries longas
+- adaptação responsiva sem rolagem horizontal como experiência principal
 - estado vazio
+
+Para tabelas financeiras, a referência obrigatória é
+`docs/ui/POLITICA_TABELAS_FINANCEIRAS.md`.
 
 ### 4.8 `ComparisonChart`
 Deve suportar:
@@ -323,7 +355,7 @@ Deve suportar:
 - cards em 1 coluna
 - formulário em 1 coluna
 - gráficos redimensionados
-- tabela com rolagem
+- tabela adaptada; rolagem horizontal somente como exceção temporária
 
 ---
 
