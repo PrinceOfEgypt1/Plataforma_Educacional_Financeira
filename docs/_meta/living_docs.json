@@ -1,11 +1,11 @@
 {
   "$schema_version": 3,
   "generated_at": "2026-05-08",
-  "total_documents": 79,
+  "total_documents": 80,
   "categories": {
     "BASELINE_CANDIDATA": 1,
     "ESTATICO": 31,
-    "GOVERNANCA_SPRINT": 11,
+    "GOVERNANCA_SPRINT": 12,
     "HIBRIDO": 6,
     "META": 1,
     "OPERACIONAL": 1,
@@ -713,9 +713,19 @@
       "added_sprint": "gate-po-ux-valor-item-03",
       "last_updated": "2026-05-10",
       "note": "Item 3 do Gate PO/UX/Valor: matriz completa de perguntas estratégicas, educacionais, matemáticas, legais, visuais, técnicas e operacionais que orienta a reestruturação educacional e auditável antes da liberação da Sprint 5."
+    },
+    {
+      "id": "doc_gate_po_ux_valor_plano_reestruturacao",
+      "path": "docs/gates/gate-po-ux-valor/02-plano-reestruturacao/PLANO_REESTRUTURACAO_GATE_PO_UX_VALOR.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Gate PO/UX/Valor — Plano de Reestruturação Educacional e Auditável",
+      "materialized_in_repo": true,
+      "added_sprint": "gate-po-ux-valor-item-04",
+      "last_updated": "2026-05-10",
+      "note": "Item 4 do Gate PO/UX/Valor: plano de reestruturação educacional, visual, pedagógica, matemática, legal, técnica e operacional para orientar os próximos itens do Gate antes da liberação da Sprint 5."
     }
   ],
   "updated_at": "2026-05-10",
-  "update_reason": "Gate PO/UX/Valor — Item 3: materialização da matriz completa de perguntas estratégicas, educacionais, matemáticas, legais, visuais, técnicas e operacionais; Sprint 5 permanece congelada.",
+  "update_reason": "Gate PO/UX/Valor — Item 4: materialização do plano de reestruturação educacional e auditável; Sprint 5 permanece congelada.",
   "_migration_note": "Sincronização documental concluída em 2026-04-17. Todos os documentos do pacote AUDITORIA_PROMPT_1_FINAL foram migrados. Documentos com materialized_in_repo=false são apenas aqueles que permanecem pendentes por decisão explícita."
 }
