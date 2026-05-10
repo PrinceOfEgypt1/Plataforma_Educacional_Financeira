@@ -89,6 +89,29 @@ describe("Financial Cockpit — períodos dinâmicos", () => {
     expectBodyRowCount("cockpit-table-amortization-compare", 60);
   });
 
+  it("tabelas cockpit têm caption e cabeçalhos com scope", () => {
+    render(
+      <>
+        <InterestSimpleTable rows={interestSimpleRows(2)} />
+        <AmortizationCockpitTable rows={amortizationRows(2)} />
+      </>,
+    );
+
+    const interestTable = within(
+      screen.getByTestId("cockpit-table-simple"),
+    ).getByRole("table", { name: /evolução mensal de juros simples/i });
+    expect(within(interestTable).getAllByRole("columnheader")).toHaveLength(3);
+    expect(within(interestTable).getAllByRole("rowheader")).toHaveLength(2);
+
+    const amortizationTable = within(
+      screen.getByTestId("cockpit-table-amortization"),
+    ).getByRole("table", { name: /tabela de amortização do cockpit/i });
+    expect(within(amortizationTable).getAllByRole("columnheader")).toHaveLength(
+      5,
+    );
+    expect(within(amortizationTable).getAllByRole("rowheader")).toHaveLength(2);
+  });
+
   it("prepara um ponto por período nos gráficos de juros", () => {
     const chart: InterestChart = {
       x_label: "Mês",

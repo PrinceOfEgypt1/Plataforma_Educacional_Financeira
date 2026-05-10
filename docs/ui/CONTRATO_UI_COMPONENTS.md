@@ -241,6 +241,27 @@ Esses pontos permanecem como pendencia consciente para F4/F5 ou decisao futura.
 
 ---
 
+## 7.2 Materializacao F4 — tabelas financeiras
+
+A Sprint 4.5/F4 aplicou a politica de tabelas financeiras sem criar um
+`FinancialTable` monolitico. A abordagem continua hibrida:
+
+- tabelas cockpit mantem componentes especificos em `CockpitTables`;
+- financiamento imobiliario mantem `FinanciamentoTable` por dominio;
+- comparativo PRICE x SAC usa cards responsivos quando a representacao tabular
+  larga prejudica o mobile;
+- classes e semantica comuns foram padronizadas por contrato: caption, scope,
+  valores tabulares, cabecalho fixo e rolagem vertical para series longas.
+
+Padroes oficiais concretizados:
+
+- `FinanciamentoTable` usa tabela desktop e cards mobile equivalentes;
+- `FinanciamentoCompareSummary` usa `dl` responsivo para comparacao PRICE x SAC;
+- `.cockpit-table-wrap` e wrapper vertical para tabelas financeiras do cockpit;
+- tabelas financeiras tocadas na F4 renderizam todas as linhas recebidas.
+
+---
+
 ## 8. Checklist de conformidade para novas telas
 
 - [ ] Usa `FinancialCockpitShell` via `ShellLayout`.

@@ -724,7 +724,7 @@ body {
 
 .cockpit-table-wrap {
   max-height: 200px;
-  overflow: auto;
+  overflow-y: auto;
   border: 1px solid var(--border);
   border-radius: 8px;
 }
@@ -735,9 +735,10 @@ body {
   color: var(--text-muted);
   font-family: var(--font-ibm-plex-mono), monospace;
   font-size: 10px;
+  font-variant-numeric: tabular-nums;
 }
 
-.cockpit-table th {
+.cockpit-table thead th {
   position: sticky;
   top: 0;
   z-index: 1;
@@ -748,15 +749,22 @@ body {
   border-bottom: 1px solid var(--border);
 }
 
-.cockpit-table th:first-child,
+.cockpit-table thead th:first-child,
+.cockpit-table tbody th:first-child,
 .cockpit-table td:first-child {
   text-align: left;
 }
 
-.cockpit-table td {
+.cockpit-table td,
+.cockpit-table tbody th {
   padding: 6px 8px;
   text-align: right;
   border-bottom: 1px solid rgba(0, 212, 200, 0.06);
+}
+
+.cockpit-table tbody th {
+  color: var(--text);
+  font-weight: 600;
 }
 
 .cockpit-table tr:hover td {

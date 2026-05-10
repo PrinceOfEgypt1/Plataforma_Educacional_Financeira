@@ -10,17 +10,18 @@ export function InterestSimpleTable({
   return (
     <div className="cockpit-table-wrap" data-testid="cockpit-table-simple">
       <table className="cockpit-table">
+        <caption className="sr-only">Evolução mensal de juros simples</caption>
         <thead>
           <tr>
-            <th>Mês</th>
-            <th>Juros</th>
-            <th>Saldo</th>
+            <th scope="col">Mês</th>
+            <th scope="col">Juros</th>
+            <th scope="col">Saldo</th>
           </tr>
         </thead>
         <tbody>
           {rows.map((row) => (
             <tr key={row.periodo}>
-              <td>{row.periodo}</td>
+              <th scope="row">{row.periodo}</th>
               <td>{formatBRL(row.juros_periodo)}</td>
               <td>{formatBRL(row.saldo_final)}</td>
             </tr>
@@ -39,17 +40,20 @@ export function InterestCompoundTable({
   return (
     <div className="cockpit-table-wrap" data-testid="cockpit-table-compound">
       <table className="cockpit-table">
+        <caption className="sr-only">
+          Evolução mensal de juros compostos
+        </caption>
         <thead>
           <tr>
-            <th>Mês</th>
-            <th>Juros</th>
-            <th>Saldo</th>
+            <th scope="col">Mês</th>
+            <th scope="col">Juros</th>
+            <th scope="col">Saldo</th>
           </tr>
         </thead>
         <tbody>
           {rows.map((row) => (
             <tr key={row.periodo}>
-              <td>{row.periodo}</td>
+              <th scope="row">{row.periodo}</th>
               <td>{formatBRL(row.juros_periodo)}</td>
               <td>{formatBRL(row.saldo_final)}</td>
             </tr>
@@ -71,19 +75,20 @@ export function AmortizationCockpitTable({
       data-testid="cockpit-table-amortization"
     >
       <table className="cockpit-table">
+        <caption className="sr-only">Tabela de amortização do cockpit</caption>
         <thead>
           <tr>
-            <th>#</th>
-            <th>Parcela</th>
-            <th>Juros</th>
-            <th>Amort.</th>
-            <th>Saldo</th>
+            <th scope="col">#</th>
+            <th scope="col">Parcela</th>
+            <th scope="col">Juros</th>
+            <th scope="col">Amort.</th>
+            <th scope="col">Saldo</th>
           </tr>
         </thead>
         <tbody>
           {rows.map((row) => (
             <tr key={row.periodo}>
-              <td>{row.periodo}</td>
+              <th scope="row">{row.periodo}</th>
               <td>{formatBRL(row.parcela)}</td>
               <td>{formatBRL(row.juros)}</td>
               <td>{formatBRL(row.amortizacao)}</td>
@@ -122,12 +127,15 @@ export function AmortizationCompareTable({
       data-testid="cockpit-table-amortization-compare"
     >
       <table className="cockpit-table">
+        <caption className="sr-only">
+          Comparação de parcelas PRICE e SAC no cockpit
+        </caption>
         <thead>
           <tr>
-            <th>#</th>
-            <th>PMT Price</th>
-            <th>PMT SAC</th>
-            <th>Δ Parcela</th>
+            <th scope="col">#</th>
+            <th scope="col">PMT Price</th>
+            <th scope="col">PMT SAC</th>
+            <th scope="col">Δ Parcela</th>
           </tr>
         </thead>
         <tbody>
@@ -138,7 +146,7 @@ export function AmortizationCompareTable({
               toNumber(sac?.parcela) - toNumber(price?.parcela);
             return (
               <tr key={index + 1}>
-                <td>{index + 1}</td>
+                <th scope="row">{index + 1}</th>
                 <td>{price ? formatBRL(price.parcela) : "..."}</td>
                 <td>{sac ? formatBRL(sac.parcela) : "..."}</td>
                 <td

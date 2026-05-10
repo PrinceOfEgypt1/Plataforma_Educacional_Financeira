@@ -145,6 +145,17 @@ Para os módulos ainda não implementados, a navegação deve exibir estado
 - cards empilhados;
 - tabelas adaptadas; rolagem horizontal apenas como fallback justificado.
 
+### Sprint 4.5/F4 — Leitura mobile de tabelas financeiras
+
+A experiência mobile de tabelas financeiras deve oferecer representação própria
+quando a tabela tiver muitas colunas. Para financiamento imobiliário, a F4
+materializou cards por parcela como alternativa à tabela desktop. Para
+comparações PRICE x SAC, a F4 materializou cards comparativos em `dl`, mantendo
+os valores de cada sistema lado a lado sem exigir tabela larga.
+
+Em desktop e tablet largo, tabelas continuam permitidas quando couberem na
+largura útil, com cabeçalho fixo e rolagem vertical para séries longas.
+
 ## 11. Formulários
 Princípios:
 - clareza;
