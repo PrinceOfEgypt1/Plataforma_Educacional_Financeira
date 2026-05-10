@@ -1,9 +1,9 @@
 {
   "$schema_version": 3,
   "generated_at": "2026-05-08",
-  "total_documents": 71,
+  "total_documents": 74,
   "categories": {
-    "VIVO": 24,
+    "VIVO": 27,
     "ESTATICO": 31,
     "HIBRIDO": 6,
     "BASELINE_CANDIDATA": 1,
@@ -74,9 +74,10 @@
       "title": "UX/UI e Navegação",
       "materialized_in_repo": true,
       "note": "Sprint 3.5 — F3: §9.2 registra o Financial Cockpit para /juros e /amortizacao, com topbar, subtabs, painel contextual e modais.",
-      "last_updated": "2026-05-08",
+      "last_updated": "2026-05-09",
       "sprint_4_f4_note": "Sprint 4/F4: módulo /diagnostico registrado como módulo funcional com cockpit, formulário, KPIs, alertas e conteúdo educacional via DiagnosticoSaibaMais modal.",
-      "sprint_4_f5_note": "Sprint 4/F5: módulo /financiamento-imobiliario promovido de em-construcao para disponivel. Componentes FinanciamentoCockpit, Form, Summary, Table, SaibaMais registrados."
+      "sprint_4_f5_note": "Sprint 4/F5: módulo /financiamento-imobiliario promovido de em-construcao para disponivel. Componentes FinanciamentoCockpit, Form, Summary, Table, SaibaMais registrados.",
+      "sprint_4_5_f2_note": "Sprint 4.5/F2: documento atualizado para referenciar o contrato oficial de UI Components, a política de tabelas financeiras e a política de modais/abas; FinancialCockpitShell permanece como shell funcional ativa, com Header/Sidebar/NavItem classificados como legado/candidatos a adaptação."
     },
     {
       "id": "doc_08",
@@ -151,7 +152,36 @@
       "path": "docs/16_Design_System.md",
       "category": "VIVO",
       "title": "Design System e Wireframes Operacionais",
-      "materialized_in_repo": true
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-09",
+      "sprint_4_5_f2_note": "Sprint 4.5/F2: referencia o contrato oficial de UI Components e as políticas de tabelas financeiras, modais e abas em docs/ui/."
+    },
+    {
+      "id": "doc_ui_contrato_components",
+      "path": "docs/ui/CONTRATO_UI_COMPONENTS.md",
+      "category": "VIVO",
+      "title": "Contrato Oficial de UI Components",
+      "materialized_in_repo": true,
+      "added_sprint": "sprint-04-5-f2",
+      "note": "Sprint 4.5/F2: define hierarquia normativa, componentes oficiais, legado, decisões pendentes para F3/F4 e critérios de aceite para UI Components."
+    },
+    {
+      "id": "doc_ui_politica_tabelas_financeiras",
+      "path": "docs/ui/POLITICA_TABELAS_FINANCEIRAS.md",
+      "category": "VIVO",
+      "title": "Política de Tabelas Financeiras",
+      "materialized_in_repo": true,
+      "added_sprint": "sprint-04-5-f2",
+      "note": "Sprint 4.5/F2: formaliza contrato visual e responsivo para tabelas financeiras, sem impor componente único antes da decisão técnica da F3."
+    },
+    {
+      "id": "doc_ui_politica_modais_abas",
+      "path": "docs/ui/POLITICA_MODAIS_ABAS.md",
+      "category": "VIVO",
+      "title": "Política de Modais e Abas",
+      "materialized_in_repo": true,
+      "added_sprint": "sprint-04-5-f2",
+      "note": "Sprint 4.5/F2: define uso permitido de modais e abas como aprofundamento contextual, sem substituir o fluxo principal."
     },
     {
       "id": "doc_17",
@@ -616,7 +646,7 @@
       "note": "Documento histórico vivo. Criado na branch docs/jornada-plataforma-educacional-financeira. Cobre pré-história, Sprints 0–4/F1-A, arquitetura, qualidade, governança, motor matemático, camada educacional, roadmap, glossário, rastreabilidade e métricas acumuladas. Adendo Jornada PEF-A corrigiu fatos sobre Sprint 3.5, Sprint 4/F0, F0.1/F0.1-A, sequência oficial da Sprint 4, nota doc_03 e índice geral."
     }
   ],
-  "updated_at": "2026-05-08",
-  "update_reason": "Sprint 4/F4 — fechamento do módulo Diagnóstico Financeiro: conteúdo educacional materializado (6 arquivos content/diagnostico/), DiagnosticoSaibaMais modal integrado ao cockpit, 64 testes novos (293/293 verdes), RF-DIAG-001 promovido para done na Matriz de Rastreabilidade. Docs vivos atualizados: 07, 08, 09, 15, 19.",
+  "updated_at": "2026-05-09",
+  "update_reason": "Sprint 4.5/F2 — contrato oficial de UI Components e políticas de tabelas financeiras, modais e abas materializados em docs/ui/. Docs vivos atualizados: 07, 16 e _meta/living_docs.json.",
   "_migration_note": "Sincronização documental concluída em 2026-04-17. Todos os documentos do pacote AUDITORIA_PROMPT_1_FINAL foram migrados. Documentos com materialized_in_repo=false são apenas aqueles que permanecem pendentes por decisão explícita."
 }
