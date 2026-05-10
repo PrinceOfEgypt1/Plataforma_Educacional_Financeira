@@ -57,6 +57,9 @@ O inventário completo e autoritativo de documentos, categorias, caminhos canôn
 - Matriz Completa de Perguntas do Gate PO/UX/Valor
   (`docs/gates/gate-po-ux-valor/01-matriz-perguntas/MATRIZ_COMPLETA_PERGUNTAS_GATE_PO_UX_VALOR.md`)
 
+- Auditoria das Telas Atuais do Gate PO/UX/Valor
+  (`docs/gates/gate-po-ux-valor/05-auditoria-telas-atuais/AUDITORIA_TELAS_ATUAIS_GATE_PO_UX_VALOR.md`)
+
 ## Artefato operacional
 
 - Planilha de acompanhamento (`docs/operacional/backlog_operacional_acompanhamento.xlsx`)
