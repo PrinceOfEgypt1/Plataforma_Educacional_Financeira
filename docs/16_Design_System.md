@@ -417,3 +417,25 @@ Este documento estará aceito quando:
 - frontend puder implementá-lo sem ambiguidade relevante;
 - componentes-base estiverem claramente definidos;
 - layout e wireframes estiverem suficientes para execução.
+
+---
+
+## 16. Sprint 4.5 F5 — Auditor de Interface Advisory
+
+A F5 adiciona o `auditor_de_interface` como verificador estático em modo
+advisory para proteger as decisões visuais materializadas na Sprint 4.5.
+
+O auditor observa:
+
+- tabelas financeiras sem rolagem horizontal como experiência principal;
+- preservação de linhas financeiras sem cortes artificiais;
+- caption, escopos de cabeçalho e numerais tabulares em tabelas;
+- sticky header restrito ao cabeçalho da tabela do cockpit;
+- `visibleInCockpit` e `getCockpitVisibleModules` como fonte da topbar;
+- separação semântica entre `EducationPanel` base e `CockpitEducationPanel`;
+- modais e abas como apoio contextual, não navegação principal.
+
+O auditor não substitui revisão visual, screenshots, browser, validação por
+pixel ou decisão formal de Moisés/Camaleão. Enquanto estiver em modo advisory,
+alertas não bloqueiam a Sprint 4.5 por exit code, mas precisam ser justificados
+e rastreados quando permanecerem.
