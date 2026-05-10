@@ -129,8 +129,8 @@ describe("FinancialCockpitShell — topbar deriva de MODULES", () => {
       visibleInCockpit: true,
     };
 
-    expect(
-      getCockpitVisibleModules([...MODULES, extraModule]).at(-1)?.id,
-    ).toBe("simulador-futuro");
+    expect(getCockpitVisibleModules([...MODULES, extraModule]).at(-1)?.id).toBe(
+      "simulador-futuro",
+    );
   });
 });

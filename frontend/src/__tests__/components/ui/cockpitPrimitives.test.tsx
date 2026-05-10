@@ -26,11 +26,7 @@ describe("Cockpit primitives — contrato F3", () => {
     const onChange = vi.fn();
 
     render(
-      <CockpitEducationPanel
-        tabs={tabs}
-        active="conceito"
-        onChange={onChange}
-      >
+      <CockpitEducationPanel tabs={tabs} active="conceito" onChange={onChange}>
         <p>conteúdo cockpit</p>
       </CockpitEducationPanel>,
     );
