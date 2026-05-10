@@ -45,6 +45,9 @@ O inventário completo e autoritativo de documentos, categorias, caminhos canôn
 
 ## Gate PO/UX/Valor — Reestruturação Educacional e Auditável
 
+- Contrato Educacional da API do Gate PO/UX/Valor
+  (`docs/gates/gate-po-ux-valor/04-contrato-educacional-api/CONTRATO_EDUCACIONAL_API_GATE_PO_UX_VALOR.md`)
+
 - Padrão Oficial de Telas do Gate PO/UX/Valor
   (`docs/gates/gate-po-ux-valor/03-padrao-oficial-telas/PADRAO_OFICIAL_TELAS_GATE_PO_UX_VALOR.md`)
 

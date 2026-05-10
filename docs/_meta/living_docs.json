@@ -1,11 +1,11 @@
 {
   "$schema_version": 3,
   "generated_at": "2026-05-08",
-  "total_documents": 81,
+  "total_documents": 82,
   "categories": {
     "BASELINE_CANDIDATA": 1,
     "ESTATICO": 31,
-    "GOVERNANCA_SPRINT": 13,
+    "GOVERNANCA_SPRINT": 14,
     "HIBRIDO": 6,
     "META": 1,
     "OPERACIONAL": 1,
@@ -733,9 +733,19 @@
       "added_sprint": "gate-po-ux-valor-item-06",
       "last_updated": "2026-05-10",
       "note": "Item 6 do Gate PO/UX/Valor: padrão oficial de telas educacionais, financeiras, auditáveis e encantadoras, com referências qualificadas, exemplos operacionais, contraexemplos, evidências exigidas e critérios de reprovação para orientar auditoria, prototipação, Value Gate, aceite do PO e evolução futura da Plataforma Educacional Financeira."
+    },
+    {
+      "id": "doc_gate_po_ux_valor_contrato_educacional_api",
+      "path": "docs/gates/gate-po-ux-valor/04-contrato-educacional-api/CONTRATO_EDUCACIONAL_API_GATE_PO_UX_VALOR.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Gate PO/UX/Valor — Contrato Educacional da API",
+      "materialized_in_repo": true,
+      "added_sprint": "gate-po-ux-valor-item-07",
+      "last_updated": "2026-05-10",
+      "note": "Item 7 do Gate PO/UX/Valor: contrato educacional da API para respostas financeiras estruturadas com resultado, interpretação, memória de cálculo, fórmulas, substituições, etapas, fontes, limites, alertas, tabelas, gráficos, comparações, evidências e critérios de reprovação."
     }
   ],
   "updated_at": "2026-05-10",
-  "update_reason": "Gate PO/UX/Valor — Item 6: materialização do padrão oficial de telas educacionais, financeiras, auditáveis e encantadoras; Sprint 5 permanece congelada.",
+  "update_reason": "Gate PO/UX/Valor — Item 7: materialização do contrato educacional da API; Sprint 5 permanece congelada.",
   "_migration_note": "Sincronização documental concluída em 2026-04-17. Todos os documentos do pacote AUDITORIA_PROMPT_1_FINAL foram migrados. Documentos com materialized_in_repo=false são apenas aqueles que permanecem pendentes por decisão explícita."
 }
