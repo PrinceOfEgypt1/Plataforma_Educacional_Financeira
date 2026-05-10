@@ -2,7 +2,11 @@ import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
 import { FinancialCockpitShell } from "@/components/ui/cockpit/FinancialCockpitShell";
-import { MODULES } from "@/config/modules";
+import {
+  getCockpitVisibleModules,
+  MODULES,
+  type ModuleEntry,
+} from "@/config/modules";
 
 vi.mock("next/navigation", () => ({
   usePathname: () => "/",
@@ -76,13 +80,57 @@ describe("FinancialCockpitShell — topbar deriva de MODULES", () => {
         <div />
       </FinancialCockpitShell>,
     );
-    const availableModules = MODULES.filter((m) => m.status === "disponivel");
-    for (const mod of availableModules) {
-      const tab = screen.queryByTestId(`cockpit-module-${mod.id}`);
-      if (tab) {
-        expect(tab).toHaveAttribute("data-status", "disponivel");
-        expect(tab).toHaveTextContent("ATIVO");
-      }
+    const visibleModules = getCockpitVisibleModules();
+    for (const mod of visibleModules) {
+      const tab = screen.getByTestId(`cockpit-module-${mod.id}`);
+      expect(tab).toHaveAttribute("data-status", mod.status);
+      expect(tab).toHaveTextContent(
+        mod.status === "disponivel" ? "ATIVO" : "EM BREVE",
+      );
     }
+  });
+
+  it("renderiza exatamente os módulos marcados como visíveis no cockpit", () => {
+    render(
+      <FinancialCockpitShell pathname="/">
+        <div />
+      </FinancialCockpitShell>,
+    );
+
+    const visibleModules = getCockpitVisibleModules();
+    const renderedTabs = screen.getAllByTestId(/^cockpit-module-/);
+
+    expect(renderedTabs).toHaveLength(visibleModules.length);
+    expect(visibleModules.map((module) => module.id)).toEqual([
+      "diagnostico",
+      "juros",
+      "amortizacao",
+      "financiamento-imobiliario",
+      "consignado",
+      "cdc",
+      "cartao-rotativo",
+      "investir-vs-quitar",
+    ]);
+  });
+
+  it("inclui novo módulo visível pela função de configuração, sem editar a shell", () => {
+    const base = MODULES[0];
+    if (!base) throw new Error("MODULES deve conter ao menos um módulo");
+
+    const extraModule: ModuleEntry = {
+      id: "simulador-futuro",
+      slug: "simulador-futuro",
+      href: "/simulador-futuro" as ModuleEntry["href"],
+      title: "Simulador Futuro",
+      shortTitle: "Futuro",
+      description: base.description,
+      group: base.group,
+      status: base.status,
+      visibleInCockpit: true,
+    };
+
+    expect(getCockpitVisibleModules([...MODULES, extraModule]).at(-1)?.id).toBe(
+      "simulador-futuro",
+    );
   });
 });

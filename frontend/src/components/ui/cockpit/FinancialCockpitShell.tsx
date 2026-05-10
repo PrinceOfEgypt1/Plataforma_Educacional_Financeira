@@ -6,7 +6,7 @@ import type { Route } from "next";
 import type { ReactNode } from "react";
 
 import { cn } from "@/lib/cn";
-import { MODULES } from "@/config/modules";
+import { getCockpitVisibleModules } from "@/config/modules";
 
 const MODULE_ICONS: Record<string, string> = {
   diagnostico: "🩺",
@@ -23,17 +23,6 @@ const MODULE_ICONS: Record<string, string> = {
   educacao: "📚",
 };
 
-const VISIBLE_MODULE_IDS = [
-  "diagnostico",
-  "juros",
-  "amortizacao",
-  "financiamento-imobiliario",
-  "consignado",
-  "cdc",
-  "cartao-rotativo",
-  "investir-vs-quitar",
-];
-
 export interface FinancialCockpitShellProps {
   readonly children: ReactNode;
   readonly pathname?: string;
@@ -46,9 +35,7 @@ export function FinancialCockpitShell({
   const currentPath = usePathname();
   const current = pathname ?? currentPath ?? "/";
 
-  const visibleModules = MODULES.filter((m) =>
-    VISIBLE_MODULE_IDS.includes(m.id),
-  );
+  const visibleModules = getCockpitVisibleModules();
 
   return (
     <div className="cockpit-app" data-testid="financial-cockpit-shell">

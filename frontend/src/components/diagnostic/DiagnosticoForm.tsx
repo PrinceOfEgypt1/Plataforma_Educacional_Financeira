@@ -45,7 +45,8 @@ export function DiagnosticoForm({
           label="Renda mensal (R$)"
           value={draft.rendaMensal}
           onChange={(v) => onChange("rendaMensal", v)}
-          hint={errors.rendaMensal ?? "Soma de todos os rendimentos."}
+          hint="Soma de todos os rendimentos."
+          error={errors.rendaMensal}
           inputMode="decimal"
         />
         <CockpitField
@@ -53,7 +54,8 @@ export function DiagnosticoForm({
           label="Despesas fixas (R$)"
           value={draft.despesasFixas}
           onChange={(v) => onChange("despesasFixas", v)}
-          hint={errors.despesasFixas ?? "Aluguel, planos, mensalidades."}
+          hint="Aluguel, planos, mensalidades."
+          error={errors.despesasFixas}
           inputMode="decimal"
         />
         <CockpitField
@@ -61,7 +63,8 @@ export function DiagnosticoForm({
           label="Despesas variáveis (R$)"
           value={draft.despesasVariaveis}
           onChange={(v) => onChange("despesasVariaveis", v)}
-          hint={errors.despesasVariaveis ?? "Mercado, lazer, transporte."}
+          hint="Mercado, lazer, transporte."
+          error={errors.despesasVariaveis}
           inputMode="decimal"
         />
         <CockpitField
@@ -69,7 +72,8 @@ export function DiagnosticoForm({
           label="Dívidas mensais (R$)"
           value={draft.dividasMensais}
           onChange={(v) => onChange("dividasMensais", v)}
-          hint={errors.dividasMensais ?? "Parcelas de empréstimos e cartão."}
+          hint="Parcelas de empréstimos e cartão."
+          error={errors.dividasMensais}
           inputMode="decimal"
         />
         <CockpitField
@@ -77,7 +81,8 @@ export function DiagnosticoForm({
           label="Reserva atual (R$)"
           value={draft.reservaAtual}
           onChange={(v) => onChange("reservaAtual", v)}
-          hint={errors.reservaAtual ?? "Valor disponível em emergências."}
+          hint="Valor disponível em emergências."
+          error={errors.reservaAtual}
           inputMode="decimal"
         />
         <CockpitButton busy={busy}>Analisar situação</CockpitButton>

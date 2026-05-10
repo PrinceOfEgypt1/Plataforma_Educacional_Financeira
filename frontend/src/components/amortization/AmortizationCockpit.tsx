@@ -23,7 +23,7 @@ import {
   CockpitModal,
   CockpitSlider,
   CockpitSubTabs,
-  EducationPanel,
+  CockpitEducationPanel,
   EduText,
   EduTitle,
   LegendItem,
@@ -276,7 +276,7 @@ function PricePane({
           )
         }
       />
-      <EducationPanel
+      <CockpitEducationPanel
         tabs={PRICE_EDU_TABS}
         active={eduTab}
         onChange={setEduTab}
@@ -294,7 +294,7 @@ function PricePane({
           <PriceGlossary openModal={openModal} />
         ) : null}
         {eduTab === "cuidados" ? <PriceCautions openModal={openModal} /> : null}
-      </EducationPanel>
+      </CockpitEducationPanel>
     </CockpitGrid>
   );
 }
@@ -395,7 +395,11 @@ function SacPane({
           )
         }
       />
-      <EducationPanel tabs={SAC_EDU_TABS} active={eduTab} onChange={setEduTab}>
+      <CockpitEducationPanel
+        tabs={SAC_EDU_TABS}
+        active={eduTab}
+        onChange={setEduTab}
+      >
         {eduTab === "tabela" ? (
           <>
             <EduTitle>📋 Tabela SAC</EduTitle>
@@ -406,7 +410,7 @@ function SacPane({
           </>
         ) : null}
         {eduTab === "price-sac" ? <SacVsPrice openModal={openModal} /> : null}
-      </EducationPanel>
+      </CockpitEducationPanel>
     </CockpitGrid>
   );
 }
@@ -502,7 +506,7 @@ function ComparePane({
           )
         }
       />
-      <EducationPanel
+      <CockpitEducationPanel
         tabs={COMPARE_EDU_TABS}
         active={eduTab}
         onChange={setEduTab}
@@ -522,7 +526,7 @@ function ComparePane({
         {eduTab === "cuidados" ? (
           <CompareCautions openModal={openModal} />
         ) : null}
-      </EducationPanel>
+      </CockpitEducationPanel>
     </CockpitGrid>
   );
 }

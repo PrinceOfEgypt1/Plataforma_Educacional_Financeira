@@ -45,7 +45,8 @@ export function FinanciamentoForm({
           label="Valor do imóvel (R$)"
           value={draft.valorImovel}
           onChange={(v) => onChange("valorImovel", v)}
-          hint={errors.valorImovel ?? "Valor total do imóvel."}
+          hint="Valor total do imóvel."
+          error={errors.valorImovel}
           inputMode="decimal"
         />
         <CockpitField
@@ -53,7 +54,8 @@ export function FinanciamentoForm({
           label="Entrada (R$)"
           value={draft.valorEntrada}
           onChange={(v) => onChange("valorEntrada", v)}
-          hint={errors.valorEntrada ?? "Valor que você pagará de entrada."}
+          hint="Valor que você pagará de entrada."
+          error={errors.valorEntrada}
           inputMode="decimal"
         />
         <CockpitField
@@ -61,7 +63,8 @@ export function FinanciamentoForm({
           label="Prazo (meses)"
           value={draft.prazoMeses}
           onChange={(v) => onChange("prazoMeses", v)}
-          hint={errors.prazoMeses ?? "Ex.: 360 = 30 anos."}
+          hint="Ex.: 360 = 30 anos."
+          error={errors.prazoMeses}
           inputMode="numeric"
         />
         <CockpitField
@@ -69,7 +72,8 @@ export function FinanciamentoForm({
           label="Taxa de juros mensal (%)"
           value={draft.taxaJurosMensalPercentual}
           onChange={(v) => onChange("taxaJurosMensalPercentual", v)}
-          hint={errors.taxaJurosMensalPercentual ?? "Ex.: 0.7 = 0,7% ao mês."}
+          hint="Ex.: 0.7 = 0,7% ao mês."
+          error={errors.taxaJurosMensalPercentual}
           inputMode="decimal"
         />
 
@@ -107,7 +111,8 @@ export function FinanciamentoForm({
           label="Seguro mensal (R$)"
           value={draft.seguroMensal}
           onChange={(v) => onChange("seguroMensal", v)}
-          hint={errors.seguroMensal ?? "Seguro habitacional (opcional)."}
+          hint="Seguro habitacional (opcional)."
+          error={errors.seguroMensal}
           inputMode="decimal"
         />
         <CockpitField
@@ -115,7 +120,8 @@ export function FinanciamentoForm({
           label="Tarifa mensal (R$)"
           value={draft.tarifaMensal}
           onChange={(v) => onChange("tarifaMensal", v)}
-          hint={errors.tarifaMensal ?? "Tarifa administrativa (opcional)."}
+          hint="Tarifa administrativa (opcional)."
+          error={errors.tarifaMensal}
           inputMode="decimal"
         />
 

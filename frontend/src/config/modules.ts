@@ -25,6 +25,11 @@ import type { Route } from "next";
  * Sprint 3 / F4:
  *   - `amortizacao` passa de "em-construcao" → "disponivel" porque a página
  *     real consome os endpoints F3 `/api/v1/amortization/*`.
+ *
+ * Sprint 4.5 / F3:
+ *   - `visibleInCockpit` passa a controlar explicitamente a topbar do
+ *     `FinancialCockpitShell`, removendo o array local frágil da shell sem
+ *     mudar a navegação funcional atual.
  */
 
 export type ModuleStatus = "disponivel" | "em-construcao";
@@ -43,6 +48,7 @@ export interface ModuleEntry {
   readonly description: string;
   readonly group: ModuleGroup;
   readonly status: ModuleStatus;
+  readonly visibleInCockpit?: boolean;
 }
 
 const G = {
@@ -69,6 +75,7 @@ export const MODULES: readonly ModuleEntry[] = [
       "orientar os próximos passos.",
     group: G.diagnostico,
     status: "disponivel",
+    visibleInCockpit: true,
   },
   {
     id: "juros",
@@ -81,6 +88,7 @@ export const MODULES: readonly ModuleEntry[] = [
       "tempo sobre o capital.",
     group: G.basicos,
     status: "disponivel",
+    visibleInCockpit: true,
   },
   {
     id: "amortizacao",
@@ -93,6 +101,7 @@ export const MODULES: readonly ModuleEntry[] = [
       "uma na parcela e no custo total.",
     group: G.basicos,
     status: "disponivel",
+    visibleInCockpit: true,
   },
   {
     id: "financiamento-imobiliario",
@@ -105,6 +114,7 @@ export const MODULES: readonly ModuleEntry[] = [
       "e encargos declarados.",
     group: G.financiamentos,
     status: "disponivel",
+    visibleInCockpit: true,
   },
   {
     id: "financiamento-veiculo",
@@ -129,6 +139,7 @@ export const MODULES: readonly ModuleEntry[] = [
       "essa modalidade faz sentido.",
     group: G.emprestimos,
     status: "em-construcao",
+    visibleInCockpit: true,
   },
   {
     id: "cdc",
@@ -141,6 +152,7 @@ export const MODULES: readonly ModuleEntry[] = [
       "antes de tomar a decisão.",
     group: G.emprestimos,
     status: "em-construcao",
+    visibleInCockpit: true,
   },
   {
     id: "cartao-rotativo",
@@ -153,6 +165,7 @@ export const MODULES: readonly ModuleEntry[] = [
       "alternativas de saída.",
     group: G.cartao,
     status: "em-construcao",
+    visibleInCockpit: true,
   },
   {
     id: "atraso",
@@ -189,6 +202,7 @@ export const MODULES: readonly ModuleEntry[] = [
       "de uma dívida existente.",
     group: G.decisao,
     status: "em-construcao",
+    visibleInCockpit: true,
   },
   {
     id: "educacao",
@@ -216,6 +230,13 @@ export function findModuleByPathname(pathname: string): ModuleEntry | null {
   const firstSegment = normalized.split("/").filter(Boolean)[0];
   if (!firstSegment) return null;
   return MODULES.find((m) => m.slug === firstSegment) ?? null;
+}
+
+/** Módulos exibidos na topbar do Financial Cockpit. */
+export function getCockpitVisibleModules(
+  modules: readonly ModuleEntry[] = MODULES,
+): readonly ModuleEntry[] {
+  return modules.filter((module) => module.visibleInCockpit === true);
 }
 
 /** Agrupamento auxiliar para a Sidebar (preserva a ordem da lista). */

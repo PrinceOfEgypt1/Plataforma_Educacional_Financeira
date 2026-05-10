@@ -154,7 +154,8 @@
       "title": "Design System e Wireframes Operacionais",
       "materialized_in_repo": true,
       "last_updated": "2026-05-09",
-      "sprint_4_5_f2_note": "Sprint 4.5/F2: referencia o contrato oficial de UI Components e as políticas de tabelas financeiras, modais e abas em docs/ui/."
+      "sprint_4_5_f2_note": "Sprint 4.5/F2: referencia o contrato oficial de UI Components e as políticas de tabelas financeiras, modais e abas em docs/ui/.",
+      "sprint_4_5_f3_note": "Sprint 4.5/F3: registra materialização de CockpitEducationPanel, visibleInCockpit/getCockpitVisibleModules e ARIA retrocompatível em CockpitButton/CockpitField."
     },
     {
       "id": "doc_ui_contrato_components",
@@ -163,7 +164,9 @@
       "title": "Contrato Oficial de UI Components",
       "materialized_in_repo": true,
       "added_sprint": "sprint-04-5-f2",
-      "note": "Sprint 4.5/F2: define hierarquia normativa, componentes oficiais, legado, decisões pendentes para F3/F4 e critérios de aceite para UI Components."
+      "last_updated": "2026-05-09",
+      "note": "Sprint 4.5/F2: define hierarquia normativa, componentes oficiais, legado, decisões pendentes para F3/F4 e critérios de aceite para UI Components.",
+      "sprint_4_5_f3_note": "Sprint 4.5/F3: decisões de EducationPanel duplicado, VISIBLE_MODULE_IDS, CockpitButton e CockpitField materializadas em código com testes."
     },
     {
       "id": "doc_ui_politica_tabelas_financeiras",
@@ -647,6 +650,6 @@
     }
   ],
   "updated_at": "2026-05-09",
-  "update_reason": "Sprint 4.5/F2 — contrato oficial de UI Components e políticas de tabelas financeiras, modais e abas materializados em docs/ui/. Docs vivos atualizados: 07, 16 e _meta/living_docs.json.",
+  "update_reason": "Sprint 4.5/F3 — componentes-base do cockpit consolidados: CockpitEducationPanel, visibleInCockpit/getCockpitVisibleModules e ARIA retrocompatível em CockpitButton/CockpitField. Docs vivos atualizados: docs/ui/CONTRATO_UI_COMPONENTS.md, docs/16_Design_System.md e docs/_meta/living_docs.json.",
   "_migration_note": "Sincronização documental concluída em 2026-04-17. Todos os documentos do pacote AUDITORIA_PROMPT_1_FINAL foram migrados. Documentos com materialized_in_repo=false são apenas aqueles que permanecem pendentes por decisão explícita."
 }

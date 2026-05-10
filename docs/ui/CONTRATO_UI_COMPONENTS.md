@@ -77,13 +77,13 @@ documento vivo correspondente.
 | `ShellLayout` | adapter oficial | Deve continuar delegando para a shell ativa |
 | `ModulePage` | placeholder oficial | Permitido para modulos `em-construcao`, sem funcionalidade falsa |
 | `Header`, `Sidebar`, `NavItem` | legado / candidato a remocao | Nao usar em novas telas sem decisao F2/F3 explicita |
-| `VISIBLE_MODULE_IDS` | debito documentado | F3 deve resolver por `MODULES.status` ou propriedade explicita de visibilidade |
+| `visibleInCockpit` + `getCockpitVisibleModules` | regra oficial F3 | A topbar do cockpit deve derivar da configuracao de modulos, nao de array local na shell |
 
 ### 4.2 Botoes, CTAs e tabs
 
 | Componente | Uso permitido | Observacao |
 |---|---|---|
-| `CockpitButton` | acao primaria de formulario cockpit | Deve expor estado ocupado de forma acessivel quando revisado na F3 |
+| `CockpitButton` | acao primaria de formulario cockpit | F3 adicionou `aria-busy`, `aria-label` opcional e `busyLabel` retrocompativel |
 | `CockpitActionButton` | CTAs e tabs especificas quando justificado | Nao deve competir com `CockpitSubTabs` sem regra clara |
 | `CockpitSubTabs` | alternancia principal entre modos do cockpit | Padrao recomendado para tabs de primeiro nivel em modulos cockpit |
 | `MoreButton` | abrir explicacao secundaria | Deve abrir modal/ajuda sem substituir fluxo principal |
@@ -93,7 +93,7 @@ documento vivo correspondente.
 | Componente | Uso permitido | Regra |
 |---|---|---|
 | `CockpitInputPanel` | container de entrada em cockpit | Deve agrupar o formulario do modulo |
-| `CockpitField` | campo simples de texto/numerico | F3 deve evoluir contrato de erro, `aria-invalid` e `aria-describedby` |
+| `CockpitField` | campo simples de texto/numerico | F3 adicionou `error`, `aria-invalid`, `aria-describedby` e `ariaDescribedBy` opcionais |
 | `CockpitSlider` | parametro numerico em faixa controlada | Deve exibir unidade e limite claro |
 | `FormSection` | agrupamento semantico fora do cockpit | Permitido para telas que nao usem o grid cockpit |
 
@@ -151,7 +151,7 @@ navegacao principal do modulo.
 | Componente | Status | Regra |
 |---|---|---|
 | `EducationPanel` de `ui/EducationPanel.tsx` | painel educativo base | Manter para conteudo complementar fora do cockpit |
-| `EducationPanel` de `CockpitPrimitives.tsx` | conflito semantico | F3 deve renomear preferencialmente para `CockpitEducationPanel` |
+| `CockpitEducationPanel` de `CockpitPrimitives.tsx` | painel educativo cockpit oficial | Nome F3 elimina conflito com `EducationPanel` base |
 | `DiagnosticoSaibaMais` / `FinanciamentoSaibaMais` | modais educativos validos | Podem permanecer como conteudo secundario |
 
 ---
@@ -183,8 +183,8 @@ Componentes legados nao devem ser removidos nesta F2.
 | `Header`, `Sidebar`, `NavItem` | legado / candidato a remocao | F3 decide remocao ou preservacao documentada |
 | `JurosTabs`, panels/forms antigos de juros | legado provavel | F3 decide se remove ou reaproveita |
 | `AmortizacaoTabs`, panels/forms antigos de amortizacao | legado provavel | F3 decide se remove ou reaproveita |
-| `EducationPanel` duplicado | conflito semantico | F3 resolve por renomeacao/namespace |
-| `VISIBLE_MODULE_IDS` | debito de navegacao | F3 resolve ou documenta excecao |
+| `EducationPanel` duplicado | resolvido na F3 | Cockpit usa `CockpitEducationPanel`; base permanece `EducationPanel` |
+| `VISIBLE_MODULE_IDS` | resolvido na F3 | Substituido por `visibleInCockpit` e `getCockpitVisibleModules` |
 
 Enquanto nao houver decisao:
 
@@ -204,6 +204,40 @@ Enquanto nao houver decisao:
 | Padronizar estados | F3/F4 | `LoadingState`, `ErrorState`, `EmptyState` usados quando aplicavel |
 | Mapear tokens cockpit | F3/F4 | reduzir hardcodes e drift visual |
 | Decidir componentes legados | F3 | remover ou manter com justificativa |
+
+---
+
+## 7.1 Materializacao F3 — componentes-base
+
+A Sprint 4.5/F3 concretizou as correcoes estruturais autorizadas por este
+contrato sem alterar backend, API, regra financeira ou tabelas financeiras.
+
+Decisoes materializadas:
+
+- `EducationPanel` base permanece em `frontend/src/components/ui/EducationPanel.tsx`;
+- o painel educativo do cockpit foi renomeado para `CockpitEducationPanel`;
+- `FinancialCockpitShell` deixou de conter `VISIBLE_MODULE_IDS`;
+- a visibilidade da topbar agora e declarada em `MODULES.visibleInCockpit`;
+- a funcao `getCockpitVisibleModules` centraliza a regra de navegacao do
+  cockpit;
+- `CockpitButton` passou a expor estado ocupado por `aria-busy`;
+- `CockpitField` passou a aceitar erro acessivel via `aria-invalid` e
+  `aria-describedby`.
+
+A lista visivel preservada na F3 foi:
+
+- `diagnostico`;
+- `juros`;
+- `amortizacao`;
+- `financiamento-imobiliario`;
+- `consignado`;
+- `cdc`;
+- `cartao-rotativo`;
+- `investir-vs-quitar`.
+
+Nao houve decisao F3 para remover `Header`, `Sidebar`, `NavItem`, componentes
+legados de juros/amortizacao ou para aplicar a politica de tabelas financeiras.
+Esses pontos permanecem como pendencia consciente para F4/F5 ou decisao futura.
 
 ---
 

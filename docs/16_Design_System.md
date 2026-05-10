@@ -50,6 +50,24 @@ Decisões oficiais da F2:
   ou abordagem híbrida ficam formalmente atribuídas à F3, com base no inventário
   da F1 e nas políticas da F2.
 
+### Sprint 4.5/F3 — Componentes-base materializados
+
+A F3 implementa correções estruturais mínimas autorizadas pelo contrato:
+
+- o painel educativo do cockpit passa a se chamar `CockpitEducationPanel`;
+- `EducationPanel` permanece como componente base fora do cockpit;
+- `FinancialCockpitShell` passa a obter módulos visíveis por
+  `getCockpitVisibleModules`;
+- a propriedade `visibleInCockpit` em `MODULES` substitui o array local
+  `VISIBLE_MODULE_IDS` da shell;
+- `CockpitButton` passa a expor estado ocupado por `aria-busy`;
+- `CockpitField` passa a aceitar erro acessível com `aria-invalid` e
+  `aria-describedby`.
+
+Essas mudanças não alteram tokens, layout financeiro, tabelas financeiras,
+cálculos, endpoints ou regras de negócio. A aplicação ampla da política de
+tabelas permanece fora da F3.
+
 ---
 
 ## 2. Tokens oficiais
@@ -140,6 +158,11 @@ Estrutura:
 - ação primária
 - ação secundária
 
+Campos cockpit devem aceitar erro acessível sem quebrar a API existente:
+`CockpitField` usa `error`, `aria-invalid` e `aria-describedby` quando há
+mensagem de validação. Botões de envio cockpit devem indicar estado ocupado
+com `aria-busy`.
+
 ### 4.5 `SummaryCard`
 Props mínimas:
 - title
@@ -184,6 +207,9 @@ Deve suportar:
 - dica
 - link relacionado
 - FAQ relacionada
+
+No cockpit financeiro, o painel equivalente deve usar o nome
+`CockpitEducationPanel` para evitar ambiguidade semântica com o componente base.
 
 ### 4.10 `ExportButton`
 Deve suportar:
