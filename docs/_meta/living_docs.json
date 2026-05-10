@@ -1,11 +1,11 @@
 {
   "$schema_version": 3,
   "generated_at": "2026-05-08",
-  "total_documents": 82,
+  "total_documents": 83,
   "categories": {
     "BASELINE_CANDIDATA": 1,
     "ESTATICO": 31,
-    "GOVERNANCA_SPRINT": 14,
+    "GOVERNANCA_SPRINT": 15,
     "HIBRIDO": 6,
     "META": 1,
     "OPERACIONAL": 1,
@@ -743,9 +743,19 @@
       "added_sprint": "gate-po-ux-valor-item-07",
       "last_updated": "2026-05-10",
       "note": "Item 7 do Gate PO/UX/Valor: contrato educacional da API para respostas financeiras estruturadas com resultado, interpretação, memória de cálculo, fórmulas, substituições, etapas, fontes, limites, alertas, tabelas, gráficos, comparações, evidências e critérios de reprovação."
+    },
+    {
+      "id": "doc_gate_po_ux_valor_auditoria_telas_atuais",
+      "path": "docs/gates/gate-po-ux-valor/05-auditoria-telas-atuais/AUDITORIA_TELAS_ATUAIS_GATE_PO_UX_VALOR.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Gate PO/UX/Valor — Auditoria das Telas Atuais",
+      "materialized_in_repo": true,
+      "added_sprint": "gate-po-ux-valor-item-08",
+      "last_updated": "2026-05-10",
+      "note": "Item 8 do Gate PO/UX/Valor: auditoria material das telas atuais contra o padrão oficial de telas e o contrato educacional da API; identifica achados, dependências de API, lacunas, riscos e prioridade para protótipo futuro, mantendo a Sprint 5 congelada."
     }
   ],
   "updated_at": "2026-05-10",
-  "update_reason": "Gate PO/UX/Valor — Item 7: materialização do contrato educacional da API; Sprint 5 permanece congelada.",
+  "update_reason": "Gate PO/UX/Valor — Item 8: materialização da auditoria das telas atuais; Sprint 5 permanece congelada.",
   "_migration_note": "Sincronização documental concluída em 2026-04-17. Todos os documentos do pacote AUDITORIA_PROMPT_1_FINAL foram migrados. Documentos com materialized_in_repo=false são apenas aqueles que permanecem pendentes por decisão explícita."
 }
