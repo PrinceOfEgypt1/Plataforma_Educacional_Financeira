@@ -77,10 +77,12 @@ export interface CockpitFieldProps {
   readonly onChange: (value: string) => void;
   readonly unit?: string;
   readonly hint?: string;
+  readonly error?: string | undefined;
   readonly type?: "text";
   readonly step?: string;
   readonly min?: string;
   readonly inputMode?: "decimal" | "numeric";
+  readonly ariaDescribedBy?: string | undefined;
 }
 
 export function CockpitField({
@@ -90,11 +92,19 @@ export function CockpitField({
   onChange,
   unit,
   hint,
+  error,
   type = "text",
   step,
   min,
   inputMode = "decimal",
+  ariaDescribedBy,
 }: CockpitFieldProps) {
+  const assistiveText = error ?? hint;
+  const assistiveId = assistiveText ? `${id}-assistive` : undefined;
+  const describedBy = [ariaDescribedBy, assistiveId]
+    .filter(Boolean)
+    .join(" ");
+
   return (
     <label className="cockpit-field-group" htmlFor={id}>
       <span className="cockpit-field-label">{label}</span>
@@ -106,11 +116,21 @@ export function CockpitField({
           step={step}
           min={min}
           inputMode={inputMode}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={describedBy || undefined}
           onChange={(event) => onChange(event.target.value)}
         />
         {unit ? <span className="cockpit-field-unit">{unit}</span> : null}
       </span>
-      {hint ? <span className="cockpit-field-hint">{hint}</span> : null}
+      {assistiveText ? (
+        <span
+          id={assistiveId}
+          className="cockpit-field-hint"
+          role={error ? "alert" : undefined}
+        >
+          {assistiveText}
+        </span>
+      ) : null}
     </label>
   );
 }
@@ -156,13 +176,23 @@ export function CockpitSlider({
 export function CockpitButton({
   children,
   busy,
+  busyLabel = "Calculando...",
+  ariaLabel,
 }: {
   readonly children: ReactNode;
   readonly busy?: boolean;
+  readonly busyLabel?: string;
+  readonly ariaLabel?: string;
 }) {
   return (
-    <button className="cockpit-btn-calc" type="submit" disabled={busy}>
-      {busy ? "Calculando..." : children}
+    <button
+      className="cockpit-btn-calc"
+      type="submit"
+      disabled={busy}
+      aria-busy={busy ? true : undefined}
+      aria-label={ariaLabel}
+    >
+      {busy ? busyLabel : children}
     </button>
   );
 }
@@ -248,7 +278,7 @@ export function LegendItem({
   );
 }
 
-export function EducationPanel<T extends string>({
+export function CockpitEducationPanel<T extends string>({
   tabs,
   active,
   onChange,
@@ -260,8 +290,17 @@ export function EducationPanel<T extends string>({
   readonly children: ReactNode;
 }) {
   return (
-    <aside className="cockpit-panel-edu" data-testid="cockpit-education-panel">
-      <div className="cockpit-edu-tabs" role="tablist">
+    <aside
+      className="cockpit-panel-edu"
+      data-testid="cockpit-education-panel"
+      role="complementary"
+      aria-label="Conteúdo educativo do módulo"
+    >
+      <div
+        className="cockpit-edu-tabs"
+        role="tablist"
+        aria-label="Abas do conteúdo educativo"
+      >
         {tabs.map((tab) => (
           <button
             key={tab.id}

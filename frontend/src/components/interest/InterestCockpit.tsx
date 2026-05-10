@@ -19,8 +19,8 @@ import {
   CockpitModal,
   CockpitSlider,
   CockpitSubTabs,
+  CockpitEducationPanel,
   EduFormula,
-  EducationPanel,
   EduText,
   EduTitle,
   InterestCockpitChart,
@@ -272,7 +272,7 @@ function InterestSimplePane({
           )
         }
       />
-      <EducationPanel
+      <CockpitEducationPanel
         tabs={EDU_TABS_STANDARD}
         active={eduTab}
         onChange={setEduTab}
@@ -287,7 +287,7 @@ function InterestSimplePane({
         {eduTab === "cuidados" ? (
           <InterestCautions openModal={openModal} />
         ) : null}
-      </EducationPanel>
+      </CockpitEducationPanel>
     </CockpitGrid>
   );
 }
@@ -386,7 +386,7 @@ function InterestCompoundPane({
           )
         }
       />
-      <EducationPanel
+      <CockpitEducationPanel
         tabs={EDU_TABS_STANDARD}
         active={eduTab}
         onChange={setEduTab}
@@ -403,7 +403,7 @@ function InterestCompoundPane({
         {eduTab === "cuidados" ? (
           <CompoundCautions openModal={openModal} />
         ) : null}
-      </EducationPanel>
+      </CockpitEducationPanel>
     </CockpitGrid>
   );
 }
@@ -507,7 +507,7 @@ function InterestComparePane({
           )
         }
       />
-      <EducationPanel
+      <CockpitEducationPanel
         tabs={EDU_TABS_COMPARE}
         active={eduTab}
         onChange={setEduTab}
@@ -530,7 +530,7 @@ function InterestComparePane({
         <MoreButton onClick={() => openModal("comparacao")}>
           📚 Leitura completa →
         </MoreButton>
-      </EducationPanel>
+      </CockpitEducationPanel>
     </CockpitGrid>
   );
 }
