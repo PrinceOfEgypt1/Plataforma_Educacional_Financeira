@@ -43,6 +43,11 @@ O inventário completo e autoritativo de documentos, categorias, caminhos canôn
 - Relatório de Não Aceite Visual/Pedagógico Parcial da Sprint 4.5
   (`docs/sprints/sprint-04-5/03-aceite-po/RELATORIO_NAO_ACEITE_VISUAL_PEDAGOGICO_SPRINT_4_5.md`)
 
+## Gate PO/UX/Valor — Reestruturação Educacional e Auditável
+
+- Matriz Completa de Perguntas do Gate PO/UX/Valor
+  (`docs/gates/gate-po-ux-valor/01-matriz-perguntas/MATRIZ_COMPLETA_PERGUNTAS_GATE_PO_UX_VALOR.md`)
+
 ## Artefato operacional
 
 - Planilha de acompanhamento (`docs/operacional/backlog_operacional_acompanhamento.xlsx`)
