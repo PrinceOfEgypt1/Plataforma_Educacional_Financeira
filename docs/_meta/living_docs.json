@@ -1,15 +1,15 @@
 {
   "$schema_version": 3,
   "generated_at": "2026-05-08",
-  "total_documents": 77,
+  "total_documents": 78,
   "categories": {
-    "VIVO": 28,
-    "ESTATICO": 31,
-    "HIBRIDO": 6,
     "BASELINE_CANDIDATA": 1,
-    "GOVERNANCA_SPRINT": 9,
+    "ESTATICO": 31,
+    "GOVERNANCA_SPRINT": 10,
+    "HIBRIDO": 6,
+    "META": 1,
     "OPERACIONAL": 1,
-    "META": 1
+    "VIVO": 28
   },
   "documents": [
     {
@@ -693,9 +693,19 @@
       "materialized_in_repo": true,
       "added_sprint": "sprint-04-documental",
       "note": "Documento histórico vivo. Criado na branch docs/jornada-plataforma-educacional-financeira. Cobre pré-história, Sprints 0–4/F1-A, arquitetura, qualidade, governança, motor matemático, camada educacional, roadmap, glossário, rastreabilidade e métricas acumuladas. Adendo Jornada PEF-A corrigiu fatos sobre Sprint 3.5, Sprint 4/F0, F0.1/F0.1-A, sequência oficial da Sprint 4, nota doc_03 e índice geral."
+    },
+    {
+      "id": "doc_sprint_4_5_nao_aceite_visual_pedagogico",
+      "path": "docs/sprints/sprint-04-5/03-aceite-po/RELATORIO_NAO_ACEITE_VISUAL_PEDAGOGICO_SPRINT_4_5.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Sprint 4.5 — Relatório de Não Aceite Visual/Pedagógico Parcial",
+      "materialized_in_repo": true,
+      "added_sprint": "gate-po-ux-valor-item-02",
+      "last_updated": "2026-05-10",
+      "note": "Gate PO/UX/Valor — Item 2: registra que a Sprint 4.5 foi tecnicamente concluída, mas recebeu não aceite visual/pedagógico parcial do Product Owner; mantém a Sprint 5 congelada até conclusão satisfatória do Gate PO/UX/Valor."
     }
   ],
   "updated_at": "2026-05-10",
-  "update_reason": "Sprint 4.5/F6 — fechamento formal da Sprint 4.5 com relatório, validação oficial, registro de FE-058/FE-059 como pendências replanejadas, DOC-018 executada e Sprint 5 não iniciada.",
+  "update_reason": "Gate PO/UX/Valor — Item 2: materialização do relatório de não aceite visual/pedagógico parcial da Sprint 4.5, mantendo Sprint 5 congelada.",
   "_migration_note": "Sincronização documental concluída em 2026-04-17. Todos os documentos do pacote AUDITORIA_PROMPT_1_FINAL foram migrados. Documentos com materialized_in_repo=false são apenas aqueles que permanecem pendentes por decisão explícita."
 }

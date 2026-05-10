@@ -40,6 +40,8 @@ O inventário completo e autoritativo de documentos, categorias, caminhos canôn
   (`docs/sprints/sprint-04-5/02-fechamento/RELATORIO_FECHAMENTO_SPRINT_4_5.md`)
 - Validação Oficial da Sprint 4.5
   (`docs/sprints/sprint-04-5/02-fechamento/VALIDACAO_OFICIAL_SPRINT_4_5.md`)
+- Relatório de Não Aceite Visual/Pedagógico Parcial da Sprint 4.5
+  (`docs/sprints/sprint-04-5/03-aceite-po/RELATORIO_NAO_ACEITE_VISUAL_PEDAGOGICO_SPRINT_4_5.md`)
 
 ## Artefato operacional
 
