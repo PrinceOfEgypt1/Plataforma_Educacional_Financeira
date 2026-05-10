@@ -439,3 +439,20 @@ O auditor não substitui revisão visual, screenshots, browser, validação por
 pixel ou decisão formal de Moisés/Camaleão. Enquanto estiver em modo advisory,
 alertas não bloqueiam a Sprint 4.5 por exit code, mas precisam ser justificados
 e rastreados quando permanecerem.
+
+---
+
+## 17. Sprint 4.5 F6 — Fechamento visual formal
+
+A F6 fecha a Sprint 4.5 como governança visual aprovada com pendências
+replanejadas. O fechamento não altera componentes, CSS, hooks ou lógica de
+aplicação.
+
+Status formal:
+
+- contrato oficial de UI Components materializado;
+- política de tabelas financeiras materializada nas tabelas prioritárias;
+- `auditor_de_interface` mantido em modo advisory;
+- FE-058 replanejada;
+- FE-059 replanejada;
+- Sprint 5 não iniciada nesta fatia.

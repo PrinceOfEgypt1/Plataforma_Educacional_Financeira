@@ -34,6 +34,13 @@ O inventário completo e autoritativo de documentos, categorias, caminhos canôn
 - Da Visão ao Produto — A Jornada da Plataforma Educacional Financeira
   (`docs/projeto/DA_VISAO_AO_PRODUTO__A_JORNADA_DA_PLATAFORMA_EDUCACIONAL_FINANCEIRA.md`)
 
+## Governança da Sprint 4.5
+
+- Relatório de Fechamento da Sprint 4.5
+  (`docs/sprints/sprint-04-5/02-fechamento/RELATORIO_FECHAMENTO_SPRINT_4_5.md`)
+- Validação Oficial da Sprint 4.5
+  (`docs/sprints/sprint-04-5/02-fechamento/VALIDACAO_OFICIAL_SPRINT_4_5.md`)
+
 ## Artefato operacional
 
 - Planilha de acompanhamento (`docs/operacional/backlog_operacional_acompanhamento.xlsx`)

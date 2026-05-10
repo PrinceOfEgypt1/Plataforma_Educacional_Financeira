@@ -374,3 +374,30 @@ obrigatórias não justificadas, mas alertas advisory podem existir
 temporariamente quando documentados, justificados, classificados por severidade,
 vinculados a decisão formal de Moisés/Camaleão e rastreados como pendência ou
 exceção temporária.
+
+---
+
+## Sprint 4.5 F6 — Fechamento formal e validação final
+
+### Validações de fechamento
+
+| Comando | Resultado |
+|---------|-----------|
+| `pnpm --dir frontend format:check` | VERDE |
+| `pnpm --dir frontend lint` | VERDE |
+| `pnpm --dir frontend typecheck` | VERDE |
+| `pnpm --dir frontend test` | VERDE — 45 arquivos, 390 testes |
+| `pnpm --dir frontend build` | VERDE |
+| `pnpm --dir frontend audit:interface` | VERDE — 0 critical-advisory, 0 warning, 18 info |
+| `python3 -m json.tool docs/_meta/living_docs.json >/tmp/living_docs_f6_validado.json` | VERDE |
+| `git diff --check origin/main...HEAD` | VERDE |
+| `make verify` | VERDE |
+| Checagem de acentuação corrompida em arquivos versionados Markdown/JSON/TXT | VERDE |
+
+### Observações
+
+- A suíte Vitest manteve avisos conhecidos do Recharts em JSDOM sobre dimensões
+  `0x0`; os testes passaram.
+- A F6 não executou validação visual por browser ou screenshot.
+- A planilha operacional será atualizada por Camaleão/Moisés após decisão e
+  merge.
