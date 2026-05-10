@@ -68,6 +68,24 @@ Essas mudanças não alteram tokens, layout financeiro, tabelas financeiras,
 cálculos, endpoints ou regras de negócio. A aplicação ampla da política de
 tabelas permanece fora da F3.
 
+### Sprint 4.5/F4 — Tabelas financeiras responsivas
+
+A F4 formaliza o padrao de apresentacao das tabelas financeiras no design
+system operacional:
+
+- tabelas de desktop devem priorizar leitura vertical, cabecalho fixo e valores
+  tabulares;
+- tabelas largas em mobile devem ter representacao propria por cards ou detalhe
+  equivalente;
+- `FinanciamentoTable` passa a combinar tabela desktop com cards mobile por
+  parcela;
+- `FinanciamentoCompareSummary` passa a usar cards comparativos em vez de
+  tabela larga;
+- tabelas cockpit usam `caption`, `scope` e identificador de linha.
+
+Essa materializacao preserva todas as linhas recebidas e nao altera calculos,
+servicos, endpoints ou contratos de API.
+
 ---
 
 ## 2. Tokens oficiais

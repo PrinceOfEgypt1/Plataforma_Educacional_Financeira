@@ -29,7 +29,7 @@ export function AmortizacaoSimplesTable({
     <div
       role="region"
       aria-label={caption}
-      className="max-h-[480px] overflow-auto rounded border border-slate-200"
+      className="max-h-[480px] overflow-y-auto rounded border border-slate-200"
       data-testid="amortizacao-simples-table"
     >
       <table className="w-full border-collapse text-sm">
@@ -89,7 +89,7 @@ export function AmortizacaoCompostaTable({
     <div
       role="region"
       aria-label={caption}
-      className="max-h-[480px] overflow-auto rounded border border-slate-200"
+      className="max-h-[480px] overflow-y-auto rounded border border-slate-200"
       data-testid="amortizacao-composta-table"
     >
       <table className="w-full border-collapse text-sm">

@@ -16,7 +16,7 @@ export function AmortizacaoTable({
     <div
       role="region"
       aria-label={caption}
-      className="max-h-[520px] overflow-auto rounded border border-slate-200"
+      className="max-h-[520px] overflow-y-auto rounded border border-slate-200"
       data-testid={testId}
     >
       <table className="w-full border-collapse text-sm">

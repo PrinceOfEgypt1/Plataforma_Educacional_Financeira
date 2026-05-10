@@ -12,23 +12,33 @@ interface ColProps {
 }
 
 function CompareRow({ label, price, sac, highlight = false }: ColProps) {
-  const cellClass = highlight ? "font-semibold text-blue-800" : "text-gray-700";
+  const valueClass = highlight
+    ? "font-semibold text-blue-800"
+    : "font-medium text-gray-700";
   return (
-    <tr className="border-b border-gray-100 last:border-0">
-      <td className="py-1.5 pr-3 text-sm text-gray-500 whitespace-nowrap">
-        {label}
-      </td>
-      <td
-        className={`py-1.5 px-2 text-sm text-right tabular-nums ${cellClass}`}
+    <div
+      className="rounded border border-gray-100 bg-white p-3"
+      data-testid={`financiamento-compare-row-${label
+        .toLowerCase()
+        .replaceAll(" ", "-")}`}
+    >
+      <dt className="mb-2 text-sm font-medium text-gray-600">{label}</dt>
+      <dd
+        className="grid grid-cols-1 gap-2 text-sm sm:grid-cols-2"
+        aria-label={`Comparação de ${label}`}
       >
-        {price}
-      </td>
-      <td
-        className={`py-1.5 px-2 text-sm text-right tabular-nums ${cellClass}`}
-      >
-        {sac}
-      </td>
-    </tr>
+        <div className="flex items-center justify-between gap-3 rounded bg-blue-50/60 px-2 py-1.5">
+          <span className="text-xs font-semibold text-blue-900">PRICE</span>
+          <span className={`text-right tabular-nums ${valueClass}`}>
+            {price}
+          </span>
+        </div>
+        <div className="flex items-center justify-between gap-3 rounded bg-amber-50/70 px-2 py-1.5">
+          <span className="text-xs font-semibold text-amber-800">SAC</span>
+          <span className={`text-right tabular-nums ${valueClass}`}>{sac}</span>
+        </div>
+      </dd>
+    </div>
   );
 }
 
@@ -133,24 +143,14 @@ export function FinanciamentoCompareSummary({
         Resumo comparativo — PRICE × SAC
       </h3>
 
-      <div className="overflow-x-auto border border-gray-100 rounded">
-        <table className="w-full text-xs border-collapse">
-          <thead>
-            <tr className="bg-blue-100 text-blue-900">
-              <th className="px-2 py-1.5 text-left font-medium">Indicador</th>
-              <th className="px-2 py-1.5 text-right font-semibold">PRICE</th>
-              <th className="px-2 py-1.5 text-right font-semibold text-amber-700">
-                SAC
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row) => (
-              <CompareRow key={row.label} {...row} />
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <dl
+        className="grid grid-cols-1 gap-2 lg:grid-cols-2"
+        data-testid="financiamento-compare-cards"
+      >
+        {rows.map((row) => (
+          <CompareRow key={row.label} {...row} />
+        ))}
+      </dl>
 
       <div
         className="cockpit-insight-bar"

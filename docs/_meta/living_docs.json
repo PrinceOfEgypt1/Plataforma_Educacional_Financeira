@@ -77,7 +77,8 @@
       "last_updated": "2026-05-09",
       "sprint_4_f4_note": "Sprint 4/F4: módulo /diagnostico registrado como módulo funcional com cockpit, formulário, KPIs, alertas e conteúdo educacional via DiagnosticoSaibaMais modal.",
       "sprint_4_f5_note": "Sprint 4/F5: módulo /financiamento-imobiliario promovido de em-construcao para disponivel. Componentes FinanciamentoCockpit, Form, Summary, Table, SaibaMais registrados.",
-      "sprint_4_5_f2_note": "Sprint 4.5/F2: documento atualizado para referenciar o contrato oficial de UI Components, a política de tabelas financeiras e a política de modais/abas; FinancialCockpitShell permanece como shell funcional ativa, com Header/Sidebar/NavItem classificados como legado/candidatos a adaptação."
+      "sprint_4_5_f2_note": "Sprint 4.5/F2: documento atualizado para referenciar o contrato oficial de UI Components, a política de tabelas financeiras e a política de modais/abas; FinancialCockpitShell permanece como shell funcional ativa, com Header/Sidebar/NavItem classificados como legado/candidatos a adaptação.",
+      "sprint_4_5_f4_note": "Sprint 4.5/F4: registra estratégia mobile para tabelas financeiras largas: cards por parcela no financiamento e cards comparativos PRICE x SAC."
     },
     {
       "id": "doc_08",
@@ -155,7 +156,8 @@
       "materialized_in_repo": true,
       "last_updated": "2026-05-09",
       "sprint_4_5_f2_note": "Sprint 4.5/F2: referencia o contrato oficial de UI Components e as políticas de tabelas financeiras, modais e abas em docs/ui/.",
-      "sprint_4_5_f3_note": "Sprint 4.5/F3: registra materialização de CockpitEducationPanel, visibleInCockpit/getCockpitVisibleModules e ARIA retrocompatível em CockpitButton/CockpitField."
+      "sprint_4_5_f3_note": "Sprint 4.5/F3: registra materialização de CockpitEducationPanel, visibleInCockpit/getCockpitVisibleModules e ARIA retrocompatível em CockpitButton/CockpitField.",
+      "sprint_4_5_f4_note": "Sprint 4.5/F4: registra padrão de tabelas financeiras responsivas com rolagem vertical, cabeçalho fixo, valores tabulares e alternativa mobile por cards/detalhes."
     },
     {
       "id": "doc_ui_contrato_components",
@@ -166,7 +168,8 @@
       "added_sprint": "sprint-04-5-f2",
       "last_updated": "2026-05-09",
       "note": "Sprint 4.5/F2: define hierarquia normativa, componentes oficiais, legado, decisões pendentes para F3/F4 e critérios de aceite para UI Components.",
-      "sprint_4_5_f3_note": "Sprint 4.5/F3: decisões de EducationPanel duplicado, VISIBLE_MODULE_IDS, CockpitButton e CockpitField materializadas em código com testes."
+      "sprint_4_5_f3_note": "Sprint 4.5/F3: decisões de EducationPanel duplicado, VISIBLE_MODULE_IDS, CockpitButton e CockpitField materializadas em código com testes.",
+      "sprint_4_5_f4_note": "Sprint 4.5/F4: contrato de tabelas materializado em FinanciamentoTable, FinanciamentoCompareSummary, CockpitTables e tabelas de amortização/juros."
     },
     {
       "id": "doc_ui_politica_tabelas_financeiras",
@@ -175,7 +178,9 @@
       "title": "Política de Tabelas Financeiras",
       "materialized_in_repo": true,
       "added_sprint": "sprint-04-5-f2",
-      "note": "Sprint 4.5/F2: formaliza contrato visual e responsivo para tabelas financeiras, sem impor componente único antes da decisão técnica da F3."
+      "last_updated": "2026-05-09",
+      "note": "Sprint 4.5/F2: formaliza contrato visual e responsivo para tabelas financeiras, sem impor componente único antes da decisão técnica da F3.",
+      "sprint_4_5_f4_note": "Sprint 4.5/F4: política aplicada nas tabelas financeiras prioritárias, com tabela desktop vertical, cards mobile e testes de integridade de linhas/acessibilidade."
     },
     {
       "id": "doc_ui_politica_modais_abas",
@@ -650,6 +655,6 @@
     }
   ],
   "updated_at": "2026-05-09",
-  "update_reason": "Sprint 4.5/F3 — componentes-base do cockpit consolidados: CockpitEducationPanel, visibleInCockpit/getCockpitVisibleModules e ARIA retrocompatível em CockpitButton/CockpitField. Docs vivos atualizados: docs/ui/CONTRATO_UI_COMPONENTS.md, docs/16_Design_System.md e docs/_meta/living_docs.json.",
+  "update_reason": "Sprint 4.5/F4 — política de tabelas financeiras aplicada no frontend: FinanciamentoTable, FinanciamentoCompareSummary, CockpitTables, AmortizacaoTables e AmortizacaoTable. Docs vivos atualizados: 07, 16, CONTRATO_UI_COMPONENTS, POLITICA_TABELAS_FINANCEIRAS e _meta/living_docs.json.",
   "_migration_note": "Sincronização documental concluída em 2026-04-17. Todos os documentos do pacote AUDITORIA_PROMPT_1_FINAL foram migrados. Documentos com materialized_in_repo=false são apenas aqueles que permanecem pendentes por decisão explícita."
 }

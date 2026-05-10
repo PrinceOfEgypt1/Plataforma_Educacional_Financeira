@@ -79,4 +79,23 @@ describe("Financial Cockpit — governança de código", () => {
     expect(source).not.toMatch(/take.*12/i);
     expect(source).not.toMatch(/>\s*\.\.\.\s*</);
   });
+
+  it("tabelas financeiras não usam rolagem horizontal como solução principal", () => {
+    const files = [
+      "src/components/financing/FinanciamentoTable.tsx",
+      "src/components/financing/FinanciamentoCompareSummary.tsx",
+      "src/components/ui/cockpit/CockpitTables.tsx",
+      "src/components/interest/AmortizacaoTables.tsx",
+      "src/components/amortization/AmortizacaoTable.tsx",
+    ];
+    const source = files
+      .map((file) => readFileSync(join(ROOT, file), "utf8"))
+      .join("\n");
+    const horizontalScrollClass = new RegExp("overflow-x" + "-auto");
+    const artificialCut = new RegExp("\\." + "slice\\(");
+
+    expect(source).not.toMatch(horizontalScrollClass);
+    expect(source).not.toMatch(/overflow:\s*auto/);
+    expect(source).not.toMatch(artificialCut);
+  });
 });

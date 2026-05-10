@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
 import { FinanciamentoTable } from "@/components/financing/FinanciamentoTable";
@@ -42,6 +42,8 @@ describe("FinanciamentoTable", () => {
     );
     expect(screen.getByTestId("parcela-row-600")).toBeInTheDocument();
     expect(screen.getByTestId("parcela-row-1")).toBeInTheDocument();
+    expect(screen.getByTestId("parcela-mobile-card-600")).toBeInTheDocument();
+    expect(screen.getByTestId("parcela-mobile-card-1")).toBeInTheDocument();
   });
 
   it("não exibe coluna de encargos quando todos são zero", () => {
@@ -62,6 +64,34 @@ describe("FinanciamentoTable", () => {
       },
     ];
     render(<FinanciamentoTable parcelas={parcelas} />);
-    expect(screen.getByText("Encargos")).toBeInTheDocument();
+    expect(screen.getAllByText("Encargos").length).toBeGreaterThanOrEqual(2);
+  });
+
+  it("cumpre semântica mínima de tabela financeira", () => {
+    render(<FinanciamentoTable parcelas={makeParcelas(3)} />);
+
+    const table = screen.getByRole("table", {
+      name: /parcelas do financiamento/i,
+    });
+    expect(
+      within(table)
+        .getByText(/3 parcelas/i)
+        .tagName.toLowerCase(),
+    ).toBe("caption");
+    expect(within(table).getAllByRole("columnheader")).toHaveLength(6);
+    expect(within(table).getAllByRole("rowheader")).toHaveLength(3);
+    expect(table).toHaveClass("tabular-nums");
+  });
+
+  it("oferece representação mobile sem depender de rolagem horizontal", () => {
+    render(<FinanciamentoTable parcelas={makeParcelas(2)} />);
+
+    const mobileList = screen.getByTestId("financiamento-mobile-list");
+    const firstCard = within(mobileList).getByTestId("parcela-mobile-card-1");
+
+    expect(mobileList).toBeInTheDocument();
+    expect(within(firstCard).getByText("Parcela 1")).toBeInTheDocument();
+    expect(within(firstCard).getByText("Saldo inicial")).toBeInTheDocument();
+    expect(within(firstCard).getByText("Prestação")).toBeInTheDocument();
   });
 });

@@ -32,6 +32,28 @@ semantica financeira exigir.
 
 ---
 
+## 2.1 Materializacao F4 — aplicacao inicial
+
+A Sprint 4.5/F4 aplicou esta politica nos componentes financeiros prioritarios
+sem alterar backend, API, servicos de calculo ou regras financeiras.
+
+Componentes ajustados:
+
+- `FinanciamentoTable`: tabela desktop com rolagem vertical, cabecalho fixo,
+  `caption`, `scope` e valores tabulares; no mobile, cada parcela tambem e
+  apresentada como card com os mesmos dados essenciais.
+- `FinanciamentoCompareSummary`: o comparativo PRICE x SAC deixou de depender
+  de tabela larga e passou a usar cards responsivos em `dl`.
+- `CockpitTables`: tabelas de juros e amortizacao do cockpit receberam
+  `caption`, `scope` e identificadores de linha.
+- `AmortizacaoTables` e `AmortizacaoTable`: containers passaram a usar rolagem
+  vertical declarada, preservando caption, scope e todas as linhas recebidas.
+
+A ocorrencia de rolagem horizontal remanescente em `ErrorState` nao e tabela
+financeira e permanece fora do escopo desta politica.
+
+---
+
 ## 3. Definicao de tabela financeira
 
 E tabela financeira qualquer estrutura tabular que apresente valores
