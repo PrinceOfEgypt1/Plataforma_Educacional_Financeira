@@ -1,13 +1,13 @@
 {
   "$schema_version": 3,
   "generated_at": "2026-05-08",
-  "total_documents": 75,
+  "total_documents": 77,
   "categories": {
     "VIVO": 28,
     "ESTATICO": 31,
     "HIBRIDO": 6,
     "BASELINE_CANDIDATA": 1,
-    "GOVERNANCA_SPRINT": 7,
+    "GOVERNANCA_SPRINT": 9,
     "OPERACIONAL": 1,
     "META": 1
   },
@@ -17,7 +17,9 @@
       "path": "docs/00_INDICE_GERAL.md",
       "category": "VIVO",
       "title": "Índice Geral",
-      "materialized_in_repo": true
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-10",
+      "sprint_4_5_f6_note": "Sprint 4.5/F6: índice passa a apontar para o relatório de fechamento e a validação oficial da Sprint 4.5."
     },
     {
       "id": "doc_01",
@@ -101,14 +103,17 @@
       "last_updated": "2026-05-10",
       "sprint_4_f4_note": "Sprint 4/F4: 64 testes novos adicionados (conteúdo diagnóstico + DiagnosticoSaibaMais + DiagnosticoInterpretation). Total consolidado: 293/293 verdes. Gates: Prettier verde, Vitest 293/293, build Next.js verde, lint pedagógico 0 bloqueios.",
       "sprint_4_f5_note": "Sprint 4/F5: 61 testes novos (financiamento-imobiliario.test 12 + SaibaMais.test 8 + conteudo.test 39 + financiamentoService.test 3). Total consolidado: 354/354. Gates: ruff, pytest 58 backend, Prettier, Vitest 354, ESLint, tsc, build todos verdes.",
-      "sprint_4_5_f5_note": "Sprint 4.5/F5: adiciona auditor_de_interface advisory com script pnpm --dir frontend audit:interface e 2 testes de semântica operacional."
+      "sprint_4_5_f5_note": "Sprint 4.5/F5: adiciona auditor_de_interface advisory com script pnpm --dir frontend audit:interface e 2 testes de semântica operacional.",
+      "sprint_4_5_f6_note": "Sprint 4.5/F6: registra validações finais de fechamento, incluindo 45 arquivos de teste, 390 testes, build, auditor advisory, JSON e diff check."
     },
     {
       "id": "doc_10",
       "path": "docs/10_Roadmap.md",
       "category": "HIBRIDO",
       "title": "Roadmap e Backlog Inicial",
-      "materialized_in_repo": true
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-10",
+      "sprint_4_5_f6_note": "Sprint 4.5/F6: registra fechamento da Sprint 4.5 como aprovada com pendências replanejadas e confirma que a Sprint 5 não foi iniciada."
     },
     {
       "id": "doc_11",
@@ -129,7 +134,9 @@
       "path": "docs/13_Backlog_Tecnico.md",
       "category": "VIVO",
       "title": "Backlog Técnico Detalhado",
-      "materialized_in_repo": true
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-10",
+      "sprint_4_5_f6_note": "Sprint 4.5/F6: registra FE-058 e FE-059 como replanejadas e DOC-018 como executada no fechamento formal."
     },
     {
       "id": "doc_14",
@@ -159,7 +166,8 @@
       "sprint_4_5_f2_note": "Sprint 4.5/F2: referencia o contrato oficial de UI Components e as políticas de tabelas financeiras, modais e abas em docs/ui/.",
       "sprint_4_5_f3_note": "Sprint 4.5/F3: registra materialização de CockpitEducationPanel, visibleInCockpit/getCockpitVisibleModules e ARIA retrocompatível em CockpitButton/CockpitField.",
       "sprint_4_5_f4_note": "Sprint 4.5/F4: registra padrão de tabelas financeiras responsivas com rolagem vertical, cabeçalho fixo, valores tabulares e alternativa mobile por cards/detalhes.",
-      "sprint_4_5_f5_note": "Sprint 4.5/F5: registra auditor_de_interface como verificador estático advisory para governança visual, tabelas financeiras, cockpit e documentação viva."
+      "sprint_4_5_f5_note": "Sprint 4.5/F5: registra auditor_de_interface como verificador estático advisory para governança visual, tabelas financeiras, cockpit e documentação viva.",
+      "sprint_4_5_f6_note": "Sprint 4.5/F6: fechamento visual formal aprovado com pendências replanejadas FE-058 e FE-059, sem iniciar Sprint 5."
     },
     {
       "id": "doc_ui_contrato_components",
@@ -227,7 +235,8 @@
       "last_updated": "2026-05-08",
       "sprint_4_f2_note": "RF-DIAG-001 adicionado com status in_progress (backend/API concluído, F3/F4 pendentes)",
       "sprint_4_f4_note": "RF-DIAG-001 promovido para done (Sprint 4 F1/F2/F3/F4). Vertical slice completo: domínio F1 + API F2 + frontend cockpit F3 + conteúdo educacional F4. §8 adicionado à tabela canônica.",
-      "sprint_4_f5_note": "RF-FIN-001 promovido para done (Sprint 4 F5). Vertical slice completo: domínio + API + frontend cockpit + conteúdo educacional. §9 adicionado."
+      "sprint_4_f5_note": "RF-FIN-001 promovido para done (Sprint 4 F5). Vertical slice completo: domínio + API + frontend cockpit + conteúdo educacional. §9 adicionado.",
+      "sprint_4_5_f6_note": "Sprint 4.5/F6: DOC-018 registrado como executado; FE-058 e FE-059 registradas como pendências replanejadas."
     },
     {
       "id": "doc_20",
@@ -630,6 +639,26 @@
       "note": "Matriz documental desta sprint"
     },
     {
+      "id": "sprint_04_5_fechamento",
+      "path": "docs/sprints/sprint-04-5/02-fechamento/RELATORIO_FECHAMENTO_SPRINT_4_5.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Sprint 4.5 — Relatório de Fechamento",
+      "materialized_in_repo": true,
+      "added_sprint": "sprint-04-5-f6",
+      "last_updated": "2026-05-10",
+      "note": "F6: fechamento formal da Sprint 4.5, histórico F0-F5, validações, pendências replanejadas e condição para abertura da Sprint 5."
+    },
+    {
+      "id": "sprint_04_5_validacao",
+      "path": "docs/sprints/sprint-04-5/02-fechamento/VALIDACAO_OFICIAL_SPRINT_4_5.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Sprint 4.5 — Validação Oficial",
+      "materialized_in_repo": true,
+      "added_sprint": "sprint-04-5-f6",
+      "last_updated": "2026-05-10",
+      "note": "F6: veredito proposto de Sprint 4.5 aprovada com pendências replanejadas, sem início da Sprint 5."
+    },
+    {
       "id": "sprint_02_execucao",
       "path": "docs/sprints/sprint-02/relatorio-execucao.md",
       "category": "GOVERNANCA_SPRINT",
@@ -667,6 +696,6 @@
     }
   ],
   "updated_at": "2026-05-10",
-  "update_reason": "Sprint 4.5/F5 — auditor_de_interface advisory materializado no frontend com documentação viva, registro em docs/ui/AUDITOR_DE_INTERFACE.md e atualização dos docs 09, 16 e _meta/living_docs.json.",
+  "update_reason": "Sprint 4.5/F6 — fechamento formal da Sprint 4.5 com relatório, validação oficial, registro de FE-058/FE-059 como pendências replanejadas, DOC-018 executada e Sprint 5 não iniciada.",
   "_migration_note": "Sincronização documental concluída em 2026-04-17. Todos os documentos do pacote AUDITORIA_PROMPT_1_FINAL foram migrados. Documentos com materialized_in_repo=false são apenas aqueles que permanecem pendentes por decisão explícita."
 }

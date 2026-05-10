@@ -131,3 +131,17 @@ Notas:
 - O conteúdo educacional em `frontend/src/content/financiamento-imobiliario/` cobre 5 temas em N1/N2 e 12 termos no glossário.
 - 58 testes de backend (29 domínio + 9 service + 6 integração + 7 contract + 6 erros API) e 62 testes de frontend todos verdes.
 - Gates executados com prova real: ruff lint/format, pytest, Prettier, Vitest 354/354, ESLint, tsc, Next.js build.
+
+## 10. Atualizações de governança — Sprint 4.5/F6
+
+| Item | Evidência | Status |
+|------|-----------|--------|
+| DOC-018 | `docs/sprints/sprint-04-5/02-fechamento/RELATORIO_FECHAMENTO_SPRINT_4_5.md` e `docs/sprints/sprint-04-5/02-fechamento/VALIDACAO_OFICIAL_SPRINT_4_5.md` | executado na F6 |
+| FE-058 | Registrada no fechamento como pendência replanejada | replanejada |
+| FE-059 | Registrada no fechamento como pendência replanejada | replanejada |
+
+Notas:
+
+- a Sprint 4.5 é recomendada como aprovada com pendências replanejadas;
+- a Sprint 5 não foi iniciada na F6;
+- Impact Agent e `auditor_de_interface` permanecem advisory.

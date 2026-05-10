@@ -181,3 +181,14 @@ Sem isso, item **não passa em DoR** (Doc 12 §3).
 - DoR/DoD aplicáveis explicitados por item;
 - ordem real de execução documentada;
 - política de vinculação obrigatória explicitada.
+
+## 9. Fechamento Sprint 4.5/F6
+
+| ID | Status F6 | Tratamento |
+|----|-----------|------------|
+| FE-058 | Replanejada | Padronizar modais e migrar conteúdo central para abas quando aplicável. Não executada na F4 real. |
+| FE-059 | Replanejada | Refatorar telas existentes para o padrão oficial. Não executada na F4 real. |
+| DOC-018 | Executada na F6 | Atualizar docs vivos, registrar fechamento formal e preparar decisão sobre Sprint 5. |
+
+FE-058 e FE-059 permanecem como pendências replanejadas. Elas não foram
+declaradas concluídas no fechamento da Sprint 4.5.

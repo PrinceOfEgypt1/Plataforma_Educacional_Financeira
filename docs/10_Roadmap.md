@@ -217,3 +217,20 @@ Entregas:
 - UX coerente;
 - tratamento de erro básico;
 - documentação básica de execução.
+
+## 9. Fechamento da Sprint 4.5
+
+A Sprint 4.5 foi uma sprint intermediária entre a Sprint 4 e a Sprint 5,
+dedicada à padronização de UI Components, governança visual, política de
+tabelas financeiras e auditoria de interface em modo advisory.
+
+Veredito proposto na F6: Sprint 4.5 aprovada com pendências replanejadas.
+
+Pendências explicitamente replanejadas:
+
+- FE-058: padronizar modais e migrar conteúdo central para abas quando
+  aplicável;
+- FE-059: refatorar telas existentes para o padrão oficial.
+
+A Sprint 5 não foi iniciada na F6. Sua abertura depende de decisão formal após
+aprovação e merge do fechamento da Sprint 4.5.
