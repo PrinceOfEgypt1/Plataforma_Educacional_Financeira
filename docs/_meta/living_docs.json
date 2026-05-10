@@ -74,9 +74,10 @@
       "title": "UX/UI e Navegação",
       "materialized_in_repo": true,
       "note": "Sprint 3.5 — F3: §9.2 registra o Financial Cockpit para /juros e /amortizacao, com topbar, subtabs, painel contextual e modais.",
-      "last_updated": "2026-05-08",
+      "last_updated": "2026-05-09",
       "sprint_4_f4_note": "Sprint 4/F4: módulo /diagnostico registrado como módulo funcional com cockpit, formulário, KPIs, alertas e conteúdo educacional via DiagnosticoSaibaMais modal.",
-      "sprint_4_f5_note": "Sprint 4/F5: módulo /financiamento-imobiliario promovido de em-construcao para disponivel. Componentes FinanciamentoCockpit, Form, Summary, Table, SaibaMais registrados."
+      "sprint_4_f5_note": "Sprint 4/F5: módulo /financiamento-imobiliario promovido de em-construcao para disponivel. Componentes FinanciamentoCockpit, Form, Summary, Table, SaibaMais registrados.",
+      "sprint_4_5_f2_note": "Sprint 4.5/F2: documento atualizado para referenciar o contrato oficial de UI Components, a política de tabelas financeiras e a política de modais/abas; FinancialCockpitShell permanece como shell funcional ativa, com Header/Sidebar/NavItem classificados como legado/candidatos a adaptação."
     },
     {
       "id": "doc_08",
