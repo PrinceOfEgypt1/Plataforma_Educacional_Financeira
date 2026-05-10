@@ -738,7 +738,7 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-.cockpit-table th {
+.cockpit-table thead th {
   position: sticky;
   top: 0;
   z-index: 1;
@@ -749,7 +749,8 @@ body {
   border-bottom: 1px solid var(--border);
 }
 
-.cockpit-table th:first-child,
+.cockpit-table thead th:first-child,
+.cockpit-table tbody th:first-child,
 .cockpit-table td:first-child {
   text-align: left;
 }

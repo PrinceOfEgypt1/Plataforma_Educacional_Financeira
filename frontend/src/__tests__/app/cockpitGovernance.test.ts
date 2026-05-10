@@ -80,6 +80,20 @@ describe("Financial Cockpit — governança de código", () => {
     expect(source).not.toMatch(/>\s*\.\.\.\s*</);
   });
 
+  it("mantém sticky header apenas no thead das tabelas cockpit", () => {
+    const globals = readFileSync(join(ROOT, "src/app/globals.css"), "utf8");
+
+    expect(globals).toMatch(
+      /\.cockpit-table thead th\s*{[^}]*position:\s*sticky/s,
+    );
+    expect(globals).not.toMatch(
+      /\.cockpit-table th\s*{[^}]*position:\s*sticky/s,
+    );
+    expect(globals).toMatch(
+      /\.cockpit-table tbody th\s*{[^}]*font-weight:\s*600/s,
+    );
+  });
+
   it("tabelas financeiras não usam rolagem horizontal como solução principal", () => {
     const files = [
       "src/components/financing/FinanciamentoTable.tsx",
