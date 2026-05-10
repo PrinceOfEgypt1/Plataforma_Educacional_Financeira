@@ -101,9 +101,7 @@ export function CockpitField({
 }: CockpitFieldProps) {
   const assistiveText = error ?? hint;
   const assistiveId = assistiveText ? `${id}-assistive` : undefined;
-  const describedBy = [ariaDescribedBy, assistiveId]
-    .filter(Boolean)
-    .join(" ");
+  const describedBy = [ariaDescribedBy, assistiveId].filter(Boolean).join(" ");
 
   return (
     <label className="cockpit-field-group" htmlFor={id}>
