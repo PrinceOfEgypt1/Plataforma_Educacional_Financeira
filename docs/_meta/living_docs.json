@@ -1,9 +1,9 @@
 {
   "$schema_version": 3,
   "generated_at": "2026-05-08",
-  "total_documents": 74,
+  "total_documents": 75,
   "categories": {
-    "VIVO": 27,
+    "VIVO": 28,
     "ESTATICO": 31,
     "HIBRIDO": 6,
     "BASELINE_CANDIDATA": 1,
@@ -98,9 +98,10 @@
       "title": "Qualidade, Testes e Critérios de Aceite",
       "materialized_in_repo": true,
       "note": "Sprint 2 — F5: §16 acrescentada com massa frontend F4 (19 arquivos / 112 testes confirmados no pipeline WSL Ubuntu) e §16.3 com a política de registro de execução oficial (sem armazenar valores pontuais de runtime no doc vivo).",
-      "last_updated": "2026-05-08",
+      "last_updated": "2026-05-10",
       "sprint_4_f4_note": "Sprint 4/F4: 64 testes novos adicionados (conteúdo diagnóstico + DiagnosticoSaibaMais + DiagnosticoInterpretation). Total consolidado: 293/293 verdes. Gates: Prettier verde, Vitest 293/293, build Next.js verde, lint pedagógico 0 bloqueios.",
-      "sprint_4_f5_note": "Sprint 4/F5: 61 testes novos (financiamento-imobiliario.test 12 + SaibaMais.test 8 + conteudo.test 39 + financiamentoService.test 3). Total consolidado: 354/354. Gates: ruff, pytest 58 backend, Prettier, Vitest 354, ESLint, tsc, build todos verdes."
+      "sprint_4_f5_note": "Sprint 4/F5: 61 testes novos (financiamento-imobiliario.test 12 + SaibaMais.test 8 + conteudo.test 39 + financiamentoService.test 3). Total consolidado: 354/354. Gates: ruff, pytest 58 backend, Prettier, Vitest 354, ESLint, tsc, build todos verdes.",
+      "sprint_4_5_f5_note": "Sprint 4.5/F5: adiciona auditor_de_interface advisory com script pnpm --dir frontend audit:interface e 2 testes de semântica operacional."
     },
     {
       "id": "doc_10",
@@ -154,10 +155,11 @@
       "category": "VIVO",
       "title": "Design System e Wireframes Operacionais",
       "materialized_in_repo": true,
-      "last_updated": "2026-05-09",
+      "last_updated": "2026-05-10",
       "sprint_4_5_f2_note": "Sprint 4.5/F2: referencia o contrato oficial de UI Components e as políticas de tabelas financeiras, modais e abas em docs/ui/.",
       "sprint_4_5_f3_note": "Sprint 4.5/F3: registra materialização de CockpitEducationPanel, visibleInCockpit/getCockpitVisibleModules e ARIA retrocompatível em CockpitButton/CockpitField.",
-      "sprint_4_5_f4_note": "Sprint 4.5/F4: registra padrão de tabelas financeiras responsivas com rolagem vertical, cabeçalho fixo, valores tabulares e alternativa mobile por cards/detalhes."
+      "sprint_4_5_f4_note": "Sprint 4.5/F4: registra padrão de tabelas financeiras responsivas com rolagem vertical, cabeçalho fixo, valores tabulares e alternativa mobile por cards/detalhes.",
+      "sprint_4_5_f5_note": "Sprint 4.5/F5: registra auditor_de_interface como verificador estático advisory para governança visual, tabelas financeiras, cockpit e documentação viva."
     },
     {
       "id": "doc_ui_contrato_components",
@@ -190,6 +192,16 @@
       "materialized_in_repo": true,
       "added_sprint": "sprint-04-5-f2",
       "note": "Sprint 4.5/F2: define uso permitido de modais e abas como aprofundamento contextual, sem substituir o fluxo principal."
+    },
+    {
+      "id": "doc_ui_auditor_interface",
+      "path": "docs/ui/AUDITOR_DE_INTERFACE.md",
+      "category": "VIVO",
+      "title": "Auditor de Interface — Modo Advisory",
+      "materialized_in_repo": true,
+      "added_sprint": "sprint-04-5-f5",
+      "last_updated": "2026-05-10",
+      "note": "Sprint 4.5/F5: documenta objetivo, execução, severidades, regras cobertas e limites explícitos do auditor_de_interface advisory."
     },
     {
       "id": "doc_17",
@@ -654,7 +666,7 @@
       "note": "Documento histórico vivo. Criado na branch docs/jornada-plataforma-educacional-financeira. Cobre pré-história, Sprints 0–4/F1-A, arquitetura, qualidade, governança, motor matemático, camada educacional, roadmap, glossário, rastreabilidade e métricas acumuladas. Adendo Jornada PEF-A corrigiu fatos sobre Sprint 3.5, Sprint 4/F0, F0.1/F0.1-A, sequência oficial da Sprint 4, nota doc_03 e índice geral."
     }
   ],
-  "updated_at": "2026-05-09",
-  "update_reason": "Sprint 4.5/F4 — política de tabelas financeiras aplicada no frontend: FinanciamentoTable, FinanciamentoCompareSummary, CockpitTables, AmortizacaoTables e AmortizacaoTable. Docs vivos atualizados: 07, 16, CONTRATO_UI_COMPONENTS, POLITICA_TABELAS_FINANCEIRAS e _meta/living_docs.json.",
+  "updated_at": "2026-05-10",
+  "update_reason": "Sprint 4.5/F5 — auditor_de_interface advisory materializado no frontend com documentação viva, registro em docs/ui/AUDITOR_DE_INTERFACE.md e atualização dos docs 09, 16 e _meta/living_docs.json.",
   "_migration_note": "Sincronização documental concluída em 2026-04-17. Todos os documentos do pacote AUDITORIA_PROMPT_1_FINAL foram migrados. Documentos com materialized_in_repo=false são apenas aqueles que permanecem pendentes por decisão explícita."
 }

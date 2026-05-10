@@ -338,3 +338,39 @@ Nenhuma regressão introduzida.
 | ESLint | VERDE |
 | tsc typecheck | VERDE |
 | Next.js build | VERDE |
+
+---
+
+## Sprint 4.5 F5 — Auditor de Interface Advisory
+
+### Ferramenta adicionada
+
+| Comando | Escopo | Semântica |
+|---------|--------|-----------|
+| `pnpm --dir frontend audit:interface` | Auditoria estática de UI Components, tabelas financeiras, cockpit e documentação viva | Advisory: achados não bloqueiam; erros operacionais falham |
+
+### Testes adicionados
+
+| Arquivo | Testes | Cobertura |
+|---------|--------|-----------|
+| `frontend/src/__tests__/app/auditorDeInterface.test.ts` | 2 | Execução advisory com exit code 0; erro operacional com exit code 1 |
+
+### Regras cobertas
+
+- tabelas financeiras sem rolagem horizontal como experiência principal;
+- tabelas financeiras sem cortes artificiais por `.slice()`;
+- `<caption>`, `scope="col"`, `scope="row"` e numerais tabulares;
+- sticky header restrito a `.cockpit-table thead th`;
+- topbar do cockpit derivada de `visibleInCockpit` e `getCockpitVisibleModules`;
+- uso de `CockpitEducationPanel` sem duplicar `EducationPanel` no cockpit;
+- contrato mínimo de ARIA nos primitivos;
+- política de modais como apoio contextual;
+- registro do auditor em `living_docs`.
+
+### Política de bloqueio
+
+O `auditor_de_interface` nasce em modo advisory. O objetivo é zero violações
+obrigatórias não justificadas, mas alertas advisory podem existir
+temporariamente quando documentados, justificados, classificados por severidade,
+vinculados a decisão formal de Moisés/Camaleão e rastreados como pendência ou
+exceção temporária.
