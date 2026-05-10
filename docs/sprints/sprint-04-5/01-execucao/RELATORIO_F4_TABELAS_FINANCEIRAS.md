@@ -100,6 +100,12 @@ Depois:
 - wrapper do cockpit usa rolagem vertical;
 - CSS adiciona numeracao tabular ao padrao `.cockpit-table`.
 
+Correcao pos-auditoria:
+
+- o sticky header foi restringido a `.cockpit-table thead th`;
+- `th` de corpo (`scope="row"`) nao fica mais sticky;
+- `cockpitGovernance.test.ts` passou a proteger essa regra para evitar regressao visual em rolagem vertical.
+
 ### 3.4 `AmortizacaoTables` e `AmortizacaoTable`
 
 Depois:
@@ -142,7 +148,8 @@ Testes adicionados/atualizados:
   tabulares;
 - `cockpitDynamicData.test.tsx`: captions e scopes das tabelas cockpit;
 - `cockpitGovernance.test.ts`: guarda contra rolagem horizontal principal,
-  rolagem bidirecional implicita e corte artificial em tabelas financeiras.
+  rolagem bidirecional implicita, corte artificial em tabelas financeiras e
+  sticky header aplicado fora do `thead`.
 
 Validacoes locais executadas:
 
@@ -159,7 +166,7 @@ Resultados finais:
 - `format:check`: verde, todos os arquivos aderentes ao Prettier.
 - `lint`: verde, sem warnings ou erros.
 - `typecheck`: verde, `tsc --noEmit` sem erros.
-- `test`: verde, `44 passed (44)`, `387 passed (387)`.
+- `test`: verde, `44 passed (44)`, `388 passed (388)`.
 - `build`: verde, Next.js compilou e gerou `16/16` paginas estaticas.
 - `living_docs.json`: validado como JSON.
 - `git diff --check`: limpo.
