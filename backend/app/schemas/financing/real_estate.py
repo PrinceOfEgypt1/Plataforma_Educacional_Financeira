@@ -135,6 +135,97 @@ class FinanciamentoImobSummary(BaseModel):
     ultima_parcela: MoneyDecimal
 
 
+class FinanciamentoInputsNormalizados(BaseModel):
+    """Entradas normalizadas devolvidas para rastreabilidade educacional."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    valor_imovel: MoneyDecimal
+    valor_entrada: MoneyDecimal
+    valor_financiado: MoneyDecimal
+    prazo_meses: int = Field(..., ge=1)
+    taxa_juros_mensal: RateDecimal
+    sistema_amortizacao: Literal["PRICE", "SAC"]
+
+
+class FinanciamentoFormulaUsada(BaseModel):
+    """Formula financeira usada no calculo."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    nome: str
+    expressao: str
+    uso: str
+
+
+class FinanciamentoFonte(BaseModel):
+    """Fonte ou referencia declarada pela resposta educacional."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    nome: str
+    tipo: str
+    observacao: str
+
+
+class FinanciamentoChartPoint(BaseModel):
+    """Ponto simples para graficos financeiros."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    periodo: int = Field(..., ge=1)
+    valor: MoneyDecimal
+
+
+class FinanciamentoJurosAmortizacaoPoint(BaseModel):
+    """Ponto de grafico com decomposicao de juros e amortizacao."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    periodo: int = Field(..., ge=1)
+    juros: MoneyDecimal
+    amortizacao: MoneyDecimal
+
+
+class FinanciamentoChartData(BaseModel):
+    """Dados preparados para graficos do frontend."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    saldo_devedor: list[FinanciamentoChartPoint] = Field(default_factory=list)
+    prestacoes: list[FinanciamentoChartPoint] = Field(default_factory=list)
+    juros_amortizacao: list[FinanciamentoJurosAmortizacaoPoint] = Field(default_factory=list)
+
+
+class FinanciamentoMemoriaCalculo(BaseModel):
+    """Memoria de calculo estruturada para explicar o resultado."""
+
+    model_config = ConfigDict(extra="allow")
+
+    metodo: Literal["PRICE", "SAC"]
+    entradas: FinanciamentoInputsNormalizados
+    formula: str
+    variaveis: dict[str, Decimal]
+    substituicao: str
+    arredondamento: str
+    primeira_parcela: FinanciamentoPeriodoRow
+    ultima_parcela: FinanciamentoPeriodoRow
+    custo_total: MoneyDecimal
+    resultado_final: dict[str, Decimal]
+
+
+class FinanciamentoMetadadosCalculo(BaseModel):
+    """Metadados de rastreabilidade do calculo."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    moeda: str
+    criterio_arredondamento: str
+    linhas_tabela: int = Field(..., ge=1)
+    prazo_dinamico_respeitado: bool
+    contrato_educacional_api: str
+
+
 class FinanciamentoImobOut(BaseModel):
     """Carga util (data) da resposta de simulacao de financiamento imobiliario."""
 
@@ -142,6 +233,16 @@ class FinanciamentoImobOut(BaseModel):
 
     summary: FinanciamentoImobSummary
     parcelas: list[FinanciamentoPeriodoRow] = Field(default_factory=list)
+    inputs_normalizados: FinanciamentoInputsNormalizados
+    memoria_calculo: FinanciamentoMemoriaCalculo
+    formulas_usadas: list[FinanciamentoFormulaUsada] = Field(default_factory=list)
+    explicacoes_pedagogicas: list[str] = Field(default_factory=list)
+    alertas: list[str] = Field(default_factory=list)
+    fontes: list[FinanciamentoFonte] = Field(default_factory=list)
+    limites: list[str] = Field(default_factory=list)
+    metadados_calculo: FinanciamentoMetadadosCalculo
+    mensagens_interface: list[str] = Field(default_factory=list)
+    chart_data: FinanciamentoChartData
 
 
 class FinanciamentoImobCompareIn(BaseModel):
@@ -201,6 +302,20 @@ class FinanciamentoImobCompareIn(BaseModel):
         return self
 
 
+class FinanciamentoComparacaoEducacional(BaseModel):
+    """Resumo educacional da comparacao entre PRICE e SAC."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    diferenca_primeira_parcela: MoneyDecimal
+    diferenca_ultima_parcela: MoneyDecimal
+    diferenca_total_pago: MoneyDecimal
+    diferenca_total_juros: MoneyDecimal
+    comportamento_saldo_devedor: str
+    explicacao_pedagogica: str
+    recomendacoes: list[str] = Field(default_factory=list)
+
+
 class FinanciamentoImobCompareOut(BaseModel):
     """Resultado da comparacao PRICE x SAC com os mesmos parametros de entrada."""
 
@@ -208,3 +323,4 @@ class FinanciamentoImobCompareOut(BaseModel):
 
     price: FinanciamentoImobOut
     sac: FinanciamentoImobOut
+    comparacao: FinanciamentoComparacaoEducacional

@@ -60,12 +60,12 @@ export function FinanciamentoCompareChart({
       data-testid="financiamento-compare-chart"
     >
       <h3 className="text-sm font-semibold text-gray-800">
-        Evolução da prestação — PRICE × SAC
+        Evolucao da prestacao - PRICE x SAC
       </h3>
       <div
         className="w-full"
         style={{ height: 260 }}
-        aria-label="Gráfico de comparação PRICE e SAC"
+        aria-label="Grafico de comparacao PRICE e SAC"
       >
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
@@ -82,7 +82,7 @@ export function FinanciamentoCompareChart({
               tickLine={false}
               axisLine={{ stroke: "rgba(0,212,200,0.16)" }}
               label={{
-                value: "Mês",
+                value: "Mes",
                 position: "insideBottomRight",
                 offset: -4,
                 fill: "#7a8fa8",
@@ -101,7 +101,7 @@ export function FinanciamentoCompareChart({
                 money(value),
                 name === "price" ? "PRICE" : "SAC",
               ]}
-              labelFormatter={(label) => `Mês ${String(label)}`}
+              labelFormatter={(label) => `Mes ${String(label)}`}
             />
             <Legend
               formatter={(value) => (value === "price" ? "PRICE" : "SAC")}

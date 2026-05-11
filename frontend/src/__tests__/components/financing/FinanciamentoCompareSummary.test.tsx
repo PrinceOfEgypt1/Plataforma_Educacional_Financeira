@@ -4,10 +4,13 @@ import { describe, expect, it } from "vitest";
 import { FinanciamentoCompareSummary } from "@/components/financing/FinanciamentoCompareSummary";
 import type {
   FinanciamentoImobCompareOut,
+  FinanciamentoImobOut,
+  FinanciamentoImobSummary,
+  FinanciamentoPeriodo,
   SistemaAmortizacao,
 } from "@/types/financing";
 
-function summary(sistema: SistemaAmortizacao) {
+function summary(sistema: SistemaAmortizacao): FinanciamentoImobSummary {
   return {
     sistema_amortizacao: sistema,
     valor_imovel: "500000.00",
@@ -25,14 +28,79 @@ function summary(sistema: SistemaAmortizacao) {
   };
 }
 
+const row: FinanciamentoPeriodo = {
+  numero: 1,
+  saldo_inicial: "400000.00",
+  juros: "2800.00",
+  amortizacao: "1000.00",
+  encargos: "0.00",
+  prestacao: "3800.00",
+  saldo_final: "399000.00",
+};
+
+function out(sistema: SistemaAmortizacao): FinanciamentoImobOut {
+  return {
+    summary: summary(sistema),
+    parcelas: [row],
+    inputs_normalizados: {
+      valor_imovel: "500000.00",
+      valor_entrada: "100000.00",
+      valor_financiado: "400000.00",
+      prazo_meses: 360,
+      taxa_juros_mensal: "0.007",
+      sistema_amortizacao: sistema,
+    },
+    memoria_calculo: {
+      metodo: sistema,
+      entradas: {
+        valor_imovel: "500000.00",
+        valor_entrada: "100000.00",
+        valor_financiado: "400000.00",
+        prazo_meses: 360,
+        taxa_juros_mensal: "0.007",
+        sistema_amortizacao: sistema,
+      },
+      formula: "formula",
+      variaveis: { PV: "400000.00", i: "0.007", n: 360 },
+      substituicao: "PV=400000.00",
+      arredondamento: "ROUND_HALF_EVEN",
+      primeira_parcela: row,
+      ultima_parcela: row,
+      custo_total: "940000.00",
+      resultado_final: { total_pago: "920000.00" },
+    },
+    formulas_usadas: [],
+    explicacoes_pedagogicas: [],
+    alertas: [],
+    fontes: [],
+    limites: [],
+    metadados_calculo: {
+      moeda: "BRL",
+      criterio_arredondamento: "ROUND_HALF_EVEN para centavos",
+      linhas_tabela: 360,
+      prazo_dinamico_respeitado: true,
+      contrato_educacional_api: "Item 7",
+    },
+    mensagens_interface: [],
+    chart_data: {
+      saldo_devedor: [],
+      prestacoes: [],
+      juros_amortizacao: [],
+    },
+  };
+}
+
 const compare: FinanciamentoImobCompareOut = {
-  price: {
-    summary: summary("PRICE"),
-    parcelas: [],
-  },
-  sac: {
-    summary: summary("SAC"),
-    parcelas: [],
+  price: out("PRICE"),
+  sac: out("SAC"),
+  comparacao: {
+    diferenca_primeira_parcela: "1245.00",
+    diferenca_ultima_parcela: "-1440.00",
+    diferenca_total_pago: "110000.00",
+    diferenca_total_juros: "110000.00",
+    comportamento_saldo_devedor: "SAC reduz o saldo mais cedo.",
+    explicacao_pedagogica: "SAC comeca maior e tende a custar menos.",
+    recomendacoes: ["Compare parcela inicial e custo total."],
   },
 };
 
@@ -51,7 +119,7 @@ describe("FinanciamentoCompareSummary", () => {
     ).toHaveTextContent("SAC");
   });
 
-  it("mantém valores financeiros com tabular-nums", () => {
+  it("mantem valores financeiros com tabular-nums", () => {
     render(<FinanciamentoCompareSummary compare={compare} />);
 
     const totalJuros = screen.getByTestId(

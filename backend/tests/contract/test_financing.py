@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Any, cast
 from uuid import UUID
 
 import pytest
@@ -10,7 +9,6 @@ from httpx import ASGITransport, AsyncClient
 
 from app.main import app
 
-_APP = cast(Any, app)
 FINANCING_PATH = "/api/v1/financing/real_estate"
 
 CANONICAL_SUMMARY_KEYS = {
@@ -47,11 +45,26 @@ CANONICAL_PAYLOAD = {
     "sistema_amortizacao": "PRICE",
 }
 
+EDUCATIONAL_CONTRACT_KEYS = {
+    "summary",
+    "parcelas",
+    "inputs_normalizados",
+    "memoria_calculo",
+    "formulas_usadas",
+    "explicacoes_pedagogicas",
+    "alertas",
+    "fontes",
+    "limites",
+    "metadados_calculo",
+    "mensagens_interface",
+    "chart_data",
+}
+
 
 @pytest.mark.contract
 @pytest.mark.asyncio
 async def test_contract_financing_envelope_padronizado() -> None:
-    async with AsyncClient(transport=ASGITransport(app=_APP), base_url="http://test") as client:
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
         response = await client.post(FINANCING_PATH, json=CANONICAL_PAYLOAD)
 
     assert response.status_code == 200
@@ -67,17 +80,20 @@ async def test_contract_financing_envelope_padronizado() -> None:
 @pytest.mark.contract
 @pytest.mark.asyncio
 async def test_contract_financing_data_contem_summary_e_parcelas() -> None:
-    async with AsyncClient(transport=ASGITransport(app=_APP), base_url="http://test") as client:
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
         response = await client.post(FINANCING_PATH, json=CANONICAL_PAYLOAD)
 
     data = response.json()["data"]
-    assert set(data.keys()) == {"summary", "parcelas"}
+    assert set(data.keys()) == EDUCATIONAL_CONTRACT_KEYS
+    assert data["metadados_calculo"]["contrato_educacional_api"] == "Item 7"
+    assert data["memoria_calculo"]["formula"]
+    assert data["alertas"]
 
 
 @pytest.mark.contract
 @pytest.mark.asyncio
 async def test_contract_financing_summary_contem_todos_campos() -> None:
-    async with AsyncClient(transport=ASGITransport(app=_APP), base_url="http://test") as client:
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
         response = await client.post(FINANCING_PATH, json=CANONICAL_PAYLOAD)
 
     summary = response.json()["data"]["summary"]
@@ -87,7 +103,7 @@ async def test_contract_financing_summary_contem_todos_campos() -> None:
 @pytest.mark.contract
 @pytest.mark.asyncio
 async def test_contract_financing_primeira_parcela_contem_todos_campos() -> None:
-    async with AsyncClient(transport=ASGITransport(app=_APP), base_url="http://test") as client:
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
         response = await client.post(FINANCING_PATH, json=CANONICAL_PAYLOAD)
 
     parcelas = response.json()["data"]["parcelas"]
@@ -98,7 +114,7 @@ async def test_contract_financing_primeira_parcela_contem_todos_campos() -> None
 @pytest.mark.contract
 @pytest.mark.asyncio
 async def test_contract_financing_erro_segue_rfc_7807() -> None:
-    async with AsyncClient(transport=ASGITransport(app=_APP), base_url="http://test") as client:
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
         response = await client.post(FINANCING_PATH, json={})
 
     assert response.status_code == 422
@@ -115,7 +131,7 @@ async def test_contract_financing_erro_segue_rfc_7807() -> None:
 @pytest.mark.parametrize("sistema", ["PRICE", "SAC"])
 async def test_contract_financing_ambos_sistemas_retornam_200(sistema: str) -> None:
     payload = {**CANONICAL_PAYLOAD, "sistema_amortizacao": sistema}
-    async with AsyncClient(transport=ASGITransport(app=_APP), base_url="http://test") as client:
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
         response = await client.post(FINANCING_PATH, json=payload)
 
     assert response.status_code == 200

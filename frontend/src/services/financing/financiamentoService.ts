@@ -1,10 +1,3 @@
-/**
- * Service frontend do endpoint de financiamento imobiliário.
- *
- * Esta camada não reimplementa cálculos financeiros. Apenas envia o payload
- * tipado, desembrulha o envelope padrão da API e normaliza erros para a UI.
- */
-
 import { postJson, type PostOptions } from "@/lib/api/client";
 import { toInterestApiError, type InterestApiError } from "@/lib/api/problem";
 import type {
@@ -17,6 +10,7 @@ import type {
 export type FinanciamentoApiError = InterestApiError;
 
 const PATH_REAL_ESTATE = "/financing/real_estate" as const;
+const PATH_REAL_ESTATE_COMPARE = "/financing/real_estate/compare" as const;
 
 export async function simularFinanciamentoImobiliario(
   input: FinanciamentoImobRequest,
@@ -32,8 +26,6 @@ export async function simularFinanciamentoImobiliario(
     throw toInterestApiError(error);
   }
 }
-
-const PATH_REAL_ESTATE_COMPARE = "/financing/real_estate/compare" as const;
 
 export async function compararFinanciamentos(
   input: FinanciamentoImobCompareRequest,
