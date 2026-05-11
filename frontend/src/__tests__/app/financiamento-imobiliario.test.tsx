@@ -182,6 +182,26 @@ describe("FinanciamentoCockpit", () => {
     ).toBeInTheDocument();
   });
 
+  it("mantém formulário de simulação completo e botão real de submissão visível", () => {
+    render(<FinanciamentoCockpit />);
+
+    expect(screen.getByLabelText(/valor do imóvel/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/entrada/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/prazo/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/taxa de juros mensal/i)).toBeInTheDocument();
+    expect(
+      screen.getByLabelText(/sistema de amortização/i),
+    ).toBeInTheDocument();
+    expect(screen.getByLabelText(/seguro mensal/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/tarifa mensal/i)).toBeInTheDocument();
+
+    expect(screen.getByTestId("financiamento-submit")).toHaveAttribute(
+      "type",
+      "submit",
+    );
+    expect(screen.getByRole("button", { name: "Simular" })).toBeInTheDocument();
+  });
+
   it("simula, mostra resultado, memória e tabela sem modal essencial", async () => {
     vi.mocked(simularFinanciamentoImobiliario).mockResolvedValueOnce(
       makeResult("PRICE"),

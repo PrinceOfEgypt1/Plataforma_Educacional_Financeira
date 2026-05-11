@@ -21,7 +21,6 @@ import type {
 import { FinanciamentoCompareChart } from "./FinanciamentoCompareChart";
 import { FinanciamentoCompareInsights } from "./FinanciamentoCompareInsights";
 import { FinanciamentoCompareSummary } from "./FinanciamentoCompareSummary";
-import { FinanciamentoForm } from "./FinanciamentoForm";
 import { FinanciamentoSummary } from "./FinanciamentoSummary";
 import { FinanciamentoTable } from "./FinanciamentoTable";
 import {
@@ -229,6 +228,178 @@ function FeatureCard({
         {card.action}
       </button>
     </article>
+  );
+}
+
+interface CompactSimulationFormProps {
+  readonly draft: FinanciamentoDraft;
+  readonly errors: FinanciamentoFieldErrors;
+  readonly busy: boolean;
+  readonly onChange: (field: keyof FinanciamentoDraft, value: string) => void;
+  readonly onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+}
+
+function FieldError({ message }: { readonly message: string | undefined }) {
+  if (message === undefined) return null;
+
+  return (
+    <p className="mt-1 text-[10px] font-medium text-rose-200">{message}</p>
+  );
+}
+
+function CompactInput({
+  label,
+  helper,
+  field,
+  value,
+  error,
+  onChange,
+}: {
+  readonly label: string;
+  readonly helper: string;
+  readonly field: keyof FinanciamentoDraft;
+  readonly value: string;
+  readonly error: string | undefined;
+  readonly onChange: (field: keyof FinanciamentoDraft, value: string) => void;
+}) {
+  return (
+    <label className="block">
+      <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-cyan-100/65">
+        {label}
+      </span>
+      <input
+        className="mt-1 w-full rounded-lg border border-cyan-200/10 bg-slate-950/70 px-3 py-2 text-sm font-semibold text-slate-50 outline-none transition focus:border-cyan-300 focus:ring-2 focus:ring-cyan-300/20"
+        inputMode="decimal"
+        value={value}
+        onChange={(event) => onChange(field, event.target.value)}
+        aria-label={label}
+        aria-invalid={error !== undefined}
+        aria-describedby={`${String(field)}-hint`}
+      />
+      <span
+        id={`${String(field)}-hint`}
+        className="mt-1 block text-[10px] leading-4 text-slate-400"
+      >
+        {helper}
+      </span>
+      <FieldError message={error} />
+    </label>
+  );
+}
+
+function CompactSimulationForm({
+  draft,
+  errors,
+  busy,
+  onChange,
+  onSubmit,
+}: CompactSimulationFormProps) {
+  return (
+    <form
+      className="flex h-full min-h-0 flex-col rounded-2xl border border-cyan-200/10 bg-slate-950/45 p-3"
+      onSubmit={onSubmit}
+      data-testid="financiamento-compact-form"
+      aria-label="Formulário de simulação do financiamento imobiliário"
+    >
+      <div className="mb-3 flex items-start justify-between gap-3">
+        <div>
+          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-cyan-200/70">
+            Simulação
+          </p>
+          <h3 className="text-base font-semibold text-slate-50">
+            Dados do financiamento
+          </h3>
+        </div>
+        <button
+          className="shrink-0 rounded-lg bg-cyan-300 px-3 py-2 text-xs font-bold text-slate-950 shadow-lg shadow-cyan-950/30 transition hover:bg-cyan-200 focus:outline-none focus:ring-2 focus:ring-cyan-100 disabled:cursor-not-allowed disabled:opacity-50"
+          type="submit"
+          data-testid="financiamento-submit"
+          disabled={busy}
+        >
+          {busy ? "Simulando..." : "Simular"}
+        </button>
+      </div>
+
+      <div className="grid min-h-0 grid-cols-1 gap-2 md:grid-cols-2">
+        <CompactInput
+          label="Valor do imóvel (R$)"
+          helper="Preço total do imóvel."
+          field="valorImovel"
+          value={draft.valorImovel}
+          error={errors.valorImovel}
+          onChange={onChange}
+        />
+        <CompactInput
+          label="Entrada (R$)"
+          helper="Valor pago de entrada."
+          field="valorEntrada"
+          value={draft.valorEntrada}
+          error={errors.valorEntrada}
+          onChange={onChange}
+        />
+        <CompactInput
+          label="Prazo (meses)"
+          helper="Quantidade de parcelas."
+          field="prazoMeses"
+          value={draft.prazoMeses}
+          error={errors.prazoMeses}
+          onChange={onChange}
+        />
+        <CompactInput
+          label="Taxa de juros mensal (%)"
+          helper="Taxa usada na simulação."
+          field="taxaJurosMensalPercentual"
+          value={draft.taxaJurosMensalPercentual}
+          error={errors.taxaJurosMensalPercentual}
+          onChange={onChange}
+        />
+
+        <label className="block">
+          <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-cyan-100/65">
+            Sistema
+          </span>
+          <select
+            className="mt-1 w-full rounded-lg border border-cyan-200/10 bg-slate-950/70 px-3 py-2 text-sm font-semibold text-slate-50 outline-none transition focus:border-cyan-300 focus:ring-2 focus:ring-cyan-300/20"
+            value={draft.sistemaAmortizacao}
+            onChange={(event) =>
+              onChange("sistemaAmortizacao", event.target.value)
+            }
+            aria-label="Sistema de amortização"
+          >
+            <option value="PRICE">PRICE</option>
+            <option value="SAC">SAC</option>
+          </select>
+          <span className="mt-1 block text-[10px] leading-4 text-slate-400">
+            Escolha PRICE ou SAC.
+          </span>
+          <FieldError message={errors.sistemaAmortizacao} />
+        </label>
+
+        <CompactInput
+          label="Seguro mensal (R$)"
+          helper="Opcional, se houver."
+          field="seguroMensal"
+          value={draft.seguroMensal}
+          error={errors.seguroMensal}
+          onChange={onChange}
+        />
+        <CompactInput
+          label="Tarifa mensal (R$)"
+          helper="Opcional, se houver."
+          field="tarifaMensal"
+          value={draft.tarifaMensal}
+          error={errors.tarifaMensal}
+          onChange={onChange}
+        />
+
+        <div className="rounded-xl border border-emerald-300/15 bg-emerald-300/10 p-3 text-xs leading-5 text-emerald-50 md:col-span-2">
+          <strong className="text-emerald-100">Renda, FGTS e aprovação:</strong>{" "}
+          estes fatores não substituem a análise bancária, mas aparecem nas abas
+          de conceito, fontes e limites para orientar a leitura educacional da
+          simulação.
+        </div>
+      </div>
+    </form>
   );
 }
 
@@ -651,15 +822,13 @@ export function FinanciamentoCockpit() {
           {activeTab === "conceito" && <ConceptPanel />}
 
           {activeTab === "simular" && (
-            <section className="grid h-full min-h-0 gap-4 lg:grid-cols-[340px_minmax(0,1fr)]">
-              <FinanciamentoForm
+            <section className="grid h-full min-h-0 gap-4 lg:grid-cols-[520px_minmax(0,1fr)]">
+              <CompactSimulationForm
                 draft={draft}
                 errors={fieldErrors}
                 busy={simState.status === "loading"}
                 onChange={handleChange}
                 onSubmit={handleSimulate}
-                submitLabel="Simular financiamento"
-                showAmortizacaoSelector
               />
               <div className="grid min-h-0 gap-3">
                 <div className="cockpit-insight-bar">
