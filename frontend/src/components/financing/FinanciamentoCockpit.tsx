@@ -16,7 +16,9 @@ import type {
 } from "@/types/financing";
 
 import { FinanciamentoCompareChart } from "./FinanciamentoCompareChart";
+import { FinanciamentoCompareInsights } from "./FinanciamentoCompareInsights";
 import { FinanciamentoCompareSummary } from "./FinanciamentoCompareSummary";
+import { FinanciamentoEducationalContract } from "./FinanciamentoEducationalContract";
 import { FinanciamentoForm } from "./FinanciamentoForm";
 import { FinanciamentoSaibaMais } from "./FinanciamentoSaibaMais";
 import { FinanciamentoSummary } from "./FinanciamentoSummary";
@@ -81,7 +83,7 @@ export function FinanciamentoCockpit() {
       }
       setSimState({ status: "loading" });
       try {
-        const result = await simularFinanciamentoImobiliario(validation.value!);
+        const result = await simularFinanciamentoImobiliario(validation.value);
         setSimState({ status: "ok", result });
       } catch (error) {
         setSimState({ status: "error", error: error as FinanciamentoApiError });
@@ -98,19 +100,19 @@ export function FinanciamentoCockpit() {
         setFieldErrors(validation.errors);
         return;
       }
-      const { value } = validation;
+      const value = validation.value;
       setCmpState({ status: "loading" });
       try {
         const result = await compararFinanciamentos({
-          valor_imovel: value!.valor_imovel,
-          valor_entrada: value!.valor_entrada,
-          prazo_meses: value!.prazo_meses,
-          taxa_juros_mensal_percentual: value!.taxa_juros_mensal_percentual,
-          ...(value!.seguro_mensal !== undefined
-            ? { seguro_mensal: value!.seguro_mensal }
+          valor_imovel: value.valor_imovel,
+          valor_entrada: value.valor_entrada,
+          prazo_meses: value.prazo_meses,
+          taxa_juros_mensal_percentual: value.taxa_juros_mensal_percentual,
+          ...(value.seguro_mensal !== undefined
+            ? { seguro_mensal: value.seguro_mensal }
             : {}),
-          ...(value!.tarifa_mensal !== undefined
-            ? { tarifa_mensal: value!.tarifa_mensal }
+          ...(value.tarifa_mensal !== undefined
+            ? { tarifa_mensal: value.tarifa_mensal }
             : {}),
         });
         setCmpState({ status: "ok", result });
@@ -128,7 +130,7 @@ export function FinanciamentoCockpit() {
   return (
     <div data-testid="financiamento-cockpit">
       <div
-        className="flex gap-2 mb-4"
+        className="mb-4 flex gap-2"
         role="tablist"
         aria-label="Modos de análise"
       >
@@ -146,10 +148,10 @@ export function FinanciamentoCockpit() {
           role="tab"
           aria-selected={activeTab === "comparar"}
           data-testid="tab-comparar"
-          icon="⚖️"
+          icon="S/P"
           onClick={() => setActiveTab("comparar")}
         >
-          Comparar SAC × PRICE
+          Comparar SAC x PRICE
         </CockpitActionButton>
       </div>
 
@@ -162,7 +164,7 @@ export function FinanciamentoCockpit() {
           onSubmit={activeTab === "simular" ? handleSimulate : handleCompare}
           submitLabel={
             activeTab === "comparar"
-              ? "Comparar SAC × PRICE"
+              ? "Comparar SAC x PRICE"
               : "Simular financiamento"
           }
           showAmortizacaoSelector={activeTab === "simular"}
@@ -182,11 +184,11 @@ export function FinanciamentoCockpit() {
                 className="cockpit-insight-bar"
                 data-testid="financiamento-idle-state"
               >
-                <span aria-hidden="true">🏠</span>
+                <span aria-hidden="true">FI</span>
                 <span>
                   Preencha os dados ao lado e clique em{" "}
-                  <strong>Simular financiamento</strong> para ver as parcelas e
-                  o custo total.
+                  <strong>Simular financiamento</strong> para ver parcelas,
+                  memória de cálculo, alertas e custo total.
                 </span>
               </div>
             )}
@@ -196,7 +198,7 @@ export function FinanciamentoCockpit() {
                 className="cockpit-insight-bar"
                 data-testid="financiamento-loading-state"
               >
-                <span aria-hidden="true">⏳</span>
+                <span aria-hidden="true">...</span>
                 <span>Simulando seu financiamento...</span>
               </div>
             )}
@@ -215,6 +217,7 @@ export function FinanciamentoCockpit() {
                 data-testid="financiamento-ok-state"
               >
                 <FinanciamentoSummary summary={simState.result.summary} />
+                <FinanciamentoEducationalContract result={simState.result} />
                 <FinanciamentoTable parcelas={simState.result.parcelas} />
               </div>
             )}
@@ -235,11 +238,11 @@ export function FinanciamentoCockpit() {
                 className="cockpit-insight-bar"
                 data-testid="financiamento-compare-idle-state"
               >
-                <span aria-hidden="true">⚖️</span>
+                <span aria-hidden="true">S/P</span>
                 <span>
                   Preencha os dados ao lado e clique em{" "}
-                  <strong>Comparar SAC × PRICE</strong> para ver as diferenças
-                  entre os sistemas de amortização.
+                  <strong>Comparar SAC x PRICE</strong> para ver diferenças de
+                  parcela, juros, saldo devedor e custo total.
                 </span>
               </div>
             )}
@@ -249,7 +252,7 @@ export function FinanciamentoCockpit() {
                 className="cockpit-insight-bar"
                 data-testid="financiamento-compare-loading-state"
               >
-                <span aria-hidden="true">⏳</span>
+                <span aria-hidden="true">...</span>
                 <span>Comparando sistemas de amortização...</span>
               </div>
             )}
@@ -268,6 +271,7 @@ export function FinanciamentoCockpit() {
                 data-testid="financiamento-compare-ok-state"
               >
                 <FinanciamentoCompareSummary compare={cmpState.result} />
+                <FinanciamentoCompareInsights compare={cmpState.result} />
                 <FinanciamentoCompareChart compare={cmpState.result} />
               </div>
             )}

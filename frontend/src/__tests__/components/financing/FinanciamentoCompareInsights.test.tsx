@@ -1,0 +1,110 @@
+import { render, screen } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
+
+import { FinanciamentoCompareInsights } from "@/components/financing/FinanciamentoCompareInsights";
+import type { FinanciamentoImobCompareOut, FinanciamentoImobOut } from "@/types/financing";
+
+const BASE: FinanciamentoImobOut = {
+  summary: {
+    sistema_amortizacao: "PRICE",
+    valor_imovel: "300000.00",
+    valor_entrada: "60000.00",
+    valor_financiado: "240000.00",
+    prazo_meses: 360,
+    taxa_juros_mensal: "0.007000",
+    total_pago: "440000.00",
+    total_juros: "200000.00",
+    total_amortizado: "240000.00",
+    total_encargos: "0.00",
+    custo_total: "200000.00",
+    primeira_parcela: "1797.00",
+    ultima_parcela: "1785.00",
+  },
+  parcelas: [],
+  inputs_normalizados: {
+    valor_imovel: "300000.00",
+    valor_entrada: "60000.00",
+    valor_financiado: "240000.00",
+    prazo_meses: 360,
+    taxa_juros_mensal: "0.007000",
+    sistema_amortizacao: "PRICE",
+  },
+  memoria_calculo: {
+    metodo: "PRICE",
+    entradas: {
+      valor_imovel: "300000.00",
+      valor_entrada: "60000.00",
+      valor_financiado: "240000.00",
+      prazo_meses: 360,
+      taxa_juros_mensal: "0.007000",
+      sistema_amortizacao: "PRICE",
+    },
+    formula: "PMT = PV * i * (1 + i)^n / ((1 + i)^n - 1)",
+    variaveis: { PV: "240000.00", i: "0.007000", n: 360 },
+    substituicao: "PV=240000.00; i=0.007000; n=360",
+    arredondamento: "ROUND_HALF_EVEN para centavos",
+    primeira_parcela: {
+      numero: 1,
+      saldo_inicial: "240000.00",
+      juros: "1680.00",
+      amortizacao: "117.00",
+      encargos: "0.00",
+      prestacao: "1797.00",
+      saldo_final: "239883.00",
+    },
+    ultima_parcela: {
+      numero: 360,
+      saldo_inicial: "1785.00",
+      juros: "12.00",
+      amortizacao: "1773.00",
+      encargos: "0.00",
+      prestacao: "1785.00",
+      saldo_final: "0.00",
+    },
+    custo_total: "200000.00",
+    resultado_final: { total_pago: "440000.00" },
+  },
+  formulas_usadas: [],
+  explicacoes_pedagogicas: [],
+  alertas: [],
+  fontes: [],
+  limites: [],
+  metadados_calculo: {
+    moeda: "BRL",
+    criterio_arredondamento: "ROUND_HALF_EVEN para centavos",
+    linhas_tabela: 360,
+    prazo_dinamico_respeitado: true,
+    contrato_educacional_api: "Item 7",
+  },
+  mensagens_interface: [],
+  chart_data: {
+    saldo_devedor: [],
+    prestacoes: [],
+    juros_amortizacao: [],
+  },
+};
+
+const COMPARE: FinanciamentoImobCompareOut = {
+  price: BASE,
+  sac: { ...BASE, summary: { ...BASE.summary, sistema_amortizacao: "SAC" } },
+  comparacao: {
+    diferenca_primeira_parcela: "950.00",
+    diferenca_ultima_parcela: "-1200.00",
+    diferenca_total_pago: "35000.00",
+    diferenca_total_juros: "35000.00",
+    comportamento_saldo_devedor: "SAC reduz saldo de forma linear.",
+    explicacao_pedagogica: "SAC comeca maior e tende a custar menos.",
+    recomendacoes: ["Compare capacidade de pagamento inicial."],
+  },
+};
+
+describe("FinanciamentoCompareInsights", () => {
+  it("renderiza diferencas e recomendacoes da comparacao", () => {
+    render(<FinanciamentoCompareInsights compare={COMPARE} />);
+
+    expect(screen.getByTestId("financiamento-compare-insights")).toBeInTheDocument();
+    expect(screen.getByText(/Trade-off financeiro/i)).toBeInTheDocument();
+    expect(screen.getByText(/Compare capacidade/i)).toBeInTheDocument();
+    expect(screen.getByText(/R\$ 35.000,00/i)).toBeInTheDocument();
+  });
+});
