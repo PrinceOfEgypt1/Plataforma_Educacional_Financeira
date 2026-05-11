@@ -1,11 +1,11 @@
 {
   "$schema_version": 3,
   "generated_at": "2026-05-08",
-  "total_documents": 85,
+  "total_documents": 86,
   "categories": {
     "BASELINE_CANDIDATA": 1,
     "ESTATICO": 31,
-    "GOVERNANCA_SPRINT": 17,
+    "GOVERNANCA_SPRINT": 18,
     "HIBRIDO": 6,
     "META": 1,
     "OPERACIONAL": 1,
@@ -773,9 +773,19 @@
       "added_sprint": "gate-po-ux-valor-item-10",
       "last_updated": "2026-05-10",
       "note": "Item 10 do Gate PO/UX/Valor: protótipo documental, auditável, pedagógico e visual do módulo-piloto Financiamento Imobiliário, sem implementação e com Sprint 5 congelada."
+    },
+    {
+      "id": "doc_gate_po_ux_valor_value_gate_financiamento_imobiliario",
+      "path": "docs/gates/gate-po-ux-valor/08-value-gate/VALUE_GATE_FINANCIAMENTO_IMOBILIARIO_GATE_PO_UX_VALOR.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Gate PO/UX/Valor — Value Gate — Financiamento Imobiliário",
+      "materialized_in_repo": true,
+      "added_sprint": "gate-po-ux-valor-item-11",
+      "last_updated": "2026-05-10",
+      "note": "Item 11 do Gate PO/UX/Valor: Value Gate documental, auditável e objetivo para aceite do módulo-piloto Financiamento Imobiliário; Sprint 5 permanece congelada."
     }
   ],
   "updated_at": "2026-05-10",
-  "update_reason": "Gate PO/UX/Valor — Item 10: protótipo documental antes de codar; Sprint 5 permanece congelada.",
+  "update_reason": "Gate PO/UX/Valor — Item 11: criação documental do Value Gate do Financiamento Imobiliário; Sprint 5 permanece congelada.",
   "_migration_note": "Sincronização documental concluída em 2026-04-17. Todos os documentos do pacote AUDITORIA_PROMPT_1_FINAL foram migrados. Documentos com materialized_in_repo=false são apenas aqueles que permanecem pendentes por decisão explícita."
 }

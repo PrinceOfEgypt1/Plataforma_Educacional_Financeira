@@ -66,6 +66,9 @@ O inventário completo e autoritativo de documentos, categorias, caminhos canôn
 - Protótipo antes de codar — Financiamento Imobiliário do Gate PO/UX/Valor
   (`docs/gates/gate-po-ux-valor/07-prototipo-antes-de-codar/PROTOTIPO_FINANCIAMENTO_IMOBILIARIO_GATE_PO_UX_VALOR.md`)
 
+- Value Gate — Financiamento Imobiliário do Gate PO/UX/Valor
+  (`docs/gates/gate-po-ux-valor/08-value-gate/VALUE_GATE_FINANCIAMENTO_IMOBILIARIO_GATE_PO_UX_VALOR.md`)
+
 ## Artefato operacional
 
 - Planilha de acompanhamento (`docs/operacional/backlog_operacional_acompanhamento.xlsx`)
