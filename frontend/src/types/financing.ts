@@ -82,7 +82,9 @@ export interface FinanciamentoMemoriaCalculo {
   readonly metodo: SistemaAmortizacao;
   readonly entradas: FinanciamentoInputsNormalizados;
   readonly formula: string;
-  readonly variaveis: Readonly<Record<string, MoneyString | RateString | number>>;
+  readonly variaveis: Readonly<
+    Record<string, MoneyString | RateString | number>
+  >;
   readonly substituicao: string;
   readonly arredondamento: string;
   readonly primeira_parcela: FinanciamentoPeriodo;

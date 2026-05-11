@@ -140,8 +140,7 @@ def _explicacoes(resultado: FinanciamentoImobResultado) -> list[str]:
         )
     else:
         sistema = (
-            "No SAC, a amortizacao e constante; por isso a parcela tende a cair "
-            "ao longo do tempo."
+            "No SAC, a amortizacao e constante; por isso a parcela tende a cair ao longo do tempo."
         )
     return [
         sistema,

@@ -2,7 +2,10 @@ import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
 import { FinanciamentoCompareInsights } from "@/components/financing/FinanciamentoCompareInsights";
-import type { FinanciamentoImobCompareOut, FinanciamentoImobOut } from "@/types/financing";
+import type {
+  FinanciamentoImobCompareOut,
+  FinanciamentoImobOut,
+} from "@/types/financing";
 
 const BASE: FinanciamentoImobOut = {
   summary: {
@@ -102,7 +105,9 @@ describe("FinanciamentoCompareInsights", () => {
   it("renderiza diferencas e recomendacoes da comparacao", () => {
     render(<FinanciamentoCompareInsights compare={COMPARE} />);
 
-    expect(screen.getByTestId("financiamento-compare-insights")).toBeInTheDocument();
+    expect(
+      screen.getByTestId("financiamento-compare-insights"),
+    ).toBeInTheDocument();
     expect(screen.getByText(/Trade-off financeiro/i)).toBeInTheDocument();
     expect(screen.getByText(/Compare capacidade/i)).toBeInTheDocument();
     expect(screen.getByText(/R\$ 35.000,00/i)).toBeInTheDocument();

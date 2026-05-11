@@ -46,18 +46,10 @@ export function FinanciamentoEducationalContract({
       aria-label="Contrato educacional do financiamento"
     >
       <div className="grid gap-3 md:grid-cols-3">
-        <ContractCard
-          tone="blue"
-          label="memoria"
-          title="Memória de cálculo"
-        >
+        <ContractCard tone="blue" label="memoria" title="Memória de cálculo">
           {memoria.formula}
         </ContractCard>
-        <ContractCard
-          tone="amber"
-          label="alerta"
-          title="Risco da simulação"
-        >
+        <ContractCard tone="amber" label="alerta" title="Risco da simulação">
           {result.alertas[0] ?? "Simulação educacional sem valor contratual."}
         </ContractCard>
         <ContractCard
