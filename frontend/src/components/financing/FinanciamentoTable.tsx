@@ -15,12 +15,30 @@ function clampPage(page: number, totalPages: number): number {
   return Math.min(Math.max(page, 1), Math.max(totalPages, 1));
 }
 
+function getVisibleParcelas(
+  parcelas: ReadonlyArray<FinanciamentoPeriodo>,
+  startIndex: number,
+): ReadonlyArray<FinanciamentoPeriodo> {
+  const endIndex = Math.min(startIndex + PAGE_SIZE, parcelas.length);
+  const visible: FinanciamentoPeriodo[] = [];
+
+  for (let index = startIndex; index < endIndex; index += 1) {
+    const parcela = parcelas[index];
+
+    if (parcela !== undefined) {
+      visible.push(parcela);
+    }
+  }
+
+  return visible;
+}
+
 export function FinanciamentoTable({ parcelas }: FinanciamentoTableProps) {
   const [page, setPage] = useState(1);
   const totalPages = Math.max(Math.ceil(parcelas.length / PAGE_SIZE), 1);
   const currentPage = clampPage(page, totalPages);
   const startIndex = (currentPage - 1) * PAGE_SIZE;
-  const visibleParcelas = parcelas.slice(startIndex, startIndex + PAGE_SIZE);
+  const visibleParcelas = getVisibleParcelas(parcelas, startIndex);
   const hasEncargos = parcelas.some((p) => parseFloat(p.encargos) > 0);
   const firstVisible = visibleParcelas[0]?.numero ?? 0;
   const lastVisible =
