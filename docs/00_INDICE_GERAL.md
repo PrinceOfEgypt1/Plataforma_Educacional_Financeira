@@ -60,6 +60,9 @@ O inventário completo e autoritativo de documentos, categorias, caminhos canôn
 - Auditoria das Telas Atuais do Gate PO/UX/Valor
   (`docs/gates/gate-po-ux-valor/05-auditoria-telas-atuais/AUDITORIA_TELAS_ATUAIS_GATE_PO_UX_VALOR.md`)
 
+- Escolha do Módulo-Piloto do Gate PO/UX/Valor
+  (`docs/gates/gate-po-ux-valor/06-escolha-modulo-piloto/ESCOLHA_MODULO_PILOTO_GATE_PO_UX_VALOR.md`)
+
 ## Artefato operacional
 
 - Planilha de acompanhamento (`docs/operacional/backlog_operacional_acompanhamento.xlsx`)
