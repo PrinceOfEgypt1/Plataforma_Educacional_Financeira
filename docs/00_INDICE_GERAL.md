@@ -63,6 +63,9 @@ O inventário completo e autoritativo de documentos, categorias, caminhos canôn
 - Escolha do Módulo-Piloto do Gate PO/UX/Valor
   (`docs/gates/gate-po-ux-valor/06-escolha-modulo-piloto/ESCOLHA_MODULO_PILOTO_GATE_PO_UX_VALOR.md`)
 
+- Protótipo antes de codar — Financiamento Imobiliário do Gate PO/UX/Valor
+  (`docs/gates/gate-po-ux-valor/07-prototipo-antes-de-codar/PROTOTIPO_FINANCIAMENTO_IMOBILIARIO_GATE_PO_UX_VALOR.md`)
+
 ## Artefato operacional
 
 - Planilha de acompanhamento (`docs/operacional/backlog_operacional_acompanhamento.xlsx`)
