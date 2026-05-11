@@ -56,18 +56,23 @@ export function FinanciamentoCompareChart({
 
   return (
     <div
-      className="flex flex-col gap-2"
+      className="flex min-h-[260px] flex-col gap-2 rounded-2xl border border-cyan-200/10 bg-slate-950/45 p-4"
       data-testid="financiamento-compare-chart"
     >
-      <h3 className="text-sm font-semibold text-gray-800">
-        Evolucao da prestacao - PRICE x SAC
+      <h3 className="text-sm font-semibold text-cyan-100">
+        Evolução da prestação - PRICE x SAC
       </h3>
       <div
-        className="w-full"
-        style={{ height: 260 }}
+        className="min-h-[220px] w-full min-w-[280px]"
+        style={{ height: 220 }}
         aria-label="Grafico de comparacao PRICE e SAC"
       >
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer
+          width="100%"
+          height="100%"
+          minWidth={280}
+          minHeight={220}
+        >
           <LineChart
             data={points as ChartPoint[]}
             margin={{ top: 8, right: 8, bottom: 0, left: 0 }}

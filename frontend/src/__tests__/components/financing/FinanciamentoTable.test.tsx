@@ -1,4 +1,5 @@
 import { render, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 
 import { FinanciamentoTable } from "@/components/financing/FinanciamentoTable";
@@ -17,38 +18,50 @@ function makeParcelas(count: number): ReadonlyArray<FinanciamentoPeriodo> {
 }
 
 describe("FinanciamentoTable", () => {
-  it("renderiza todas as linhas para 120 parcelas", () => {
+  it("declara todas as parcelas geradas e exibe apenas a faixa ativa", () => {
     render(<FinanciamentoTable parcelas={makeParcelas(120)} />);
+
     expect(screen.getByTestId("financiamento-table-count")).toHaveTextContent(
-      "120 parcelas",
+      "120 parcelas geradas",
     );
-    for (let i = 1; i <= 120; i += 1) {
-      expect(screen.getByTestId(`parcela-row-${i}`)).toBeInTheDocument();
-    }
+    expect(screen.getByTestId("financiamento-table-range")).toHaveTextContent(
+      "Parcelas 1-12",
+    );
+    expect(screen.getByTestId("parcela-row-1")).toBeInTheDocument();
+    expect(screen.getByTestId("parcela-row-12")).toBeInTheDocument();
+    expect(screen.queryByTestId("parcela-row-13")).not.toBeInTheDocument();
   });
 
-  it("renderiza todas as linhas para 360 parcelas sem cortar", () => {
+  it("permite acessar a última faixa de 360 parcelas sem cortar dados", async () => {
+    const user = userEvent.setup();
     render(<FinanciamentoTable parcelas={makeParcelas(360)} />);
-    expect(screen.getByTestId("financiamento-table-count")).toHaveTextContent(
-      "360 parcelas",
+
+    await user.click(screen.getByRole("button", { name: "Última" }));
+
+    expect(screen.getByTestId("financiamento-table-range")).toHaveTextContent(
+      "Parcelas 349-360",
     );
     expect(screen.getByTestId("parcela-row-360")).toBeInTheDocument();
   });
 
-  it("renderiza todas as linhas para 600 parcelas sem cortar", () => {
+  it("permite ir diretamente para parcela de financiamento longo", async () => {
+    const user = userEvent.setup();
     render(<FinanciamentoTable parcelas={makeParcelas(600)} />);
+
+    await user.type(screen.getByLabelText("Ir para parcela"), "600");
+
     expect(screen.getByTestId("financiamento-table-count")).toHaveTextContent(
-      "600 parcelas",
+      "600 parcelas geradas",
+    );
+    expect(screen.getByTestId("financiamento-table-range")).toHaveTextContent(
+      "Parcelas 589-600",
     );
     expect(screen.getByTestId("parcela-row-600")).toBeInTheDocument();
-    expect(screen.getByTestId("parcela-row-1")).toBeInTheDocument();
-    expect(screen.getByTestId("parcela-mobile-card-600")).toBeInTheDocument();
-    expect(screen.getByTestId("parcela-mobile-card-1")).toBeInTheDocument();
   });
 
   it("não exibe coluna de encargos quando todos são zero", () => {
     render(<FinanciamentoTable parcelas={makeParcelas(5)} />);
-    expect(screen.queryByText("Encargos")).not.toBeInTheDocument();
+    expect(screen.queryByText("Enc.")).not.toBeInTheDocument();
   });
 
   it("exibe coluna de encargos quando há encargos positivos", () => {
@@ -64,10 +77,10 @@ describe("FinanciamentoTable", () => {
       },
     ];
     render(<FinanciamentoTable parcelas={parcelas} />);
-    expect(screen.getAllByText("Encargos").length).toBeGreaterThanOrEqual(2);
+    expect(screen.getByText("Enc.")).toBeInTheDocument();
   });
 
-  it("cumpre semântica mínima de tabela financeira", () => {
+  it("cumpre semântica mínima de tabela financeira compacta", () => {
     render(<FinanciamentoTable parcelas={makeParcelas(3)} />);
 
     const table = screen.getByRole("table", {
@@ -75,23 +88,22 @@ describe("FinanciamentoTable", () => {
     });
     expect(
       within(table)
-        .getByText(/3 parcelas/i)
+        .getByText(/3 parcelas geradas/i)
         .tagName.toLowerCase(),
     ).toBe("caption");
     expect(within(table).getAllByRole("columnheader")).toHaveLength(6);
     expect(within(table).getAllByRole("rowheader")).toHaveLength(3);
-    expect(table).toHaveClass("tabular-nums");
+    expect(table).toHaveClass("table-fixed");
   });
 
-  it("oferece representação mobile sem depender de rolagem horizontal", () => {
-    render(<FinanciamentoTable parcelas={makeParcelas(2)} />);
+  it("usa painel compacto sem rolagem horizontal ou vertical própria", () => {
+    render(<FinanciamentoTable parcelas={makeParcelas(24)} />);
 
-    const mobileList = screen.getByTestId("financiamento-mobile-list");
-    const firstCard = within(mobileList).getByTestId("parcela-mobile-card-1");
+    const tablePanel = screen.getByTestId("financiamento-table");
 
-    expect(mobileList).toBeInTheDocument();
-    expect(within(firstCard).getByText("Parcela 1")).toBeInTheDocument();
-    expect(within(firstCard).getByText("Saldo inicial")).toBeInTheDocument();
-    expect(within(firstCard).getByText("Prestação")).toBeInTheDocument();
+    expect(tablePanel).toHaveClass("overflow-hidden");
+    expect(
+      screen.getByTestId("financiamento-parcela-detalhe"),
+    ).toHaveTextContent("Todos os dados permanecem disponíveis");
   });
 });
