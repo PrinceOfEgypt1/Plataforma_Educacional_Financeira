@@ -1,10 +1,10 @@
 "use client";
 
-import { useCallback, useState, type FormEvent } from "react";
+import { useCallback, useState, type FormEvent, type ReactNode } from "react";
 
 import { AlertBanner } from "@/components/ui/AlertBanner";
 import { describeApiError } from "@/lib/api/problem";
-import { formatBRL } from "@/lib/money";
+import { formatBRL, formatRatePct } from "@/lib/money";
 import {
   compararFinanciamentos,
   simularFinanciamentoImobiliario,
@@ -19,9 +19,6 @@ import type {
 } from "@/types/financing";
 
 import { FinanciamentoCompareChart } from "./FinanciamentoCompareChart";
-import { FinanciamentoCompareInsights } from "./FinanciamentoCompareInsights";
-import { FinanciamentoCompareSummary } from "./FinanciamentoCompareSummary";
-import { FinanciamentoSummary } from "./FinanciamentoSummary";
 import { FinanciamentoTable } from "./FinanciamentoTable";
 import {
   validateFinanciamentoDraft,
@@ -39,11 +36,12 @@ const INITIAL_DRAFT: FinanciamentoDraft = {
   tarifaMensal: "",
 };
 
-type ActiveTab =
+type CockpitView =
+  | "inicio"
   | "conceito"
-  | "simular"
+  | "simulacao"
   | "resultado"
-  | "comparar"
+  | "comparacao"
   | "tabela"
   | "memoria"
   | "fontes";
@@ -60,29 +58,21 @@ type CompareResult =
   | { readonly status: "ok"; readonly result: FinanciamentoImobCompareOut }
   | { readonly status: "error"; readonly error: FinanciamentoApiError };
 
-interface TabDefinition {
-  readonly id: ActiveTab;
-  readonly label: string;
-}
-
 interface FeatureCardDefinition {
   readonly label: string;
   readonly title: string;
   readonly summary: string;
   readonly action: string;
-  readonly target: ActiveTab;
+  readonly target: CockpitView;
   readonly tone: string;
 }
 
-const TABS: ReadonlyArray<TabDefinition> = [
-  { id: "conceito", label: "Conceito" },
-  { id: "simular", label: "Simular" },
-  { id: "resultado", label: "Resultado" },
-  { id: "comparar", label: "Comparar SAC x PRICE" },
-  { id: "tabela", label: "Tabela" },
-  { id: "memoria", label: "Memória de cálculo" },
-  { id: "fontes", label: "Fontes e limites" },
-];
+interface PanelHeaderProps {
+  readonly eyebrow: string;
+  readonly title: string;
+  readonly description: string;
+  readonly onBack: () => void;
+}
 
 const FEATURE_CARDS: ReadonlyArray<FeatureCardDefinition> = [
   {
@@ -92,7 +82,7 @@ const FEATURE_CARDS: ReadonlyArray<FeatureCardDefinition> = [
       "Aprenda o que é, como funciona e quais fatores influenciam a aprovação.",
     action: "Entender",
     target: "conceito",
-    tone: "from-indigo-900 to-indigo-700",
+    tone: "from-indigo-950 via-indigo-900 to-indigo-700",
   },
   {
     label: "Resultado",
@@ -100,7 +90,7 @@ const FEATURE_CARDS: ReadonlyArray<FeatureCardDefinition> = [
     summary: "Veja parcela, juros, encargos, custo total e total pago.",
     action: "Visualizar",
     target: "resultado",
-    tone: "from-amber-950 to-amber-800",
+    tone: "from-amber-950 via-amber-900 to-yellow-800",
   },
   {
     label: "Comparação",
@@ -108,8 +98,8 @@ const FEATURE_CARDS: ReadonlyArray<FeatureCardDefinition> = [
     summary:
       "Compare primeira parcela, última parcela, total de juros e custo total.",
     action: "Comparar",
-    target: "comparar",
-    tone: "from-violet-950 to-violet-800",
+    target: "comparacao",
+    tone: "from-violet-950 via-violet-900 to-purple-800",
   },
   {
     label: "Tabela",
@@ -118,16 +108,16 @@ const FEATURE_CARDS: ReadonlyArray<FeatureCardDefinition> = [
       "A tabela respeita o prazo informado e preserva todas as parcelas.",
     action: "Visualizar tabela",
     target: "tabela",
-    tone: "from-cyan-950 to-cyan-800",
+    tone: "from-cyan-950 via-cyan-900 to-teal-800",
   },
   {
     label: "Memória",
     title: "Memória de cálculo",
     summary:
-      "Veja fórmula, substituição dos valores, arredondamento e rastreabilidade.",
+      "Veja fórmula, valores substituídos, arredondamento e rastreabilidade.",
     action: "Ver memória",
     target: "memoria",
-    tone: "from-emerald-950 to-emerald-800",
+    tone: "from-emerald-950 via-emerald-900 to-green-800",
   },
   {
     label: "Fontes",
@@ -136,35 +126,47 @@ const FEATURE_CARDS: ReadonlyArray<FeatureCardDefinition> = [
       "Entenda por que a simulação não substitui análise bancária ou contrato real.",
     action: "Ver fontes",
     target: "fontes",
-    tone: "from-slate-800 to-slate-700",
-  },
-  {
-    label: "Alertas",
-    title: "Atenção à simulação",
-    summary:
-      "Taxas, seguros, CET, renda, FGTS e regras da instituição podem alterar o resultado.",
-    action: "Ver alertas",
-    target: "fontes",
-    tone: "from-rose-950 to-rose-800",
+    tone: "from-slate-800 via-slate-700 to-slate-600",
   },
 ];
 
 const CONCEPT_ITEMS = [
   {
-    title: "Como o financiamento nasce",
-    body: "O valor do imóvel é o preço de compra. A entrada reduz o valor financiado. Sobre esse saldo incidem juros, amortização, seguros, tarifas e demais encargos conforme a instituição.",
+    title: "O que está sendo financiado",
+    body: "Valor do imóvel é o preço de compra. Entrada é a parte paga antes do crédito. Valor financiado é o saldo que será amortizado ao longo do prazo, com juros e encargos informados na simulação.",
   },
   {
-    title: "SAC e PRICE",
-    body: "No SAC, a amortização tende a ser constante: a parcela começa maior e cai com o saldo devedor. No PRICE, a prestação é suavizada no início, mas pode acumular mais juros ao longo do prazo.",
+    title: "SAC e PRICE em linguagem simples",
+    body: "No SAC, a amortização tende a ser constante: a parcela começa maior e cai conforme o saldo devedor diminui. No PRICE, a parcela inicial fica mais suave, mas o custo de juros pode ser maior ao longo do contrato.",
   },
   {
     title: "Renda, FGTS e aprovação",
-    body: "Renda individual ou familiar, comprometimento mensal, documentação, avaliação do imóvel, seguros, FGTS e política da instituição influenciam a análise. Regras podem variar e devem ser confirmadas em fontes oficiais.",
+    body: "Renda individual ou familiar, comprometimento mensal, FGTS, documentação, seguros, avaliação do imóvel e política da instituição influenciam a contratação real. Essas regras variam e precisam ser confirmadas em fontes oficiais.",
   },
   {
     title: "Simulação não é contrato",
-    body: "A simulação ensina cenários e custos prováveis. Contratação real depende de análise de crédito, CET, seguros, tarifas, avaliação do imóvel, legislação brasileira aplicável e proposta formal da instituição.",
+    body: "Este módulo ajuda a entender cenários. Contratação real depende de análise de crédito, CET, tarifas, seguros, legislação brasileira aplicável e proposta formal da instituição financeira.",
+  },
+];
+
+const OFFICIAL_SOURCES: ReadonlyArray<FinanciamentoFonte> = [
+  {
+    nome: "Banco Central do Brasil",
+    tipo: "institucional",
+    observacao:
+      "Referência para educação financeira, crédito, CET e relacionamento com instituições financeiras.",
+  },
+  {
+    nome: "Caixa Econômica Federal",
+    tipo: "institucional",
+    observacao:
+      "Referência pública para condições habitacionais; regras reais variam conforme produto, renda e análise.",
+  },
+  {
+    nome: "FGTS",
+    tipo: "institucional",
+    observacao:
+      "Pode ser usado como entrada, amortização ou liquidação quando as regras oficiais forem atendidas.",
   },
 ];
 
@@ -173,55 +175,98 @@ function parseMoney(raw: string): number {
   return Number.isFinite(parsed) ? parsed : 0;
 }
 
-function EmptyState({ label }: { readonly label: string }) {
+function formatDraftMoney(raw: string): string {
+  const parsed = Number.parseFloat(raw.replace(/\./g, "").replace(",", "."));
+  if (!Number.isFinite(parsed) || parsed <= 0) return "Não informado";
+  return formatBRL(parsed.toFixed(2));
+}
+
+function computeEntryPercent(summary: FinanciamentoImobSummary | undefined) {
+  if (summary === undefined) return "Sem simulação";
+  const valorImovel = parseMoney(summary.valor_imovel);
+  if (valorImovel <= 0) return "Sem simulação";
+  const percent = (parseMoney(summary.valor_entrada) / valorImovel) * 100;
+  return `${percent.toFixed(1)}%`;
+}
+
+function PanelHeader({
+  eyebrow,
+  title,
+  description,
+  onBack,
+}: PanelHeaderProps) {
   return (
-    <div
-      className="grid h-full min-h-[220px] place-items-center rounded-2xl border border-dashed border-cyan-200/20 bg-slate-950/35 p-6 text-center"
-      data-testid="financiamento-idle-state"
-    >
-      <div className="max-w-md">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-200/70">
-          {label}
+    <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
+      <div className="min-w-0">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-cyan-200/70">
+          {eyebrow}
         </p>
-        <h3 className="mt-2 text-lg font-semibold text-slate-50">
-          Simule para liberar esta visão
-        </h3>
-        <p className="mt-2 text-sm leading-6 text-slate-300">
-          Use a aba Simular para gerar parcelas, comparação SAC x PRICE, memória
-          de cálculo, tabela completa, fontes, limites e alertas.
+        <h2 className="mt-1 text-xl font-semibold text-slate-50">{title}</h2>
+        <p className="mt-1 max-w-3xl text-sm leading-6 text-slate-300">
+          {description}
         </p>
       </div>
+      <button
+        className="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-slate-100 transition hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-200"
+        type="button"
+        onClick={onBack}
+      >
+        Voltar
+      </button>
     </div>
+  );
+}
+
+function MetricCard({
+  label,
+  value,
+  note,
+  tone = "cyan",
+}: {
+  readonly label: string;
+  readonly value: string;
+  readonly note: string;
+  readonly tone?: "cyan" | "amber" | "emerald" | "violet";
+}) {
+  const toneClass = {
+    cyan: "border-cyan-200/15 bg-cyan-300/10 text-cyan-100",
+    amber: "border-amber-200/20 bg-amber-300/10 text-amber-100",
+    emerald: "border-emerald-200/15 bg-emerald-300/10 text-emerald-100",
+    violet: "border-violet-200/20 bg-violet-300/10 text-violet-100",
+  }[tone];
+
+  return (
+    <article className={`rounded-2xl border p-4 ${toneClass}`}>
+      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] opacity-75">
+        {label}
+      </p>
+      <p className="mt-2 font-mono text-xl font-semibold text-slate-50">
+        {value}
+      </p>
+      <p className="mt-2 text-xs leading-5 text-slate-300">{note}</p>
+    </article>
   );
 }
 
 function FeatureCard({
   card,
-  active,
   onSelect,
 }: {
   readonly card: FeatureCardDefinition;
-  readonly active: boolean;
-  readonly onSelect: (tab: ActiveTab) => void;
+  readonly onSelect: (view: CockpitView) => void;
 }) {
   return (
     <article
-      className={`min-h-[112px] rounded-2xl bg-gradient-to-br ${card.tone} p-3 shadow-lg shadow-black/20 ring-1 ring-white/10 ${
-        active ? "outline outline-2 outline-cyan-200/70" : ""
-      }`}
+      className={`flex min-h-[168px] flex-col rounded-2xl bg-gradient-to-br ${card.tone} p-4 shadow-lg shadow-black/20 ring-1 ring-white/10`}
       data-testid={`financiamento-card-${card.target}`}
     >
       <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/70">
         {card.label}
       </p>
-      <h3 className="mt-1 line-clamp-2 text-sm font-semibold text-white">
-        {card.title}
-      </h3>
-      <p className="mt-1 line-clamp-2 text-xs leading-5 text-white/75">
-        {card.summary}
-      </p>
+      <h3 className="mt-2 text-base font-semibold text-white">{card.title}</h3>
+      <p className="mt-2 text-xs leading-5 text-white/78">{card.summary}</p>
       <button
-        className="mt-3 rounded-md bg-white/15 px-3 py-1.5 text-xs font-semibold text-white ring-1 ring-white/20 transition hover:bg-white/25 focus:outline-none focus:ring-2 focus:ring-white"
+        className="mt-auto w-fit rounded-lg bg-white/15 px-3 py-2 text-xs font-semibold text-white ring-1 ring-white/20 transition hover:bg-white/25 focus:outline-none focus:ring-2 focus:ring-white"
         type="button"
         onClick={() => onSelect(card.target)}
       >
@@ -231,12 +276,114 @@ function FeatureCard({
   );
 }
 
-interface CompactSimulationFormProps {
+function HomeView({
+  summary,
+  draft,
+  onOpen,
+  onCompare,
+}: {
+  readonly summary: FinanciamentoImobSummary | undefined;
   readonly draft: FinanciamentoDraft;
-  readonly errors: FinanciamentoFieldErrors;
-  readonly busy: boolean;
-  readonly onChange: (field: keyof FinanciamentoDraft, value: string) => void;
-  readonly onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  readonly onOpen: (view: CockpitView) => void;
+  readonly onCompare: () => void;
+}) {
+  function activateCard(target: CockpitView) {
+    if (target === "comparacao") {
+      onCompare();
+      return;
+    }
+    onOpen(target);
+  }
+
+  return (
+    <section
+      className="grid h-full min-h-0 grid-rows-[auto_minmax(0,1fr)] gap-4"
+      data-testid="financiamento-home"
+    >
+      <div className="grid min-h-0 gap-4 lg:grid-cols-[minmax(0,1fr)_360px]">
+        <div className="rounded-3xl border border-cyan-200/10 bg-gradient-to-br from-slate-900 via-slate-950 to-cyan-950/50 p-6">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-cyan-200/80">
+            Financiamento Imobiliário
+          </p>
+          <h2 className="mt-3 max-w-3xl text-3xl font-semibold text-white">
+            Entenda cada parcela antes de assinar o contrato.
+          </h2>
+          <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
+            Uma jornada educativa para simular, comparar SAC x PRICE, conferir
+            tabela, rastrear memória de cálculo e entender fontes, limites e
+            alertas antes de conversar com a instituição financeira.
+          </p>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <button
+              className="rounded-xl bg-cyan-300 px-4 py-3 text-sm font-bold text-slate-950 shadow-lg shadow-cyan-950/30 transition hover:bg-cyan-200 focus:outline-none focus:ring-2 focus:ring-cyan-100"
+              type="button"
+              onClick={() => onOpen("simulacao")}
+            >
+              Começar simulação
+            </button>
+            <button
+              className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold text-slate-100 transition hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-200"
+              type="button"
+              onClick={() => onOpen("conceito")}
+            >
+              Antes, entender o conceito
+            </button>
+          </div>
+        </div>
+
+        <aside
+          className="rounded-3xl border border-amber-200/15 bg-amber-300/10 p-5"
+          data-testid="financiamento-scenario-panel"
+        >
+          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-100/75">
+            Cenário atual
+          </p>
+          <dl className="mt-4 space-y-3 text-sm">
+            <div className="flex items-center justify-between gap-3">
+              <dt className="text-amber-50/70">Imóvel</dt>
+              <dd className="font-semibold text-slate-50">
+                {summary
+                  ? formatBRL(summary.valor_imovel)
+                  : formatDraftMoney(draft.valorImovel)}
+              </dd>
+            </div>
+            <div className="flex items-center justify-between gap-3">
+              <dt className="text-amber-50/70">Entrada</dt>
+              <dd className="font-semibold text-slate-50">
+                {summary ? computeEntryPercent(summary) : "Sem simulação"}
+              </dd>
+            </div>
+            <div className="flex items-center justify-between gap-3">
+              <dt className="text-amber-50/70">Prazo</dt>
+              <dd className="font-semibold text-slate-50">
+                {summary ? `${summary.prazo_meses} meses` : "Não informado"}
+              </dd>
+            </div>
+            <div className="flex items-center justify-between gap-3">
+              <dt className="text-amber-50/70">Tabela</dt>
+              <dd className="font-semibold text-slate-50">
+                {summary ? "Gerada" : "Aguardando dados"}
+              </dd>
+            </div>
+          </dl>
+          <p className="mt-4 text-xs leading-5 text-amber-50/75">
+            Depois da simulação, este painel resume o cenário e libera
+            resultado, tabela, comparação, memória e fontes.
+          </p>
+        </aside>
+      </div>
+
+      <div className="grid min-h-0 grid-cols-1 gap-3 overflow-hidden md:grid-cols-2 xl:grid-cols-3">
+        {FEATURE_CARDS.map((card) => (
+          <FeatureCard
+            key={`${card.label}-${card.target}`}
+            card={card}
+            onSelect={activateCard}
+          />
+        ))}
+      </div>
+    </section>
+  );
 }
 
 function FieldError({ message }: { readonly message: string | undefined }) {
@@ -291,12 +438,20 @@ function CompactSimulationForm({
   draft,
   errors,
   busy,
+  guidance,
   onChange,
   onSubmit,
-}: CompactSimulationFormProps) {
+}: {
+  readonly draft: FinanciamentoDraft;
+  readonly errors: FinanciamentoFieldErrors;
+  readonly busy: boolean;
+  readonly guidance: string | undefined;
+  readonly onChange: (field: keyof FinanciamentoDraft, value: string) => void;
+  readonly onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+}) {
   return (
     <form
-      className="flex h-full min-h-0 flex-col rounded-2xl border border-cyan-200/10 bg-slate-950/45 p-3"
+      className="flex h-full min-h-0 flex-col rounded-2xl border border-cyan-200/10 bg-slate-950/45 p-4"
       onSubmit={onSubmit}
       data-testid="financiamento-compact-form"
       aria-label="Formulário de simulação do financiamento imobiliário"
@@ -304,10 +459,10 @@ function CompactSimulationForm({
       <div className="mb-3 flex items-start justify-between gap-3">
         <div>
           <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-cyan-200/70">
-            Simulação
+            Dados da simulação
           </p>
           <h3 className="text-base font-semibold text-slate-50">
-            Dados do financiamento
+            Preencha o cenário real
           </h3>
         </div>
         <button
@@ -316,9 +471,18 @@ function CompactSimulationForm({
           data-testid="financiamento-submit"
           disabled={busy}
         >
-          {busy ? "Simulando..." : "Simular"}
+          {busy ? "Gerando..." : "Gerar simulação"}
         </button>
       </div>
+
+      {guidance !== undefined && (
+        <div
+          className="mb-3 rounded-xl border border-violet-200/20 bg-violet-300/10 p-3 text-sm leading-6 text-violet-50"
+          role="status"
+        >
+          {guidance}
+        </div>
+      )}
 
       <div className="grid min-h-0 grid-cols-1 gap-2 md:grid-cols-2">
         <CompactInput
@@ -331,7 +495,7 @@ function CompactSimulationForm({
         />
         <CompactInput
           label="Entrada (R$)"
-          helper="Valor pago de entrada."
+          helper="Valor pago antes do crédito."
           field="valorEntrada"
           value={draft.valorEntrada}
           error={errors.valorEntrada}
@@ -339,7 +503,7 @@ function CompactSimulationForm({
         />
         <CompactInput
           label="Prazo (meses)"
-          helper="Quantidade de parcelas."
+          helper="Quantidade total de parcelas."
           field="prazoMeses"
           value={draft.prazoMeses}
           error={errors.prazoMeses}
@@ -347,7 +511,7 @@ function CompactSimulationForm({
         />
         <CompactInput
           label="Taxa de juros mensal (%)"
-          helper="Taxa usada na simulação."
+          helper="Taxa usada nesta simulação."
           field="taxaJurosMensalPercentual"
           value={draft.taxaJurosMensalPercentual}
           error={errors.taxaJurosMensalPercentual}
@@ -370,14 +534,14 @@ function CompactSimulationForm({
             <option value="SAC">SAC</option>
           </select>
           <span className="mt-1 block text-[10px] leading-4 text-slate-400">
-            Escolha PRICE ou SAC.
+            Escolha o sistema inicial; a comparação calcula SAC e PRICE.
           </span>
           <FieldError message={errors.sistemaAmortizacao} />
         </label>
 
         <CompactInput
           label="Seguro mensal (R$)"
-          helper="Opcional, se houver."
+          helper="Opcional, se informado."
           field="seguroMensal"
           value={draft.seguroMensal}
           error={errors.seguroMensal}
@@ -385,7 +549,7 @@ function CompactSimulationForm({
         />
         <CompactInput
           label="Tarifa mensal (R$)"
-          helper="Opcional, se houver."
+          helper="Opcional, se informado."
           field="tarifaMensal"
           value={draft.tarifaMensal}
           error={errors.tarifaMensal}
@@ -393,214 +557,520 @@ function CompactSimulationForm({
         />
 
         <div className="rounded-xl border border-emerald-300/15 bg-emerald-300/10 p-3 text-xs leading-5 text-emerald-50 md:col-span-2">
-          <strong className="text-emerald-100">Renda, FGTS e aprovação:</strong>{" "}
-          estes fatores não substituem a análise bancária, mas aparecem nas abas
-          de conceito, fontes e limites para orientar a leitura educacional da
-          simulação.
+          <strong className="text-emerald-100">Leitura educativa:</strong>{" "}
+          renda, FGTS, seguros, tarifas, CET, documentação e análise de crédito
+          mudam a contratação real e aparecem nas fontes e limites.
         </div>
       </div>
     </form>
   );
 }
 
-function ConceptPanel() {
+function ConceptPanel({ onBack }: { readonly onBack: () => void }) {
   return (
-    <section
-      className="grid h-full min-h-0 grid-cols-1 gap-3 lg:grid-cols-2"
-      data-testid="financiamento-conceito-panel"
-    >
-      {CONCEPT_ITEMS.map((item) => (
-        <article
-          key={item.title}
-          className="rounded-2xl border border-cyan-200/10 bg-slate-950/45 p-4"
-        >
-          <h3 className="text-sm font-semibold text-cyan-100">{item.title}</h3>
-          <p className="mt-2 text-sm leading-6 text-slate-300">{item.body}</p>
-        </article>
-      ))}
-      <article className="rounded-2xl border border-amber-200/20 bg-amber-300/10 p-4 lg:col-span-2">
-        <h3 className="text-sm font-semibold text-amber-100">
-          Fontes institucionais para conferência
-        </h3>
-        <p className="mt-2 text-sm leading-6 text-amber-50/80">
-          Use Caixa Econômica Federal, Banco Central do Brasil, FGTS, legislação
-          brasileira aplicável e canais oficiais da instituição financeira para
-          validar regras, custos, documentação e condições vigentes. Este módulo
-          não inventa tetos, percentuais ou aprovação.
-        </p>
-      </article>
-    </section>
-  );
-}
-
-function ResultPanel({ result }: { readonly result: FinanciamentoImobOut }) {
-  const { summary } = result;
-  return (
-    <section className="grid h-full min-h-0 gap-3 lg:grid-cols-[320px_minmax(0,1fr)]">
-      <div className="overflow-hidden rounded-2xl border border-cyan-200/10 bg-white/95 p-4 text-slate-950">
-        <FinanciamentoSummary summary={summary} />
-      </div>
-      <div className="grid min-h-0 gap-3 md:grid-cols-2">
-        <MetricCard
-          label="Primeira parcela"
-          value={formatBRL(summary.primeira_parcela)}
-          note="Mostra o esforço mensal inicial."
-        />
-        <MetricCard
-          label="Última parcela"
-          value={formatBRL(summary.ultima_parcela)}
-          note="Ajuda a comparar queda ou estabilidade da parcela."
-        />
-        <MetricCard
-          label="Total de juros"
-          value={formatBRL(summary.total_juros)}
-          note="Custo financeiro acumulado no prazo."
-        />
-        <MetricCard
-          label="Custo total"
-          value={formatBRL(summary.custo_total)}
-          note="Juros mais encargos declarados na simulação."
-        />
+    <section className="h-full min-h-0 overflow-hidden">
+      <PanelHeader
+        eyebrow="Conceito"
+        title="Antes dos números, entenda o contrato"
+        description="O financiamento imobiliário combina entrada, crédito, amortização, juros, seguros, tarifas e análise da instituição. A simulação ajuda a enxergar essas peças antes de assinar."
+        onBack={onBack}
+      />
+      <div
+        className="grid min-h-0 grid-cols-1 gap-3 lg:grid-cols-2"
+        data-testid="financiamento-conceito-panel"
+      >
+        {CONCEPT_ITEMS.map((item) => (
+          <article
+            key={item.title}
+            className="rounded-2xl border border-cyan-200/10 bg-slate-950/45 p-4"
+          >
+            <h3 className="text-sm font-semibold text-cyan-100">
+              {item.title}
+            </h3>
+            <p className="mt-2 text-sm leading-6 text-slate-300">{item.body}</p>
+          </article>
+        ))}
       </div>
     </section>
   );
 }
 
-function MetricCard({
-  label,
-  value,
-  note,
+function SimulationPanel({
+  draft,
+  errors,
+  guidance,
+  simState,
+  cmpState,
+  onBack,
+  onChange,
+  onSubmit,
+  onCompare,
 }: {
-  readonly label: string;
-  readonly value: string;
-  readonly note: string;
+  readonly draft: FinanciamentoDraft;
+  readonly errors: FinanciamentoFieldErrors;
+  readonly guidance: string | undefined;
+  readonly simState: SimulateResult;
+  readonly cmpState: CompareResult;
+  readonly onBack: () => void;
+  readonly onChange: (field: keyof FinanciamentoDraft, value: string) => void;
+  readonly onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  readonly onCompare: () => void;
 }) {
   return (
-    <article className="rounded-2xl border border-white/10 bg-slate-950/45 p-4">
-      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-cyan-200/70">
+    <section className="h-full min-h-0 overflow-hidden">
+      <PanelHeader
+        eyebrow="Simulação"
+        title="Gerar cenário de financiamento"
+        description="Preencha os dados uma vez. O mesmo cenário alimenta resultado, tabela, memória e comparação SAC x PRICE."
+        onBack={onBack}
+      />
+      <div className="grid h-[calc(100%-74px)] min-h-0 gap-4 lg:grid-cols-[520px_minmax(0,1fr)]">
+        <CompactSimulationForm
+          draft={draft}
+          errors={errors}
+          busy={simState.status === "loading"}
+          guidance={guidance}
+          onChange={onChange}
+          onSubmit={onSubmit}
+        />
+        <div className="grid min-h-0 content-start gap-3">
+          <div className="rounded-2xl border border-cyan-200/10 bg-cyan-300/10 p-4 text-sm leading-6 text-cyan-50">
+            Preencha valor do imóvel, entrada, prazo e taxa mensal. Depois use{" "}
+            <strong>Gerar simulação</strong> para ver os resultados ou{" "}
+            <strong>Comparar SAC x PRICE</strong> para calcular os dois sistemas
+            com os mesmos parâmetros.
+          </div>
+          <button
+            className="rounded-2xl border border-violet-200/20 bg-violet-300/10 p-4 text-left text-violet-50 transition hover:bg-violet-300/15 focus:outline-none focus:ring-2 focus:ring-violet-200 disabled:cursor-not-allowed disabled:opacity-50"
+            type="button"
+            aria-label="Comparar SAC x PRICE"
+            onClick={onCompare}
+            disabled={cmpState.status === "loading"}
+          >
+            <span className="block text-[11px] font-semibold uppercase tracking-[0.2em] text-violet-200/75">
+              Comparação
+            </span>
+            <span className="mt-1 block text-lg font-semibold">
+              Comparar SAC x PRICE
+            </span>
+            <span className="mt-2 block text-sm leading-6 text-violet-50/80">
+              Calcula primeira parcela, última parcela, total de juros, total
+              pago e leitura pedagógica para os dois sistemas.
+            </span>
+          </button>
+          {simState.status === "error" && (
+            <AlertBanner level="error" title="Erro na simulação">
+              {describeApiError(simState.error)}
+            </AlertBanner>
+          )}
+          {cmpState.status === "error" && (
+            <AlertBanner level="error" title="Erro na comparação">
+              {describeApiError(cmpState.error)}
+            </AlertBanner>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function LockedPanel({
+  eyebrow,
+  title,
+  onBack,
+  onStart,
+}: {
+  readonly eyebrow: string;
+  readonly title: string;
+  readonly onBack: () => void;
+  readonly onStart: () => void;
+}) {
+  return (
+    <section className="h-full min-h-0 overflow-hidden">
+      <PanelHeader
+        eyebrow={eyebrow}
+        title={title}
+        description="Simule primeiro para liberar esta visão com dados reais do cenário informado."
+        onBack={onBack}
+      />
+      <div
+        className="grid h-[calc(100%-74px)] place-items-center rounded-2xl border border-dashed border-cyan-200/20 bg-slate-950/35 p-6 text-center"
+        data-testid="financiamento-idle-state"
+      >
+        <div className="max-w-md">
+          <h3 className="text-lg font-semibold text-slate-50">
+            Simule primeiro para liberar esta visão.
+          </h3>
+          <p className="mt-2 text-sm leading-6 text-slate-300">
+            A plataforma precisa das entradas de valor, prazo, taxa e sistema
+            para gerar resultado, tabela, comparação e memória com
+            rastreabilidade.
+          </p>
+          <button
+            className="mt-4 rounded-xl bg-cyan-300 px-4 py-3 text-sm font-bold text-slate-950 transition hover:bg-cyan-200 focus:outline-none focus:ring-2 focus:ring-cyan-100"
+            type="button"
+            onClick={onStart}
+          >
+            Ir para simulação
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ResultPanel({
+  result,
+  onBack,
+  onOpen,
+}: {
+  readonly result: FinanciamentoImobOut;
+  readonly onBack: () => void;
+  readonly onOpen: (view: CockpitView) => void;
+}) {
+  const { summary } = result;
+  return (
+    <section className="h-full min-h-0 overflow-hidden">
+      <PanelHeader
+        eyebrow="Resultado"
+        title={`Resumo premium — ${summary.sistema_amortizacao}`}
+        description="Os números estão agrupados por significado: cenário, parcelas, custo e interpretação pedagógica."
+        onBack={onBack}
+      />
+      <div
+        className="grid h-[calc(100%-74px)] min-h-0 gap-3 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.35fr)]"
+        data-testid="financiamento-result-panel"
+      >
+        <section className="rounded-2xl border border-amber-200/15 bg-gradient-to-br from-slate-950 via-amber-950/25 to-slate-950 p-5">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-100/75">
+            Resumo principal
+          </p>
+          <h3 className="mt-2 text-2xl font-semibold text-slate-50">
+            {formatBRL(summary.primeira_parcela)}
+          </h3>
+          <p className="mt-2 text-sm leading-6 text-slate-300">
+            Primeira parcela estimada para um financiamento de{" "}
+            {formatBRL(summary.valor_financiado)} em {summary.prazo_meses}{" "}
+            meses, com taxa mensal de {formatRatePct(summary.taxa_juros_mensal)}
+            .
+          </p>
+          <dl className="mt-4 grid gap-2 text-sm">
+            <div className="flex justify-between gap-3 rounded-xl bg-white/5 p-3">
+              <dt className="text-slate-300">Valor do imóvel</dt>
+              <dd className="font-semibold text-slate-50">
+                {formatBRL(summary.valor_imovel)}
+              </dd>
+            </div>
+            <div className="flex justify-between gap-3 rounded-xl bg-white/5 p-3">
+              <dt className="text-slate-300">Entrada</dt>
+              <dd className="font-semibold text-slate-50">
+                {formatBRL(summary.valor_entrada)}
+              </dd>
+            </div>
+            <div className="flex justify-between gap-3 rounded-xl bg-white/5 p-3">
+              <dt className="text-slate-300">Valor financiado</dt>
+              <dd className="font-semibold text-slate-50">
+                {formatBRL(summary.valor_financiado)}
+              </dd>
+            </div>
+          </dl>
+        </section>
+
+        <section className="grid min-h-0 gap-3 md:grid-cols-2">
+          <MetricCard
+            label="Última parcela"
+            value={formatBRL(summary.ultima_parcela)}
+            note="Mostra queda, estabilidade ou suavização do sistema escolhido."
+            tone="cyan"
+          />
+          <MetricCard
+            label="Total amortizado"
+            value={formatBRL(summary.total_amortizado)}
+            note="Parte do pagamento que reduz o saldo financiado."
+            tone="emerald"
+          />
+          <MetricCard
+            label="Total de juros"
+            value={formatBRL(summary.total_juros)}
+            note="Custo financeiro acumulado ao longo do prazo."
+            tone="amber"
+          />
+          <MetricCard
+            label="Custo total"
+            value={formatBRL(summary.custo_total)}
+            note="Juros somados aos encargos informados nesta simulação."
+            tone="violet"
+          />
+          <article className="rounded-2xl border border-white/10 bg-white/5 p-4 md:col-span-2">
+            <h3 className="text-sm font-semibold text-slate-50">
+              Interpretação pedagógica
+            </h3>
+            <p className="mt-2 text-sm leading-6 text-slate-300">
+              Compare a primeira parcela com a última, confira a tabela e abra a
+              memória de cálculo para enxergar como entrada, fórmula,
+              amortização, juros e encargos chegam ao total pago.
+            </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <button
+                className="rounded-lg bg-cyan-300 px-3 py-2 text-xs font-bold text-slate-950"
+                type="button"
+                onClick={() => onOpen("tabela")}
+              >
+                Ver tabela
+              </button>
+              <button
+                className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-slate-100"
+                type="button"
+                onClick={() => onOpen("memoria")}
+              >
+                Ver memória
+              </button>
+            </div>
+          </article>
+        </section>
+      </div>
+    </section>
+  );
+}
+
+function CompareMetric({
+  label,
+  price,
+  sac,
+}: {
+  readonly label: string;
+  readonly price: string;
+  readonly sac: string;
+}) {
+  return (
+    <article className="rounded-xl border border-white/10 bg-white/5 p-3">
+      <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-violet-100/70">
         {label}
       </p>
-      <p className="mt-2 font-mono text-xl font-semibold text-slate-50">
-        {value}
-      </p>
-      <p className="mt-2 text-xs leading-5 text-slate-300">{note}</p>
+      <div className="mt-2 grid gap-2 text-xs">
+        <div className="flex items-center justify-between gap-3 rounded-lg bg-cyan-300/10 px-2 py-1.5">
+          <span className="font-semibold text-cyan-100">PRICE</span>
+          <span className="font-mono text-slate-50">{price}</span>
+        </div>
+        <div className="flex items-center justify-between gap-3 rounded-lg bg-amber-300/10 px-2 py-1.5">
+          <span className="font-semibold text-amber-100">SAC</span>
+          <span className="font-mono text-slate-50">{sac}</span>
+        </div>
+      </div>
     </article>
   );
 }
 
 function ComparePanel({
   compare,
+  onBack,
 }: {
   readonly compare: FinanciamentoImobCompareOut;
+  readonly onBack: () => void;
 }) {
   return (
-    <section className="grid h-full min-h-0 gap-3 xl:grid-cols-[minmax(0,1fr)_minmax(320px,0.9fr)]">
-      <div className="min-h-0 overflow-hidden rounded-2xl border border-cyan-200/10 bg-white/95 p-4 text-slate-950">
-        <FinanciamentoCompareSummary compare={compare} />
-      </div>
-      <div className="grid min-h-0 gap-3">
+    <section className="h-full min-h-0 overflow-hidden">
+      <PanelHeader
+        eyebrow="Comparação"
+        title="SAC x PRICE com os mesmos parâmetros"
+        description="A comparação usa as mesmas entradas da simulação para mostrar esforço inicial, custo total, juros e comportamento da parcela."
+        onBack={onBack}
+      />
+      <div
+        className="grid h-[calc(100%-74px)] min-h-0 gap-3 xl:grid-cols-[minmax(0,1fr)_minmax(320px,0.9fr)]"
+        data-testid="financiamento-compare-summary"
+      >
+        <div className="grid min-h-0 gap-3 md:grid-cols-2">
+          <CompareMetric
+            label="Primeira parcela"
+            price={formatBRL(compare.price.summary.primeira_parcela)}
+            sac={formatBRL(compare.sac.summary.primeira_parcela)}
+          />
+          <CompareMetric
+            label="Última parcela"
+            price={formatBRL(compare.price.summary.ultima_parcela)}
+            sac={formatBRL(compare.sac.summary.ultima_parcela)}
+          />
+          <CompareMetric
+            label="Total de juros"
+            price={formatBRL(compare.price.summary.total_juros)}
+            sac={formatBRL(compare.sac.summary.total_juros)}
+          />
+          <CompareMetric
+            label="Total pago"
+            price={formatBRL(compare.price.summary.total_pago)}
+            sac={formatBRL(compare.sac.summary.total_pago)}
+          />
+          <article className="rounded-2xl border border-violet-200/20 bg-violet-300/10 p-4 md:col-span-2">
+            <h3 className="text-sm font-semibold text-violet-100">
+              Leitura pedagógica
+            </h3>
+            <p className="mt-2 text-sm leading-6 text-violet-50/85">
+              {compare.comparacao.explicacao_pedagogica}
+            </p>
+            <p className="mt-2 text-xs leading-5 text-violet-50/70">
+              {compare.comparacao.comportamento_saldo_devedor}
+            </p>
+          </article>
+        </div>
         <FinanciamentoCompareChart compare={compare} />
-        <FinanciamentoCompareInsights compare={compare} />
       </div>
     </section>
   );
 }
 
+function TablePanel({
+  result,
+  onBack,
+}: {
+  readonly result: FinanciamentoImobOut;
+  readonly onBack: () => void;
+}) {
+  return (
+    <section className="h-full min-h-0 overflow-hidden">
+      <PanelHeader
+        eyebrow="Tabela"
+        title={`${result.parcelas.length} parcelas geradas`}
+        description="A tabela preserva o prazo inteiro no modelo e exibe faixas compactas, com linha final de totais para auditoria financeira."
+        onBack={onBack}
+      />
+      <div className="h-[calc(100%-74px)] min-h-0">
+        <FinanciamentoTable
+          parcelas={result.parcelas}
+          summary={result.summary}
+        />
+      </div>
+    </section>
+  );
+}
+
+function FormulaCard({
+  title,
+  children,
+}: {
+  readonly title: string;
+  readonly children: ReactNode;
+}) {
+  return (
+    <article className="rounded-2xl border border-emerald-200/15 bg-emerald-300/10 p-4">
+      <h3 className="text-sm font-semibold text-emerald-100">{title}</h3>
+      <div className="mt-3 space-y-2 text-sm leading-6 text-emerald-50/85">
+        {children}
+      </div>
+    </article>
+  );
+}
+
 function MemoryPanel({
   memoria,
+  onBack,
 }: {
   readonly memoria: FinanciamentoMemoriaCalculo;
+  readonly onBack: () => void;
 }) {
   const primeira = memoria.primeira_parcela;
+  const ultima = memoria.ultima_parcela;
   return (
-    <section
-      className="grid h-full min-h-0 gap-3 lg:grid-cols-[minmax(0,1fr)_300px]"
-      data-testid="financiamento-memory-panel"
-    >
-      <div className="rounded-2xl border border-emerald-200/15 bg-slate-950/45 p-4">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-emerald-200/75">
-          Fórmula usada
-        </p>
-        <code className="mt-2 block rounded-xl bg-emerald-300/10 p-3 font-mono text-sm text-emerald-100">
-          {memoria.formula}
-        </code>
-        <h3 className="mt-4 text-sm font-semibold text-slate-50">
-          Valores substituídos
-        </h3>
-        <p className="mt-2 text-sm leading-6 text-slate-300">
-          {memoria.substituicao}
-        </p>
-        <dl className="mt-4 grid gap-2 text-xs text-slate-200 md:grid-cols-3">
-          {Object.entries(memoria.variaveis).map(([key, value]) => (
-            <div
-              key={key}
-              className="rounded-xl border border-white/10 bg-white/5 p-3"
-            >
-              <dt className="text-cyan-100">{key}</dt>
-              <dd className="mt-1 font-mono">{String(value)}</dd>
+    <section className="h-full min-h-0 overflow-hidden">
+      <PanelHeader
+        eyebrow="Memória de cálculo"
+        title="Da entrada ao resultado, sem caixa-preta"
+        description="A memória mostra fórmulas, variáveis, valores substituídos, arredondamento e como conferir a primeira e a última parcela na tabela."
+        onBack={onBack}
+      />
+      <div
+        className="grid h-[calc(100%-74px)] min-h-0 gap-3 lg:grid-cols-[minmax(0,1fr)_320px]"
+        data-testid="financiamento-memory-panel"
+      >
+        <div className="grid min-h-0 gap-3 overflow-hidden">
+          <FormulaCard title="SAC — blocos de cálculo">
+            <p>
+              <strong>Amortização mensal:</strong> A = Valor financiado ÷ prazo
+            </p>
+            <p>
+              <strong>Juros do mês:</strong> saldo devedor anterior × taxa
+              mensal
+            </p>
+            <p>
+              <strong>Parcela:</strong> amortização + juros do mês + encargos
+            </p>
+            <p>
+              <strong>Saldo final:</strong> saldo anterior − amortização
+            </p>
+          </FormulaCard>
+          <FormulaCard title="PRICE — parcela fixa base">
+            <p className="rounded-xl bg-slate-950/55 p-3 font-mono text-xs text-emerald-100">
+              PMT = PV × [ i × (1 + i)^n ] ÷ [ (1 + i)^n − 1 ]
+            </p>
+            <p>
+              PV é o valor financiado, i é a taxa mensal, n é o prazo em meses e
+              PMT é a parcela sem encargos mensais.
+            </p>
+          </FormulaCard>
+          <FormulaCard title="Valores substituídos e rastreabilidade">
+            <p>{memoria.substituicao}</p>
+            <dl className="grid gap-2 text-xs md:grid-cols-3">
+              {Object.entries(memoria.variaveis).map(([key, value]) => (
+                <div
+                  key={key}
+                  className="rounded-xl border border-white/10 bg-white/5 p-3"
+                >
+                  <dt className="text-emerald-100">{key}</dt>
+                  <dd className="mt-1 font-mono text-slate-50">
+                    {String(value)}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </FormulaCard>
+        </div>
+        <aside className="rounded-2xl border border-amber-200/20 bg-amber-300/10 p-4 text-amber-50">
+          <h3 className="text-sm font-semibold">Passo a passo auditável</h3>
+          <dl className="mt-3 space-y-2 text-sm">
+            <div className="flex justify-between gap-3">
+              <dt>1ª parcela</dt>
+              <dd className="font-semibold">{formatBRL(primeira.prestacao)}</dd>
             </div>
-          ))}
-        </dl>
+            <div className="flex justify-between gap-3">
+              <dt>Juros iniciais</dt>
+              <dd className="font-semibold">{formatBRL(primeira.juros)}</dd>
+            </div>
+            <div className="flex justify-between gap-3">
+              <dt>Amortização inicial</dt>
+              <dd className="font-semibold">
+                {formatBRL(primeira.amortizacao)}
+              </dd>
+            </div>
+            <div className="flex justify-between gap-3">
+              <dt>Última parcela</dt>
+              <dd className="font-semibold">{formatBRL(ultima.prestacao)}</dd>
+            </div>
+            <div className="flex justify-between gap-3">
+              <dt>Saldo final</dt>
+              <dd className="font-semibold">{formatBRL(ultima.saldo_final)}</dd>
+            </div>
+          </dl>
+          <p className="mt-4 text-sm leading-6 text-amber-50/80">
+            Arredondamento: {memoria.arredondamento}. Confira os mesmos valores
+            na tabela para rastrear entrada, fórmula, cálculo e resultado.
+          </p>
+        </aside>
       </div>
-      <aside className="rounded-2xl border border-amber-200/20 bg-amber-300/10 p-4 text-amber-50">
-        <h3 className="text-sm font-semibold">
-          Primeira parcela passo a passo
-        </h3>
-        <dl className="mt-3 space-y-2 text-sm">
-          <div className="flex justify-between gap-3">
-            <dt>Juros</dt>
-            <dd className="font-semibold">{formatBRL(primeira.juros)}</dd>
-          </div>
-          <div className="flex justify-between gap-3">
-            <dt>Amortização</dt>
-            <dd className="font-semibold">{formatBRL(primeira.amortizacao)}</dd>
-          </div>
-          <div className="flex justify-between gap-3">
-            <dt>Encargos</dt>
-            <dd className="font-semibold">{formatBRL(primeira.encargos)}</dd>
-          </div>
-          <div className="flex justify-between gap-3">
-            <dt>Saldo devedor final</dt>
-            <dd className="font-semibold">{formatBRL(primeira.saldo_final)}</dd>
-          </div>
-        </dl>
-        <p className="mt-4 text-sm leading-6 text-amber-50/80">
-          Arredondamento: {memoria.arredondamento}. Confira a mesma parcela na
-          aba Tabela para rastrear entrada, fórmula, cálculo e resultado.
-        </p>
-      </aside>
     </section>
   );
 }
 
 function SourcesPanel({
   result,
+  onBack,
 }: {
   readonly result: FinanciamentoImobOut | undefined;
+  readonly onBack: () => void;
 }) {
-  const fontes: ReadonlyArray<FinanciamentoFonte> =
-    result?.fontes.length === 0 || result === undefined
-      ? [
-          {
-            nome: "Banco Central do Brasil",
-            tipo: "institucional",
-            observacao:
-              "Referência para educação financeira, crédito e CET sem consulta automática neste módulo.",
-          },
-          {
-            nome: "Caixa Econômica Federal",
-            tipo: "institucional",
-            observacao:
-              "Referência pública para modalidades habitacionais; regras reais variam conforme produto e análise.",
-          },
-          {
-            nome: "FGTS",
-            tipo: "institucional",
-            observacao:
-              "Uso pode ocorrer como entrada, amortização ou liquidação quando regras oficiais forem atendidas.",
-          },
-        ]
-      : result.fontes;
+  const fontes =
+    result !== undefined && result.fontes.length > 0
+      ? result.fontes
+      : OFFICIAL_SOURCES;
   const alertas =
     result === undefined
       ? [
@@ -611,57 +1081,104 @@ function SourcesPanel({
       : [...result.alertas, ...result.limites, ...result.mensagens_interface];
 
   return (
-    <section
-      className="grid h-full min-h-0 gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(280px,0.7fr)]"
-      data-testid="financiamento-fontes-panel"
-    >
-      <div className="rounded-2xl border border-cyan-200/10 bg-slate-950/45 p-4">
-        <h3 className="text-sm font-semibold text-cyan-100">
-          Fontes oficiais e limites da simulação
-        </h3>
-        <div className="mt-3 grid gap-3 md:grid-cols-3">
-          {fontes.map((fonte) => (
-            <article
-              key={`${fonte.nome}-${fonte.tipo}`}
-              className="rounded-xl border border-white/10 bg-white/5 p-3"
-            >
-              <p className="text-xs font-semibold text-slate-50">
-                {fonte.nome}
-              </p>
-              <p className="mt-1 text-[11px] uppercase tracking-[0.16em] text-cyan-200/70">
-                {fonte.tipo}
-              </p>
-              <p className="mt-2 text-xs leading-5 text-slate-300">
-                {fonte.observacao}
-              </p>
-            </article>
-          ))}
+    <section className="h-full min-h-0 overflow-hidden">
+      <PanelHeader
+        eyebrow="Fontes, limites e alertas"
+        title="O que a simulação mostra e o que ela não promete"
+        description="Este painel separa finalidade educacional, limites práticos e fontes institucionais para evitar interpretação contratual indevida."
+        onBack={onBack}
+      />
+      <div
+        className="grid h-[calc(100%-74px)] min-h-0 gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(280px,0.75fr)]"
+        data-testid="financiamento-fontes-panel"
+      >
+        <div className="grid min-h-0 gap-3">
+          <article className="rounded-2xl border border-cyan-200/10 bg-slate-950/45 p-4">
+            <h3 className="text-sm font-semibold text-cyan-100">
+              A simulação considera
+            </h3>
+            <p className="mt-2 text-sm leading-6 text-slate-300">
+              Valor do imóvel, entrada, valor financiado, prazo, taxa mensal,
+              sistema SAC ou PRICE, seguros e tarifas quando informados.
+            </p>
+          </article>
+          <article className="rounded-2xl border border-amber-200/20 bg-amber-300/10 p-4">
+            <h3 className="text-sm font-semibold text-amber-100">
+              A simulação não considera
+            </h3>
+            <p className="mt-2 text-sm leading-6 text-amber-50/80">
+              Proposta bancária formal, aprovação de crédito, variação da renda,
+              política específica da instituição, avaliação final do imóvel,
+              documentação, regras vigentes de FGTS e CET oficial atualizado.
+            </p>
+          </article>
+          <div className="grid gap-3 md:grid-cols-3">
+            {fontes.map((fonte) => (
+              <article
+                key={`${fonte.nome}-${fonte.tipo}`}
+                className="rounded-xl border border-white/10 bg-white/5 p-3"
+              >
+                <p className="text-xs font-semibold text-slate-50">
+                  {fonte.nome}
+                </p>
+                <p className="mt-1 text-[11px] uppercase tracking-[0.16em] text-cyan-200/70">
+                  {fonte.tipo}
+                </p>
+                <p className="mt-2 text-xs leading-5 text-slate-300">
+                  {fonte.observacao}
+                </p>
+              </article>
+            ))}
+          </div>
         </div>
+        <aside className="rounded-2xl border border-rose-200/20 bg-rose-300/10 p-4">
+          <h3 className="text-sm font-semibold text-rose-100">
+            Alertas antes de contratar
+          </h3>
+          <ul className="mt-3 space-y-2 text-sm leading-6 text-rose-50/85">
+            {alertas.map((alerta) => (
+              <li key={alerta}>- {alerta}</li>
+            ))}
+          </ul>
+        </aside>
       </div>
-      <aside className="rounded-2xl border border-rose-200/20 bg-rose-300/10 p-4">
-        <h3 className="text-sm font-semibold text-rose-100">
-          Alertas úteis antes de decidir
-        </h3>
-        <ul className="mt-3 space-y-2 text-sm leading-6 text-rose-50/85">
-          {alertas.map((alerta) => (
-            <li key={alerta}>• {alerta}</li>
-          ))}
-        </ul>
-      </aside>
     </section>
   );
 }
 
 export function FinanciamentoCockpit() {
-  const [activeTab, setActiveTab] = useState<ActiveTab>("simular");
+  const [view, setView] = useState<CockpitView>("inicio");
+  const [, setHistory] = useState<ReadonlyArray<CockpitView>>([]);
   const [draft, setDraft] = useState<FinanciamentoDraft>(INITIAL_DRAFT);
   const [fieldErrors, setFieldErrors] = useState<FinanciamentoFieldErrors>({});
+  const [guidance, setGuidance] = useState<string | undefined>(undefined);
   const [simState, setSimState] = useState<SimulateResult>({ status: "idle" });
   const [cmpState, setCmpState] = useState<CompareResult>({ status: "idle" });
+
+  const openView = useCallback(
+    (nextView: CockpitView) => {
+      setHistory((prev) => [...prev, view]);
+      setView(nextView);
+    },
+    [view],
+  );
+
+  const goBack = useCallback(() => {
+    setHistory((prev) => {
+      const last = prev[prev.length - 1];
+      if (last !== undefined) {
+        setView(last);
+        return prev.filter((_, index) => index < prev.length - 1);
+      }
+      setView("inicio");
+      return prev;
+    });
+  }, []);
 
   const handleChange = useCallback(
     (field: keyof FinanciamentoDraft, value: string) => {
       setDraft((prev) => ({ ...prev, [field]: value }));
+      setGuidance(undefined);
       setFieldErrors((prev) => {
         if (!prev[field]) return prev;
         const next = { ...prev };
@@ -680,26 +1197,33 @@ export function FinanciamentoCockpit() {
         setFieldErrors(validation.errors);
         return;
       }
+      setGuidance(undefined);
       setSimState({ status: "loading" });
       try {
         const result = await simularFinanciamentoImobiliario(validation.value);
         setSimState({ status: "ok", result });
-        setActiveTab("resultado");
+        openView("resultado");
       } catch (error) {
         setSimState({ status: "error", error: error as FinanciamentoApiError });
       }
     },
-    [draft],
+    [draft, openView],
   );
 
   const handleCompare = useCallback(async () => {
     const validation = validateFinanciamentoDraft(draft);
     if (!validation.ok) {
       setFieldErrors(validation.errors);
-      setActiveTab("simular");
+      setGuidance(
+        "Preencha os dados da simulação para comparar SAC x PRICE com os mesmos parâmetros.",
+      );
+      if (view !== "simulacao") {
+        openView("simulacao");
+      }
       return;
     }
     const value = validation.value;
+    setGuidance(undefined);
     setCmpState({ status: "loading" });
     try {
       const result = await compararFinanciamentos({
@@ -715,196 +1239,111 @@ export function FinanciamentoCockpit() {
           : {}),
       });
       setCmpState({ status: "ok", result });
-      setActiveTab("comparar");
+      openView("comparacao");
     } catch (error) {
       setCmpState({ status: "error", error: error as FinanciamentoApiError });
-      setActiveTab("comparar");
+      openView("comparacao");
     }
-  }, [draft]);
+  }, [draft, openView, view]);
 
   const simulated = simState.status === "ok" ? simState.result : undefined;
   const compared = cmpState.status === "ok" ? cmpState.result : undefined;
-  const summary: FinanciamentoImobSummary | undefined = simulated?.summary;
-  const entradaPct =
-    summary !== undefined && parseMoney(summary.valor_imovel) > 0
-      ? (parseMoney(summary.valor_entrada) / parseMoney(summary.valor_imovel)) *
-        100
-      : 0;
+  const summary = simulated?.summary;
 
   return (
     <div
-      className="h-[calc(100vh-7rem)] min-h-0 overflow-hidden rounded-3xl border border-cyan-200/10 bg-[#0a101e] text-slate-100 shadow-2xl shadow-black/35"
+      className="h-[calc(100vh-7rem)] min-h-0 overflow-hidden rounded-3xl border border-cyan-200/10 bg-[#0a101e] p-4 text-slate-100 shadow-2xl shadow-black/35"
       data-testid="financiamento-cockpit"
       data-no-page-scroll="true"
     >
-      <div className="grid h-full min-h-0 grid-rows-[auto_auto_auto_minmax(0,1fr)] gap-3 p-4">
-        <header className="grid min-h-0 gap-4 lg:grid-cols-[minmax(0,1fr)_360px]">
-          <div className="rounded-3xl border border-cyan-200/10 bg-gradient-to-br from-slate-900 via-slate-950 to-cyan-950/50 p-5">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-cyan-200/80">
-              Financiamento Imobiliário
-            </p>
-            <h2 className="mt-2 text-2xl font-semibold text-white">
-              Cockpit educacional para entender, simular e comparar
-            </h2>
-            <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-300">
-              Experiência em abas, sem modal para conteúdo essencial, com tabela
-              paginada, gráfico visível, memória de cálculo e leitura pedagógica
-              sobre renda, entrada, FGTS, CET, seguros e aprovação.
-            </p>
-          </div>
-          <div className="grid grid-cols-3 gap-2 rounded-3xl border border-white/10 bg-white/5 p-3">
-            <MetricCard
-              label="Entrada"
-              value={summary ? `${entradaPct.toFixed(1)}%` : "—"}
-              note="Reduz o saldo financiado."
-            />
-            <MetricCard
-              label="Prazo"
-              value={summary ? `${summary.prazo_meses}m` : "—"}
-              note="Respeitado na tabela."
-            />
-            <MetricCard
-              label="Tabela"
-              value={simulated ? `${simulated.parcelas.length}` : "—"}
-              note="parcelas geradas."
-            />
-          </div>
-        </header>
+      <main
+        className="h-full min-h-0 overflow-hidden rounded-3xl border border-cyan-200/10 bg-slate-900/80 p-4"
+        data-testid="financiamento-main-panel"
+      >
+        {view === "inicio" && (
+          <HomeView
+            summary={summary}
+            draft={draft}
+            onOpen={openView}
+            onCompare={handleCompare}
+          />
+        )}
 
-        <section
-          className="grid grid-cols-1 gap-2 md:grid-cols-4 xl:grid-cols-7"
-          aria-label="Cards com ações internas"
-        >
-          {FEATURE_CARDS.map((card) => (
-            <FeatureCard
-              key={`${card.label}-${card.target}`}
-              card={card}
-              active={activeTab === card.target}
-              onSelect={setActiveTab}
+        {view === "conceito" && <ConceptPanel onBack={goBack} />}
+
+        {view === "simulacao" && (
+          <SimulationPanel
+            draft={draft}
+            errors={fieldErrors}
+            guidance={guidance}
+            simState={simState}
+            cmpState={cmpState}
+            onBack={goBack}
+            onChange={handleChange}
+            onSubmit={handleSimulate}
+            onCompare={handleCompare}
+          />
+        )}
+
+        {view === "resultado" &&
+          (simulated ? (
+            <ResultPanel result={simulated} onBack={goBack} onOpen={openView} />
+          ) : (
+            <LockedPanel
+              eyebrow="Resultado"
+              title="Resultado da simulação"
+              onBack={goBack}
+              onStart={() => openView("simulacao")}
             />
           ))}
-        </section>
 
-        <nav
-          className="grid grid-cols-2 gap-2 rounded-2xl border border-cyan-200/10 bg-slate-950/60 p-2 md:grid-cols-4 xl:grid-cols-7"
-          role="tablist"
-          aria-label="Abas do financiamento imobiliário"
-        >
-          {TABS.map((tab) => (
-            <button
-              key={tab.id}
-              className={`rounded-xl px-3 py-2 text-xs font-semibold transition focus:outline-none focus:ring-2 focus:ring-cyan-200 ${
-                activeTab === tab.id
-                  ? "bg-cyan-300 text-slate-950"
-                  : "bg-white/5 text-slate-300 hover:bg-white/10"
-              }`}
-              type="button"
-              role="tab"
-              aria-selected={activeTab === tab.id}
-              data-testid={
-                tab.id === "simular"
-                  ? "tab-simular"
-                  : tab.id === "comparar"
-                    ? "tab-comparar"
-                    : `tab-${tab.id}`
-              }
-              onClick={() => setActiveTab(tab.id)}
-            >
-              {tab.label}
-            </button>
+        {view === "comparacao" &&
+          (compared ? (
+            <ComparePanel compare={compared} onBack={goBack} />
+          ) : cmpState.status === "loading" ? (
+            <LockedPanel
+              eyebrow="Comparação"
+              title="Comparando SAC x PRICE"
+              onBack={goBack}
+              onStart={() => openView("simulacao")}
+            />
+          ) : (
+            <LockedPanel
+              eyebrow="Comparação"
+              title="Comparação SAC x PRICE"
+              onBack={goBack}
+              onStart={() => openView("simulacao")}
+            />
           ))}
-        </nav>
 
-        <main
-          className="min-h-0 overflow-hidden rounded-3xl border border-cyan-200/10 bg-slate-900/80 p-4"
-          data-testid="financiamento-tab-panel"
-        >
-          {activeTab === "conceito" && <ConceptPanel />}
+        {view === "tabela" &&
+          (simulated ? (
+            <TablePanel result={simulated} onBack={goBack} />
+          ) : (
+            <LockedPanel
+              eyebrow="Tabela"
+              title="Tabela de parcelas"
+              onBack={goBack}
+              onStart={() => openView("simulacao")}
+            />
+          ))}
 
-          {activeTab === "simular" && (
-            <section className="grid h-full min-h-0 gap-4 lg:grid-cols-[520px_minmax(0,1fr)]">
-              <CompactSimulationForm
-                draft={draft}
-                errors={fieldErrors}
-                busy={simState.status === "loading"}
-                onChange={handleChange}
-                onSubmit={handleSimulate}
-              />
-              <div className="grid min-h-0 gap-3">
-                <div className="cockpit-insight-bar">
-                  <span aria-hidden="true">FI</span>
-                  <span>
-                    Preencha os dados e simule para ver resultado, tabela,
-                    memória de cálculo, fontes e limites. Depois use{" "}
-                    <strong>Comparar SAC x PRICE</strong> para avaliar os dois
-                    sistemas.
-                  </span>
-                </div>
-                <button
-                  className="rounded-2xl border border-violet-200/20 bg-violet-300/10 p-4 text-left text-violet-50 transition hover:bg-violet-300/15 focus:outline-none focus:ring-2 focus:ring-violet-200"
-                  type="button"
-                  aria-label="Comparar SAC x PRICE"
-                  onClick={handleCompare}
-                  disabled={cmpState.status === "loading"}
-                >
-                  <span className="block text-[11px] font-semibold uppercase tracking-[0.2em] text-violet-200/75">
-                    Comparação
-                  </span>
-                  <span className="mt-1 block text-lg font-semibold">
-                    Comparar SAC x PRICE
-                  </span>
-                  <span className="mt-2 block text-sm leading-6 text-violet-50/80">
-                    Gera primeira parcela, última parcela, total de juros, total
-                    pago e leitura pedagógica das diferenças.
-                  </span>
-                </button>
-                {simState.status === "error" && (
-                  <AlertBanner level="error" title="Erro na simulação">
-                    {describeApiError(simState.error)}
-                  </AlertBanner>
-                )}
-                {cmpState.status === "error" && (
-                  <AlertBanner level="error" title="Erro na comparação">
-                    {describeApiError(cmpState.error)}
-                  </AlertBanner>
-                )}
-              </div>
-            </section>
-          )}
+        {view === "memoria" &&
+          (simulated ? (
+            <MemoryPanel memoria={simulated.memoria_calculo} onBack={goBack} />
+          ) : (
+            <LockedPanel
+              eyebrow="Memória"
+              title="Memória de cálculo"
+              onBack={goBack}
+              onStart={() => openView("simulacao")}
+            />
+          ))}
 
-          {activeTab === "resultado" &&
-            (simulated ? (
-              <ResultPanel result={simulated} />
-            ) : (
-              <EmptyState label="Resultado da simulação" />
-            ))}
-
-          {activeTab === "comparar" &&
-            (compared ? (
-              <ComparePanel compare={compared} />
-            ) : cmpState.status === "loading" ? (
-              <EmptyState label="Comparando SAC x PRICE" />
-            ) : (
-              <EmptyState label="Comparação SAC x PRICE" />
-            ))}
-
-          {activeTab === "tabela" &&
-            (simulated ? (
-              <FinanciamentoTable parcelas={simulated.parcelas} />
-            ) : (
-              <EmptyState label="Tabela de parcelas" />
-            ))}
-
-          {activeTab === "memoria" &&
-            (simulated ? (
-              <MemoryPanel memoria={simulated.memoria_calculo} />
-            ) : (
-              <EmptyState label="Memória de cálculo" />
-            ))}
-
-          {activeTab === "fontes" && <SourcesPanel result={simulated} />}
-        </main>
-      </div>
+        {view === "fontes" && (
+          <SourcesPanel result={simulated} onBack={goBack} />
+        )}
+      </main>
     </div>
   );
 }

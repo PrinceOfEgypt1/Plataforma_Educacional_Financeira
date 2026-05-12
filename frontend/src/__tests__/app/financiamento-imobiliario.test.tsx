@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
@@ -31,12 +31,12 @@ vi.stubGlobal("ResizeObserver", NoopResizeObserver);
 function makeParcelas(count: number): ReadonlyArray<FinanciamentoPeriodo> {
   return Array.from({ length: count }, (_, i) => ({
     numero: i + 1,
-    saldo_inicial: "240000.00",
+    saldo_inicial: (240000 - i * 117).toFixed(2),
     juros: "1680.00",
     amortizacao: "117.00",
     encargos: "80.00",
     prestacao: "1877.00",
-    saldo_final: "239883.00",
+    saldo_final: Math.max(0, 239883 - i * 117).toFixed(2),
   }));
 }
 
@@ -133,107 +133,156 @@ const compareResult: FinanciamentoImobCompareOut = {
   },
 };
 
-async function fillForm() {
+async function openSimulation() {
   const user = userEvent.setup();
+  render(<FinanciamentoCockpit />);
+  await user.click(screen.getByRole("button", { name: "Começar simulação" }));
+  return user;
+}
+
+async function fillForm(user: ReturnType<typeof userEvent.setup>) {
   await user.type(screen.getByLabelText(/valor do imóvel/i), "300000");
   await user.type(screen.getByLabelText(/entrada/i), "60000");
   await user.type(screen.getByLabelText(/prazo/i), "360");
   await user.type(screen.getByLabelText(/taxa de juros mensal/i), "0.7");
-  return user;
 }
 
 describe("FinanciamentoCockpit", () => {
-  it("renderiza cockpit premium compacto sem rolagem da tela principal", () => {
+  it("renderiza hero educacional premium sem rolagem da tela principal", () => {
     render(<FinanciamentoCockpit />);
 
     const cockpit = screen.getByTestId("financiamento-cockpit");
     expect(cockpit).toBeInTheDocument();
     expect(cockpit).toHaveAttribute("data-no-page-scroll", "true");
     expect(cockpit).toHaveClass("overflow-hidden");
+    expect(
+      screen.getByRole("heading", {
+        name: "Entenda cada parcela antes de assinar o contrato.",
+      }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Começar simulação" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Antes, entender o conceito" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByTestId("financiamento-scenario-panel"),
+    ).toHaveTextContent("Cenário atual");
   });
 
-  it("renderiza abas principais e conteúdo educacional de conceito", async () => {
-    const user = userEvent.setup();
+  it("renderiza cards principais com CTA interno", () => {
     render(<FinanciamentoCockpit />);
 
-    expect(screen.getByRole("tab", { name: "Conceito" })).toBeInTheDocument();
-    expect(screen.getByRole("tab", { name: "Simular" })).toBeInTheDocument();
+    expect(screen.getByTestId("financiamento-card-conceito")).toHaveTextContent(
+      "Entender",
+    );
     expect(
-      screen.getByRole("tab", { name: "Comparar SAC x PRICE" }),
-    ).toBeInTheDocument();
+      screen.getByTestId("financiamento-card-resultado"),
+    ).toHaveTextContent("Visualizar");
+    expect(
+      screen.getByTestId("financiamento-card-comparacao"),
+    ).toHaveTextContent("Comparar");
+    expect(screen.getByTestId("financiamento-card-tabela")).toHaveTextContent(
+      "Visualizar tabela",
+    );
+    expect(screen.getByTestId("financiamento-card-memoria")).toHaveTextContent(
+      "Ver memória",
+    );
+  });
+
+  it("navega por cards e todo painel interno possui Voltar", async () => {
+    const user = userEvent.setup();
+    render(<FinanciamentoCockpit />);
 
     await user.click(screen.getByRole("button", { name: "Entender" }));
-    expect(screen.getByText("Como o financiamento nasce")).toBeInTheDocument();
-    expect(screen.getByText("Renda, FGTS e aprovação")).toBeInTheDocument();
-  });
+    expect(
+      screen.getByTestId("financiamento-conceito-panel"),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Voltar" })).toBeInTheDocument();
 
-  it("troca de aba por CTA interno dos cards, incluindo Visualizar tabela", async () => {
-    const user = userEvent.setup();
-    render(<FinanciamentoCockpit />);
-
+    await user.click(screen.getByRole("button", { name: "Voltar" }));
     await user.click(screen.getByRole("button", { name: "Visualizar tabela" }));
-
-    expect(screen.getByRole("tab", { name: "Tabela" })).toHaveAttribute(
-      "aria-selected",
-      "true",
+    expect(screen.getByTestId("financiamento-idle-state")).toHaveTextContent(
+      "Simule primeiro",
     );
+    expect(screen.getByRole("button", { name: "Voltar" })).toBeInTheDocument();
+  });
+
+  it("não mantém ambiguidade de Simular e usa Gerar simulação como ação", async () => {
+    const user = await openSimulation();
+
     expect(
-      screen.getByText(/Simule para liberar esta visão/i),
+      screen.queryByRole("tab", { name: /simular/i }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Simular" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Gerar simulação" }),
+    ).toHaveAttribute("type", "submit");
+
+    await user.click(screen.getByRole("button", { name: "Voltar" }));
+    expect(
+      screen.getByRole("button", { name: "Começar simulação" }),
     ).toBeInTheDocument();
   });
 
-  it("mantém formulário de simulação completo e botão real de submissão visível", () => {
-    render(<FinanciamentoCockpit />);
-
-    expect(screen.getByLabelText(/valor do imóvel/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/entrada/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/prazo/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/taxa de juros mensal/i)).toBeInTheDocument();
-    expect(
-      screen.getByLabelText(/sistema de amortização/i),
-    ).toBeInTheDocument();
-    expect(screen.getByLabelText(/seguro mensal/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/tarifa mensal/i)).toBeInTheDocument();
-
-    expect(screen.getByTestId("financiamento-submit")).toHaveAttribute(
-      "type",
-      "submit",
-    );
-    expect(screen.getByRole("button", { name: "Simular" })).toBeInTheDocument();
-  });
-
-  it("simula, mostra resultado, memória e tabela sem modal essencial", async () => {
+  it("simula, mostra resultado premium, tabela, memória e não usa modal essencial", async () => {
     vi.mocked(simularFinanciamentoImobiliario).mockResolvedValueOnce(
       makeResult("PRICE"),
     );
-    render(<FinanciamentoCockpit />);
-    const user = await fillForm();
+    const user = await openSimulation();
+    await fillForm(user);
 
-    await user.click(screen.getByTestId("financiamento-submit"));
+    await user.click(screen.getByRole("button", { name: "Gerar simulação" }));
 
     await waitFor(() =>
-      expect(screen.getByTestId("financiamento-summary")).toBeInTheDocument(),
+      expect(
+        screen.getByTestId("financiamento-result-panel"),
+      ).toBeInTheDocument(),
     );
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(screen.getByText(/Resumo premium/i)).toBeInTheDocument();
 
-    await user.click(screen.getByRole("button", { name: "Ver memória" }));
-    expect(screen.getByTestId("financiamento-memory-panel")).toHaveTextContent(
-      "Valores substituídos",
-    );
-
-    await user.click(screen.getByRole("button", { name: "Visualizar tabela" }));
+    await user.click(screen.getByRole("button", { name: "Ver tabela" }));
     expect(screen.getByTestId("financiamento-table-count")).toHaveTextContent(
       "360 parcelas geradas",
     );
-    expect(screen.getByTestId("financiamento-table")).toHaveClass(
-      "overflow-hidden",
+    expect(screen.getByTestId("financiamento-table-totals")).toHaveTextContent(
+      "Total",
+    );
+
+    await user.click(screen.getByRole("button", { name: "Voltar" }));
+    await user.click(screen.getByRole("button", { name: "Ver memória" }));
+    expect(screen.getByTestId("financiamento-memory-panel")).toHaveTextContent(
+      "PMT = PV",
+    );
+    expect(screen.getByTestId("financiamento-memory-panel")).toHaveTextContent(
+      "Arredondamento",
     );
   });
 
-  it("executa comparação SAC x PRICE e exibe gráfico em painel próprio", async () => {
-    vi.mocked(compararFinanciamentos).mockResolvedValueOnce(compareResult);
+  it("orienta quando comparação SAC x PRICE é acionada sem dados válidos", async () => {
+    const user = userEvent.setup();
     render(<FinanciamentoCockpit />);
-    const user = await fillForm();
+
+    await user.click(screen.getByRole("button", { name: "Comparar" }));
+
+    expect(
+      screen.getByText(
+        "Preencha os dados da simulação para comparar SAC x PRICE com os mesmos parâmetros.",
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Gerar simulação" }),
+    ).toBeInTheDocument();
+  });
+
+  it("executa comparação SAC x PRICE com os mesmos dados preenchidos", async () => {
+    vi.mocked(compararFinanciamentos).mockResolvedValueOnce(compareResult);
+    const user = await openSimulation();
+    await fillForm(user);
 
     await user.click(
       screen.getByRole("button", { name: "Comparar SAC x PRICE" }),
@@ -244,23 +293,61 @@ describe("FinanciamentoCockpit", () => {
         screen.getByTestId("financiamento-compare-summary"),
       ).toBeInTheDocument(),
     );
+    expect(compararFinanciamentos).toHaveBeenCalledWith({
+      valor_imovel: "300000.00",
+      valor_entrada: "60000.00",
+      prazo_meses: 360,
+      taxa_juros_mensal_percentual: "0.7000",
+    });
     expect(
       screen.getByTestId("financiamento-compare-chart"),
     ).toBeInTheDocument();
     expect(screen.getByText(/SAC começa maior/i)).toBeInTheDocument();
   });
 
-  it("exibe fontes e limites com aviso educacional e fontes oficiais", async () => {
+  it("exibe fontes, limites e alertas com conteúdo institucional", async () => {
     const user = userEvent.setup();
     render(<FinanciamentoCockpit />);
 
     await user.click(screen.getByRole("button", { name: "Ver fontes" }));
 
-    expect(screen.getByTestId("financiamento-fontes-panel")).toHaveTextContent(
-      "Banco Central do Brasil",
+    const panel = screen.getByTestId("financiamento-fontes-panel");
+    expect(panel).toHaveTextContent("A simulação considera");
+    expect(panel).toHaveTextContent("A simulação não considera");
+    expect(panel).toHaveTextContent("Banco Central do Brasil");
+    expect(panel).toHaveTextContent("Caixa Econômica Federal");
+    expect(panel).toHaveTextContent("FGTS");
+    expect(panel).toHaveTextContent("CET");
+    expect(panel).toHaveTextContent("análise de crédito");
+  });
+
+  it("mantém tabela completa com linha de totais e prazo preservado", async () => {
+    vi.mocked(simularFinanciamentoImobiliario).mockResolvedValueOnce(
+      makeResult("SAC"),
     );
-    expect(screen.getByText(/Caixa Econômica Federal/i)).toBeInTheDocument();
-    expect(screen.getByText(/Simulação educacional/i)).toBeInTheDocument();
+    const user = await openSimulation();
+    await fillForm(user);
+
+    await user.click(screen.getByRole("button", { name: "Gerar simulação" }));
+    await waitFor(() =>
+      expect(
+        screen.getByTestId("financiamento-result-panel"),
+      ).toBeInTheDocument(),
+    );
+    await user.click(screen.getByRole("button", { name: "Ver tabela" }));
+
+    const table = screen.getByRole("table", {
+      name: /parcelas do financiamento/i,
+    });
+    expect(screen.getByTestId("financiamento-table-count")).toHaveTextContent(
+      "360 parcelas geradas e preservadas no modelo",
+    );
+    expect(
+      within(table).getByText(/360 parcelas geradas/i),
+    ).toBeInTheDocument();
+    expect(screen.getByTestId("financiamento-table-totals")).toHaveTextContent(
+      "R$ 560.000,00",
+    );
   });
 });
 

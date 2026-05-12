@@ -3,13 +3,19 @@
 import { useMemo, useState } from "react";
 
 import { formatBRL } from "@/lib/money";
-import type { FinanciamentoPeriodo } from "@/types/financing";
+import type {
+  FinanciamentoImobSummary,
+  FinanciamentoPeriodo,
+} from "@/types/financing";
 
 interface FinanciamentoTableProps {
   readonly parcelas: ReadonlyArray<FinanciamentoPeriodo>;
+  readonly summary?: FinanciamentoImobSummary;
 }
 
 const PAGE_SIZE = 12;
+
+type TotalField = "juros" | "amortizacao" | "encargos" | "prestacao";
 
 function clampPage(page: number, totalPages: number): number {
   return Math.min(Math.max(page, 1), Math.max(totalPages, 1));
@@ -33,7 +39,29 @@ function getVisibleParcelas(
   return visible;
 }
 
-export function FinanciamentoTable({ parcelas }: FinanciamentoTableProps) {
+function sumMoney(
+  parcelas: ReadonlyArray<FinanciamentoPeriodo>,
+  field: TotalField,
+): string {
+  let total = 0;
+  for (const parcela of parcelas) {
+    const value = Number.parseFloat(parcela[field]);
+    total += Number.isFinite(value) ? value : 0;
+  }
+  return total.toFixed(2);
+}
+
+function getFinalBalance(
+  parcelas: ReadonlyArray<FinanciamentoPeriodo>,
+): string {
+  const last = parcelas[parcelas.length - 1];
+  return last?.saldo_final ?? "0.00";
+}
+
+export function FinanciamentoTable({
+  parcelas,
+  summary,
+}: FinanciamentoTableProps) {
   const [page, setPage] = useState(1);
   const totalPages = Math.max(Math.ceil(parcelas.length / PAGE_SIZE), 1);
   const currentPage = clampPage(page, totalPages);
@@ -44,6 +72,13 @@ export function FinanciamentoTable({ parcelas }: FinanciamentoTableProps) {
   const lastVisible =
     visibleParcelas[visibleParcelas.length - 1]?.numero ?? firstVisible;
   const caption = `${parcelas.length} parcelas geradas; exibindo parcelas ${firstVisible}-${lastVisible}`;
+  const totalPago = summary?.total_pago ?? sumMoney(parcelas, "prestacao");
+  const totalJuros = summary?.total_juros ?? sumMoney(parcelas, "juros");
+  const totalAmortizado =
+    summary?.total_amortizado ?? sumMoney(parcelas, "amortizacao");
+  const totalEncargos =
+    summary?.total_encargos ?? sumMoney(parcelas, "encargos");
+  const saldoFinal = getFinalBalance(parcelas);
 
   const selected = useMemo(
     () => visibleParcelas[0] ?? parcelas[0],
@@ -65,13 +100,13 @@ export function FinanciamentoTable({ parcelas }: FinanciamentoTableProps) {
       <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-cyan-300/15 bg-slate-950/40 p-3">
         <div>
           <h3 className="text-sm font-semibold text-slate-50">
-            Tabela de parcelas
+            Tabela financeira profissional
           </h3>
           <p
             className="text-xs text-cyan-100/70"
             data-testid="financiamento-table-count"
           >
-            {parcelas.length} parcelas geradas
+            {parcelas.length} parcelas geradas e preservadas no modelo
           </p>
         </div>
         <div
@@ -130,7 +165,7 @@ export function FinanciamentoTable({ parcelas }: FinanciamentoTableProps) {
         </div>
       </div>
 
-      <div className="grid min-h-0 flex-1 gap-3 lg:grid-cols-[minmax(0,1fr)_220px]">
+      <div className="grid min-h-0 flex-1 gap-3 lg:grid-cols-[minmax(0,1fr)_240px]">
         <div className="min-w-0 overflow-hidden rounded-xl border border-cyan-300/15 bg-slate-950/50">
           <table
             className="w-full table-fixed border-collapse text-[11px] tabular-nums text-slate-200"
@@ -200,6 +235,36 @@ export function FinanciamentoTable({ parcelas }: FinanciamentoTableProps) {
                 </tr>
               ))}
             </tbody>
+            <tfoot>
+              <tr
+                className="border-t border-cyan-200/20 bg-cyan-300/10 font-semibold text-cyan-50"
+                data-testid="financiamento-table-totals"
+              >
+                <th scope="row" className="px-2 py-2 text-right">
+                  Total
+                </th>
+                <td className="truncate px-2 py-2 text-right">
+                  {formatBRL(totalPago)}
+                </td>
+                <td className="truncate px-2 py-2 text-right text-amber-100">
+                  {formatBRL(totalJuros)}
+                </td>
+                <td className="truncate px-2 py-2 text-right">
+                  {formatBRL(totalAmortizado)}
+                </td>
+                {hasEncargos && (
+                  <td className="truncate px-2 py-2 text-right">
+                    {formatBRL(totalEncargos)}
+                  </td>
+                )}
+                <td className="truncate px-2 py-2 text-right">
+                  {formatBRL(totalPago)}
+                </td>
+                <td className="truncate px-2 py-2 text-right">
+                  {formatBRL(saldoFinal)}
+                </td>
+              </tr>
+            </tfoot>
           </table>
         </div>
 
@@ -209,32 +274,32 @@ export function FinanciamentoTable({ parcelas }: FinanciamentoTableProps) {
             data-testid="financiamento-parcela-detalhe"
           >
             <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-emerald-200/80">
-              Detalhe do bloco
+              Resumo do bloco
             </p>
             <h4 className="mt-1 text-sm font-semibold">
-              Parcela {selected.numero}
+              Faixa {firstVisible}-{lastVisible}
             </h4>
             <dl className="mt-3 space-y-2">
               <div className="flex justify-between gap-3">
-                <dt>Juros</dt>
-                <dd className="font-semibold">{formatBRL(selected.juros)}</dd>
+                <dt>Parcelas no prazo</dt>
+                <dd className="font-semibold">{parcelas.length}</dd>
               </div>
               <div className="flex justify-between gap-3">
-                <dt>Amortização</dt>
-                <dd className="font-semibold">
-                  {formatBRL(selected.amortizacao)}
-                </dd>
+                <dt>Total de juros</dt>
+                <dd className="font-semibold">{formatBRL(totalJuros)}</dd>
+              </div>
+              <div className="flex justify-between gap-3">
+                <dt>Total pago</dt>
+                <dd className="font-semibold">{formatBRL(totalPago)}</dd>
               </div>
               <div className="flex justify-between gap-3">
                 <dt>Saldo final</dt>
-                <dd className="font-semibold">
-                  {formatBRL(selected.saldo_final)}
-                </dd>
+                <dd className="font-semibold">{formatBRL(saldoFinal)}</dd>
               </div>
             </dl>
             <p className="mt-3 leading-5 text-emerald-50/75">
               Todos os dados permanecem disponíveis. A interface mostra faixas
-              para caber no painel sem rolagem da página principal.
+              compactas para caber no painel sem rolagem horizontal da página.
             </p>
           </aside>
         )}
