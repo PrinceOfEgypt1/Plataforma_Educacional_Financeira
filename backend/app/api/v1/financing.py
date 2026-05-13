@@ -67,6 +67,9 @@ async def post_financing_real_estate(
         seguro_mensal=payload.seguro_mensal,
         tarifa_mensal=payload.tarifa_mensal,
         custo_administrativo_mensal=payload.custo_administrativo_mensal,
+        mip_mensal=payload.mip_mensal,
+        dfi_dfc_mensal=payload.dfi_dfc_mensal,
+        taxa_administracao_mensal=payload.taxa_administracao_mensal,
     )
     out = FinanciamentoImobOut.model_validate(data)
     financiamento_imob_total.inc()
@@ -104,6 +107,9 @@ async def post_financing_real_estate_compare(
         seguro_mensal=payload.seguro_mensal,
         tarifa_mensal=payload.tarifa_mensal,
         custo_administrativo_mensal=payload.custo_administrativo_mensal,
+        mip_mensal=payload.mip_mensal,
+        dfi_dfc_mensal=payload.dfi_dfc_mensal,
+        taxa_administracao_mensal=payload.taxa_administracao_mensal,
     )
     out = FinanciamentoImobCompareOut.model_validate(data)
     financiamento_imob_compare_total.inc()
