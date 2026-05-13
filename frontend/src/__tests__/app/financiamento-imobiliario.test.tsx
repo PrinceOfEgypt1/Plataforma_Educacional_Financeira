@@ -34,7 +34,16 @@ function makeParcelas(count: number): ReadonlyArray<FinanciamentoPeriodo> {
     saldo_inicial: (240000 - i * 117).toFixed(2),
     juros: "1680.00",
     amortizacao: "117.00",
+    prestacao_financeira: "1797.00",
+    mip_mensal: "0.00",
+    dfi_dfc_mensal: "0.00",
+    seguros_nao_discriminados: false,
+    seguro_mensal: "80.00",
+    taxa_administracao_mensal: "0.00",
+    tarifa_mensal: "0.00",
+    custo_admin_mensal: "0.00",
     encargos: "80.00",
+    encargo_mensal_total: "1877.00",
     prestacao: "1877.00",
     saldo_final: Math.max(0, 239883 - i * 117).toFixed(2),
   }));
@@ -55,6 +64,19 @@ function makeResult(sistema: SistemaAmortizacao): FinanciamentoImobOut {
       valor_financiado: "240000.00",
       prazo_meses: 360,
       taxa_juros_mensal: "0.007000",
+      taxa_juros_anual_nominal: "0.084000",
+      taxa_juros_anual_efetiva: "0.087312",
+      primeira_prestacao_financeira: "1797.00",
+      ultima_prestacao_financeira: "1785.00",
+      primeiro_encargo_mensal_total: "1877.00",
+      ultimo_encargo_mensal_total: "1785.00",
+      total_seguros: "0.00",
+      total_tarifas: "0.00",
+      total_custo_admin: "0.00",
+      total_mip: "0.00",
+      total_dfi_dfc: "0.00",
+      seguros_nao_discriminados: false,
+      custo_financeiro_total: "200000.00",
       total_pago: sistema === "PRICE" ? "675720.00" : "560000.00",
       total_juros: sistema === "PRICE" ? "395720.00" : "280000.00",
       total_amortizado: "240000.00",
@@ -72,6 +94,34 @@ function makeResult(sistema: SistemaAmortizacao): FinanciamentoImobOut {
       taxa_juros_mensal: "0.007000",
       sistema_amortizacao: sistema,
     },
+    anatomia_encargo: {
+      amortizacao: "117.00",
+      juros: "1680.00",
+      prestacao_financeira: "1797.00",
+      mip_mensal: "0.00",
+      dfi_dfc_mensal: "0.00",
+      seguros_total: "0.00",
+      seguros_nao_discriminados: false,
+      taxa_administracao_mensal: "0.00",
+      componentes_acessorios: "0.00",
+      seguro_mensal: "80.00",
+      tarifa_mensal: "0.00",
+      custo_admin_mensal: "0.00",
+      encargos: "80.00",
+      encargo_mensal_total: "1877.00",
+      pct_amortizacao: "6.23",
+      pct_juros: "89.51",
+      pct_prestacao_financeira: "95.74",
+      pct_mip: "0.00",
+      pct_dfi_dfc: "0.00",
+      pct_seguros: "0.00",
+      pct_taxa_administracao: "0.00",
+      pct_seguro: "4.26",
+      pct_tarifa: "0.00",
+      pct_custo_admin: "0.00",
+      pct_encargos: "4.26",
+    },
+    componentes_cet: [],
     memoria_calculo: {
       metodo: sistema,
       entradas: {
@@ -122,6 +172,11 @@ const compareResult: FinanciamentoImobCompareOut = {
   price: makeResult("PRICE"),
   sac: makeResult("SAC"),
   comparacao: {
+    diferenca_primeira_prestacao_financeira: "600.00",
+    diferenca_ultima_prestacao_financeira: "-1200.00",
+    diferenca_primeiro_encargo_mensal: "600.00",
+    diferenca_ultimo_encargo_mensal: "-1200.00",
+    interpretacao_dinamica: "SAC economiza. Consulte o CET oficial.",
     diferenca_primeira_parcela: "-963.00",
     diferenca_ultima_parcela: "1130.00",
     diferenca_total_pago: "115720.00",
@@ -315,7 +370,7 @@ describe("FinanciamentoCockpit", () => {
     expect(panel).toHaveTextContent("A simulação considera");
     expect(panel).toHaveTextContent("A simulação não considera");
     expect(panel).toHaveTextContent("Banco Central do Brasil");
-    expect(panel).toHaveTextContent("Caixa Econômica Federal");
+    expect(panel).toHaveTextContent("Instituição financeira");
     expect(panel).toHaveTextContent("FGTS");
     expect(panel).toHaveTextContent("CET");
     expect(panel).toHaveTextContent("análise de crédito");

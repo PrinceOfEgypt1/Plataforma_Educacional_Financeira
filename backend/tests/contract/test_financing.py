@@ -58,6 +58,8 @@ EDUCATIONAL_CONTRACT_KEYS = {
     "metadados_calculo",
     "mensagens_interface",
     "chart_data",
+    "anatomia_encargo",
+    "componentes_cet",
 }
 
 
@@ -85,7 +87,7 @@ async def test_contract_financing_data_contem_summary_e_parcelas() -> None:
 
     data = response.json()["data"]
     assert set(data.keys()) == EDUCATIONAL_CONTRACT_KEYS
-    assert data["metadados_calculo"]["contrato_educacional_api"] == "Item 7"
+    assert data["metadados_calculo"]["contrato_educacional_api"] == "Item 13"
     assert data["memoria_calculo"]["formula"]
     assert data["alertas"]
 

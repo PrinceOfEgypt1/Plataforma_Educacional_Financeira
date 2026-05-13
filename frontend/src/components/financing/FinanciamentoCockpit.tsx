@@ -19,6 +19,8 @@ import type {
 } from "@/types/financing";
 
 import { FinanciamentoCompareChart } from "./FinanciamentoCompareChart";
+import { FinanciamentoAnatomiaEncargo } from "./FinanciamentoAnatomiaEncargo";
+import { FinanciamentoComponentesCET } from "./FinanciamentoComponentesCET";
 import { FinanciamentoTable } from "./FinanciamentoTable";
 import {
   validateFinanciamentoDraft,
@@ -157,7 +159,7 @@ const OFFICIAL_SOURCES: ReadonlyArray<FinanciamentoFonte> = [
       "Referência para educação financeira, crédito, CET e relacionamento com instituições financeiras.",
   },
   {
-    nome: "Caixa Econômica Federal",
+    nome: "Instituição financeira",
     tipo: "institucional",
     observacao:
       "Referência pública para condições habitacionais; regras reais variam conforme produto, renda e análise.",
@@ -828,6 +830,17 @@ function ResultPanel({
             </div>
           </article>
         </section>
+      </div>
+      {/* Item 13: anatomia e componentes CET inline no painel de resultado */}
+      <div
+        className="mt-3 flex flex-col gap-3"
+        data-testid="financiamento-item13-panels"
+      >
+        <FinanciamentoAnatomiaEncargo
+          anatomia={result.anatomia_encargo}
+          summary={result.summary}
+        />
+        <FinanciamentoComponentesCET componentes={result.componentes_cet} />
       </div>
     </section>
   );

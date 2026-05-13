@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from decimal import Decimal
+from typing import cast
 
 import pytest
 
@@ -11,8 +12,14 @@ from app.services.financing.simular_financiamento_service import (
     simular_financiamento_imobiliario,
 )
 
+ServiceResult = dict[str, object]
 
-def _simular(prazo_meses: int = 360, sistema: str = "PRICE"):
+
+def _dict(value: object) -> dict[str, object]:
+    return cast(dict[str, object], value)
+
+
+def _simular(prazo_meses: int = 360, sistema: str = "PRICE") -> ServiceResult:
     return simular_financiamento_imobiliario(
         valor_imovel=Decimal("300000.00"),
         valor_entrada=Decimal("60000.00"),
@@ -34,7 +41,7 @@ def test_resposta_contem_contrato_educacional_com_memoria_e_alertas() -> None:
     assert result["alertas"]
     assert result["fontes"]
     assert result["limites"]
-    assert result["metadados_calculo"]["contrato_educacional_api"] == "Item 7"
+    assert result["metadados_calculo"]["contrato_educacional_api"] == "Item 13"
     assert result["mensagens_interface"]
 
 
@@ -69,7 +76,13 @@ def test_comparacao_price_sac_contem_diferencas_e_explicacao() -> None:
         taxa_juros_mensal_percentual=Decimal("0.7"),
     )
 
-    assert result["price"]["summary"]["sistema_amortizacao"] == "PRICE"
-    assert result["sac"]["summary"]["sistema_amortizacao"] == "SAC"
-    assert result["comparacao"]["diferenca_total_juros"] > Decimal("0.00")
-    assert "SAC" in result["comparacao"]["explicacao_pedagogica"]
+    price = _dict(result["price"])
+    sac = _dict(result["sac"])
+    price_summary = _dict(price["summary"])
+    sac_summary = _dict(sac["summary"])
+    comparacao = _dict(result["comparacao"])
+
+    assert price_summary["sistema_amortizacao"] == "PRICE"
+    assert sac_summary["sistema_amortizacao"] == "SAC"
+    assert cast(Decimal, comparacao["diferenca_total_juros"]) > Decimal("0.00")
+    assert "SAC" in str(comparacao["explicacao_pedagogica"])

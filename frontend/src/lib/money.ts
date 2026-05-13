@@ -53,6 +53,22 @@ export function formatRatePct(value: string): string {
   return RATE_FORMATTER.format(parseDecimal(value));
 }
 
+/**
+ * Formata string decimal em base 100 (ex: "75.60") como percentagem localizada ("75,60%").
+ * Usar para percentuais já multiplicados por 100 retornados pelo backend.
+ */
+export function formatPct(value: string): string {
+  const n = Number(value.trim());
+  if (!Number.isFinite(n)) return "—";
+  return (
+    new Intl.NumberFormat("pt-BR", {
+      style: "decimal",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(n) + "%"
+  );
+}
+
 /** Converte entrada do formulário (pt-BR: `1.234,56`) em string ASCII decimal. */
 export function brlInputToDecimalString(input: string): string {
   const normalized = input
