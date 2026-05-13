@@ -288,9 +288,9 @@ def test_ma_be07_total_pago_e_totalizador() -> None:
 def test_ma_be08_pct_custo_financeiro_presente_em_todos() -> None:
     result = _svc(mip="80.00", taxa_adm="25.00")
     for comp in _componentes(result):
-        assert (
-            "pct_sobre_custo_financeiro_total" in comp
-        ), f"{comp['id']} sem pct_sobre_custo_financeiro_total"
+        assert "pct_sobre_custo_financeiro_total" in comp, (
+            f"{comp['id']} sem pct_sobre_custo_financeiro_total"
+        )
 
 
 @pytest.mark.unit
