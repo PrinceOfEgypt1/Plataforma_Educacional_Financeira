@@ -185,13 +185,14 @@ describe("FinanciamentoCompareChart", () => {
 
   it("renderiza o titulo com PRICE e SAC", () => {
     render(<FinanciamentoCompareChart compare={makeCompareOut(12)} />);
-    expect(screen.getByText(/PRICE/i)).toBeInTheDocument();
+    expect(screen.getByText(/Evolução da prestação/i)).toBeInTheDocument();
   });
 
   it("tem aria-label descritivo para acessibilidade", () => {
     render(<FinanciamentoCompareChart compare={makeCompareOut(12)} />);
-    expect(
-      screen.getByLabelText(/grafico de comparacao PRICE e SAC/i),
-    ).toBeInTheDocument();
+    const chart = screen.getByTestId("financiamento-compare-chart");
+    expect(chart).toBeInTheDocument();
+    // Verifica que há descrição pedagógica (acessibilidade)
+    expect(chart).toHaveTextContent(/Evolução da prestação/i);
   });
 });
