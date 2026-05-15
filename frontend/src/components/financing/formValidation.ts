@@ -55,7 +55,55 @@ function parsePositiveRate(raw: string): number | null {
   return isFinite(v) && v >= 0 ? v : null;
 }
 
-export function validateFinanciamentoDraft(
+const MORTGAGE_MONTHLY_RATE_SUSPICIOUS_LIMIT_PERCENT = 5;
+
+/**
+ * Gera mensagem dinâmica para taxa suspeita baseada no valor digitado.
+ *
+ * CORREÇÃO ITEM 14B: Mensagem personalizada com taxa real em vez de exemplo fixo.
+ * CORREÇÃO ITEM 14D-B: Substituído toLocaleString("pt-BR") por formatação manual
+ * determinística (toFixed(2).replace(".", ",")) para garantir que a mensagem sempre
+ * contenha vírgula como separador decimal, independente do locale do sistema
+ * operacional e da disponibilidade de dados ICU no Node.js do ambiente de testes
+ * (problema reproduzível em WSL com Node.js sem full-icu).
+ */
+function formatRatePtBr(rate: number): string {
+  return rate.toFixed(2).replace(".", ",");
+}
+
+function getSuspiciousRateMessage(digitedRate: number): string {
+  const formatted = formatRatePtBr(digitedRate);
+
+  return (
+    `Você informou ${formatted}% ao mês. Essa taxa está muito acima do comum ` +
+    `para financiamento imobiliário. Confira se a taxa digitada está correta, ` +
+    `se ela é mensal ou anual, e se não houve deslocamento da vírgula.`
+  );
+}
+
+function parseMortgageMonthlyRatePercent(raw: string): number {
+  const normalized = raw.trim();
+
+  if (normalized.length === 0) {
+    return 0;
+  }
+
+  const decimalText = normalized.includes(",")
+    ? normalized.replace(/\./g, "").replace(",", ".")
+    : normalized;
+
+  const parsed = Number.parseFloat(decimalText);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function isMortgageMonthlyRateSuspicious(raw: string): boolean {
+  return (
+    parseMortgageMonthlyRatePercent(raw) >
+    MORTGAGE_MONTHLY_RATE_SUSPICIOUS_LIMIT_PERCENT
+  );
+}
+
+function validateFinanciamentoDraftBase(
   draft: FinanciamentoDraft,
 ): ValidationResult {
   const errors: FinanciamentoFieldErrors = {};
@@ -116,6 +164,28 @@ export function validateFinanciamentoDraft(
       ...base,
       ...(seguro! > 0 ? { seguro_mensal: seguro!.toFixed(2) } : {}),
       ...(tarifa! > 0 ? { tarifa_mensal: tarifa!.toFixed(2) } : {}),
+    },
+  };
+}
+
+export function validateFinanciamentoDraft(
+  draft: FinanciamentoDraft,
+): ReturnType<typeof validateFinanciamentoDraftBase> {
+  const base = validateFinanciamentoDraftBase(draft);
+
+  if (!isMortgageMonthlyRateSuspicious(draft.taxaJurosMensalPercentual)) {
+    return base;
+  }
+
+  const digitedRate = parseMortgageMonthlyRatePercent(
+    draft.taxaJurosMensalPercentual,
+  );
+
+  return {
+    ok: false as const,
+    errors: {
+      ...(base.ok ? {} : base.errors),
+      taxaJurosMensalPercentual: getSuspiciousRateMessage(digitedRate),
     },
   };
 }

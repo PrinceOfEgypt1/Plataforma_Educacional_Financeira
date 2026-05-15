@@ -1,12 +1,12 @@
 "use client";
 
 /**
- * FinanciamentoAnatomiaEncargo — Microadendo Final Item 13
+ * FinanciamentoAnatomiaEncargo — Item 13 Correção Visual
  *
- * Exibe MIP e DFI/DFC separados quando informados individualmente.
- * Quando apenas seguro_mensal legado: exibe como "não discriminado na entrada".
- * Taxa administrativa NUNCA entra em seguros_total.
- * * Sem linguagem regulatória absoluta. Sem nome de banco específico.
+ * Tema dark integrado com o cockpit (bg-white/5, slate-*, cyan/emerald/amber).
+ * Tema dark: sem fundos claros nem texto escuro no dark mode.
+ * MIP e DFI separados quando informados; legado com aviso honesto.
+ * Taxa administrativa sempre separada de seguros.
  */
 
 import { formatBRL, formatPct } from "@/lib/money";
@@ -15,38 +15,60 @@ import type {
   FinanciamentoImobSummary,
 } from "@/types/financing";
 
+// ── Mapa de cores dark para cada tipo de componente ─────────
+const DARK_COLOR: Record<string, string> = {
+  amort: "border-emerald-400/40 bg-emerald-400/8 text-emerald-100",
+  juros: "border-amber-400/40 bg-amber-400/8 text-amber-100",
+  mip: "border-cyan-400/40 bg-cyan-400/8 text-cyan-100",
+  dfi: "border-cyan-400/30 bg-cyan-400/6 text-cyan-200",
+  seguro: "border-cyan-400/30 bg-cyan-400/6 text-cyan-200",
+  taxa: "border-violet-400/40 bg-violet-400/8 text-violet-100",
+  admin: "border-slate-400/30 bg-white/5 text-slate-300",
+};
+
 interface RowProps {
   readonly label: string;
   readonly sub?: string;
   readonly value: string;
   readonly pct: string;
-  readonly color: "blue" | "teal" | "amber" | "orange" | "gray" | "rose";
+  readonly colorKey: keyof typeof DARK_COLOR;
   readonly tip?: string;
 }
 
-const COLOR: Record<string, string> = {
-  blue: "bg-blue-50 border-blue-400 text-blue-900",
-  teal: "bg-teal-50 border-teal-400 text-teal-900",
-  amber: "bg-amber-50 border-amber-400 text-amber-800",
-  orange: "bg-orange-50 border-orange-400 text-orange-800",
-  gray: "bg-gray-50 border-gray-300 text-gray-700",
-  rose: "bg-rose-50 border-rose-400 text-rose-800",
-};
-
-function Row({ label, sub, value, pct, color, tip }: RowProps) {
+function Row({ label, sub, value, pct, colorKey, tip }: RowProps) {
   return (
     <div
-      className={`flex items-center justify-between gap-2 rounded border-l-2 px-3 py-2 ${COLOR[color]}`}
+      className={`flex items-center justify-between gap-3 rounded-xl border-l-2 px-3 py-2.5 ${DARK_COLOR[colorKey]}`}
       title={tip}
     >
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium truncate">{label}</p>
-        {sub && <p className="text-xs opacity-70 truncate">{sub}</p>}
+        <p className="text-sm font-medium leading-tight truncate">{label}</p>
+        {sub && <p className="mt-0.5 text-[11px] opacity-60 truncate">{sub}</p>}
       </div>
       <div className="text-right flex-shrink-0">
         <p className="text-sm font-bold tabular-nums">{value}</p>
-        <p className="text-xs opacity-70 tabular-nums">{pct}</p>
+        <p className="text-[11px] opacity-60 tabular-nums">{pct}</p>
       </div>
+    </div>
+  );
+}
+
+interface SubtotalRowProps {
+  readonly label: string;
+  readonly value: string;
+  readonly tone: "cyan" | "slate";
+}
+function SubtotalRow({ label, value, tone }: SubtotalRowProps) {
+  const cls =
+    tone === "cyan"
+      ? "bg-cyan-400/15 text-cyan-100"
+      : "bg-white/10 text-slate-100";
+  return (
+    <div
+      className={`flex items-center justify-between rounded-xl px-3 py-2 ${cls}`}
+    >
+      <span className="text-xs font-bold">= {label}</span>
+      <span className="text-sm font-bold tabular-nums">{value}</span>
     </div>
   );
 }
@@ -68,146 +90,143 @@ export function FinanciamentoAnatomiaEncargo({ anatomia, summary }: Props) {
   const sistema = summary.sistema_amortizacao;
 
   return (
-    <section
-      className="rounded-lg border border-gray-200 bg-white p-4 flex flex-col gap-3"
+    <div
+      className="flex flex-col gap-3"
       data-testid="financiamento-anatomia-encargo"
       aria-label="Composição do encargo mensal"
     >
-      <div>
-        <h3 className="text-sm font-semibold text-gray-900">
-          Composição do encargo mensal
-        </h3>
-        <p className="text-xs text-gray-500 mt-0.5">
-          Valores do primeiro período — {sistema}
-        </p>
-      </div>
+      {/* ── Descrição ────────────────────────────── */}
+      <p className="text-sm leading-6 text-slate-300">
+        A parcela mensal de um financiamento tem duas partes principais:{" "}
+        <strong className="text-cyan-200">prestação financeira</strong> (o que
+        reduz a dívida) e{" "}
+        <strong className="text-amber-200">encargos acessórios</strong> (o que
+        paga serviços e seguros).
+      </p>
 
-      {/* Prestação financeira */}
-      <div className="flex flex-col gap-1.5">
-        <p className="text-xs font-bold uppercase tracking-wide text-blue-700">
-          Prestação financeira
+      {/* ── Bloco A: Prestação financeira ─────────── */}
+      <div className="rounded-xl border border-cyan-200/10 bg-white/3 p-3">
+        <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-cyan-200/70">
+          A · Prestação financeira
         </p>
-        <Row
-          label="Amortização"
-          sub={
-            sistema === "SAC"
-              ? "Constante — mesma quantia todo mês"
-              : "Crescente — aumenta ao longo do contrato"
-          }
-          value={formatBRL(anatomia.amortizacao)}
-          pct={formatPct(anatomia.pct_amortizacao)}
-          color="teal"
-          tip="Reduz o saldo devedor"
-        />
-        <Row
-          label="Juros"
-          sub="Calculado sobre o saldo devedor — decresce com o tempo"
-          value={formatBRL(anatomia.juros)}
-          pct={formatPct(anatomia.pct_juros)}
-          color="blue"
-          tip="Custo financeiro do crédito"
-        />
-        <div
-          className="flex justify-between items-center rounded bg-blue-200 px-3 py-1.5"
-          data-testid="prestacao-financeira-total"
-        >
-          <span className="text-xs font-bold text-blue-900">
-            = Prestação financeira
-          </span>
-          <span className="text-sm font-bold tabular-nums text-blue-900">
-            {formatBRL(anatomia.prestacao_financeira)}
-          </span>
+        <div className="flex flex-col gap-1.5">
+          <Row
+            label="Amortização"
+            sub={
+              sistema === "SAC"
+                ? "Constante — mesma quantia todo mês, saldo cai linearmente"
+                : "Crescente — começa pequena e aumenta com o tempo (PRICE)"
+            }
+            value={formatBRL(anatomia.amortizacao)}
+            pct={formatPct(anatomia.pct_amortizacao)}
+            colorKey="amort"
+            tip="Reduz o saldo devedor — não é custo financeiro"
+          />
+          <Row
+            label="Juros"
+            sub="Calculado sobre o saldo devedor restante — decresce mês a mês"
+            value={formatBRL(anatomia.juros)}
+            pct={formatPct(anatomia.pct_juros)}
+            colorKey="juros"
+            tip="Custo financeiro do crédito"
+          />
+          <div data-testid="prestacao-financeira-total">
+            <SubtotalRow
+              label="Prestação financeira"
+              value={formatBRL(anatomia.prestacao_financeira)}
+              tone="cyan"
+            />
+          </div>
         </div>
       </div>
 
-      {/* Encargos acessórios */}
+      {/* ── Bloco B: Encargos acessórios ─────────── */}
       {hasAcessorios && (
-        <div className="flex flex-col gap-1.5">
-          <p className="text-xs font-bold uppercase tracking-wide text-amber-700">
-            Encargos acessórios
+        <div className="rounded-xl border border-amber-200/10 bg-white/3 p-3">
+          <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-200/70">
+            B · Encargos acessórios
           </p>
-
-          {/* MIP individual */}
-          {hasMip && (
-            <Row
-              label="MIP — Seguro de Morte e Invalidez Permanente"
-              sub="Informado individualmente"
-              value={formatBRL(anatomia.mip_mensal)}
-              pct={formatPct(anatomia.pct_mip)}
-              color="amber"
-              tip="Seguro de vida habitacional — não é taxa de administração"
-            />
-          )}
-
-          {/* DFI/DFC individual */}
-          {hasDfi && (
-            <Row
-              label="DFI/DFC — Seguro de Danos Físicos ao Imóvel"
-              sub="Informado individualmente"
-              value={formatBRL(anatomia.dfi_dfc_mensal)}
-              pct={formatPct(anatomia.pct_dfi_dfc)}
-              color="amber"
-              tip="Seguro do imóvel — não é taxa de administração"
-            />
-          )}
-
-          {/* Seguro legado */}
-          {hasLegado && (
-            <Row
-              label="Seguros habitacionais (MIP + DFI/DFC)"
-              sub="Não discriminado na entrada — informado de forma agregada"
-              value={formatBRL(anatomia.seguros_total)}
-              pct={formatPct(anatomia.pct_seguros)}
-              color="amber"
-              tip="Para separar MIP e DFI, informe os campos individuais"
-            />
-          )}
-
-          {/* Taxa administrativa — SEMPRE separada de seguros */}
-          {hasTaxa && (
-            <Row
-              label="Taxa de administração"
-              sub="Não é seguro — custo de gestão do contrato"
-              value={formatBRL(anatomia.taxa_administracao_mensal)}
-              pct={formatPct(anatomia.pct_taxa_administracao)}
-              color="orange"
-            />
-          )}
-
-          {hasAdmin && (
-            <Row
-              label="Outros custos mensais"
-              value={formatBRL(anatomia.custo_admin_mensal)}
-              pct={formatPct(anatomia.pct_custo_admin)}
-              color="gray"
-            />
-          )}
+          <div className="flex flex-col gap-1.5">
+            {hasMip && (
+              <Row
+                label="MIP — Morte e Invalidez Permanente"
+                sub="Seguro de vida habitacional informado individualmente"
+                value={formatBRL(anatomia.mip_mensal)}
+                pct={formatPct(anatomia.pct_mip)}
+                colorKey="mip"
+                tip="Não é taxa de administração"
+              />
+            )}
+            {hasDfi && (
+              <Row
+                label="DFI/DFC — Danos Físicos ao Imóvel"
+                sub="Seguro do imóvel informado individualmente"
+                value={formatBRL(anatomia.dfi_dfc_mensal)}
+                pct={formatPct(anatomia.pct_dfi_dfc)}
+                colorKey="dfi"
+                tip="Não é taxa de administração"
+              />
+            )}
+            {hasLegado && (
+              <Row
+                label="Seguros habitacionais (MIP + DFI — agregados)"
+                sub="Informe mip_mensal e dfi_dfc_mensal para discriminar individualmente"
+                value={formatBRL(anatomia.seguros_total)}
+                pct={formatPct(anatomia.pct_seguros)}
+                colorKey="seguro"
+              />
+            )}
+            {hasTaxa && (
+              <Row
+                label="Taxa de administração"
+                sub="Custo de gestão do contrato — não é seguro"
+                value={formatBRL(anatomia.taxa_administracao_mensal)}
+                pct={formatPct(anatomia.pct_taxa_administracao)}
+                colorKey="taxa"
+              />
+            )}
+            {hasAdmin && (
+              <Row
+                label="Outros custos mensais"
+                value={formatBRL(anatomia.custo_admin_mensal)}
+                pct={formatPct(anatomia.pct_custo_admin)}
+                colorKey="admin"
+              />
+            )}
+          </div>
         </div>
       )}
 
-      {/* Total */}
+      {/* ── Encargo total ─────────────────────────── */}
       <div
-        className="flex justify-between items-center rounded-lg bg-gray-800 px-3 py-2.5"
+        className="rounded-xl border border-white/15 bg-white/10 p-3"
         data-testid="encargo-mensal-total"
       >
-        <div>
-          <p className="text-sm font-bold text-white">= Encargo mensal total</p>
-          <p className="text-xs text-gray-300">
-            prestação financeira{hasAcessorios ? " + encargos acessórios" : ""}
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-100">
+              A + B · Encargo mensal total
+            </p>
+            <p className="mt-0.5 text-[11px] text-slate-400">
+              prestação financeira
+              {hasAcessorios
+                ? " + encargos acessórios"
+                : " (sem encargos adicionais)"}
+            </p>
+          </div>
+          <p className="text-xl font-bold tabular-nums text-slate-50">
+            {formatBRL(anatomia.encargo_mensal_total)}
           </p>
         </div>
-        <span className="text-base font-bold tabular-nums text-white">
-          {formatBRL(anatomia.encargo_mensal_total)}
-        </span>
       </div>
 
-      {/* Fórmula */}
+      {/* ── Fórmula ───────────────────────────────── */}
       <div
-        className="rounded bg-gray-50 border border-gray-200 px-3 py-2"
+        className="rounded-xl border border-white/8 bg-slate-950/50 px-3 py-2"
         data-testid="formula-encargo"
       >
-        <p className="text-xs font-mono text-gray-700">
-          encargo_mensal_total = amortização + juros
+        <p className="font-mono text-[11px] text-slate-400">
+          encargo = amortização + juros
           {hasSeguro
             ? hasMip || hasDfi
               ? " + MIP + DFI/DFC"
@@ -217,9 +236,10 @@ export function FinanciamentoAnatomiaEncargo({ anatomia, summary }: Props) {
         </p>
       </div>
 
-      <p className="text-xs text-gray-400">
-        Simulação educacional. Consulte a proposta formal para valores reais.
+      <p className="text-[11px] text-slate-500">
+        Valores do primeiro período. Simulação educacional — consulte a proposta
+        formal.
       </p>
-    </section>
+    </div>
   );
 }

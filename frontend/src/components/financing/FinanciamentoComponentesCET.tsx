@@ -1,17 +1,12 @@
 "use client";
 
 /**
- * FinanciamentoComponentesCET — Microadendo Final Item 13
+ * FinanciamentoComponentesCET — Item 13 Correção Visual
  *
- * CET demonstrativo com categorias pedagógicas:
- *   base_operacao | componente_encargo | componente_cet |
- *   custo_inicial | totalizador_indicador
- *
- * Amortização: componente_encargo, NÃO é custo do CET.
- * Valor financiado: ausente dos componentes.
- * Total pago: totalizador_indicador.
- * Dois percentuais por componente (financiado, total pago, custo financeiro).
- * * Sem linguagem regulatória absoluta. Sem percentuais fixos de ITBI/cartório.
+ * Tema dark integrado com o cockpit.
+ * Tema dark: sem fundos claros, texto escuro ou bordas cinzas no dark mode.
+ * 5 categorias pedagógicas + 3 percentuais por componente.
+ * Sem .slice() hardcoded.
  */
 
 import { formatBRL, formatPct } from "@/lib/money";
@@ -20,31 +15,32 @@ import type { ComponenteCet, ComponenteCetCategoria } from "@/types/financing";
 const NATUREZA_LABEL: Record<string, string> = {
   calculado: "Calculado",
   informado: "Informado",
-  nao_calculado: "Não calculado",
+  nao_calculado: "Não calc.",
   alerta: "Alerta",
 };
 
 const NATUREZA_CLS: Record<string, string> = {
-  calculado: "bg-green-100 text-green-800",
-  informado: "bg-blue-100 text-blue-800",
-  nao_calculado: "bg-gray-100 text-gray-500",
-  alerta: "bg-orange-100 text-orange-700",
+  calculado: "bg-emerald-400/15 text-emerald-200 ring-1 ring-emerald-400/20",
+  informado: "bg-cyan-400/15 text-cyan-200 ring-1 ring-cyan-400/20",
+  nao_calculado: "bg-white/8 text-slate-400 ring-1 ring-white/10",
+  alerta: "bg-amber-400/15 text-amber-200 ring-1 ring-amber-400/20",
 };
 
 const CATEGORIA_LABEL: Record<ComponenteCetCategoria, string> = {
-  base_operacao: "Base da operação",
-  componente_encargo: "Componente do encargo",
-  componente_cet: "Componente do CET",
+  base_operacao: "Base",
+  componente_encargo: "Encargo",
+  componente_cet: "CET",
   custo_inicial: "Custo inicial",
-  totalizador_indicador: "Totalizador / Indicador",
+  totalizador_indicador: "Totalizador",
 };
 
 const CATEGORIA_CLS: Record<ComponenteCetCategoria, string> = {
-  base_operacao: "bg-slate-100 text-slate-700",
-  componente_encargo: "bg-cyan-100 text-cyan-800",
-  componente_cet: "bg-purple-100 text-purple-800",
-  custo_inicial: "bg-orange-100 text-orange-800",
-  totalizador_indicador: "bg-indigo-100 text-indigo-800",
+  base_operacao: "bg-slate-400/15 text-slate-300 ring-1 ring-slate-400/20",
+  componente_encargo: "bg-cyan-400/15 text-cyan-300 ring-1 ring-cyan-400/20",
+  componente_cet: "bg-violet-400/15 text-violet-200 ring-1 ring-violet-400/20",
+  custo_inicial: "bg-amber-400/15 text-amber-200 ring-1 ring-amber-400/20",
+  totalizador_indicador:
+    "bg-indigo-400/15 text-indigo-200 ring-1 ring-indigo-400/20",
 };
 
 interface RowProps {
@@ -55,59 +51,63 @@ interface RowProps {
 function ComponenteRow({ c, idx }: RowProps) {
   const isOmitido = c.natureza === "nao_calculado" || c.natureza === "alerta";
   const rowCls = isOmitido
-    ? "opacity-60 bg-white"
+    ? "opacity-50"
     : idx % 2 === 0
-      ? "bg-white"
-      : "bg-gray-50";
+      ? "bg-white/3"
+      : "bg-transparent";
 
   return (
     <tr
-      className={`border-b border-gray-100 ${rowCls}`}
+      className={`border-b border-white/5 ${rowCls}`}
       data-testid={`componente-cet-row-${c.id}`}
     >
-      <td className="px-3 py-2">
-        <p className="text-sm font-medium text-gray-900">{c.nome}</p>
-        <p className="text-xs text-gray-400 font-mono truncate max-w-xs mt-0.5">
+      <td className="px-3 py-2.5">
+        <p className="text-sm font-medium text-slate-100 leading-tight">
+          {c.nome}
+        </p>
+        <p className="mt-0.5 font-mono text-[10px] text-slate-500 truncate max-w-xs">
           {c.formula}
         </p>
       </td>
-      <td className="px-2 py-2 text-center">
+      <td className="px-2 py-2.5 text-center">
         <span
-          className={`text-xs font-semibold rounded-full px-2 py-0.5 whitespace-nowrap ${CATEGORIA_CLS[c.categoria] ?? ""}`}
+          className={`inline-block rounded-full px-1.5 py-0.5 text-[10px] font-semibold whitespace-nowrap ${CATEGORIA_CLS[c.categoria] ?? ""}`}
         >
           {CATEGORIA_LABEL[c.categoria] ?? c.categoria}
         </span>
       </td>
-      <td className="px-2 py-2 text-center">
+      <td className="px-2 py-2.5 text-center">
         <span
-          className={`text-xs font-semibold rounded-full px-2 py-0.5 ${NATUREZA_CLS[c.natureza] ?? ""}`}
+          className={`inline-block rounded-full px-1.5 py-0.5 text-[10px] font-semibold ${NATUREZA_CLS[c.natureza] ?? ""}`}
         >
           {NATUREZA_LABEL[c.natureza] ?? c.natureza}
         </span>
       </td>
-      <td className="px-3 py-2 text-right tabular-nums text-sm font-semibold text-gray-800">
+      <td className="px-3 py-2.5 text-right">
         {isOmitido ? (
-          <span className="text-gray-400">—</span>
+          <span className="text-slate-600 text-xs">—</span>
         ) : (
-          formatBRL(c.valor_total)
+          <span className="tabular-nums text-sm font-semibold text-slate-50">
+            {formatBRL(c.valor_total)}
+          </span>
         )}
       </td>
-      <td className="px-2 py-2 text-right tabular-nums text-xs text-gray-600">
+      <td className="px-2 py-2.5 text-right tabular-nums text-xs text-slate-400">
         {isOmitido ? "—" : formatPct(c.pct_sobre_financiado)}
       </td>
-      <td className="px-2 py-2 text-right tabular-nums text-xs text-gray-600">
+      <td className="px-2 py-2.5 text-right tabular-nums text-xs text-slate-400">
         {isOmitido ? "—" : formatPct(c.pct_sobre_total_pago)}
       </td>
-      <td className="px-2 py-2 text-right tabular-nums text-xs text-gray-600">
+      <td className="px-2 py-2.5 text-right tabular-nums text-xs text-slate-400">
         {isOmitido || parseFloat(c.pct_sobre_custo_financeiro_total) === 0
           ? "—"
           : formatPct(c.pct_sobre_custo_financeiro_total)}
       </td>
-      <td className="px-2 py-2 text-center text-sm">
+      <td className="px-2 py-2.5 text-center text-sm">
         {c.entra_no_encargo_mensal ? (
-          <span className="text-green-700 font-bold">✓</span>
+          <span className="font-bold text-emerald-400">✓</span>
         ) : (
-          <span className="text-gray-400">—</span>
+          <span className="text-slate-600">—</span>
         )}
       </td>
     </tr>
@@ -119,34 +119,27 @@ interface Props {
 }
 
 export function FinanciamentoComponentesCET({ componentes }: Props) {
-  // Agrupar por categoria
-  const grupos: Partial<Record<ComponenteCetCategoria, ComponenteCet[]>> = {};
-  for (const c of componentes) {
-    if (!grupos[c.categoria]) grupos[c.categoria] = [];
-    grupos[c.categoria]!.push(c);
-  }
-
   const reais = componentes.filter(
     (c) => c.natureza === "calculado" || c.natureza === "informado",
   );
 
   return (
-    <section
+    <div
       className="flex flex-col gap-3"
       data-testid="financiamento-componentes-cet"
       aria-label="Componentes do CET demonstrativo e do custo da simulação"
     >
-      <div>
-        <h3 className="text-sm font-semibold text-gray-900">
-          Componentes do CET demonstrativo e do custo da simulação
-        </h3>
-        <p className="text-xs text-gray-500 mt-0.5">
-          Este demonstrativo não substitui o CET oficial. O CET oficial deve ser
-          solicitado à instituição financeira antes da contratação.
-        </p>
-      </div>
+      {/* ── Descrição ──────────────────────────────── */}
+      <p className="text-sm leading-6 text-slate-300">
+        Cada parcela carrega componentes distintos. Alguns são{" "}
+        <strong className="text-violet-200">custos financeiros</strong> (juros,
+        seguros, tarifas) e outros são{" "}
+        <strong className="text-cyan-200">devolução do principal</strong>{" "}
+        (amortização). O CET oficial engloba tudo isso — solicite-o à
+        instituição financeira antes de contratar.
+      </p>
 
-      {/* Cards de resumo */}
+      {/* ── Cards de resumo ────────────────────────── */}
       {reais.length > 0 && (
         <div
           className="grid grid-cols-2 gap-2 sm:grid-cols-3"
@@ -155,67 +148,62 @@ export function FinanciamentoComponentesCET({ componentes }: Props) {
           {reais.map((c) => (
             <div
               key={c.id}
-              className="rounded-lg border border-gray-100 bg-gray-50 p-2.5"
+              className="rounded-xl border border-white/8 bg-white/5 p-2.5"
               data-testid={`componente-cet-card-${c.id}`}
             >
-              <p className="text-xs text-gray-500 leading-tight truncate">
+              <p className="text-[11px] text-slate-400 leading-tight truncate">
                 {c.nome}
               </p>
-              <p className="mt-1 text-sm font-bold tabular-nums text-gray-900">
+              <p className="mt-1.5 text-base font-bold tabular-nums text-slate-50">
                 {formatBRL(c.valor_total)}
               </p>
-              <p className="text-xs text-gray-500 tabular-nums">
-                {formatPct(c.pct_sobre_financiado)}{" "}
-                <span className="text-gray-400">do financiado</span>
-              </p>
-              {parseFloat(c.pct_sobre_total_pago) > 0 && (
-                <p className="text-xs text-gray-400 tabular-nums">
-                  {formatPct(c.pct_sobre_total_pago)} do total pago
+              <div className="mt-1 space-y-0.5">
+                <p className="text-[11px] text-slate-400 tabular-nums">
+                  {formatPct(c.pct_sobre_financiado)}{" "}
+                  <span className="text-slate-600">do financiado</span>
                 </p>
-              )}
-              {parseFloat(c.pct_sobre_custo_financeiro_total) > 0 && (
-                <p className="text-xs text-gray-400 tabular-nums">
-                  {formatPct(c.pct_sobre_custo_financeiro_total)} do custo
-                  financeiro
-                </p>
-              )}
+                {parseFloat(c.pct_sobre_total_pago) > 0 && (
+                  <p className="text-[11px] text-slate-500 tabular-nums">
+                    {formatPct(c.pct_sobre_total_pago)} do total pago
+                  </p>
+                )}
+                {parseFloat(c.pct_sobre_custo_financeiro_total) > 0 && (
+                  <p className="text-[11px] text-violet-400 tabular-nums">
+                    {formatPct(c.pct_sobre_custo_financeiro_total)} do custo
+                    fin.
+                  </p>
+                )}
+              </div>
             </div>
           ))}
         </div>
       )}
 
-      {/* Tabela detalhada */}
-      <div className="overflow-x-auto rounded-lg border border-gray-200">
-        <table
-          className="w-full border-collapse text-left"
-          data-testid="componentes-cet-tabela"
-        >
+      {/* ── Tabela detalhada ───────────────────────── */}
+      <div
+        className="overflow-x-auto rounded-xl border border-white/8"
+        data-testid="componentes-cet-tabela"
+      >
+        <table className="w-full border-collapse text-left">
           <thead>
-            <tr className="border-b border-gray-200 bg-gray-100">
-              <th className="px-3 py-2 text-xs font-semibold text-gray-600 uppercase tracking-wide">
-                Componente / Fórmula
-              </th>
-              <th className="px-2 py-2 text-xs font-semibold text-gray-600 uppercase tracking-wide text-center">
-                Categoria
-              </th>
-              <th className="px-2 py-2 text-xs font-semibold text-gray-600 uppercase tracking-wide text-center">
-                Natureza
-              </th>
-              <th className="px-3 py-2 text-xs font-semibold text-gray-600 uppercase tracking-wide text-right">
-                Total
-              </th>
-              <th className="px-2 py-2 text-xs font-semibold text-gray-600 uppercase tracking-wide text-right">
-                % Financiado
-              </th>
-              <th className="px-2 py-2 text-xs font-semibold text-gray-600 uppercase tracking-wide text-right">
-                % Total pago
-              </th>
-              <th className="px-2 py-2 text-xs font-semibold text-gray-600 uppercase tracking-wide text-right">
-                % Custo fin.
-              </th>
-              <th className="px-2 py-2 text-xs font-semibold text-gray-600 uppercase tracking-wide text-center">
-                No encargo?
-              </th>
+            <tr className="border-b border-white/10 bg-white/5">
+              {[
+                "Componente / Fórmula",
+                "Categoria",
+                "Natureza",
+                "Total",
+                "% Financiado",
+                "% Total pago",
+                "% Custo fin.",
+                "Encargo?",
+              ].map((h, i) => (
+                <th
+                  key={h}
+                  className={`px-2 py-2 text-[10px] font-semibold uppercase tracking-[0.1em] text-slate-400 ${i === 0 ? "px-3" : ""} ${i >= 3 ? "text-right" : ""} ${i === 7 ? "text-center" : ""}`}
+                >
+                  {h}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>
@@ -226,25 +214,25 @@ export function FinanciamentoComponentesCET({ componentes }: Props) {
         </table>
       </div>
 
-      {/* Legenda */}
-      <div className="flex flex-wrap gap-2 text-xs">
+      {/* ── Legenda ────────────────────────────────── */}
+      <div className="flex flex-wrap gap-1.5">
         {(
           Object.entries(CATEGORIA_CLS) as [ComponenteCetCategoria, string][]
         ).map(([k, cls]) => (
           <span
             key={k}
-            className={`rounded-full px-2 py-0.5 font-medium ${cls}`}
+            className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${cls}`}
           >
             {CATEGORIA_LABEL[k]}
           </span>
         ))}
       </div>
 
-      <p className="text-xs text-gray-400">
-        Amortização não é custo financeiro. Valor financiado não é componente de
-        custo. Custos de contratação variam e devem ser verificados na proposta
+      <p className="text-[11px] text-slate-500">
+        Amortização não é custo financeiro. Custos de contratação (ITBI,
+        cartório) variam por município e operação — verifique na proposta
         formal.
       </p>
-    </section>
+    </div>
   );
 }
