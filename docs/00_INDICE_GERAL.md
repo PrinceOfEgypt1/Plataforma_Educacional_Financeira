@@ -119,3 +119,11 @@ Contrato UI/UX executável do módulo Financiamento Imobiliário, criado como po
 - [README do Item 14F-F0B](gates/gate-po-ux-valor/14f/01-contrato-uiux-imovel/README_ITEM_14F_F0B.md)
 - [Manifesto de arquivos do Item 14F-F0B](gates/gate-po-ux-valor/14f/01-contrato-uiux-imovel/MANIFESTO_ARQUIVOS_ITEM_14F_F0B.md)
 - [Relatório do Item 14F-F0B](gates/gate-po-ux-valor/14f/01-contrato-uiux-imovel/RELATORIO_ITEM_14F_F0B.md)
+
+## Governança Frontend/UI/UX — Item 14F-F0C
+
+Auditor automático `audit:uiux`, criado para consumir o contrato UI/UX do módulo Financiamento Imobiliário e emitir falhas objetivas contra violações de UI/UX.
+
+- [README do Item 14F-F0C](gates/gate-po-ux-valor/14f/02-auditor-uiux/README_ITEM_14F_F0C.md)
+- [Manifesto de arquivos do Item 14F-F0C](gates/gate-po-ux-valor/14f/02-auditor-uiux/MANIFESTO_ARQUIVOS_ITEM_14F_F0C.md)
+- [Relatório do Auditor UI/UX — Item 14F-F0C](gates/gate-po-ux-valor/14f/02-auditor-uiux/RELATORIO_AUDITOR_UIUX_ITEM_14F_F0C.md)
