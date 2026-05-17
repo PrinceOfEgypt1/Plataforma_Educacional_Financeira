@@ -72,12 +72,12 @@ describe("FinanciamentoTable", () => {
       />,
     );
 
-    expect(screen.getByTestId("financiamento-table-count")).toHaveTextContent(
-      "120 parcelas geradas e preservadas no modelo",
-    );
-    expect(screen.getByTestId("financiamento-table-range")).toHaveTextContent(
-      "Parcelas 1-12",
-    );
+    expect(
+      screen.getByTestId("financiamento-table-count-legacy"),
+    ).toHaveTextContent("120 parcelas geradas e preservadas no modelo");
+    expect(
+      screen.getByTestId("financiamento-table-range-legacy"),
+    ).toHaveTextContent("Parcelas 1-12");
     expect(screen.getByTestId("parcela-row-1")).toBeInTheDocument();
     expect(screen.getByTestId("parcela-row-12")).toBeInTheDocument();
     expect(screen.queryByTestId("parcela-row-13")).not.toBeInTheDocument();
@@ -94,9 +94,9 @@ describe("FinanciamentoTable", () => {
 
     await user.click(screen.getByRole("button", { name: "Última" }));
 
-    expect(screen.getByTestId("financiamento-table-range")).toHaveTextContent(
-      "Parcelas 349-360",
-    );
+    expect(
+      screen.getByTestId("financiamento-table-range-legacy"),
+    ).toHaveTextContent("Parcelas 349-360");
     expect(screen.getByTestId("parcela-row-360")).toBeInTheDocument();
   });
 
@@ -111,12 +111,12 @@ describe("FinanciamentoTable", () => {
 
     await user.type(screen.getByLabelText("Ir para parcela"), "600");
 
-    expect(screen.getByTestId("financiamento-table-count")).toHaveTextContent(
-      "600 parcelas geradas",
-    );
-    expect(screen.getByTestId("financiamento-table-range")).toHaveTextContent(
-      "Parcelas 589-600",
-    );
+    expect(
+      screen.getByTestId("financiamento-table-count-legacy"),
+    ).toHaveTextContent("600 parcelas geradas");
+    expect(
+      screen.getByTestId("financiamento-table-range-legacy"),
+    ).toHaveTextContent("Parcelas 589-600");
     expect(screen.getByTestId("parcela-row-600")).toBeInTheDocument();
   });
 
@@ -128,7 +128,7 @@ describe("FinanciamentoTable", () => {
       />,
     );
 
-    const totals = screen.getByTestId("financiamento-table-totals");
+    const totals = screen.getByTestId("financiamento-table-totals-legacy");
     expect(totals).toHaveTextContent("Total");
     expect(totals).toHaveTextContent("R$ 20.400,00");
     expect(totals).toHaveTextContent("R$ 12.000,00");
@@ -165,11 +165,11 @@ describe("FinanciamentoTable", () => {
       />,
     );
 
-    const tablePanel = screen.getByTestId("financiamento-table");
+    const tablePanel = screen.getByTestId("financiamento-table-legacy");
 
     expect(tablePanel).toHaveClass("overflow-hidden");
     expect(
-      screen.getByTestId("financiamento-parcela-detalhe"),
+      screen.getByTestId("financiamento-parcela-detalhe-legacy"),
     ).toHaveTextContent("Todos os dados permanecem disponíveis");
   });
 

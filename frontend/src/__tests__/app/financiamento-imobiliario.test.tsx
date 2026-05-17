@@ -650,11 +650,11 @@ describe("Item 14A — Glossário, memória pedagógica, fontes e gráfico", () 
     const { FinanciamentoCompareChart } =
       await import("@/components/financing/FinanciamentoCompareChart");
     r(<FinanciamentoCompareChart compare={compareResult} />);
-    const chart = s.getByTestId("financiamento-compare-chart");
+    const chart = s.getByTestId("financiamento-compare-chart-legacy");
     expect(chart).toBeInTheDocument();
     expect(chart).toHaveTextContent("Evolução da prestação");
     // Descrição pedagógica presente
-    const pedagogia = s.getByTestId("compare-chart-pedagogia");
+    const pedagogia = s.getByTestId("compare-chart-pedagogia-legacy");
     expect(pedagogia).toBeInTheDocument();
   });
 

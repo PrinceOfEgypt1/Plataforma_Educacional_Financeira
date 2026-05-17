@@ -30,7 +30,7 @@ export function FinanciamentoSummary({ summary }: FinanciamentoSummaryProps) {
   return (
     <div
       className="flex flex-col gap-2"
-      data-testid="financiamento-summary"
+      data-testid="financiamento-summary-legacy"
       aria-label="Resumo do financiamento"
     >
       <h2 className="text-base font-semibold text-gray-900">

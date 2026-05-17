@@ -94,7 +94,7 @@ export function FinanciamentoCompareChart({
   return (
     <div
       className="flex flex-col gap-3 rounded-2xl border border-cyan-200/10 bg-slate-950/45 p-4"
-      data-testid="financiamento-compare-chart"
+      data-testid="financiamento-compare-chart-legacy"
     >
       {/* Título e descrição pedagógica */}
       <div>
@@ -103,7 +103,7 @@ export function FinanciamentoCompareChart({
         </h3>
         <p
           className="mt-1 text-[11.5px] leading-5 text-slate-400"
-          data-testid="compare-chart-pedagogia"
+          data-testid="compare-chart-pedagogia-legacy"
         >
           {sacMaisCaro ? (
             <>
