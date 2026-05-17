@@ -18,6 +18,8 @@ interface StepHCard {
 
 interface Props {
   readonly onNavigate: (view: string) => void;
+  /** Setter direto da zona ativa do ResultPanel */
+  readonly onNavigateZone: (zone: 1 | 2 | 3 | 4 | 5) => void;
 }
 
 const TONE_STYLES = {
@@ -90,7 +92,7 @@ function HCard({ card }: { readonly card: StepHCard }) {
   );
 }
 
-export function RealEstateNextStepsZone({ onNavigate }: Props) {
+export function RealEstateNextStepsZone({ onNavigate, onNavigateZone }: Props) {
   const cards: StepHCard[] = [
     {
       tone: "violet",
@@ -150,7 +152,7 @@ export function RealEstateNextStepsZone({ onNavigate }: Props) {
       description:
         "Com esses dados em mãos, solicite proposta formal e CET oficial em pelo menos duas IFs.",
       actionLabel: "Ver CET e limites",
-      onAction: () => onNavigate("fontes"),
+      onAction: () => onNavigateZone(3),
     },
   ];
 

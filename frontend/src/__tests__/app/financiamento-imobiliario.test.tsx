@@ -1377,4 +1377,110 @@ describe("Item 14A — Glossário, memória pedagógica, fontes e gráfico", () 
       screen.queryByRole("tabpanel", { name: /Zona 5/i }),
     ).not.toBeInTheDocument();
   });
+
+  // ─── F4C — Testes funcionais: NextStepsZone sem CTAs duplicados ──────
+
+  it("F4C-01 — 'Ver CET e limites' na Zona 5 ativa Zona 3 (CET), não navega para fontes", async () => {
+    vi.mocked(simularFinanciamentoImobiliario).mockResolvedValue(
+      makeResult("SAC"),
+    );
+    const user = await openSimulation();
+    await fillForm(user);
+    await user.click(screen.getByRole("button", { name: "Gerar simulação" }));
+    await waitFor(() =>
+      expect(
+        screen.getByTestId("financiamento-result-panel"),
+      ).toBeInTheDocument(),
+    );
+    // Ir para Zona 5 (Próximos passos)
+    await user.click(screen.getByRole("tab", { name: /Ir para Zona 5/i }));
+    await waitFor(() =>
+      expect(
+        screen.getByRole("tabpanel", { name: /Zona 5/i }),
+      ).toBeInTheDocument(),
+    );
+
+    // Clicar em "Ver CET e limites"
+    const zone5 = screen.getByRole("tabpanel", { name: /Zona 5/i });
+    await user.click(
+      within(zone5).getByRole("button", { name: /Ver CET e limites/i }),
+    );
+
+    // Deve ativar Zona 3 (CET), não navegar para "fontes"
+    await waitFor(() =>
+      expect(
+        screen.getByRole("tabpanel", { name: /Zona 3/i }),
+      ).toBeInTheDocument(),
+    );
+    // Zona 5 não deve mais estar visível
+    expect(
+      screen.queryByRole("tabpanel", { name: /Zona 5/i }),
+    ).not.toBeInTheDocument();
+    // Não deve ter navegado para o painel de fontes
+    expect(
+      screen.queryByTestId("financiamento-fontes-panel"),
+    ).not.toBeInTheDocument();
+  });
+
+  it("F4C-02 — 'Ver fontes' na Zona 5 navega para a view fontes", async () => {
+    vi.mocked(simularFinanciamentoImobiliario).mockResolvedValue(
+      makeResult("SAC"),
+    );
+    const user = await openSimulation();
+    await fillForm(user);
+    await user.click(screen.getByRole("button", { name: "Gerar simulação" }));
+    await waitFor(() =>
+      expect(
+        screen.getByTestId("financiamento-result-panel"),
+      ).toBeInTheDocument(),
+    );
+    await user.click(screen.getByRole("tab", { name: /Ir para Zona 5/i }));
+    await waitFor(() =>
+      expect(
+        screen.getByRole("tabpanel", { name: /Zona 5/i }),
+      ).toBeInTheDocument(),
+    );
+
+    // Clicar em "Ver fontes"
+    const zone5 = screen.getByRole("tabpanel", { name: /Zona 5/i });
+    await user.click(
+      within(zone5).getByRole("button", { name: /Ver fontes/i }),
+    );
+
+    // Deve navegar para a view fontes
+    await waitFor(() =>
+      expect(
+        screen.getByTestId("financiamento-fontes-panel"),
+      ).toBeInTheDocument(),
+    );
+  });
+
+  it("F4C-03 — nenhum par de CTAs na Zona 5 compartilha o mesmo destino textual 'fontes'", async () => {
+    vi.mocked(simularFinanciamentoImobiliario).mockResolvedValue(
+      makeResult("SAC"),
+    );
+    const user = await openSimulation();
+    await fillForm(user);
+    await user.click(screen.getByRole("button", { name: "Gerar simulação" }));
+    await waitFor(() =>
+      expect(
+        screen.getByTestId("financiamento-result-panel"),
+      ).toBeInTheDocument(),
+    );
+    await user.click(screen.getByRole("tab", { name: /Ir para Zona 5/i }));
+    await waitFor(() =>
+      expect(
+        screen.getByRole("tabpanel", { name: /Zona 5/i }),
+      ).toBeInTheDocument(),
+    );
+
+    const zone5 = screen.getByRole("tabpanel", { name: /Zona 5/i });
+    const buttons = within(zone5).getAllByRole("button");
+    // Filtrar botões cujo texto contenha "fontes" (case insensitive)
+    const fontesButtons = buttons.filter((b) =>
+      /fontes/i.test(b.textContent ?? ""),
+    );
+    // Deve haver no máximo 1 botão que mencione "fontes"
+    expect(fontesButtons.length).toBeLessThanOrEqual(1);
+  });
 });
