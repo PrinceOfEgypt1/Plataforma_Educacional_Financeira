@@ -179,7 +179,7 @@ describe("FinanciamentoCompareChart", () => {
   it("renderiza com data-testid correto", () => {
     render(<FinanciamentoCompareChart compare={makeCompareOut(12)} />);
     expect(
-      screen.getByTestId("financiamento-compare-chart"),
+      screen.getByTestId("financiamento-compare-chart-legacy"),
     ).toBeInTheDocument();
   });
 
@@ -190,7 +190,7 @@ describe("FinanciamentoCompareChart", () => {
 
   it("tem aria-label descritivo para acessibilidade", () => {
     render(<FinanciamentoCompareChart compare={makeCompareOut(12)} />);
-    const chart = screen.getByTestId("financiamento-compare-chart");
+    const chart = screen.getByTestId("financiamento-compare-chart-legacy");
     expect(chart).toBeInTheDocument();
     // Verifica que há descrição pedagógica (acessibilidade)
     expect(chart).toHaveTextContent(/Evolução da prestação/i);

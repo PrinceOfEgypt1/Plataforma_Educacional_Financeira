@@ -8,7 +8,7 @@ describe("FinanciamentoSaibaMais", () => {
   it("renderiza botão 'Entenda o financiamento imobiliário'", () => {
     render(<FinanciamentoSaibaMais />);
     expect(
-      screen.getByTestId("financiamento-saiba-mais-btn"),
+      screen.getByTestId("financiamento-saiba-mais-btn-legacy"),
     ).toBeInTheDocument();
   });
 
@@ -20,7 +20,7 @@ describe("FinanciamentoSaibaMais", () => {
   it("abre modal ao clicar no botão", async () => {
     const user = userEvent.setup();
     render(<FinanciamentoSaibaMais />);
-    await user.click(screen.getByTestId("financiamento-saiba-mais-btn"));
+    await user.click(screen.getByTestId("financiamento-saiba-mais-btn-legacy"));
     expect(screen.getByRole("dialog")).toBeInTheDocument();
     expect(
       screen.getByRole("heading", {
@@ -32,7 +32,7 @@ describe("FinanciamentoSaibaMais", () => {
   it("exibe conteúdo Nível 1 por padrão ao abrir", async () => {
     const user = userEvent.setup();
     render(<FinanciamentoSaibaMais />);
-    await user.click(screen.getByTestId("financiamento-saiba-mais-btn"));
+    await user.click(screen.getByTestId("financiamento-saiba-mais-btn-legacy"));
     expect(
       screen.getAllByText(/financiamento imobiliário/i).length,
     ).toBeGreaterThan(0);
@@ -41,7 +41,7 @@ describe("FinanciamentoSaibaMais", () => {
   it("fecha modal com Escape", async () => {
     const user = userEvent.setup();
     render(<FinanciamentoSaibaMais />);
-    await user.click(screen.getByTestId("financiamento-saiba-mais-btn"));
+    await user.click(screen.getByTestId("financiamento-saiba-mais-btn-legacy"));
     expect(screen.getByRole("dialog")).toBeInTheDocument();
     await user.keyboard("{Escape}");
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
@@ -50,7 +50,7 @@ describe("FinanciamentoSaibaMais", () => {
   it("navega para aba Glossário e exibe termos", async () => {
     const user = userEvent.setup();
     render(<FinanciamentoSaibaMais />);
-    await user.click(screen.getByTestId("financiamento-saiba-mais-btn"));
+    await user.click(screen.getByTestId("financiamento-saiba-mais-btn-legacy"));
     await user.click(screen.getByRole("tab", { name: /glossário/i }));
     expect(
       screen.getByRole("heading", {
@@ -62,7 +62,7 @@ describe("FinanciamentoSaibaMais", () => {
   it("navega para aba Aviso educacional", async () => {
     const user = userEvent.setup();
     render(<FinanciamentoSaibaMais />);
-    await user.click(screen.getByTestId("financiamento-saiba-mais-btn"));
+    await user.click(screen.getByTestId("financiamento-saiba-mais-btn-legacy"));
     await user.click(screen.getByRole("tab", { name: /aviso educacional/i }));
     expect(
       screen.getByRole("heading", { name: /aviso educacional/i }),
@@ -72,7 +72,7 @@ describe("FinanciamentoSaibaMais", () => {
   it("navega para aba Nível 2 e exibe conteúdo", async () => {
     const user = userEvent.setup();
     render(<FinanciamentoSaibaMais />);
-    await user.click(screen.getByTestId("financiamento-saiba-mais-btn"));
+    await user.click(screen.getByTestId("financiamento-saiba-mais-btn-legacy"));
     await user.click(screen.getByRole("tab", { name: /aprofundado/i }));
     expect(screen.getAllByText(/financiamento/i).length).toBeGreaterThan(0);
   });

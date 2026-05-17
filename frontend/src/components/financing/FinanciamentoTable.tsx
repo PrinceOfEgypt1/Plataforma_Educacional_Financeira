@@ -94,7 +94,7 @@ export function FinanciamentoTable({
   return (
     <section
       className="flex h-full min-h-0 flex-col gap-3 overflow-hidden"
-      data-testid="financiamento-table"
+      data-testid="financiamento-table-legacy"
       aria-label="Tabela de parcelas do financiamento"
     >
       <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-cyan-300/15 bg-slate-950/40 p-3">
@@ -104,7 +104,7 @@ export function FinanciamentoTable({
           </h3>
           <p
             className="text-xs text-cyan-100/70"
-            data-testid="financiamento-table-count"
+            data-testid="financiamento-table-count-legacy"
           >
             {parcelas.length} parcelas geradas e preservadas no modelo
           </p>
@@ -131,7 +131,7 @@ export function FinanciamentoTable({
           </button>
           <span
             className="rounded-md bg-cyan-300/10 px-2 py-1 font-semibold text-cyan-100"
-            data-testid="financiamento-table-range"
+            data-testid="financiamento-table-range-legacy"
           >
             Parcelas {firstVisible}-{lastVisible}
           </span>
@@ -238,7 +238,7 @@ export function FinanciamentoTable({
             <tfoot>
               <tr
                 className="border-t border-cyan-200/20 bg-cyan-300/10 font-semibold text-cyan-50"
-                data-testid="financiamento-table-totals"
+                data-testid="financiamento-table-totals-legacy"
               >
                 <th scope="row" className="px-2 py-2 text-right">
                   Total
@@ -271,7 +271,7 @@ export function FinanciamentoTable({
         {selected && (
           <aside
             className="rounded-xl border border-emerald-300/15 bg-emerald-300/10 p-3 text-xs text-emerald-50"
-            data-testid="financiamento-parcela-detalhe"
+            data-testid="financiamento-parcela-detalhe-legacy"
           >
             <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-emerald-200/80">
               Resumo do bloco

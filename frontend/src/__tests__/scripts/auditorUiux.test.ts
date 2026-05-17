@@ -92,12 +92,12 @@ describe("auditor-uiux", () => {
       "PEF-UIUX-CONTRACT-FINANCIAMENTO-IMOBILIARIO",
     );
     expect(payload.summary).toEqual({
-      high: 19,
-      medium: 9,
+      high: 5,
+      medium: 0,
       low: 0,
-      total: 28,
+      total: 5,
     });
-    expect(payload.issues).toHaveLength(28);
+    expect(payload.issues).toHaveLength(5);
   });
 
   it("mantém os códigos e quantidades esperados do FAIL atual", () => {
@@ -109,8 +109,6 @@ describe("auditor-uiux", () => {
     expect(byCode).toEqual({
       "UX-CTA-001": 2,
       "UX-CTA-002": 2,
-      "UX-DUP-001": 14,
-      "UX-DUP-002": 9,
       "UX-MOBILE-001": 1,
     });
   });

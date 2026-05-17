@@ -113,7 +113,7 @@ export function FinanciamentoSaibaMais({
       <button
         type="button"
         className="cockpit-more-btn"
-        data-testid="financiamento-saiba-mais-btn"
+        data-testid="financiamento-saiba-mais-btn-legacy"
         onClick={() => setOpen(true)}
         aria-haspopup="dialog"
       >
