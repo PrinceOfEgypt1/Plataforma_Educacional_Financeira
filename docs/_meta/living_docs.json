@@ -1,7 +1,7 @@
 {
   "$schema_version": 3,
   "generated_at": "2026-05-08",
-  "total_documents": 97,
+  "total_documents": 102,
   "categories": {
     "BASELINE_CANDIDATA": 1,
     "ESTATICO": 31,
@@ -882,9 +882,64 @@
       "materialized_in_repo": true,
       "last_updated": "2026-05-16",
       "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
+    },
+    {
+      "id": "GOV-FRONTEND-UIUX-CONTRACTS-README",
+      "title": "PEF — Contratos UI/UX Executáveis",
+      "path": "docs/governance/frontend/contracts/README_UIUX_CONTRACTS.md",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-16",
+      "updated_at": "2026-05-16",
+      "summary": "Explica a finalidade dos contratos UI/UX executáveis da PEF."
+    },
+    {
+      "id": "PEF-UIUX-CONTRACT-FINANCIAMENTO-IMOBILIARIO",
+      "title": "Contrato UI/UX — Financiamento Imobiliário",
+      "path": "docs/governance/frontend/contracts/financiamento-imobiliario.uiux.contract.json",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-16",
+      "updated_at": "2026-05-16",
+      "summary": "Define contrato verificável de UI/UX para o módulo Financiamento Imobiliário."
+    },
+    {
+      "id": "GATE-POUX-14F-F0B-README",
+      "title": "README — Item 14F-F0B",
+      "path": "docs/gates/gate-po-ux-valor/14f/01-contrato-uiux-imovel/README_ITEM_14F_F0B.md",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-16",
+      "updated_at": "2026-05-16",
+      "summary": "Resume objetivo, escopo e próximo passo do Item 14F-F0B."
+    },
+    {
+      "id": "GATE-POUX-14F-F0B-MANIFESTO",
+      "title": "Manifesto de arquivos — Item 14F-F0B",
+      "path": "docs/gates/gate-po-ux-valor/14f/01-contrato-uiux-imovel/MANIFESTO_ARQUIVOS_ITEM_14F_F0B.md",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-16",
+      "updated_at": "2026-05-16",
+      "summary": "Lista arquivos criados no Item 14F-F0B e sua finalidade."
+    },
+    {
+      "id": "GATE-POUX-14F-F0B-RELATORIO",
+      "title": "Relatório — Item 14F-F0B",
+      "path": "docs/gates/gate-po-ux-valor/14f/01-contrato-uiux-imovel/RELATORIO_ITEM_14F_F0B.md",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-16",
+      "updated_at": "2026-05-16",
+      "summary": "Registra decisões e limites do contrato UI/UX do módulo Imóvel."
     }
   ],
   "updated_at": "2026-05-16",
-  "update_reason": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; arquivo de checksums removido do versionamento para evitar falso positivo do detect-secrets.",
+  "update_reason": "Gate PO/UX/Valor — Item 14F-F0B: criação do contrato UI/UX executável do módulo Financiamento Imobiliário.",
   "_migration_note": "Sincronização documental concluída em 2026-04-17. Todos os documentos do pacote AUDITORIA_PROMPT_1_FINAL foram migrados. Documentos com materialized_in_repo=false são apenas aqueles que permanecem pendentes por decisão explícita."
 }

@@ -109,3 +109,13 @@ O inventário completo e autoritativo de documentos, categorias, caminhos canôn
 Este índice lista os principais grupos documentais para navegação rápida. Ele não tenta reproduzir manualmente todos os registros do projeto.
 
 Em caso de divergência entre este índice e `docs/_meta/living_docs.json`, prevalece o `living_docs.json`, por ser o inventário documental autoritativo do repositório.
+
+## Governança Frontend/UI/UX — Item 14F-F0B
+
+Contrato UI/UX executável do módulo Financiamento Imobiliário, criado como ponte entre a governança documental frontend/UI/UX e o futuro auditor automático.
+
+- [Contratos UI/UX executáveis](governance/frontend/contracts/README_UIUX_CONTRACTS.md)
+- [Contrato UI/UX — Financiamento Imobiliário](governance/frontend/contracts/financiamento-imobiliario.uiux.contract.json)
+- [README do Item 14F-F0B](gates/gate-po-ux-valor/14f/01-contrato-uiux-imovel/README_ITEM_14F_F0B.md)
+- [Manifesto de arquivos do Item 14F-F0B](gates/gate-po-ux-valor/14f/01-contrato-uiux-imovel/MANIFESTO_ARQUIVOS_ITEM_14F_F0B.md)
+- [Relatório do Item 14F-F0B](gates/gate-po-ux-valor/14f/01-contrato-uiux-imovel/RELATORIO_ITEM_14F_F0B.md)
