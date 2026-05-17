@@ -144,3 +144,12 @@ Integração operacional e runbook oficial do comando `audit:uiux` no frontend.
 - [README do Item 14F-F0E](gates/gate-po-ux-valor/14f/04-integracao-audit-uiux/README_ITEM_14F_F0E.md)
 - [Manifesto de arquivos do Item 14F-F0E](gates/gate-po-ux-valor/14f/04-integracao-audit-uiux/MANIFESTO_ARQUIVOS_ITEM_14F_F0E.md)
 - [Relatório de integração do audit:uiux](gates/gate-po-ux-valor/14f/04-integracao-audit-uiux/RELATORIO_INTEGRACAO_AUDIT_UIUX_ITEM_14F_F0E.md)
+
+## Gate PO/UX/Valor — Item 14F-F1 — FAIL oficial UI/UX do módulo Imóvel
+
+Registro oficial da reprovação UI/UX atual do módulo Financiamento Imobiliário com base no auditor `audit:uiux`.
+
+- [README do Item 14F-F1](gates/gate-po-ux-valor/14f/05-fail-oficial-uiux-imovel/README_ITEM_14F_F1.md)
+- [Manifesto de arquivos do Item 14F-F1](gates/gate-po-ux-valor/14f/05-fail-oficial-uiux-imovel/MANIFESTO_ARQUIVOS_ITEM_14F_F1.md)
+- [Relatório oficial do FAIL UI/UX do módulo Imóvel](gates/gate-po-ux-valor/14f/05-fail-oficial-uiux-imovel/RELATORIO_FAIL_OFICIAL_UIUX_IMOVEL_ITEM_14F_F1.md)
+- [Evidência JSON do auditor UI/UX](gates/gate-po-ux-valor/14f/05-fail-oficial-uiux-imovel/EVIDENCIA_AUDITOR_UIUX_IMOVEL_ITEM_14F_F1.json)

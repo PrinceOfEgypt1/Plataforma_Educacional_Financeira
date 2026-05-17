@@ -1,0 +1,263 @@
+{
+  "contract": "PEF-UIUX-CONTRACT-FINANCIAMENTO-IMOBILIARIO",
+  "issues": [
+    {
+      "code": "UX-DUP-001",
+      "severity": "high",
+      "title": "data-testid duplicado entre componente ativo e componente legado.",
+      "file": "frontend/src/components/financing/RealEstateFinancingTable.tsx",
+      "line": 76,
+      "evidence": "data-testid \"financiamento-table\" aparece em múltiplos arquivos: frontend/src/components/financing/RealEstateFinancingTable.tsx, frontend/src/components/financing/FinanciamentoTable.tsx",
+      "recommendation": "Separe identificadores de componentes ativos e legados ou remova o legado do fluxo ativo."
+    },
+    {
+      "code": "UX-DUP-001",
+      "severity": "high",
+      "title": "data-testid duplicado entre componente ativo e componente legado.",
+      "file": "frontend/src/components/financing/FinanciamentoTable.tsx",
+      "line": 97,
+      "evidence": "data-testid \"financiamento-table\" aparece em múltiplos arquivos: frontend/src/components/financing/RealEstateFinancingTable.tsx, frontend/src/components/financing/FinanciamentoTable.tsx",
+      "recommendation": "Separe identificadores de componentes ativos e legados ou remova o legado do fluxo ativo."
+    },
+    {
+      "code": "UX-DUP-001",
+      "severity": "high",
+      "title": "data-testid duplicado entre componente ativo e componente legado.",
+      "file": "frontend/src/components/financing/RealEstateFinancingTable.tsx",
+      "line": 113,
+      "evidence": "data-testid \"financiamento-table-count\" aparece em múltiplos arquivos: frontend/src/components/financing/RealEstateFinancingTable.tsx, frontend/src/components/financing/FinanciamentoTable.tsx",
+      "recommendation": "Separe identificadores de componentes ativos e legados ou remova o legado do fluxo ativo."
+    },
+    {
+      "code": "UX-DUP-001",
+      "severity": "high",
+      "title": "data-testid duplicado entre componente ativo e componente legado.",
+      "file": "frontend/src/components/financing/FinanciamentoTable.tsx",
+      "line": 107,
+      "evidence": "data-testid \"financiamento-table-count\" aparece em múltiplos arquivos: frontend/src/components/financing/RealEstateFinancingTable.tsx, frontend/src/components/financing/FinanciamentoTable.tsx",
+      "recommendation": "Separe identificadores de componentes ativos e legados ou remova o legado do fluxo ativo."
+    },
+    {
+      "code": "UX-DUP-001",
+      "severity": "high",
+      "title": "data-testid duplicado entre componente ativo e componente legado.",
+      "file": "frontend/src/components/financing/RealEstateFinancingTable.tsx",
+      "line": 118,
+      "evidence": "data-testid \"financiamento-table-range\" aparece em múltiplos arquivos: frontend/src/components/financing/RealEstateFinancingTable.tsx, frontend/src/components/financing/FinanciamentoTable.tsx",
+      "recommendation": "Separe identificadores de componentes ativos e legados ou remova o legado do fluxo ativo."
+    },
+    {
+      "code": "UX-DUP-001",
+      "severity": "high",
+      "title": "data-testid duplicado entre componente ativo e componente legado.",
+      "file": "frontend/src/components/financing/FinanciamentoTable.tsx",
+      "line": 134,
+      "evidence": "data-testid \"financiamento-table-range\" aparece em múltiplos arquivos: frontend/src/components/financing/RealEstateFinancingTable.tsx, frontend/src/components/financing/FinanciamentoTable.tsx",
+      "recommendation": "Separe identificadores de componentes ativos e legados ou remova o legado do fluxo ativo."
+    },
+    {
+      "code": "UX-DUP-001",
+      "severity": "high",
+      "title": "data-testid duplicado entre componente ativo e componente legado.",
+      "file": "frontend/src/components/financing/RealEstateFinancingTable.tsx",
+      "line": 264,
+      "evidence": "data-testid \"financiamento-table-totals\" aparece em múltiplos arquivos: frontend/src/components/financing/RealEstateFinancingTable.tsx, frontend/src/components/financing/FinanciamentoTable.tsx",
+      "recommendation": "Separe identificadores de componentes ativos e legados ou remova o legado do fluxo ativo."
+    },
+    {
+      "code": "UX-DUP-001",
+      "severity": "high",
+      "title": "data-testid duplicado entre componente ativo e componente legado.",
+      "file": "frontend/src/components/financing/FinanciamentoTable.tsx",
+      "line": 241,
+      "evidence": "data-testid \"financiamento-table-totals\" aparece em múltiplos arquivos: frontend/src/components/financing/RealEstateFinancingTable.tsx, frontend/src/components/financing/FinanciamentoTable.tsx",
+      "recommendation": "Separe identificadores de componentes ativos e legados ou remova o legado do fluxo ativo."
+    },
+    {
+      "code": "UX-DUP-001",
+      "severity": "high",
+      "title": "data-testid duplicado entre componente ativo e componente legado.",
+      "file": "frontend/src/components/financing/RealEstateFinancingTable.tsx",
+      "line": 301,
+      "evidence": "data-testid \"financiamento-parcela-detalhe\" aparece em múltiplos arquivos: frontend/src/components/financing/RealEstateFinancingTable.tsx, frontend/src/components/financing/FinanciamentoTable.tsx",
+      "recommendation": "Separe identificadores de componentes ativos e legados ou remova o legado do fluxo ativo."
+    },
+    {
+      "code": "UX-DUP-001",
+      "severity": "high",
+      "title": "data-testid duplicado entre componente ativo e componente legado.",
+      "file": "frontend/src/components/financing/FinanciamentoTable.tsx",
+      "line": 274,
+      "evidence": "data-testid \"financiamento-parcela-detalhe\" aparece em múltiplos arquivos: frontend/src/components/financing/RealEstateFinancingTable.tsx, frontend/src/components/financing/FinanciamentoTable.tsx",
+      "recommendation": "Separe identificadores de componentes ativos e legados ou remova o legado do fluxo ativo."
+    },
+    {
+      "code": "UX-DUP-001",
+      "severity": "high",
+      "title": "data-testid duplicado entre componente ativo e componente legado.",
+      "file": "frontend/src/components/financing/RealEstateCompareChart.tsx",
+      "line": 107,
+      "evidence": "data-testid \"financiamento-compare-chart\" aparece em múltiplos arquivos: frontend/src/components/financing/RealEstateCompareChart.tsx, frontend/src/components/financing/FinanciamentoCompareChart.tsx",
+      "recommendation": "Separe identificadores de componentes ativos e legados ou remova o legado do fluxo ativo."
+    },
+    {
+      "code": "UX-DUP-001",
+      "severity": "high",
+      "title": "data-testid duplicado entre componente ativo e componente legado.",
+      "file": "frontend/src/components/financing/FinanciamentoCompareChart.tsx",
+      "line": 97,
+      "evidence": "data-testid \"financiamento-compare-chart\" aparece em múltiplos arquivos: frontend/src/components/financing/RealEstateCompareChart.tsx, frontend/src/components/financing/FinanciamentoCompareChart.tsx",
+      "recommendation": "Separe identificadores de componentes ativos e legados ou remova o legado do fluxo ativo."
+    },
+    {
+      "code": "UX-DUP-001",
+      "severity": "high",
+      "title": "data-testid duplicado entre componente ativo e componente legado.",
+      "file": "frontend/src/components/financing/RealEstateCompareChart.tsx",
+      "line": 140,
+      "evidence": "data-testid \"compare-chart-pedagogia\" aparece em múltiplos arquivos: frontend/src/components/financing/RealEstateCompareChart.tsx, frontend/src/components/financing/FinanciamentoCompareChart.tsx",
+      "recommendation": "Separe identificadores de componentes ativos e legados ou remova o legado do fluxo ativo."
+    },
+    {
+      "code": "UX-DUP-001",
+      "severity": "high",
+      "title": "data-testid duplicado entre componente ativo e componente legado.",
+      "file": "frontend/src/components/financing/FinanciamentoCompareChart.tsx",
+      "line": 106,
+      "evidence": "data-testid \"compare-chart-pedagogia\" aparece em múltiplos arquivos: frontend/src/components/financing/RealEstateCompareChart.tsx, frontend/src/components/financing/FinanciamentoCompareChart.tsx",
+      "recommendation": "Separe identificadores de componentes ativos e legados ou remova o legado do fluxo ativo."
+    },
+    {
+      "code": "UX-DUP-002",
+      "severity": "medium",
+      "title": "Componente legado exportado ou testado como se fosse ativo sem justificativa.",
+      "file": "frontend/src/components/financing/FinanciamentoCompareChart.tsx",
+      "line": 97,
+      "evidence": "Componente legado usa data-testid \"financiamento-compare-chart\" sem sufixo \"-legacy\".",
+      "recommendation": "Renomeie testids legados ou remova o componente legado do contrato."
+    },
+    {
+      "code": "UX-DUP-002",
+      "severity": "medium",
+      "title": "Componente legado exportado ou testado como se fosse ativo sem justificativa.",
+      "file": "frontend/src/components/financing/FinanciamentoCompareChart.tsx",
+      "line": 106,
+      "evidence": "Componente legado usa data-testid \"compare-chart-pedagogia\" sem sufixo \"-legacy\".",
+      "recommendation": "Renomeie testids legados ou remova o componente legado do contrato."
+    },
+    {
+      "code": "UX-DUP-002",
+      "severity": "medium",
+      "title": "Componente legado exportado ou testado como se fosse ativo sem justificativa.",
+      "file": "frontend/src/components/financing/FinanciamentoTable.tsx",
+      "line": 97,
+      "evidence": "Componente legado usa data-testid \"financiamento-table\" sem sufixo \"-legacy\".",
+      "recommendation": "Renomeie testids legados ou remova o componente legado do contrato."
+    },
+    {
+      "code": "UX-DUP-002",
+      "severity": "medium",
+      "title": "Componente legado exportado ou testado como se fosse ativo sem justificativa.",
+      "file": "frontend/src/components/financing/FinanciamentoTable.tsx",
+      "line": 107,
+      "evidence": "Componente legado usa data-testid \"financiamento-table-count\" sem sufixo \"-legacy\".",
+      "recommendation": "Renomeie testids legados ou remova o componente legado do contrato."
+    },
+    {
+      "code": "UX-DUP-002",
+      "severity": "medium",
+      "title": "Componente legado exportado ou testado como se fosse ativo sem justificativa.",
+      "file": "frontend/src/components/financing/FinanciamentoTable.tsx",
+      "line": 134,
+      "evidence": "Componente legado usa data-testid \"financiamento-table-range\" sem sufixo \"-legacy\".",
+      "recommendation": "Renomeie testids legados ou remova o componente legado do contrato."
+    },
+    {
+      "code": "UX-DUP-002",
+      "severity": "medium",
+      "title": "Componente legado exportado ou testado como se fosse ativo sem justificativa.",
+      "file": "frontend/src/components/financing/FinanciamentoTable.tsx",
+      "line": 241,
+      "evidence": "Componente legado usa data-testid \"financiamento-table-totals\" sem sufixo \"-legacy\".",
+      "recommendation": "Renomeie testids legados ou remova o componente legado do contrato."
+    },
+    {
+      "code": "UX-DUP-002",
+      "severity": "medium",
+      "title": "Componente legado exportado ou testado como se fosse ativo sem justificativa.",
+      "file": "frontend/src/components/financing/FinanciamentoTable.tsx",
+      "line": 274,
+      "evidence": "Componente legado usa data-testid \"financiamento-parcela-detalhe\" sem sufixo \"-legacy\".",
+      "recommendation": "Renomeie testids legados ou remova o componente legado do contrato."
+    },
+    {
+      "code": "UX-DUP-002",
+      "severity": "medium",
+      "title": "Componente legado exportado ou testado como se fosse ativo sem justificativa.",
+      "file": "frontend/src/components/financing/FinanciamentoSummary.tsx",
+      "line": 33,
+      "evidence": "Componente legado usa data-testid \"financiamento-summary\" sem sufixo \"-legacy\".",
+      "recommendation": "Renomeie testids legados ou remova o componente legado do contrato."
+    },
+    {
+      "code": "UX-DUP-002",
+      "severity": "medium",
+      "title": "Componente legado exportado ou testado como se fosse ativo sem justificativa.",
+      "file": "frontend/src/components/financing/FinanciamentoSaibaMais.tsx",
+      "line": 116,
+      "evidence": "Componente legado usa data-testid \"financiamento-saiba-mais-btn\" sem sufixo \"-legacy\".",
+      "recommendation": "Renomeie testids legados ou remova o componente legado do contrato."
+    },
+    {
+      "code": "UX-CTA-002",
+      "severity": "high",
+      "title": "Rótulo do CTA não corresponde ao destino real.",
+      "file": "frontend/src/components/financing/RealEstateScenarioSidebar.tsx",
+      "line": 98,
+      "evidence": "CTA navega para destino genérico \"resultado\".",
+      "recommendation": "Direcione o CTA para a zona específica prometida pelo rótulo ou permita controle explícito da zona ativa."
+    },
+    {
+      "code": "UX-CTA-002",
+      "severity": "high",
+      "title": "Rótulo do CTA não corresponde ao destino real.",
+      "file": "frontend/src/components/financing/RealEstateScenarioSidebar.tsx",
+      "line": 122,
+      "evidence": "CTA navega para destino genérico \"resultado\".",
+      "recommendation": "Direcione o CTA para a zona específica prometida pelo rótulo ou permita controle explícito da zona ativa."
+    },
+    {
+      "code": "UX-CTA-001",
+      "severity": "high",
+      "title": "CTAs ou cards diferentes apontam para o mesmo destino sem justificativa.",
+      "file": "frontend/src/components/financing/RealEstateScenarioSidebar.tsx",
+      "line": 98,
+      "evidence": "Destino \"resultado\" aparece 2 vezes no mesmo componente de CTAs.",
+      "recommendation": "Diferencie destino, propósito ou justificativa dos CTAs que compartilham a mesma navegação."
+    },
+    {
+      "code": "UX-CTA-001",
+      "severity": "high",
+      "title": "CTAs ou cards diferentes apontam para o mesmo destino sem justificativa.",
+      "file": "frontend/src/components/financing/RealEstateNextStepsZone.tsx",
+      "line": 143,
+      "evidence": "Destino \"fontes\" aparece 2 vezes no mesmo componente de CTAs.",
+      "recommendation": "Diferencie destino, propósito ou justificativa dos CTAs que compartilham a mesma navegação."
+    },
+    {
+      "code": "UX-MOBILE-001",
+      "severity": "high",
+      "title": "Layout mobile viola regras mínimas de navegação e legibilidade.",
+      "file": "frontend/src/components/financing/RealEstateScenarioSidebar.tsx",
+      "line": 138,
+      "evidence": "Sidebar com largura fixa sem guarda clara de breakpoint.",
+      "recommendation": "Oculte ou transforme a sidebar abaixo do breakpoint definido no contrato."
+    }
+  ],
+  "summary": {
+    "high": 19,
+    "medium": 9,
+    "low": 0,
+    "total": 28
+  }
+}
