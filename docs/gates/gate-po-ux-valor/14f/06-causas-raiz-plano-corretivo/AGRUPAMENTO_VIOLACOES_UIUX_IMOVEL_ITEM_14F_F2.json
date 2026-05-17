@@ -1,0 +1,375 @@
+{
+  "schemaVersion": "1.0.0",
+  "item": "14F-F2",
+  "createdAt": "2026-05-17",
+  "sourceEvidence": "docs/gates/gate-po-ux-valor/14f/05-fail-oficial-uiux-imovel/EVIDENCIA_AUDITOR_UIUX_IMOVEL_ITEM_14F_F1.json",
+  "contract": "PEF-UIUX-CONTRACT-FINANCIAMENTO-IMOBILIARIO",
+  "module": "financiamento-imobiliario",
+  "route": "/financiamento-imobiliario",
+  "sourceSummary": {
+    "high": 19,
+    "medium": 9,
+    "low": 0,
+    "total": 28
+  },
+  "sourceIssueCount": 28,
+  "groupCount": 4,
+  "rootCauseGroups": [
+    {
+      "rootCauseId": "F2-RC-001",
+      "title": "Duplicidade e ambiguidade entre componentes ativos e legados",
+      "severity": "high",
+      "issueCount": 23,
+      "codes": {
+        "UX-DUP-001": 14,
+        "UX-DUP-002": 9
+      },
+      "affectedFiles": [
+        "frontend/src/components/financing/FinanciamentoCompareChart.tsx",
+        "frontend/src/components/financing/FinanciamentoSaibaMais.tsx",
+        "frontend/src/components/financing/FinanciamentoSummary.tsx",
+        "frontend/src/components/financing/FinanciamentoTable.tsx",
+        "frontend/src/components/financing/RealEstateCompareChart.tsx",
+        "frontend/src/components/financing/RealEstateFinancingTable.tsx"
+      ],
+      "issues": [
+        {
+          "code": "UX-DUP-001",
+          "severity": "high",
+          "file": "frontend/src/components/financing/RealEstateFinancingTable.tsx",
+          "title": "data-testid duplicado entre componente ativo e componente legado.",
+          "evidence": "data-testid \"financiamento-table\" aparece em múltiplos arquivos: frontend/src/components/financing/RealEstateFinancingTable.tsx, frontend/src/components/financing/FinanciamentoTable.tsx",
+          "expectedCorrection": null
+        },
+        {
+          "code": "UX-DUP-001",
+          "severity": "high",
+          "file": "frontend/src/components/financing/FinanciamentoTable.tsx",
+          "title": "data-testid duplicado entre componente ativo e componente legado.",
+          "evidence": "data-testid \"financiamento-table\" aparece em múltiplos arquivos: frontend/src/components/financing/RealEstateFinancingTable.tsx, frontend/src/components/financing/FinanciamentoTable.tsx",
+          "expectedCorrection": null
+        },
+        {
+          "code": "UX-DUP-001",
+          "severity": "high",
+          "file": "frontend/src/components/financing/RealEstateFinancingTable.tsx",
+          "title": "data-testid duplicado entre componente ativo e componente legado.",
+          "evidence": "data-testid \"financiamento-table-count\" aparece em múltiplos arquivos: frontend/src/components/financing/RealEstateFinancingTable.tsx, frontend/src/components/financing/FinanciamentoTable.tsx",
+          "expectedCorrection": null
+        },
+        {
+          "code": "UX-DUP-001",
+          "severity": "high",
+          "file": "frontend/src/components/financing/FinanciamentoTable.tsx",
+          "title": "data-testid duplicado entre componente ativo e componente legado.",
+          "evidence": "data-testid \"financiamento-table-count\" aparece em múltiplos arquivos: frontend/src/components/financing/RealEstateFinancingTable.tsx, frontend/src/components/financing/FinanciamentoTable.tsx",
+          "expectedCorrection": null
+        },
+        {
+          "code": "UX-DUP-001",
+          "severity": "high",
+          "file": "frontend/src/components/financing/RealEstateFinancingTable.tsx",
+          "title": "data-testid duplicado entre componente ativo e componente legado.",
+          "evidence": "data-testid \"financiamento-table-range\" aparece em múltiplos arquivos: frontend/src/components/financing/RealEstateFinancingTable.tsx, frontend/src/components/financing/FinanciamentoTable.tsx",
+          "expectedCorrection": null
+        },
+        {
+          "code": "UX-DUP-001",
+          "severity": "high",
+          "file": "frontend/src/components/financing/FinanciamentoTable.tsx",
+          "title": "data-testid duplicado entre componente ativo e componente legado.",
+          "evidence": "data-testid \"financiamento-table-range\" aparece em múltiplos arquivos: frontend/src/components/financing/RealEstateFinancingTable.tsx, frontend/src/components/financing/FinanciamentoTable.tsx",
+          "expectedCorrection": null
+        },
+        {
+          "code": "UX-DUP-001",
+          "severity": "high",
+          "file": "frontend/src/components/financing/RealEstateFinancingTable.tsx",
+          "title": "data-testid duplicado entre componente ativo e componente legado.",
+          "evidence": "data-testid \"financiamento-table-totals\" aparece em múltiplos arquivos: frontend/src/components/financing/RealEstateFinancingTable.tsx, frontend/src/components/financing/FinanciamentoTable.tsx",
+          "expectedCorrection": null
+        },
+        {
+          "code": "UX-DUP-001",
+          "severity": "high",
+          "file": "frontend/src/components/financing/FinanciamentoTable.tsx",
+          "title": "data-testid duplicado entre componente ativo e componente legado.",
+          "evidence": "data-testid \"financiamento-table-totals\" aparece em múltiplos arquivos: frontend/src/components/financing/RealEstateFinancingTable.tsx, frontend/src/components/financing/FinanciamentoTable.tsx",
+          "expectedCorrection": null
+        },
+        {
+          "code": "UX-DUP-001",
+          "severity": "high",
+          "file": "frontend/src/components/financing/RealEstateFinancingTable.tsx",
+          "title": "data-testid duplicado entre componente ativo e componente legado.",
+          "evidence": "data-testid \"financiamento-parcela-detalhe\" aparece em múltiplos arquivos: frontend/src/components/financing/RealEstateFinancingTable.tsx, frontend/src/components/financing/FinanciamentoTable.tsx",
+          "expectedCorrection": null
+        },
+        {
+          "code": "UX-DUP-001",
+          "severity": "high",
+          "file": "frontend/src/components/financing/FinanciamentoTable.tsx",
+          "title": "data-testid duplicado entre componente ativo e componente legado.",
+          "evidence": "data-testid \"financiamento-parcela-detalhe\" aparece em múltiplos arquivos: frontend/src/components/financing/RealEstateFinancingTable.tsx, frontend/src/components/financing/FinanciamentoTable.tsx",
+          "expectedCorrection": null
+        },
+        {
+          "code": "UX-DUP-001",
+          "severity": "high",
+          "file": "frontend/src/components/financing/RealEstateCompareChart.tsx",
+          "title": "data-testid duplicado entre componente ativo e componente legado.",
+          "evidence": "data-testid \"financiamento-compare-chart\" aparece em múltiplos arquivos: frontend/src/components/financing/RealEstateCompareChart.tsx, frontend/src/components/financing/FinanciamentoCompareChart.tsx",
+          "expectedCorrection": null
+        },
+        {
+          "code": "UX-DUP-001",
+          "severity": "high",
+          "file": "frontend/src/components/financing/FinanciamentoCompareChart.tsx",
+          "title": "data-testid duplicado entre componente ativo e componente legado.",
+          "evidence": "data-testid \"financiamento-compare-chart\" aparece em múltiplos arquivos: frontend/src/components/financing/RealEstateCompareChart.tsx, frontend/src/components/financing/FinanciamentoCompareChart.tsx",
+          "expectedCorrection": null
+        },
+        {
+          "code": "UX-DUP-001",
+          "severity": "high",
+          "file": "frontend/src/components/financing/RealEstateCompareChart.tsx",
+          "title": "data-testid duplicado entre componente ativo e componente legado.",
+          "evidence": "data-testid \"compare-chart-pedagogia\" aparece em múltiplos arquivos: frontend/src/components/financing/RealEstateCompareChart.tsx, frontend/src/components/financing/FinanciamentoCompareChart.tsx",
+          "expectedCorrection": null
+        },
+        {
+          "code": "UX-DUP-001",
+          "severity": "high",
+          "file": "frontend/src/components/financing/FinanciamentoCompareChart.tsx",
+          "title": "data-testid duplicado entre componente ativo e componente legado.",
+          "evidence": "data-testid \"compare-chart-pedagogia\" aparece em múltiplos arquivos: frontend/src/components/financing/RealEstateCompareChart.tsx, frontend/src/components/financing/FinanciamentoCompareChart.tsx",
+          "expectedCorrection": null
+        },
+        {
+          "code": "UX-DUP-002",
+          "severity": "medium",
+          "file": "frontend/src/components/financing/FinanciamentoCompareChart.tsx",
+          "title": "Componente legado exportado ou testado como se fosse ativo sem justificativa.",
+          "evidence": "Componente legado usa data-testid \"financiamento-compare-chart\" sem sufixo \"-legacy\".",
+          "expectedCorrection": null
+        },
+        {
+          "code": "UX-DUP-002",
+          "severity": "medium",
+          "file": "frontend/src/components/financing/FinanciamentoCompareChart.tsx",
+          "title": "Componente legado exportado ou testado como se fosse ativo sem justificativa.",
+          "evidence": "Componente legado usa data-testid \"compare-chart-pedagogia\" sem sufixo \"-legacy\".",
+          "expectedCorrection": null
+        },
+        {
+          "code": "UX-DUP-002",
+          "severity": "medium",
+          "file": "frontend/src/components/financing/FinanciamentoTable.tsx",
+          "title": "Componente legado exportado ou testado como se fosse ativo sem justificativa.",
+          "evidence": "Componente legado usa data-testid \"financiamento-table\" sem sufixo \"-legacy\".",
+          "expectedCorrection": null
+        },
+        {
+          "code": "UX-DUP-002",
+          "severity": "medium",
+          "file": "frontend/src/components/financing/FinanciamentoTable.tsx",
+          "title": "Componente legado exportado ou testado como se fosse ativo sem justificativa.",
+          "evidence": "Componente legado usa data-testid \"financiamento-table-count\" sem sufixo \"-legacy\".",
+          "expectedCorrection": null
+        },
+        {
+          "code": "UX-DUP-002",
+          "severity": "medium",
+          "file": "frontend/src/components/financing/FinanciamentoTable.tsx",
+          "title": "Componente legado exportado ou testado como se fosse ativo sem justificativa.",
+          "evidence": "Componente legado usa data-testid \"financiamento-table-range\" sem sufixo \"-legacy\".",
+          "expectedCorrection": null
+        },
+        {
+          "code": "UX-DUP-002",
+          "severity": "medium",
+          "file": "frontend/src/components/financing/FinanciamentoTable.tsx",
+          "title": "Componente legado exportado ou testado como se fosse ativo sem justificativa.",
+          "evidence": "Componente legado usa data-testid \"financiamento-table-totals\" sem sufixo \"-legacy\".",
+          "expectedCorrection": null
+        },
+        {
+          "code": "UX-DUP-002",
+          "severity": "medium",
+          "file": "frontend/src/components/financing/FinanciamentoTable.tsx",
+          "title": "Componente legado exportado ou testado como se fosse ativo sem justificativa.",
+          "evidence": "Componente legado usa data-testid \"financiamento-parcela-detalhe\" sem sufixo \"-legacy\".",
+          "expectedCorrection": null
+        },
+        {
+          "code": "UX-DUP-002",
+          "severity": "medium",
+          "file": "frontend/src/components/financing/FinanciamentoSummary.tsx",
+          "title": "Componente legado exportado ou testado como se fosse ativo sem justificativa.",
+          "evidence": "Componente legado usa data-testid \"financiamento-summary\" sem sufixo \"-legacy\".",
+          "expectedCorrection": null
+        },
+        {
+          "code": "UX-DUP-002",
+          "severity": "medium",
+          "file": "frontend/src/components/financing/FinanciamentoSaibaMais.tsx",
+          "title": "Componente legado exportado ou testado como se fosse ativo sem justificativa.",
+          "evidence": "Componente legado usa data-testid \"financiamento-saiba-mais-btn\" sem sufixo \"-legacy\".",
+          "expectedCorrection": null
+        }
+      ],
+      "problem": "Componentes antigos e componentes ativos compartilham data-testid ou continuam expostos/testados como se pertencessem ao mesmo fluxo ativo, criando ambiguidade técnica, risco de regressão e dificuldade de auditoria.",
+      "surgicalCorrection": [
+        "Definir explicitamente quais componentes são canônicos no fluxo ativo do módulo Imóvel.",
+        "Remover componentes legados do contrato ativo quando não fizerem parte da jornada atual.",
+        "Quando um legado precisar permanecer temporariamente, renomear testids com sufixo -legacy e justificar sua permanência.",
+        "Atualizar testes para apontarem apenas para componentes canônicos ou para legados claramente marcados.",
+        "Rodar audit:uiux novamente e exigir queda a zero de UX-DUP-001 e UX-DUP-002."
+      ],
+      "acceptanceCriteria": [
+        "Nenhum data-testid compartilhado entre componente ativo e legado.",
+        "Nenhum componente legado exposto como ativo sem sufixo ou justificativa.",
+        "Auditor não reporta UX-DUP-001.",
+        "Auditor não reporta UX-DUP-002."
+      ]
+    },
+    {
+      "rootCauseId": "F2-RC-002",
+      "title": "CTAs da sidebar prometem destinos diferentes, mas navegam para destino genérico",
+      "severity": "high",
+      "issueCount": 3,
+      "codes": {
+        "UX-CTA-001": 1,
+        "UX-CTA-002": 2
+      },
+      "affectedFiles": [
+        "frontend/src/components/financing/RealEstateScenarioSidebar.tsx"
+      ],
+      "issues": [
+        {
+          "code": "UX-CTA-002",
+          "severity": "high",
+          "file": "frontend/src/components/financing/RealEstateScenarioSidebar.tsx",
+          "title": "Rótulo do CTA não corresponde ao destino real.",
+          "evidence": "CTA navega para destino genérico \"resultado\".",
+          "expectedCorrection": null
+        },
+        {
+          "code": "UX-CTA-002",
+          "severity": "high",
+          "file": "frontend/src/components/financing/RealEstateScenarioSidebar.tsx",
+          "title": "Rótulo do CTA não corresponde ao destino real.",
+          "evidence": "CTA navega para destino genérico \"resultado\".",
+          "expectedCorrection": null
+        },
+        {
+          "code": "UX-CTA-001",
+          "severity": "high",
+          "file": "frontend/src/components/financing/RealEstateScenarioSidebar.tsx",
+          "title": "CTAs ou cards diferentes apontam para o mesmo destino sem justificativa.",
+          "evidence": "Destino \"resultado\" aparece 2 vezes no mesmo componente de CTAs.",
+          "expectedCorrection": null
+        }
+      ],
+      "problem": "A navegação do módulo ainda permite que CTAs com rótulos diferentes apontem para o mesmo destino genérico, especialmente resultado, contrariando a regra de propósito único e a navegação por zonas mutuamente exclusivas.",
+      "surgicalCorrection": [
+        "Substituir navegação genérica para resultado por navegação explícita para zonas canônicas.",
+        "Garantir que cada CTA tenha propósito, rótulo e destino coerentes.",
+        "Aplicar tabbed single-panel interaction em vez de scroll-to-section.",
+        "Adicionar ou ajustar testes para provar estado ativo e zona exibida após clique.",
+        "Rodar audit:uiux novamente e exigir queda a zero das ocorrências desse grupo."
+      ],
+      "acceptanceCriteria": [
+        "CTAs da sidebar não apontam para destino genérico resultado quando prometem conteúdo específico.",
+        "Cada CTA possui destino coerente com o rótulo.",
+        "Nenhum par de CTAs distintos compartilha destino sem justificativa visível.",
+        "Auditor não reporta UX-CTA-001 nesse componente.",
+        "Auditor não reporta UX-CTA-002 nesse componente."
+      ]
+    },
+    {
+      "rootCauseId": "F2-RC-003",
+      "title": "CTAs de próximos passos reutilizam destino sem diferenciação suficiente",
+      "severity": "high",
+      "issueCount": 1,
+      "codes": {
+        "UX-CTA-001": 1
+      },
+      "affectedFiles": [
+        "frontend/src/components/financing/RealEstateNextStepsZone.tsx"
+      ],
+      "issues": [
+        {
+          "code": "UX-CTA-001",
+          "severity": "high",
+          "file": "frontend/src/components/financing/RealEstateNextStepsZone.tsx",
+          "title": "CTAs ou cards diferentes apontam para o mesmo destino sem justificativa.",
+          "evidence": "Destino \"fontes\" aparece 2 vezes no mesmo componente de CTAs.",
+          "expectedCorrection": null
+        }
+      ],
+      "problem": "A zona de próximos passos possui CTAs distintos apontando para o mesmo destino sem diferenciação clara de propósito, contexto ou resultado para o usuário.",
+      "surgicalCorrection": [
+        "Revisar os CTAs da zona de próximos passos.",
+        "Consolidar CTAs redundantes ou diferenciar destinos e microcopy.",
+        "Garantir que cada card/botão tenha função única no fluxo de decisão.",
+        "Atualizar testes para impedir duplicidade de destino sem justificativa.",
+        "Rodar audit:uiux novamente e exigir queda a zero dessa ocorrência."
+      ],
+      "acceptanceCriteria": [
+        "Cada CTA de próximos passos possui função única.",
+        "Não há dois CTAs apontando para fontes sem diferença clara de contexto ou resultado.",
+        "Auditor não reporta UX-CTA-001 na zona de próximos passos."
+      ]
+    },
+    {
+      "rootCauseId": "F2-RC-004",
+      "title": "Sidebar com largura fixa sem proteção responsiva suficiente",
+      "severity": "high",
+      "issueCount": 1,
+      "codes": {
+        "UX-MOBILE-001": 1
+      },
+      "affectedFiles": [
+        "frontend/src/components/financing/RealEstateScenarioSidebar.tsx"
+      ],
+      "issues": [
+        {
+          "code": "UX-MOBILE-001",
+          "severity": "high",
+          "file": "frontend/src/components/financing/RealEstateScenarioSidebar.tsx",
+          "title": "Layout mobile viola regras mínimas de navegação e legibilidade.",
+          "evidence": "Sidebar com largura fixa sem guarda clara de breakpoint.",
+          "expectedCorrection": null
+        }
+      ],
+      "problem": "A sidebar do cenário usa largura fixa sem guarda clara de breakpoint, criando risco de quebra em telas menores e reduzindo legibilidade no mobile.",
+      "surgicalCorrection": [
+        "Definir comportamento responsivo explícito para a sidebar.",
+        "Abaixo do breakpoint definido, transformar sidebar em bloco superior, drawer, accordion ou cards compactos.",
+        "Evitar largura fixa ativa em mobile.",
+        "Validar com classes responsivas claras e testes de renderização quando aplicável.",
+        "Rodar audit:uiux novamente e exigir queda a zero de UX-MOBILE-001."
+      ],
+      "acceptanceCriteria": [
+        "Sidebar não mantém largura fixa ativa abaixo do breakpoint definido.",
+        "Conteúdo permanece legível em mobile.",
+        "Navegação continua operável sem sobreposição ou truncamento.",
+        "Auditor não reporta UX-MOBILE-001."
+      ]
+    }
+  ],
+  "surgicalOrder": [
+    "F2-RC-001",
+    "F2-RC-002",
+    "F2-RC-003",
+    "F2-RC-004"
+  ],
+  "globalAcceptanceCriteria": [
+    "Nenhuma correção deve alterar fórmulas financeiras ou contrato de cálculo.",
+    "Nenhuma correção deve reduzir violações por maquiagem de auditor, remoção artificial de evidência ou alteração oportunista de contrato.",
+    "O módulo deve manter testes frontend verdes.",
+    "O auditor audit:uiux deve ser rodado antes e depois da correção.",
+    "O próximo plano de implementação deve atacar causas raiz, não sintomas isolados."
+  ]
+}
