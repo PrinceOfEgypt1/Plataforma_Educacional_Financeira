@@ -17,7 +17,8 @@
     "test:a11y": "playwright test --grep @a11y",
     "audit:interface": "node scripts/auditor-de-interface.mjs",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "audit:uiux": "node scripts/auditor-uiux.mjs"
   },
   "dependencies": {
     "next": "^14.2.4",
