@@ -1255,4 +1255,126 @@ describe("Item 14A — Glossário, memória pedagógica, fontes e gráfico", () 
     // Sem mojibake
     expect(text).not.toMatch(/[Ã©Ã³ÃµÃ£]/);
   });
+
+  // ─── F4B — Testes funcionais: sidebar CTAs controlam zona ativa ──────
+
+  it("F4B-01 — clicar em 'Ver CET' na sidebar ativa Zona 3 (CET)", async () => {
+    vi.mocked(simularFinanciamentoImobiliario).mockResolvedValue(
+      makeResult("SAC"),
+    );
+    const user = await openSimulation();
+    await fillForm(user);
+    await user.click(screen.getByRole("button", { name: "Gerar simulação" }));
+    await waitFor(() =>
+      expect(screen.getByTestId("observatory-sidebar")).toBeInTheDocument(),
+    );
+    // Estado inicial: Zona 1 ativa
+    expect(
+      screen.getByRole("tabpanel", { name: /Zona 1/i }),
+    ).toBeInTheDocument();
+
+    // Clicar no CTA "Ver CET" na sidebar
+    const sidebar = screen.getByTestId("observatory-sidebar");
+    const cetBtn = within(sidebar).getByRole("button", {
+      name: /Ver CET/i,
+    });
+    await user.click(cetBtn);
+
+    // Zona 3 deve estar ativa
+    await waitFor(() =>
+      expect(
+        screen.getByRole("tabpanel", { name: /Zona 3/i }),
+      ).toBeInTheDocument(),
+    );
+    // Zona 1 não deve mais estar visível
+    expect(
+      screen.queryByRole("tabpanel", { name: /Zona 1/i }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("F4B-02 — clicar em 'Ver interpretação' na sidebar ativa Zona 4 (Interpretação)", async () => {
+    vi.mocked(simularFinanciamentoImobiliario).mockResolvedValue(
+      makeResult("SAC"),
+    );
+    const user = await openSimulation();
+    await fillForm(user);
+    await user.click(screen.getByRole("button", { name: "Gerar simulação" }));
+    await waitFor(() =>
+      expect(screen.getByTestId("observatory-sidebar")).toBeInTheDocument(),
+    );
+    // Estado inicial: Zona 1
+    expect(
+      screen.getByRole("tabpanel", { name: /Zona 1/i }),
+    ).toBeInTheDocument();
+
+    // Clicar no CTA "Ver interpretação" na sidebar
+    const sidebar = screen.getByTestId("observatory-sidebar");
+    const interpBtn = within(sidebar).getByRole("button", {
+      name: /Ver interpretação/i,
+    });
+    await user.click(interpBtn);
+
+    // Zona 4 deve estar ativa
+    await waitFor(() =>
+      expect(
+        screen.getByRole("tabpanel", { name: /Zona 4/i }),
+      ).toBeInTheDocument(),
+    );
+    expect(
+      screen.queryByRole("tabpanel", { name: /Zona 1/i }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("F4B-03 — após mudar manualmente de zona, clicar no CTA da sidebar volta para a zona correta", async () => {
+    vi.mocked(simularFinanciamentoImobiliario).mockResolvedValue(
+      makeResult("SAC"),
+    );
+    const user = await openSimulation();
+    await fillForm(user);
+    await user.click(screen.getByRole("button", { name: "Gerar simulação" }));
+    await waitFor(() =>
+      expect(screen.getByTestId("observatory-sidebar")).toBeInTheDocument(),
+    );
+
+    // Navegar manualmente para Zona 2 via tab
+    await user.click(screen.getByRole("tab", { name: /Ir para Zona 2/i }));
+    await waitFor(() =>
+      expect(
+        screen.getByRole("tabpanel", { name: /Zona 2/i }),
+      ).toBeInTheDocument(),
+    );
+
+    // Agora clicar em "Ver CET" na sidebar — deve ir para Zona 3
+    const sidebar = screen.getByTestId("observatory-sidebar");
+    await user.click(within(sidebar).getByRole("button", { name: /Ver CET/i }));
+    await waitFor(() =>
+      expect(
+        screen.getByRole("tabpanel", { name: /Zona 3/i }),
+      ).toBeInTheDocument(),
+    );
+    expect(
+      screen.queryByRole("tabpanel", { name: /Zona 2/i }),
+    ).not.toBeInTheDocument();
+
+    // Navegar para Zona 5 via tab
+    await user.click(screen.getByRole("tab", { name: /Ir para Zona 5/i }));
+    await waitFor(() =>
+      expect(
+        screen.getByRole("tabpanel", { name: /Zona 5/i }),
+      ).toBeInTheDocument(),
+    );
+
+    // Clicar em "Ver interpretação" — deve ir para Zona 4
+    await user.click(
+      within(sidebar).getByRole("button", { name: /Ver interpretação/i }),
+    );
+    await waitFor(() =>
+      expect(
+        screen.getByRole("tabpanel", { name: /Zona 4/i }),
+      ).toBeInTheDocument(),
+    );
+    expect(
+      screen.queryByRole("tabpanel", { name: /Zona 5/i }),
+    ).not.toBeInTheDocument();
+  });
 });

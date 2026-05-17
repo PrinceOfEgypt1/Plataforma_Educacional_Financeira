@@ -674,7 +674,7 @@ function LockedPanel({
   );
 }
 
-type ResultZone = 1 | 2 | 3 | 4 | 5;
+export type ResultZone = 1 | 2 | 3 | 4 | 5;
 
 function ResultPanel({
   result,
@@ -705,6 +705,7 @@ function ResultPanel({
       <RealEstateScenarioSidebar
         result={result}
         onNavigate={onOpen as (view: string) => void}
+        onNavigateZone={setActiveZone}
       />
 
       {/* ── Painel principal (header + zonas) ──────────────── */}
