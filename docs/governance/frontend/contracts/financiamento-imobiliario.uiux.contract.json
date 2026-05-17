@@ -1,0 +1,595 @@
+{
+  "schemaVersion": "1.0.0",
+  "contractId": "PEF-UIUX-CONTRACT-FINANCIAMENTO-IMOBILIARIO",
+  "contractStatus": "blocking-target",
+  "createdAt": "2026-05-16",
+  "module": {
+    "id": "financiamento-imobiliario",
+    "name": "Financiamento Imobiliário",
+    "route": "/financiamento-imobiliario",
+    "domain": "financing.real_estate",
+    "frontendOnly": true,
+    "description": "Contrato verificável de UI/UX para o módulo Imóvel da Plataforma Educacional Financeira."
+  },
+  "scope": {
+    "includes": [
+      "jornada frontend do módulo",
+      "zonas e painéis de resultado",
+      "CTAs e destinos esperados",
+      "cards e propósito de componentes",
+      "duplicação de informações entre zonas",
+      "estados de interface",
+      "responsividade mobile",
+      "contrato mínimo de tabela financeira",
+      "contrato mínimo de gráfico financeiro",
+      "regras de acessibilidade",
+      "regras de texto e integridade visual"
+    ],
+    "excludes": [
+      "backend",
+      "fórmulas financeiras",
+      "contrato de API",
+      "dependências",
+      "lockfiles",
+      "alteração visual direta",
+      "implementação de correções"
+    ]
+  },
+  "referencedStandards": [
+    {
+      "id": "GOV-FRONTEND-EXCELLENCE-STANDARD",
+      "path": "docs/governance/frontend/PEF_FRONTEND_EXCELLENCE_STANDARD.md"
+    },
+    {
+      "id": "GOV-FRONTEND-UIUX-SCORECARD",
+      "path": "docs/governance/frontend/PEF_UI_UX_SCORECARD.md"
+    },
+    {
+      "id": "GOV-FRONTEND-DEFINITION-OF-DONE",
+      "path": "docs/governance/frontend/PEF_FRONTEND_DEFINITION_OF_DONE.md"
+    },
+    {
+      "id": "GOV-FRONTEND-REJECTION-CRITERIA",
+      "path": "docs/governance/frontend/PEF_FRONTEND_REJECTION_CRITERIA.md"
+    },
+    {
+      "id": "GOV-FRONTEND-MODULE-JOURNEY-TEMPLATE",
+      "path": "docs/governance/frontend/PEF_MODULE_JOURNEY_TEMPLATE.md"
+    },
+    {
+      "id": "GOV-FRONTEND-COMPONENT-PURPOSE-STANDARD",
+      "path": "docs/governance/frontend/PEF_COMPONENT_PURPOSE_STANDARD.md"
+    },
+    {
+      "id": "GOV-FRONTEND-FINANCIAL-TABLE-UX-STANDARD",
+      "path": "docs/governance/frontend/PEF_FINANCIAL_TABLE_UX_STANDARD.md"
+    },
+    {
+      "id": "GOV-FRONTEND-FINANCIAL-CHART-UX-STANDARD",
+      "path": "docs/governance/frontend/PEF_FINANCIAL_CHART_UX_STANDARD.md"
+    }
+  ],
+  "sourceFiles": {
+    "routeFiles": [
+      "frontend/src/app/(app)/financiamento-imobiliario/page.tsx"
+    ],
+    "activeComponentFiles": [
+      "frontend/src/components/financing/FinanciamentoCockpit.tsx",
+      "frontend/src/components/financing/RealEstateScenarioSidebar.tsx",
+      "frontend/src/components/financing/RealEstateSummaryZone.tsx",
+      "frontend/src/components/financing/RealEstateMemoryPanel.tsx",
+      "frontend/src/components/financing/RealEstateFinancingTable.tsx",
+      "frontend/src/components/financing/RealEstateCompareChart.tsx",
+      "frontend/src/components/financing/RealEstateNextStepsZone.tsx",
+      "frontend/src/components/financing/RealEstateSourcesPanel.tsx",
+      "frontend/src/components/financing/RealEstateInsightCard.tsx",
+      "frontend/src/components/education/GlossaryTerm.tsx",
+      "frontend/src/services/financing/financiamentoService.ts",
+      "frontend/src/types/financing.ts"
+    ],
+    "legacyOrCompatibilityFiles": [
+      "frontend/src/components/financing/FinanciamentoCompareChart.tsx",
+      "frontend/src/components/financing/FinanciamentoTable.tsx",
+      "frontend/src/components/financing/FinanciamentoSummary.tsx",
+      "frontend/src/components/financing/FinanciamentoSaibaMais.tsx"
+    ],
+    "testFiles": [
+      "frontend/src/__tests__/app/financiamento-imobiliario.test.tsx",
+      "frontend/src/__tests__/components/financing/FinanciamentoCompareChart.test.tsx",
+      "frontend/src/__tests__/components/financing/FinanciamentoTable.test.tsx",
+      "frontend/src/__tests__/services/financing/financiamentoService.test.ts"
+    ]
+  },
+  "journey": {
+    "requiredSequence": [
+      "conceito",
+      "simulacao",
+      "resultado-principal",
+      "parcela",
+      "cet",
+      "interpretacao",
+      "memoria-calculo",
+      "tabela",
+      "comparacao",
+      "fontes-limites",
+      "proximos-passos"
+    ],
+    "principles": [
+      "a tela deve indicar onde o usuário está",
+      "a ação principal deve ser evidente",
+      "o resultado principal deve vir antes dos detalhes técnicos",
+      "cada zona deve ter propósito único",
+      "conteúdo avançado deve aparecer sob demanda",
+      "a jornada não deve depender de rolagem longa para misturar zonas diferentes"
+    ]
+  },
+  "views": [
+    {
+      "id": "inicio",
+      "label": "Início",
+      "purpose": "Apresentar o módulo e orientar a entrada na simulação."
+    },
+    {
+      "id": "conceito",
+      "label": "Conceito",
+      "purpose": "Explicar o que é financiamento imobiliário antes da simulação."
+    },
+    {
+      "id": "simulacao",
+      "label": "Simulação",
+      "purpose": "Coletar dados necessários e validar entradas."
+    },
+    {
+      "id": "resultado",
+      "label": "Resultado",
+      "purpose": "Concentrar as zonas de resultado e leitura financeira."
+    },
+    {
+      "id": "comparacao",
+      "label": "Comparação",
+      "purpose": "Comparar cenários e métodos quando existirem dados suficientes."
+    },
+    {
+      "id": "tabela",
+      "label": "Tabela",
+      "purpose": "Mostrar evolução temporal preservando legibilidade."
+    },
+    {
+      "id": "memoria",
+      "label": "Memória de cálculo",
+      "purpose": "Exibir fórmulas, variáveis, substituições e arredondamentos."
+    },
+    {
+      "id": "fontes",
+      "label": "Fontes e limites",
+      "purpose": "Explicar fontes, premissas, limites e cuidados."
+    }
+  ],
+  "zones": [
+    {
+      "id": "resumo",
+      "label": "Resumo",
+      "ownerView": "resultado",
+      "purpose": "Mostrar resultado principal, valores centrais e orientação inicial.",
+      "critical": true
+    },
+    {
+      "id": "parcela",
+      "label": "Parcela",
+      "ownerView": "resultado",
+      "purpose": "Explicar composição da prestação e relação entre amortização, juros e encargos.",
+      "critical": true
+    },
+    {
+      "id": "cet",
+      "label": "CET",
+      "ownerView": "resultado",
+      "purpose": "Explicar custo efetivo total, componentes e impacto no valor total.",
+      "critical": true
+    },
+    {
+      "id": "interpretacao",
+      "label": "Interpretação",
+      "ownerView": "resultado",
+      "purpose": "Traduzir os números em leitura prática e pedagógica.",
+      "critical": true
+    },
+    {
+      "id": "proximos-passos",
+      "label": "Próximos passos",
+      "ownerView": "resultado",
+      "purpose": "Orientar comparação, cuidado e decisões posteriores.",
+      "critical": false
+    }
+  ],
+  "ctaContract": [
+    {
+      "id": "cta-ver-cet",
+      "label": "Ver CET",
+      "expectedDestination": {
+        "view": "resultado",
+        "zone": "cet"
+      },
+      "allowedSourceComponents": [
+        "RealEstateScenarioSidebar",
+        "RealEstateInsightCard",
+        "RealEstateNextStepsZone"
+      ],
+      "severityIfBroken": "high",
+      "errorCodeIfBroken": "UX-CTA-002"
+    },
+    {
+      "id": "cta-ver-interpretacao",
+      "label": "Ver interpretação",
+      "expectedDestination": {
+        "view": "resultado",
+        "zone": "interpretacao"
+      },
+      "allowedSourceComponents": [
+        "RealEstateScenarioSidebar",
+        "RealEstateInsightCard",
+        "RealEstateNextStepsZone"
+      ],
+      "severityIfBroken": "high",
+      "errorCodeIfBroken": "UX-CTA-002"
+    },
+    {
+      "id": "cta-ver-grafico",
+      "label": "Ver gráfico",
+      "expectedDestination": {
+        "view": "comparacao"
+      },
+      "allowedSourceComponents": [
+        "RealEstateScenarioSidebar",
+        "RealEstateInsightCard",
+        "RealEstateNextStepsZone"
+      ],
+      "severityIfBroken": "medium",
+      "errorCodeIfBroken": "UX-CTA-002"
+    },
+    {
+      "id": "cta-abrir-tabela",
+      "label": "Abrir tabela",
+      "expectedDestination": {
+        "view": "tabela"
+      },
+      "allowedSourceComponents": [
+        "RealEstateNextStepsZone",
+        "FinanciamentoCockpit"
+      ],
+      "severityIfBroken": "medium",
+      "errorCodeIfBroken": "UX-CTA-002"
+    },
+    {
+      "id": "cta-ver-memoria",
+      "label": "Ver memória",
+      "expectedDestination": {
+        "view": "memoria"
+      },
+      "allowedSourceComponents": [
+        "RealEstateNextStepsZone",
+        "FinanciamentoCockpit"
+      ],
+      "severityIfBroken": "medium",
+      "errorCodeIfBroken": "UX-CTA-002"
+    },
+    {
+      "id": "cta-ver-fontes",
+      "label": "Ver fontes",
+      "expectedDestination": {
+        "view": "fontes"
+      },
+      "allowedSourceComponents": [
+        "RealEstateNextStepsZone",
+        "FinanciamentoCockpit"
+      ],
+      "severityIfBroken": "medium",
+      "errorCodeIfBroken": "UX-CTA-002"
+    }
+  ],
+  "destinationRules": {
+    "forbidDifferentLabelsSameGenericDestinationWithoutJustification": true,
+    "forbidSpecificCtaToGenericResultadoOnly": true,
+    "requireJustificationWhenMultipleCardsShareDestination": true,
+    "sameDestinationAllowedOnlyWhen": [
+      "os cards têm papéis complementares documentados",
+      "a diferença de contexto é explícita ao usuário",
+      "o destino abre diretamente a zona ou view prometida"
+    ],
+    "errors": [
+      "UX-CTA-001",
+      "UX-CTA-002",
+      "UX-CARD-001"
+    ]
+  },
+  "contentOwnership": [
+    {
+      "topic": "resultado-principal",
+      "primaryZone": "resumo",
+      "allowedSecondaryZones": [
+        "proximos-passos"
+      ],
+      "duplicationPolicy": "summary-only-outside-primary-zone",
+      "errorCode": "UX-DUP-INFO-001"
+    },
+    {
+      "topic": "composicao-da-parcela",
+      "primaryZone": "parcela",
+      "allowedSecondaryZones": [
+        "resumo"
+      ],
+      "duplicationPolicy": "no-full-block-duplication",
+      "errorCode": "UX-DUP-INFO-001"
+    },
+    {
+      "topic": "cet",
+      "primaryZone": "cet",
+      "allowedSecondaryZones": [
+        "resumo",
+        "proximos-passos"
+      ],
+      "duplicationPolicy": "summary-only-outside-primary-zone",
+      "errorCode": "UX-DUP-INFO-001"
+    },
+    {
+      "topic": "interpretacao",
+      "primaryZone": "interpretacao",
+      "allowedSecondaryZones": [
+        "proximos-passos"
+      ],
+      "duplicationPolicy": "no-full-block-duplication",
+      "errorCode": "UX-DUP-INFO-001"
+    },
+    {
+      "topic": "memoria-calculo",
+      "primaryView": "memoria",
+      "allowedSecondaryZones": [
+        "resumo"
+      ],
+      "duplicationPolicy": "summary-only-outside-primary-view",
+      "errorCode": "UX-DUP-INFO-001"
+    }
+  ],
+  "stateContract": {
+    "requiredStates": [
+      "idle",
+      "loading",
+      "success",
+      "error",
+      "validation-error"
+    ],
+    "requirements": [
+      {
+        "state": "idle",
+        "mustExplainNextAction": true,
+        "errorCode": "UX-STATE-003"
+      },
+      {
+        "state": "loading",
+        "mustDisablePrimarySubmit": true,
+        "mustShowVisibleFeedback": true,
+        "errorCode": "UX-STATE-001"
+      },
+      {
+        "state": "success",
+        "mustShowResultAndNextStep": true,
+        "errorCode": "UX-STATE-004"
+      },
+      {
+        "state": "error",
+        "mustPreserveInputs": true,
+        "mustExplainRecovery": true,
+        "errorCode": "UX-STATE-002"
+      },
+      {
+        "state": "validation-error",
+        "mustPointToField": true,
+        "mustUseHumanMessage": true,
+        "errorCode": "UX-STATE-005"
+      }
+    ]
+  },
+  "mobileContract": {
+    "breakpoints": {
+      "sidebarAllowedFrom": "lg"
+    },
+    "forbidden": [
+      "sidebar fixa visível abaixo do breakpoint permitido",
+      "painel principal comprimido por navegação lateral",
+      "rolagem horizontal da página inteira",
+      "botões com área de toque inadequada",
+      "tabela financeira renderizada como bloco ilegível"
+    ],
+    "required": [
+      "ação principal acessível",
+      "zonas críticas acessíveis sem depender da sidebar lateral",
+      "tabela com estratégia mobile legível",
+      "gráfico com proporção mínima preservada"
+    ],
+    "errorCode": "UX-MOBILE-001"
+  },
+  "tableContract": {
+    "component": "RealEstateFinancingTable",
+    "requiredFeatures": [
+      "preservar quantidade total de parcelas",
+      "oferecer paginação ou blocos",
+      "ter cabeçalho claro",
+      "explicar significado das colunas",
+      "mostrar resumo do bloco visível",
+      "usar totalizadores corretos",
+      "evitar rolagem de página inteira como mecanismo principal",
+      "manter leitura pedagógica"
+    ],
+    "forbidden": [
+      "muralha de números sem orientação",
+      "tabela longa misturada com outras zonas",
+      "coluna com valor semanticamente incompatível",
+      "cabeçalho ausente ou ambíguo"
+    ],
+    "errorCode": "UX-TABLE-001"
+  },
+  "chartContract": {
+    "component": "RealEstateCompareChart",
+    "requiredFeatures": [
+      "altura visual suficiente",
+      "escala legível",
+      "legenda clara",
+      "tooltip ou leitura orientada",
+      "texto pedagógico conectado ao gráfico",
+      "proporção não achatada",
+      "comparação honesta entre cenários"
+    ],
+    "forbidden": [
+      "gráfico decorativo sem interpretação",
+      "eixo ilegível",
+      "altura insuficiente para leitura",
+      "cards de resumo redundantes ou excessivos"
+    ],
+    "errorCode": "UX-CHART-001"
+  },
+  "accessibilityContract": {
+    "required": [
+      "botões com nome acessível",
+      "abas ou zonas com estado ativo reconhecível",
+      "foco visível",
+      "navegação por teclado nos controles críticos",
+      "tabelas com cabeçalhos semânticos",
+      "tooltips acessíveis por teclado",
+      "informação crítica não dependente apenas de cor"
+    ],
+    "errorCodes": [
+      "UX-A11Y-001",
+      "UX-A11Y-002",
+      "UX-A11Y-003"
+    ]
+  },
+  "textIntegrityContract": {
+    "forbiddenDescriptions": [
+      "marcador de tarefa pendente",
+      "marcador de correção pendente",
+      "marcador temporário de conteúdo",
+      "texto com acentuação corrompida",
+      "texto genérico que substitui decisão real",
+      "mensagem de erro técnica exposta ao usuário final"
+    ],
+    "required": [
+      "português claro",
+      "acentuação correta",
+      "microcopy coerente com a taxa ou valor digitado",
+      "texto pedagógico conectado ao resultado real"
+    ],
+    "errorCodes": [
+      "UX-TEXT-001",
+      "UX-TEXT-002",
+      "UX-TEXT-003"
+    ]
+  },
+  "testIdContract": {
+    "forbidDuplicateTestIdsAcrossActiveAndLegacyComponents": true,
+    "legacyTestIdsMustUseSuffix": "-legacy",
+    "errorCode": "UX-DUP-001"
+  },
+  "legacyComponentPolicy": {
+    "legacyComponentsMayExistTemporarily": true,
+    "mustNotBeTreatedAsActiveWithoutReason": true,
+    "mustHaveDistinctTestIds": true,
+    "mustBeMappedForFutureRemovalOrConsolidation": true,
+    "errorCode": "UX-DUP-002"
+  },
+  "auditErrorCodes": [
+    {
+      "code": "UX-CTA-001",
+      "severity": "high",
+      "title": "CTAs ou cards diferentes apontam para o mesmo destino sem justificativa."
+    },
+    {
+      "code": "UX-CTA-002",
+      "severity": "high",
+      "title": "Rótulo do CTA não corresponde ao destino real."
+    },
+    {
+      "code": "UX-CARD-001",
+      "severity": "high",
+      "title": "Cards diferentes executam a mesma ação real sem propósito distinto."
+    },
+    {
+      "code": "UX-DUP-001",
+      "severity": "high",
+      "title": "data-testid duplicado entre componente ativo e componente legado."
+    },
+    {
+      "code": "UX-DUP-002",
+      "severity": "medium",
+      "title": "Componente legado exportado ou testado como se fosse ativo sem justificativa."
+    },
+    {
+      "code": "UX-DUP-INFO-001",
+      "severity": "high",
+      "title": "Informação financeira repetida entre zonas sem função clara."
+    },
+    {
+      "code": "UX-JOURNEY-001",
+      "severity": "high",
+      "title": "Jornada principal não segue sequência declarada no contrato."
+    },
+    {
+      "code": "UX-JOURNEY-002",
+      "severity": "high",
+      "title": "Módulo mistura zonas em fluxo longo quando deveria usar painéis distintos."
+    },
+    {
+      "code": "UX-MOBILE-001",
+      "severity": "high",
+      "title": "Layout mobile viola regras mínimas de navegação e legibilidade."
+    },
+    {
+      "code": "UX-TABLE-001",
+      "severity": "high",
+      "title": "Tabela financeira não atende contrato mínimo de UX."
+    },
+    {
+      "code": "UX-CHART-001",
+      "severity": "medium",
+      "title": "Gráfico financeiro não atende contrato mínimo de UX."
+    },
+    {
+      "code": "UX-STATE-001",
+      "severity": "medium",
+      "title": "Estado loading ausente ou sem feedback visível."
+    },
+    {
+      "code": "UX-STATE-002",
+      "severity": "medium",
+      "title": "Estado de erro ausente, técnico ou sem recuperação clara."
+    },
+    {
+      "code": "UX-A11Y-001",
+      "severity": "high",
+      "title": "Controle crítico sem nome acessível ou sem estado reconhecível."
+    },
+    {
+      "code": "UX-TEXT-001",
+      "severity": "high",
+      "title": "Texto temporário ou corrompido em arquivo materializável."
+    }
+  ],
+  "auditorHints": {
+    "staticAnalysisTargets": [
+      "labels de botões e actions associadas",
+      "valores passados a onNavigate e funções equivalentes",
+      "testids duplicados",
+      "classes de responsividade",
+      "presença de componentes legados em exports",
+      "palavras e padrões textuais proibidos",
+      "estrutura de zonas e estado ativo",
+      "componentes de tabela e gráfico"
+    ],
+    "futureRuntimeChecks": [
+      "clicar CTAs críticos e verificar destino",
+      "validar loading, error e validation-error",
+      "validar mobile abaixo do breakpoint lg",
+      "validar navegação por teclado",
+      "validar gráfico e tabela com dados reais"
+    ]
+  }
+}
