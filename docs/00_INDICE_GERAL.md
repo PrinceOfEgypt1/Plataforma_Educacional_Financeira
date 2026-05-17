@@ -153,3 +153,13 @@ Registro oficial da reprovação UI/UX atual do módulo Financiamento Imobiliár
 - [Manifesto de arquivos do Item 14F-F1](gates/gate-po-ux-valor/14f/05-fail-oficial-uiux-imovel/MANIFESTO_ARQUIVOS_ITEM_14F_F1.md)
 - [Relatório oficial do FAIL UI/UX do módulo Imóvel](gates/gate-po-ux-valor/14f/05-fail-oficial-uiux-imovel/RELATORIO_FAIL_OFICIAL_UIUX_IMOVEL_ITEM_14F_F1.md)
 - [Evidência JSON do auditor UI/UX](gates/gate-po-ux-valor/14f/05-fail-oficial-uiux-imovel/EVIDENCIA_AUDITOR_UIUX_IMOVEL_ITEM_14F_F1.json)
+
+## Gate PO/UX/Valor — Item 14F-F2 — Causas raiz e plano corretivo UI/UX do módulo Imóvel
+
+Agrupamento das 28 violações UI/UX do módulo Financiamento Imobiliário por causa raiz e plano corretivo cirúrgico.
+
+- [README do Item 14F-F2](gates/gate-po-ux-valor/14f/06-causas-raiz-plano-corretivo/README_ITEM_14F_F2.md)
+- [Manifesto de arquivos do Item 14F-F2](gates/gate-po-ux-valor/14f/06-causas-raiz-plano-corretivo/MANIFESTO_ARQUIVOS_ITEM_14F_F2.md)
+- [Relatório de causas raiz UI/UX do módulo Imóvel](gates/gate-po-ux-valor/14f/06-causas-raiz-plano-corretivo/RELATORIO_CAUSAS_RAIZ_UIUX_IMOVEL_ITEM_14F_F2.md)
+- [Plano corretivo cirúrgico UI/UX do módulo Imóvel](gates/gate-po-ux-valor/14f/06-causas-raiz-plano-corretivo/PLANO_CORRETIVO_CIRURGICO_UIUX_IMOVEL_ITEM_14F_F2.md)
+- [Agrupamento JSON de violações UI/UX](gates/gate-po-ux-valor/14f/06-causas-raiz-plano-corretivo/AGRUPAMENTO_VIOLACOES_UIUX_IMOVEL_ITEM_14F_F2.json)
