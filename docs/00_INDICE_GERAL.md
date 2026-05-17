@@ -127,3 +127,11 @@ Auditor automático `audit:uiux`, criado para consumir o contrato UI/UX do módu
 - [README do Item 14F-F0C](gates/gate-po-ux-valor/14f/02-auditor-uiux/README_ITEM_14F_F0C.md)
 - [Manifesto de arquivos do Item 14F-F0C](gates/gate-po-ux-valor/14f/02-auditor-uiux/MANIFESTO_ARQUIVOS_ITEM_14F_F0C.md)
 - [Relatório do Auditor UI/UX — Item 14F-F0C](gates/gate-po-ux-valor/14f/02-auditor-uiux/RELATORIO_AUDITOR_UIUX_ITEM_14F_F0C.md)
+
+## Gate PO/UX/Valor — Item 14F-F0D — Testes do auditor UI/UX
+
+Testes automatizados para o auditor `audit:uiux` do módulo Financiamento Imobiliário.
+
+- [README do Item 14F-F0D](gates/gate-po-ux-valor/14f/03-testes-auditor-uiux/README_ITEM_14F_F0D.md)
+- [Manifesto de arquivos do Item 14F-F0D](gates/gate-po-ux-valor/14f/03-testes-auditor-uiux/MANIFESTO_ARQUIVOS_ITEM_14F_F0D.md)
+- [Relatório de testes do auditor UI/UX](gates/gate-po-ux-valor/14f/03-testes-auditor-uiux/RELATORIO_TESTES_AUDITOR_UIUX_ITEM_14F_F0D.md)

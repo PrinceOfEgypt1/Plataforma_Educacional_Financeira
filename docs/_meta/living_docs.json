@@ -1,7 +1,7 @@
 {
   "$schema_version": 3,
   "generated_at": "2026-05-08",
-  "total_documents": 105,
+  "total_documents": 108,
   "categories": {
     "BASELINE_CANDIDATA": 1,
     "ESTATICO": 31,
@@ -970,9 +970,42 @@
       "created_at": "2026-05-16",
       "updated_at": "2026-05-16",
       "summary": "Registra evidências, comandos e resultado inicial do auditor UI/UX."
+    },
+    {
+      "id": "GATE-POUX-14F-F0D-README",
+      "title": "README — Item 14F-F0D",
+      "path": "docs/gates/gate-po-ux-valor/14f/03-testes-auditor-uiux/README_ITEM_14F_F0D.md",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-17",
+      "updated_at": "2026-05-17",
+      "summary": "Resume objetivo, escopo e resultado esperado dos testes do auditor UI/UX."
+    },
+    {
+      "id": "GATE-POUX-14F-F0D-MANIFESTO",
+      "title": "Manifesto de arquivos — Item 14F-F0D",
+      "path": "docs/gates/gate-po-ux-valor/14f/03-testes-auditor-uiux/MANIFESTO_ARQUIVOS_ITEM_14F_F0D.md",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-17",
+      "updated_at": "2026-05-17",
+      "summary": "Lista arquivos criados e alterados no Item 14F-F0D."
+    },
+    {
+      "id": "GATE-POUX-14F-F0D-RELATORIO-TESTES-AUDITOR-UIUX",
+      "title": "Relatório de testes do auditor UI/UX — Item 14F-F0D",
+      "path": "docs/gates/gate-po-ux-valor/14f/03-testes-auditor-uiux/RELATORIO_TESTES_AUDITOR_UIUX_ITEM_14F_F0D.md",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-17",
+      "updated_at": "2026-05-17",
+      "summary": "Documenta a cobertura automatizada criada para o auditor audit:uiux."
     }
   ],
-  "updated_at": "2026-05-16",
-  "update_reason": "Gate PO/UX/Valor — Item 14F-F0C: criação do auditor automático audit:uiux para reprovação objetiva de violações UI/UX.",
+  "updated_at": "2026-05-17",
+  "update_reason": "Gate PO/UX/Valor — Item 14F-F0D: testes automatizados do auditor UI/UX.",
   "_migration_note": "Sincronização documental concluída em 2026-04-17. Todos os documentos do pacote AUDITORIA_PROMPT_1_FINAL foram migrados. Documentos com materialized_in_repo=false são apenas aqueles que permanecem pendentes por decisão explícita."
 }
