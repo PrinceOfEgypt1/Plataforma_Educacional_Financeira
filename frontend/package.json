@@ -18,7 +18,10 @@
     "audit:interface": "node scripts/auditor-de-interface.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "audit:uiux": "node scripts/auditor-uiux.mjs"
+    "audit:uiux": "node scripts/auditor-uiux.mjs",
+    "audit:uiux:contract": "node scripts/auditor-uiux.mjs --contract-only",
+    "audit:uiux:expect-fail": "node scripts/auditor-uiux.mjs --expect-fail",
+    "audit:uiux:json": "node scripts/auditor-uiux.mjs --json --expect-fail"
   },
   "dependencies": {
     "next": "^14.2.4",

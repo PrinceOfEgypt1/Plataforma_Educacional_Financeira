@@ -135,3 +135,12 @@ Testes automatizados para o auditor `audit:uiux` do módulo Financiamento Imobil
 - [README do Item 14F-F0D](gates/gate-po-ux-valor/14f/03-testes-auditor-uiux/README_ITEM_14F_F0D.md)
 - [Manifesto de arquivos do Item 14F-F0D](gates/gate-po-ux-valor/14f/03-testes-auditor-uiux/MANIFESTO_ARQUIVOS_ITEM_14F_F0D.md)
 - [Relatório de testes do auditor UI/UX](gates/gate-po-ux-valor/14f/03-testes-auditor-uiux/RELATORIO_TESTES_AUDITOR_UIUX_ITEM_14F_F0D.md)
+
+## Gate PO/UX/Valor — Item 14F-F0E — Integração operacional do audit:uiux
+
+Integração operacional e runbook oficial do comando `audit:uiux` no frontend.
+
+- [Runbook oficial do comando audit:uiux](governance/frontend/PEF_AUDIT_UIUX_COMMAND_RUNBOOK.md)
+- [README do Item 14F-F0E](gates/gate-po-ux-valor/14f/04-integracao-audit-uiux/README_ITEM_14F_F0E.md)
+- [Manifesto de arquivos do Item 14F-F0E](gates/gate-po-ux-valor/14f/04-integracao-audit-uiux/MANIFESTO_ARQUIVOS_ITEM_14F_F0E.md)
+- [Relatório de integração do audit:uiux](gates/gate-po-ux-valor/14f/04-integracao-audit-uiux/RELATORIO_INTEGRACAO_AUDIT_UIUX_ITEM_14F_F0E.md)
