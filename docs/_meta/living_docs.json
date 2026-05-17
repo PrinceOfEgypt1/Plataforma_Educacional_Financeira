@@ -1,11 +1,11 @@
 {
   "$schema_version": 3,
   "generated_at": "2026-05-08",
-  "total_documents": 86,
+  "total_documents": 97,
   "categories": {
     "BASELINE_CANDIDATA": 1,
     "ESTATICO": 31,
-    "GOVERNANCA_SPRINT": 18,
+    "GOVERNANCA_SPRINT": 30,
     "HIBRIDO": 6,
     "META": 1,
     "OPERACIONAL": 1,
@@ -783,9 +783,108 @@
       "added_sprint": "gate-po-ux-valor-item-11",
       "last_updated": "2026-05-10",
       "note": "Item 11 do Gate PO/UX/Valor: Value Gate documental, auditável e objetivo para aceite do módulo-piloto Financiamento Imobiliário; Sprint 5 permanece congelada."
+    },
+    {
+      "id": "GOV-FRONTEND-EXCELLENCE-STANDARD",
+      "path": "docs/governance/frontend/PEF_FRONTEND_EXCELLENCE_STANDARD.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Padrão de Excelência Frontend/UI/UX da PEF",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-16",
+      "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
+    },
+    {
+      "id": "GOV-FRONTEND-UIUX-SCORECARD",
+      "path": "docs/governance/frontend/PEF_UI_UX_SCORECARD.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Scorecard UI/UX da PEF",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-16",
+      "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
+    },
+    {
+      "id": "GOV-FRONTEND-DEFINITION-OF-DONE",
+      "path": "docs/governance/frontend/PEF_FRONTEND_DEFINITION_OF_DONE.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Definition of Done Frontend da PEF",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-16",
+      "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
+    },
+    {
+      "id": "GOV-FRONTEND-REJECTION-CRITERIA",
+      "path": "docs/governance/frontend/PEF_FRONTEND_REJECTION_CRITERIA.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Critérios de Rejeição Frontend/UI/UX da PEF",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-16",
+      "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
+    },
+    {
+      "id": "GOV-FRONTEND-MODULE-JOURNEY-TEMPLATE",
+      "path": "docs/governance/frontend/PEF_MODULE_JOURNEY_TEMPLATE.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Template de Jornada de Módulo da PEF",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-16",
+      "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
+    },
+    {
+      "id": "GOV-FRONTEND-COMPONENT-PURPOSE-STANDARD",
+      "path": "docs/governance/frontend/PEF_COMPONENT_PURPOSE_STANDARD.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Padrão de Propósito de Componentes da PEF",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-16",
+      "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
+    },
+    {
+      "id": "GOV-FRONTEND-FINANCIAL-TABLE-UX-STANDARD",
+      "path": "docs/governance/frontend/PEF_FINANCIAL_TABLE_UX_STANDARD.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Padrão UX para Tabelas Financeiras da PEF",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-16",
+      "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
+    },
+    {
+      "id": "GOV-FRONTEND-FINANCIAL-CHART-UX-STANDARD",
+      "path": "docs/governance/frontend/PEF_FINANCIAL_CHART_UX_STANDARD.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Padrão UX para Gráficos Financeiros da PEF",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-16",
+      "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
+    },
+    {
+      "id": "GATE-POUX-14F-F0A-README",
+      "path": "docs/gates/gate-po-ux-valor/14f/00-governanca-frontend-uiux/README_ITEM_14F_F0A.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "README do Item 14F-F0A — Governança Frontend/UI/UX",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-16",
+      "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
+    },
+    {
+      "id": "GATE-POUX-14F-F0A-MANIFESTO",
+      "path": "docs/gates/gate-po-ux-valor/14f/00-governanca-frontend-uiux/MANIFESTO_ARQUIVOS_ITEM_14F_F0A.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Manifesto de Arquivos do Item 14F-F0A",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-16",
+      "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
+    },
+    {
+      "id": "GATE-POUX-14F-F0A-MATERIALIZACAO",
+      "path": "docs/gates/gate-po-ux-valor/14f/00-governanca-frontend-uiux/MATERIALIZACAO_ORIENTADA_ITEM_14F_F0A.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Materialização Orientada do Item 14F-F0A",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-16",
+      "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
     }
   ],
-  "updated_at": "2026-05-10",
-  "update_reason": "Gate PO/UX/Valor — Item 11: criação documental do Value Gate do Financiamento Imobiliário; Sprint 5 permanece congelada.",
+  "updated_at": "2026-05-16",
+  "update_reason": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; arquivo de checksums removido do versionamento para evitar falso positivo do detect-secrets.",
   "_migration_note": "Sincronização documental concluída em 2026-04-17. Todos os documentos do pacote AUDITORIA_PROMPT_1_FINAL foram migrados. Documentos com materialized_in_repo=false são apenas aqueles que permanecem pendentes por decisão explícita."
 }

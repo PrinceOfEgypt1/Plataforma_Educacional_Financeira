@@ -69,6 +69,36 @@ O inventário completo e autoritativo de documentos, categorias, caminhos canôn
 - Value Gate — Financiamento Imobiliário do Gate PO/UX/Valor
   (`docs/gates/gate-po-ux-valor/08-value-gate/VALUE_GATE_FINANCIAMENTO_IMOBILIARIO_GATE_PO_UX_VALOR.md`)
 
+## Governança Frontend/UI/UX — Item 14F-F0A
+
+- Padrão de Excelência Frontend/UI/UX da PEF
+  (`docs/governance/frontend/PEF_FRONTEND_EXCELLENCE_STANDARD.md`)
+
+- Scorecard UI/UX da PEF
+  (`docs/governance/frontend/PEF_UI_UX_SCORECARD.md`)
+
+- Definition of Done Frontend da PEF
+  (`docs/governance/frontend/PEF_FRONTEND_DEFINITION_OF_DONE.md`)
+
+- Critérios de Rejeição Frontend/UI/UX da PEF
+  (`docs/governance/frontend/PEF_FRONTEND_REJECTION_CRITERIA.md`)
+
+- Template de Jornada de Módulo da PEF
+  (`docs/governance/frontend/PEF_MODULE_JOURNEY_TEMPLATE.md`)
+
+- Padrão de Propósito de Componentes da PEF
+  (`docs/governance/frontend/PEF_COMPONENT_PURPOSE_STANDARD.md`)
+
+- Padrão UX para Tabelas Financeiras da PEF
+  (`docs/governance/frontend/PEF_FINANCIAL_TABLE_UX_STANDARD.md`)
+
+- Padrão UX para Gráficos Financeiros da PEF
+  (`docs/governance/frontend/PEF_FINANCIAL_CHART_UX_STANDARD.md`)
+
+- Evidências do Item 14F-F0A — Governança Documental Frontend/UI/UX
+  (`docs/gates/gate-po-ux-valor/14f/00-governanca-frontend-uiux/`)
+
+
 ## Artefato operacional
 
 - Planilha de acompanhamento (`docs/operacional/backlog_operacional_acompanhamento.xlsx`)
