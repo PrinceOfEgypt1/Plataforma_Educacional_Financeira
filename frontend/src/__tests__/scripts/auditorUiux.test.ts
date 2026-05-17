@@ -82,8 +82,8 @@ describe("auditor-uiux", () => {
     expect(result.stdout).toContain("Nenhuma violação encontrada.");
   });
 
-  it("emite JSON estruturado para o FAIL atual do módulo Imóvel", () => {
-    const result = runAuditor(["--json", "--expect-fail"]);
+  it("emite JSON estruturado com zero violações após F4C", () => {
+    const result = runAuditor(["--json"]);
     const payload = parseJsonPayload(result.stdout);
 
     expect(result.status).toBe(0);
@@ -92,37 +92,28 @@ describe("auditor-uiux", () => {
       "PEF-UIUX-CONTRACT-FINANCIAMENTO-IMOBILIARIO",
     );
     expect(payload.summary).toEqual({
-      high: 1,
+      high: 0,
       medium: 0,
       low: 0,
-      total: 1,
+      total: 0,
     });
-    expect(payload.issues).toHaveLength(1);
+    expect(payload.issues).toHaveLength(0);
   });
 
-  it("mantém os códigos e quantidades esperados do FAIL atual", () => {
-    const result = runAuditor(["--json", "--expect-fail"]);
+  it("não reporta nenhum código de violação", () => {
+    const result = runAuditor(["--json"]);
     const payload = parseJsonPayload(result.stdout);
     const byCode = countByCode(payload.issues);
 
     expect(result.status).toBe(0);
-    expect(byCode).toEqual({
-      "UX-CTA-001": 1,
-    });
+    expect(byCode).toEqual({});
   });
 
-  it("preserva evidências mínimas das violações", () => {
-    const result = runAuditor(["--json", "--expect-fail"]);
-    const payload = parseJsonPayload(result.stdout);
+  it("--expect-fail falha quando não há violações", () => {
+    const result = runAuditor(["--expect-fail"]);
 
-    expect(result.status).toBe(0);
-
-    for (const issue of payload.issues) {
-      expect(issue.code).toMatch(/^UX-/);
-      expect(issue.severity).toMatch(/^(high|medium|low)$/);
-      expect(issue.title.length).toBeGreaterThan(0);
-      expect(issue.file).toContain("frontend/");
-      expect(issue.evidence.length).toBeGreaterThan(0);
-    }
+    // Com zero violações, --expect-fail deve retornar erro
+    expect(result.status).toBe(1);
+    expect(result.stdout).toContain("Nenhuma violação encontrada");
   });
 });

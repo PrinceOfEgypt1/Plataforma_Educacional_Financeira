@@ -981,6 +981,7 @@ function ResultPanel({
             >
               <RealEstateNextStepsZone
                 onNavigate={onOpen as (v: string) => void}
+                onNavigateZone={setActiveZone}
               />
             </div>
           )}
