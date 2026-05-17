@@ -20,6 +20,8 @@ import { RealEstateInsightCard } from "./RealEstateInsightCard";
 interface RealEstateScenarioSidebarProps {
   readonly result: FinanciamentoImobOut;
   readonly onNavigate: (view: string) => void;
+  /** Setter direto da zona ativa do ResultPanel — garante troca imediata */
+  readonly onNavigateZone: (zone: 1 | 2 | 3 | 4 | 5) => void;
 }
 
 function ScenarioRow({
@@ -75,6 +77,7 @@ function ResultPill({
 function buildInsightCards(
   summary: FinanciamentoImobSummary,
   onNavigate: (view: string) => void,
+  onNavigateZone: (zone: 1 | 2 | 3 | 4 | 5) => void,
 ) {
   const totalJuros = parseFloat(summary.total_juros);
   const valorFinanciado = parseFloat(summary.valor_financiado);
@@ -95,7 +98,7 @@ function buildInsightCards(
       title: `Você paga ${pctJuros}% do financiado em juros`,
       description: `${formatBRL(summary.total_juros)} em juros ao longo do contrato.`,
       actionLabel: "Ver interpretação",
-      onAction: () => onNavigate("resultado"),
+      onAction: () => onNavigateZone(4),
       testId: "insight-card-juros",
     },
     {
@@ -119,7 +122,7 @@ function buildInsightCards(
       description:
         "Cartório, IOF e avaliação do imóvel não estão incluídos aqui.",
       actionLabel: "Ver CET",
-      onAction: () => onNavigate("resultado"),
+      onAction: () => onNavigateZone(3),
       testId: "insight-card-cet",
     },
   ];
@@ -128,14 +131,15 @@ function buildInsightCards(
 export function RealEstateScenarioSidebar({
   result,
   onNavigate,
+  onNavigateZone,
 }: RealEstateScenarioSidebarProps) {
   const { summary } = result;
-  const insights = buildInsightCards(summary, onNavigate);
+  const insights = buildInsightCards(summary, onNavigate, onNavigateZone);
 
   return (
     <aside
       className="
-        flex w-[252px] flex-shrink-0 flex-col border-r border-cyan-200/8
+        hidden lg:flex w-[252px] flex-shrink-0 flex-col border-r border-cyan-200/8
         bg-slate-950/60 overflow-y-auto overflow-x-hidden
       "
       data-testid="observatory-sidebar"
