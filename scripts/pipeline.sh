@@ -77,7 +77,7 @@ USO:
 MODO PADRÃO (obrigatório):
   Backend  : ruff check, ruff format --check, mypy app/,
              bandit -r app/ -c pyproject.toml, pytest tests/unit -m unit
-  Frontend : install --frozen-lockfile, lint, format:check, typecheck,
+  Frontend : install --frozen-lockfile, lint, audit:uiux, format:check, typecheck,
              test -- --run, build
 
   Pré-requisitos ausentes (venv, python, pnpm, node, ferramentas) =>
@@ -298,7 +298,7 @@ backend_full_extras() {
 }
 
 # ---------------------------------------------------------------------------
-# 8. Frontend — modo padrão (6 gates, todos obrigatórios)
+# 8. Frontend — modo padrão (7 gates, todos obrigatórios)
 # ---------------------------------------------------------------------------
 # shellcheck disable=SC2086
 frontend_standard() {
@@ -309,6 +309,8 @@ frontend_standard() {
     sh -c "${PNPM_BIN} install --frozen-lockfile"
   run_required_in "${FRONTEND_DIR}" "frontend.lint" \
     sh -c "${PNPM_BIN} lint"
+  run_required_in "${FRONTEND_DIR}" "frontend.audit_uiux" \
+    sh -c "${PNPM_BIN} audit:uiux"
   run_required_in "${FRONTEND_DIR}" "frontend.format_check" \
     sh -c "${PNPM_BIN} format:check"
   run_required_in "${FRONTEND_DIR}" "frontend.typecheck" \

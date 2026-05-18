@@ -232,6 +232,9 @@ jobs:
       - name: Lint (eslint)
         run: cd frontend && pnpm lint
 
+      - name: Audit UI/UX (gate bloqueante)
+        run: cd frontend && pnpm audit:uiux
+
       - name: Format check (prettier)
         run: cd frontend && pnpm format:check
 

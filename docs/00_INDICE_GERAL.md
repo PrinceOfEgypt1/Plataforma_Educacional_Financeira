@@ -163,3 +163,10 @@ Agrupamento das 28 violações UI/UX do módulo Financiamento Imobiliário por c
 - [Relatório de causas raiz UI/UX do módulo Imóvel](gates/gate-po-ux-valor/14f/06-causas-raiz-plano-corretivo/RELATORIO_CAUSAS_RAIZ_UIUX_IMOVEL_ITEM_14F_F2.md)
 - [Plano corretivo cirúrgico UI/UX do módulo Imóvel](gates/gate-po-ux-valor/14f/06-causas-raiz-plano-corretivo/PLANO_CORRETIVO_CIRURGICO_UIUX_IMOVEL_ITEM_14F_F2.md)
 - [Agrupamento JSON de violações UI/UX](gates/gate-po-ux-valor/14f/06-causas-raiz-plano-corretivo/AGRUPAMENTO_VIOLACOES_UIUX_IMOVEL_ITEM_14F_F2.json)
+
+## Gate PO/UX/Valor — Item 14F-F5 — Auditor UI/UX como gate oficial
+
+Promoção do auditor UI/UX do módulo Financiamento Imobiliário a gate oficial BLOCKING do pipeline de qualidade da PEF.
+
+- [Gate oficial do auditor UI/UX](governance/frontend/PEF_AUDIT_UIUX_GATE_OFICIAL.md)
+- [Runbook do comando audit:uiux](governance/frontend/PEF_AUDIT_UIUX_COMMAND_RUNBOOK.md)
