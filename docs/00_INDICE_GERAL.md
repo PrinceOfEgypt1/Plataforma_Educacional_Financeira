@@ -178,3 +178,14 @@ Promoção do auditor UI/UX do módulo Financiamento Imobiliário a gate oficial
 - `docs/gates/gate-po-ux-valor/14f/08-validacao-visual-final-f6/MATRIZ_CRITICAS_PO_UIUX_IMOVEL_ITEM_14F_F6.md`
 
 Resultado: reprovação visual pelo PO. O auditor UI/UX automático permanece zerado e ativo como gate oficial, mas a interface ainda exige redesenho de jornada e arquitetura de informação antes de novo aceite visual.
+
+## Gate PO/UX/Valor — Item 14F-F7 — Redesenho técnico-funcional da jornada do módulo Imóvel
+
+- `docs/gates/gate-po-ux-valor/14f/09-redesenho-tecnico-funcional-jornada-imovel/README_ITEM_14F_F7.md`
+- `docs/gates/gate-po-ux-valor/14f/09-redesenho-tecnico-funcional-jornada-imovel/ESPECIFICACAO_REDESENHO_JORNADA_IMOVEL_ITEM_14F_F7.md`
+- `docs/gates/gate-po-ux-valor/14f/09-redesenho-tecnico-funcional-jornada-imovel/MATRIZ_REQUISITOS_TECNICO_FUNCIONAIS_IMOVEL_ITEM_14F_F7.md`
+- `docs/gates/gate-po-ux-valor/14f/09-redesenho-tecnico-funcional-jornada-imovel/ARQUITETURA_FLUXO_DADOS_RASTREABILIDADE_IMOVEL_ITEM_14F_F7.md`
+- `docs/gates/gate-po-ux-valor/14f/09-redesenho-tecnico-funcional-jornada-imovel/CRITERIOS_ACEITE_PROTOTIPO_IMOVEL_ITEM_14F_F7.md`
+- `docs/gates/gate-po-ux-valor/14f/09-redesenho-tecnico-funcional-jornada-imovel/PROMPT_BASE_IMPLEMENTACAO_POS_F7_IMOVEL_ITEM_14F_F7.md`
+
+Resultado: especificação de redesenho técnico-funcional da jornada do módulo Imóvel, derivada da reprovação visual F6 e integrada a requisitos de rastreabilidade numérica, arredondamento, arquitetura de informação, critérios de aceite e prompt base para futura implementação.
