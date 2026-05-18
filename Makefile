@@ -1,7 +1,7 @@
 .PHONY: help verify verify-full install install-be install-fe \
         test-unit test-integration test-contract test-regression test-mutation \
         lint lint-be lint-fe format format-be format-fe \
-        typecheck typecheck-be typecheck-fe \
+        typecheck typecheck-be typecheck-fe audit-uiux-fe \
         migrate migrate-dryrun \
         build build-be build-fe \
         up down logs healthcheck \
@@ -54,6 +54,10 @@ typecheck-be:  ## Typecheck backend (mypy)
 typecheck-fe:  ## Typecheck frontend (tsc)
 	cd $(FE_SRC) && pnpm typecheck
 
+# ── Auditoria UI/UX ──────────────────────────────────────────────────────
+audit-uiux-fe:  ## Auditor UI/UX do frontend (gate bloqueante pós-F4C)
+	cd $(FE_SRC) && pnpm audit:uiux
+
 # ── Testes ─────────────────────────────────────────────────────────────────
 test-unit:  ## Testes unitários
 	$(PYTEST) tests/unit -v --cov=app --cov-report=term-missing -m unit
@@ -72,7 +76,7 @@ test-mutation:  ## Teste de mutação no domain/ (semanal)
 	cd $(BE_SRC) && .venv/bin/python -m mutmut run --paths-to-mutate app/domain/
 
 # ── Verificação completa ────────────────────────────────────────────────────
-verify: lint format typecheck test-unit  ## lint + format + typecheck + unit tests
+verify: lint format typecheck audit-uiux-fe test-unit  ## lint + format + typecheck + audit:uiux + unit tests
 
 verify-full: verify test-integration test-contract test-regression  ## Verificação completa
 
@@ -129,4 +133,3 @@ a11y-smoke:  ## Teste de acessibilidade nas telas críticas
 # ── Lint pedagógico ────────────────────────────────────────────────────────
 lint-pedagogical:  ## Lint pedagógico (subset Doc 08 §20 — implementação Sprint 7)
 	$(PYTHON) -m tools.edu_lint
-
