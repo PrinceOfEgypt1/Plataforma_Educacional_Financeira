@@ -1,7 +1,7 @@
 {
   "$schema_version": 3,
   "generated_at": "2026-05-08",
-  "total_documents": 125,
+  "total_documents": 131,
   "categories": {
     "BASELINE_CANDIDATA": 1,
     "ESTATICO": 31,
@@ -1178,9 +1178,51 @@
       "path": "docs/gates/gate-po-ux-valor/14f/08-validacao-visual-final-f6/MATRIZ_CRITICAS_PO_UIUX_IMOVEL_ITEM_14F_F6.md",
       "category": "GOVERNANCA_SPRINT",
       "summary": "Lista críticas visuais e de jornada levantadas pelo PO durante a validação manual F6 do módulo Financiamento Imobiliário."
+    },
+    {
+      "id": "GATE-POUX-14F-F7-README",
+      "title": "Item 14F-F7 — Redesenho técnico-funcional da jornada do módulo Imóvel",
+      "path": "docs/gates/gate-po-ux-valor/14f/09-redesenho-tecnico-funcional-jornada-imovel/README_ITEM_14F_F7.md",
+      "category": "GOVERNANCA_SPRINT",
+      "summary": "Registra a abertura do redesenho técnico-funcional da jornada do módulo Financiamento Imobiliário após reprovação visual F6."
+    },
+    {
+      "id": "GATE-POUX-14F-F7-ESPECIFICACAO-JORNADA",
+      "title": "Especificação de redesenho da jornada — Item 14F-F7",
+      "path": "docs/gates/gate-po-ux-valor/14f/09-redesenho-tecnico-funcional-jornada-imovel/ESPECIFICACAO_REDESENHO_JORNADA_IMOVEL_ITEM_14F_F7.md",
+      "category": "GOVERNANCA_SPRINT",
+      "summary": "Define a nova jornada guiada do módulo Imóvel, com navegação única, etapas pedagógicas e regras visuais mínimas."
+    },
+    {
+      "id": "GATE-POUX-14F-F7-MATRIZ-REQUISITOS",
+      "title": "Matriz de requisitos técnico-funcionais — Item 14F-F7",
+      "path": "docs/gates/gate-po-ux-valor/14f/09-redesenho-tecnico-funcional-jornada-imovel/MATRIZ_REQUISITOS_TECNICO_FUNCIONAIS_IMOVEL_ITEM_14F_F7.md",
+      "category": "GOVERNANCA_SPRINT",
+      "summary": "Converte as críticas da F6 e os requisitos de rastreabilidade em critérios verificáveis para a próxima implementação."
+    },
+    {
+      "id": "GATE-POUX-14F-F7-FLUXO-DADOS-RASTREABILIDADE",
+      "title": "Arquitetura de fluxo de dados e rastreabilidade — Item 14F-F7",
+      "path": "docs/gates/gate-po-ux-valor/14f/09-redesenho-tecnico-funcional-jornada-imovel/ARQUITETURA_FLUXO_DADOS_RASTREABILIDADE_IMOVEL_ITEM_14F_F7.md",
+      "category": "GOVERNANCA_SPRINT",
+      "summary": "Define responsabilidades entre frontend, API, domínio, schemas e UI para preservar rastreabilidade numérica e consistência de centavos."
+    },
+    {
+      "id": "GATE-POUX-14F-F7-CRITERIOS-ACEITE",
+      "title": "Critérios de aceite para protótipo pós-F7 — Módulo Imóvel",
+      "path": "docs/gates/gate-po-ux-valor/14f/09-redesenho-tecnico-funcional-jornada-imovel/CRITERIOS_ACEITE_PROTOTIPO_IMOVEL_ITEM_14F_F7.md",
+      "category": "GOVERNANCA_SPRINT",
+      "summary": "Define critérios bloqueantes e positivos para validar futura entrega visual ou implementação React pós-F7."
+    },
+    {
+      "id": "GATE-POUX-14F-F7-PROMPT-BASE-POS-F7",
+      "title": "Prompt base para implementação pós-F7 — Módulo Imóvel",
+      "path": "docs/gates/gate-po-ux-valor/14f/09-redesenho-tecnico-funcional-jornada-imovel/PROMPT_BASE_IMPLEMENTACAO_POS_F7_IMOVEL_ITEM_14F_F7.md",
+      "category": "GOVERNANCA_SPRINT",
+      "summary": "Fornece base governada para futuras entregas da IA executora, exigindo jornada guiada e proibindo remendos incrementais."
     }
   ],
-  "updated_at": "2026-05-18T15:02:04Z",
-  "update_reason": "Gate PO/UX/Valor — Item 14F-F6: registro de não aceite visual do módulo Imóvel pelo PO.",
+  "updated_at": "2026-05-18T15:38:02Z",
+  "update_reason": "Gate PO/UX/Valor — Item 14F-F7: redesenho técnico-funcional da jornada do módulo Imóvel.",
   "_migration_note": "Sincronização documental concluída em 2026-04-17. Todos os documentos do pacote AUDITORIA_PROMPT_1_FINAL foram migrados. Documentos com materialized_in_repo=false são apenas aqueles que permanecem pendentes por decisão explícita."
 }
