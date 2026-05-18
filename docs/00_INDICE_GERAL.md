@@ -170,3 +170,11 @@ Promoção do auditor UI/UX do módulo Financiamento Imobiliário a gate oficial
 
 - [Gate oficial do auditor UI/UX](governance/frontend/PEF_AUDIT_UIUX_GATE_OFICIAL.md)
 - [Runbook do comando audit:uiux](governance/frontend/PEF_AUDIT_UIUX_COMMAND_RUNBOOK.md)
+
+## Gate PO/UX/Valor — Item 14F-F6 — Validação visual final curta do módulo Imóvel
+
+- `docs/gates/gate-po-ux-valor/14f/08-validacao-visual-final-f6/README_ITEM_14F_F6.md`
+- `docs/gates/gate-po-ux-valor/14f/08-validacao-visual-final-f6/RELATORIO_NAO_ACEITE_VISUAL_UIUX_IMOVEL_ITEM_14F_F6.md`
+- `docs/gates/gate-po-ux-valor/14f/08-validacao-visual-final-f6/MATRIZ_CRITICAS_PO_UIUX_IMOVEL_ITEM_14F_F6.md`
+
+Resultado: reprovação visual pelo PO. O auditor UI/UX automático permanece zerado e ativo como gate oficial, mas a interface ainda exige redesenho de jornada e arquitetura de informação antes de novo aceite visual.

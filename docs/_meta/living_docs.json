@@ -1,1165 +1,1186 @@
 {
-    "$schema_version": 3,
-    "generated_at": "2026-05-08",
-    "total_documents": 122,
-    "categories": {
-        "BASELINE_CANDIDATA": 1,
-        "ESTATICO": 31,
-        "GOVERNANCA_SPRINT": 30,
-        "HIBRIDO": 6,
-        "META": 1,
-        "OPERACIONAL": 1,
-        "VIVO": 28
+  "$schema_version": 3,
+  "generated_at": "2026-05-08",
+  "total_documents": 125,
+  "categories": {
+    "BASELINE_CANDIDATA": 1,
+    "ESTATICO": 31,
+    "GOVERNANCA_SPRINT": 30,
+    "HIBRIDO": 6,
+    "META": 1,
+    "OPERACIONAL": 1,
+    "VIVO": 28
+  },
+  "documents": [
+    {
+      "id": "doc_00",
+      "path": "docs/00_INDICE_GERAL.md",
+      "category": "VIVO",
+      "title": "Índice Geral",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-10",
+      "sprint_4_5_f6_note": "Sprint 4.5/F6: índice passa a apontar para o relatório de fechamento e a validação oficial da Sprint 4.5."
     },
-    "documents": [
-        {
-            "id": "doc_00",
-            "path": "docs/00_INDICE_GERAL.md",
-            "category": "VIVO",
-            "title": "Índice Geral",
-            "materialized_in_repo": true,
-            "last_updated": "2026-05-10",
-            "sprint_4_5_f6_note": "Sprint 4.5/F6: índice passa a apontar para o relatório de fechamento e a validação oficial da Sprint 4.5."
-        },
-        {
-            "id": "doc_01",
-            "path": "docs/baseline/01_Visao_do_Produto.md",
-            "category": "ESTATICO",
-            "title": "Visão do Produto",
-            "materialized_in_repo": true
-        },
-        {
-            "id": "doc_02",
-            "path": "docs/02_Escopo_Funcional.md",
-            "category": "HIBRIDO",
-            "title": "Escopo Funcional",
-            "materialized_in_repo": true
-        },
-        {
-            "id": "doc_03",
-            "path": "docs/baseline/03_Regras_de_Negocio.md",
-            "category": "ESTATICO",
-            "title": "Regras de Negócio e Matemática Financeira",
-            "materialized_in_repo": true,
-            "note": "Sprint 4/F0.1: §7 (Diagnóstico Financeiro) expandido para v1.1 com thresholds documentados, fórmulas detalhadas, algoritmo de saúde financeira composta e referências (BCB, St. Louis Fed, Warren & Tyagi). Âncoras verificadas: Lei 10.820/2003 (consignado) e BCB série BCB-29037. LIMITAÇÃO (F0.1-A): a referência 'CMN 5.115/2024' foi rebaixada para limitação por não ter sido confirmada em fonte primária BCB/CMN/DOU. O threshold de 40% permanece como heurística educacional / decisão de produto, não como âncora normativa."
-        },
-        {
-            "id": "doc_04",
-            "path": "docs/04_Arquitetura_de_Software.md",
-            "category": "VIVO",
-            "title": "Arquitetura de Software",
-            "materialized_in_repo": true,
-            "note": "Atualizado na Sprint 1 — §6.3 (contrato-base em app/core, agrupamento em app/api/v1/)"
-        },
-        {
-            "id": "doc_05",
-            "path": "docs/05_Modelagem_de_Dados.md",
-            "category": "VIVO",
-            "title": "Modelagem de Dados",
-            "materialized_in_repo": true
-        },
-        {
-            "id": "doc_06",
-            "path": "docs/06_API_e_Contratos.md",
-            "category": "VIVO",
-            "title": "API e Contratos de Integração",
-            "materialized_in_repo": true,
-            "note": "Sprint 2 — endpoints de juros confirmados em §15.3.",
-            "last_updated": "2026-05-08",
-            "sprint_4_f2_note": "Endpoint POST /api/v1/diagnostic/analyze adicionado (§15.2, §16.1)",
-            "sprint_4_f5_note": "Endpoint POST /api/v1/financing/real_estate adicionado em §16.1 — request, response envelope, campos obrigatórios/opcionais, contrato Decimal, custo_total e total_pago definidos."
-        },
-        {
-            "id": "doc_07",
-            "path": "docs/07_UX_UI_e_Navegacao.md",
-            "category": "VIVO",
-            "title": "UX/UI e Navegação",
-            "materialized_in_repo": true,
-            "note": "Sprint 3.5 — F3: §9.2 registra o Financial Cockpit para /juros e /amortizacao, com topbar, subtabs, painel contextual e modais.",
-            "last_updated": "2026-05-09",
-            "sprint_4_f4_note": "Sprint 4/F4: módulo /diagnostico registrado como módulo funcional com cockpit, formulário, KPIs, alertas e conteúdo educacional via DiagnosticoSaibaMais modal.",
-            "sprint_4_f5_note": "Sprint 4/F5: módulo /financiamento-imobiliario promovido de em-construcao para disponivel. Componentes FinanciamentoCockpit, Form, Summary, Table, SaibaMais registrados.",
-            "sprint_4_5_f2_note": "Sprint 4.5/F2: documento atualizado para referenciar o contrato oficial de UI Components, a política de tabelas financeiras e a política de modais/abas; FinancialCockpitShell permanece como shell funcional ativa, com Header/Sidebar/NavItem classificados como legado/candidatos a adaptação.",
-            "sprint_4_5_f4_note": "Sprint 4.5/F4: registra estratégia mobile para tabelas financeiras largas: cards por parcela no financiamento e cards comparativos PRICE x SAC."
-        },
-        {
-            "id": "doc_08",
-            "path": "docs/08_Conteudo_Educacional.md",
-            "category": "VIVO",
-            "title": "Conteúdo Educacional",
-            "materialized_in_repo": true,
-            "note": "Sprint 3.5 — F3: §13.3 registra a reorganizacao do conteudo educacional no Financial Cockpit por painel contextual, abas e modais.",
-            "last_updated": "2026-05-08",
-            "sprint_4_f4_note": "Sprint 4/F4: conteúdo educacional do diagnóstico financeiro materializado em frontend/src/content/diagnostico/ (6 arquivos: types, nivel-1, nivel-2, glossario, alertas, index). 5 blocos nível-1, 5 nível-2, 12 termos de glossário, 6 alertas educacionais com DISCLAIMER_DIAGNOSTICO.",
-            "sprint_4_f5_note": "Sprint 4/F5: conteúdo educacional do financiamento imobiliário materializado em frontend/src/content/financiamento-imobiliario/ (5 arquivos). 5 blocos N1, 5 N2, 12 termos de glossário, DISCLAIMER_FINANCIAMENTO."
-        },
-        {
-            "id": "doc_09",
-            "path": "docs/09_Qualidade_Testes.md",
-            "category": "VIVO",
-            "title": "Qualidade, Testes e Critérios de Aceite",
-            "materialized_in_repo": true,
-            "note": "Sprint 2 — F5: §16 acrescentada com massa frontend F4 (19 arquivos / 112 testes confirmados no pipeline WSL Ubuntu) e §16.3 com a política de registro de execução oficial (sem armazenar valores pontuais de runtime no doc vivo).",
-            "last_updated": "2026-05-10",
-            "sprint_4_f4_note": "Sprint 4/F4: 64 testes novos adicionados (conteúdo diagnóstico + DiagnosticoSaibaMais + DiagnosticoInterpretation). Total consolidado: 293/293 verdes. Gates: Prettier verde, Vitest 293/293, build Next.js verde, lint pedagógico 0 bloqueios.",
-            "sprint_4_f5_note": "Sprint 4/F5: 61 testes novos (financiamento-imobiliario.test 12 + SaibaMais.test 8 + conteudo.test 39 + financiamentoService.test 3). Total consolidado: 354/354. Gates: ruff, pytest 58 backend, Prettier, Vitest 354, ESLint, tsc, build todos verdes.",
-            "sprint_4_5_f5_note": "Sprint 4.5/F5: adiciona auditor_de_interface advisory com script pnpm --dir frontend audit:interface e 2 testes de semântica operacional.",
-            "sprint_4_5_f6_note": "Sprint 4.5/F6: registra validações finais de fechamento, incluindo 45 arquivos de teste, 390 testes, build, auditor advisory, JSON e diff check."
-        },
-        {
-            "id": "doc_10",
-            "path": "docs/10_Roadmap.md",
-            "category": "HIBRIDO",
-            "title": "Roadmap e Backlog Inicial",
-            "materialized_in_repo": true,
-            "last_updated": "2026-05-10",
-            "sprint_4_5_f6_note": "Sprint 4.5/F6: registra fechamento da Sprint 4.5 como aprovada com pendências replanejadas e confirma que a Sprint 5 não foi iniciada."
-        },
-        {
-            "id": "doc_11",
-            "path": "docs/baseline/11_Prompt_Mestre.md",
-            "category": "BASELINE_CANDIDATA",
-            "title": "Prompt-Mestre de Desenvolvimento",
-            "materialized_in_repo": true
-        },
-        {
-            "id": "doc_12",
-            "path": "docs/12_Plano_Operacional.md",
-            "category": "VIVO",
-            "title": "Plano Operacional por Fases e Sprints",
-            "materialized_in_repo": true
-        },
-        {
-            "id": "doc_13",
-            "path": "docs/13_Backlog_Tecnico.md",
-            "category": "VIVO",
-            "title": "Backlog Técnico Detalhado",
-            "materialized_in_repo": true,
-            "last_updated": "2026-05-10",
-            "sprint_4_5_f6_note": "Sprint 4.5/F6: registra FE-058 e FE-059 como replanejadas e DOC-018 como executada no fechamento formal."
-        },
-        {
-            "id": "doc_14",
-            "path": "docs/14_Especificacao_Fisica_Dados.md",
-            "category": "VIVO",
-            "title": "Especificação Física de Dados e Persistência",
-            "materialized_in_repo": true
-        },
-        {
-            "id": "doc_15",
-            "path": "docs/15_Casos_de_Teste_Matematicos.md",
-            "category": "HIBRIDO",
-            "title": "Casos de Teste Matemáticos e Massa de Validação",
-            "materialized_in_repo": true,
-            "note": "Sprint 2 — F5: JS-01..03 e JC-01..03 marcados como exercidos por código (cross-link com Doc 19 em §9). Demais casos seguem planejados.",
-            "last_updated": "2026-05-08",
-            "sprint_4_f4_note": "Sprint 4/F4: casos pedagógicos PED-DIAG-01..10 adicionados em §10 — exercem cobertura editorial do conteúdo diagnóstico (nível-1, nível-2, glossário, alertas, disclaimer).",
-            "sprint_4_f5_note": "Sprint 4/F5: casos matemáticos FI-01..12 e pedagógicos PED-FIN-01..09 adicionados para o módulo de financiamento imobiliário."
-        },
-        {
-            "id": "doc_16",
-            "path": "docs/16_Design_System.md",
-            "category": "VIVO",
-            "title": "Design System e Wireframes Operacionais",
-            "materialized_in_repo": true,
-            "last_updated": "2026-05-10",
-            "sprint_4_5_f2_note": "Sprint 4.5/F2: referencia o contrato oficial de UI Components e as políticas de tabelas financeiras, modais e abas em docs/ui/.",
-            "sprint_4_5_f3_note": "Sprint 4.5/F3: registra materialização de CockpitEducationPanel, visibleInCockpit/getCockpitVisibleModules e ARIA retrocompatível em CockpitButton/CockpitField.",
-            "sprint_4_5_f4_note": "Sprint 4.5/F4: registra padrão de tabelas financeiras responsivas com rolagem vertical, cabeçalho fixo, valores tabulares e alternativa mobile por cards/detalhes.",
-            "sprint_4_5_f5_note": "Sprint 4.5/F5: registra auditor_de_interface como verificador estático advisory para governança visual, tabelas financeiras, cockpit e documentação viva.",
-            "sprint_4_5_f6_note": "Sprint 4.5/F6: fechamento visual formal aprovado com pendências replanejadas FE-058 e FE-059, sem iniciar Sprint 5."
-        },
-        {
-            "id": "doc_ui_contrato_components",
-            "path": "docs/ui/CONTRATO_UI_COMPONENTS.md",
-            "category": "VIVO",
-            "title": "Contrato Oficial de UI Components",
-            "materialized_in_repo": true,
-            "added_sprint": "sprint-04-5-f2",
-            "last_updated": "2026-05-09",
-            "note": "Sprint 4.5/F2: define hierarquia normativa, componentes oficiais, legado, decisões pendentes para F3/F4 e critérios de aceite para UI Components.",
-            "sprint_4_5_f3_note": "Sprint 4.5/F3: decisões de EducationPanel duplicado, VISIBLE_MODULE_IDS, CockpitButton e CockpitField materializadas em código com testes.",
-            "sprint_4_5_f4_note": "Sprint 4.5/F4: contrato de tabelas materializado em FinanciamentoTable, FinanciamentoCompareSummary, CockpitTables e tabelas de amortização/juros."
-        },
-        {
-            "id": "doc_ui_politica_tabelas_financeiras",
-            "path": "docs/ui/POLITICA_TABELAS_FINANCEIRAS.md",
-            "category": "VIVO",
-            "title": "Política de Tabelas Financeiras",
-            "materialized_in_repo": true,
-            "added_sprint": "sprint-04-5-f2",
-            "last_updated": "2026-05-09",
-            "note": "Sprint 4.5/F2: formaliza contrato visual e responsivo para tabelas financeiras, sem impor componente único antes da decisão técnica da F3.",
-            "sprint_4_5_f4_note": "Sprint 4.5/F4: política aplicada nas tabelas financeiras prioritárias, com tabela desktop vertical, cards mobile e testes de integridade de linhas/acessibilidade."
-        },
-        {
-            "id": "doc_ui_politica_modais_abas",
-            "path": "docs/ui/POLITICA_MODAIS_ABAS.md",
-            "category": "VIVO",
-            "title": "Política de Modais e Abas",
-            "materialized_in_repo": true,
-            "added_sprint": "sprint-04-5-f2",
-            "note": "Sprint 4.5/F2: define uso permitido de modais e abas como aprofundamento contextual, sem substituir o fluxo principal."
-        },
-        {
-            "id": "doc_ui_auditor_interface",
-            "path": "docs/ui/AUDITOR_DE_INTERFACE.md",
-            "category": "VIVO",
-            "title": "Auditor de Interface — Modo Advisory",
-            "materialized_in_repo": true,
-            "added_sprint": "sprint-04-5-f5",
-            "last_updated": "2026-05-10",
-            "note": "Sprint 4.5/F5: documenta objetivo, execução, severidades, regras cobertas e limites explícitos do auditor_de_interface advisory."
-        },
-        {
-            "id": "doc_17",
-            "path": "docs/17_Infra_Seguranca_Deploy.md",
-            "category": "VIVO",
-            "title": "Infraestrutura, Segurança, Compliance e Deploy",
-            "materialized_in_repo": true
-        },
-        {
-            "id": "doc_18",
-            "path": "docs/18_Mapeamento_Regulatorio.md",
-            "category": "HIBRIDO",
-            "title": "Mapeamento Regulatório do Banco Central",
-            "materialized_in_repo": true
-        },
-        {
-            "id": "doc_19",
-            "path": "docs/19_Matriz_Rastreabilidade.md",
-            "category": "VIVO",
-            "title": "Matriz de Rastreabilidade Requisitos↔Testes↔Código",
-            "materialized_in_repo": true,
-            "note": "Sprint 3 — F5: RF-AMO-001/002/003 promovidos para done com domínio F2, API F3, frontend F4 e conteúdo/testes pedagógicos F5.",
-            "last_updated": "2026-05-08",
-            "sprint_4_f2_note": "RF-DIAG-001 adicionado com status in_progress (backend/API concluído, F3/F4 pendentes)",
-            "sprint_4_f4_note": "RF-DIAG-001 promovido para done (Sprint 4 F1/F2/F3/F4). Vertical slice completo: domínio F1 + API F2 + frontend cockpit F3 + conteúdo educacional F4. §8 adicionado à tabela canônica.",
-            "sprint_4_f5_note": "RF-FIN-001 promovido para done (Sprint 4 F5). Vertical slice completo: domínio + API + frontend cockpit + conteúdo educacional. §9 adicionado.",
-            "sprint_4_5_f6_note": "Sprint 4.5/F6: DOC-018 registrado como executado; FE-058 e FE-059 registradas como pendências replanejadas."
-        },
-        {
-            "id": "doc_20",
-            "path": "docs/20_Catalogo_ADR.md",
-            "category": "VIVO",
-            "title": "Catálogo ADR (referência conceitual)",
-            "materialized_in_repo": true
-        },
-        {
-            "id": "doc_20_index",
-            "path": "docs/adr/INDEX.md",
-            "category": "VIVO",
-            "title": "Catálogo ADR (índice de arquivos)",
-            "materialized_in_repo": false,
-            "note": "Caminho canônico no repo: docs/adr/ (não docs/20_ADR/)"
-        },
-        {
-            "id": "doc_21",
-            "path": "docs/baseline/21_Governanca_Branches_PRs.md",
-            "category": "ESTATICO",
-            "title": "Governança de Branches, PRs e Commits",
-            "materialized_in_repo": true
-        },
-        {
-            "id": "doc_22",
-            "path": "docs/22_LGPD_Tratamento_Dados.md",
-            "category": "HIBRIDO",
-            "title": "LGPD e Tratamento de Dados",
-            "materialized_in_repo": true
-        },
-        {
-            "id": "doc_23",
-            "path": "docs/23_Observabilidade.md",
-            "category": "VIVO",
-            "title": "Observabilidade e Telemetria",
-            "materialized_in_repo": true
-        },
-        {
-            "id": "doc_24",
-            "path": "docs/24_Runbooks.md",
-            "category": "VIVO",
-            "title": "Runbooks e Procedimentos Operacionais",
-            "materialized_in_repo": true
-        },
-        {
-            "id": "doc_25",
-            "path": "docs/25_Release_Readiness.md",
-            "category": "VIVO",
-            "title": "Release Readiness e Checklists",
-            "materialized_in_repo": true
-        },
-        {
-            "id": "doc_26",
-            "path": "docs/26_Seeds_Fixtures.md",
-            "category": "VIVO",
-            "title": "Seeds, Fixtures e Dados de Demonstração",
-            "materialized_in_repo": true
-        },
-        {
-            "id": "doc_27",
-            "path": "docs/27_Versionamento_API.md",
-            "category": "HIBRIDO",
-            "title": "Versionamento de Contratos de API",
-            "materialized_in_repo": true,
-            "note": "Atualizado na Sprint 1 — apêndice vivo: v1 active, 2026-04"
-        },
-        {
-            "id": "g1",
-            "path": "docs/baseline/governanca/GOVERNANCA_RIGIDA_DE_EXECUCAO__CLAUDE_CODE.md",
-            "category": "ESTATICO",
-            "title": "G1 — Governança Rígida da Claude Code (calibrada)",
-            "materialized_in_repo": true
-        },
-        {
-            "id": "g2",
-            "path": "docs/qualidade/ESTRATEGIA_DE_TESTES_DE_CLASSE_MUNDIAL.md",
-            "category": "VIVO",
-            "title": "G2 — Estratégia de Testes de Classe Mundial (43 tipos)",
-            "materialized_in_repo": true
-        },
-        {
-            "id": "g3",
-            "path": "docs/qualidade/PADROES_DE_IMPLEMENTACAO.md",
-            "category": "VIVO",
-            "title": "G3 — Padrões de Implementação e Qualidade de Código",
-            "materialized_in_repo": true
-        },
-        {
-            "id": "g4",
-            "path": "docs/qualidade/PIPELINE_E_QUALITY_GATES.md",
-            "category": "VIVO",
-            "title": "G4 — Pipeline e Quality Gates",
-            "materialized_in_repo": true
-        },
-        {
-            "id": "g5",
-            "path": "docs/qualidade/AGENTE_DE_ANALISE_DE_IMPACTO.md",
-            "category": "VIVO",
-            "title": "G5 — Especificação do Agente de Análise de Impacto",
-            "materialized_in_repo": true,
-            "note": "Agente de análise de impacto (Sprint 0). Wired ao CI em modo ADVISORY na Sprint 1 (Fatia 4). Primeiro run verde em 2026-04-19 (PR #1)."
-        },
-        {
-            "id": "arch_ADR_0001",
-            "path": "docs/adr/ADR-0001-frontend-nextjs-react-ts.md",
-            "category": "ESTATICO",
-            "title": "ADR-0001 — Frontend: Next.js + React + TypeScript",
-            "materialized_in_repo": true,
-            "commit": "sinc-documental",
-            "added_sprint": "sprint-00-adendo-sinc"
-        },
-        {
-            "id": "arch_ADR_0002",
-            "path": "docs/adr/ADR-0002-backend-python-fastapi.md",
-            "category": "ESTATICO",
-            "title": "ADR-0002 — Backend: Python + FastAPI",
-            "materialized_in_repo": true,
-            "commit": "sinc-documental",
-            "added_sprint": "sprint-00-adendo-sinc"
-        },
-        {
-            "id": "arch_ADR_0003",
-            "path": "docs/adr/ADR-0003-db-postgresql.md",
-            "category": "ESTATICO",
-            "title": "ADR-0003 — Banco de dados: PostgreSQL",
-            "materialized_in_repo": true,
-            "commit": "sinc-documental",
-            "added_sprint": "sprint-00-adendo-sinc"
-        },
-        {
-            "id": "arch_ADR_0004",
-            "path": "docs/adr/ADR-0004-backend-source-of-truth-math.md",
-            "category": "ESTATICO",
-            "title": "ADR-0004 — Backend como fonte de verdade matemática",
-            "materialized_in_repo": true,
-            "commit": "sinc-documental",
-            "added_sprint": "sprint-00-adendo-sinc"
-        },
-        {
-            "id": "arch_ADR_0005",
-            "path": "docs/adr/ADR-0005-domain-organization-backend.md",
-            "category": "ESTATICO",
-            "title": "ADR-0005 — Organização de domínios no backend",
-            "materialized_in_repo": true,
-            "commit": "sinc-documental",
-            "added_sprint": "sprint-00-adendo-sinc"
-        },
-        {
-            "id": "arch_ADR_0006",
-            "path": "docs/adr/ADR-0006-api-versioning-url.md",
-            "category": "ESTATICO",
-            "title": "ADR-0006 — Versionamento de API por URL",
-            "materialized_in_repo": true,
-            "commit": "sinc-documental",
-            "added_sprint": "sprint-00-adendo-sinc"
-        },
-        {
-            "id": "arch_ADR_0007",
-            "path": "docs/adr/ADR-0007-http-errors-rfc7807.md",
-            "category": "ESTATICO",
-            "title": "ADR-0007 — Erros HTTP: RFC 7807",
-            "materialized_in_repo": true,
-            "commit": "sinc-documental",
-            "added_sprint": "sprint-00-adendo-sinc"
-        },
-        {
-            "id": "arch_ADR_0008",
-            "path": "docs/adr/ADR-0008-trunk-based-squash-merge.md",
-            "category": "ESTATICO",
-            "title": "ADR-0008 — Trunk-based + squash merge",
-            "materialized_in_repo": true,
-            "commit": "sinc-documental",
-            "added_sprint": "sprint-00-adendo-sinc"
-        },
-        {
-            "id": "arch_ADR_0009",
-            "path": "docs/adr/ADR-0009-migrations-expand-and-contract.md",
-            "category": "ESTATICO",
-            "title": "ADR-0009 — Migrations: expand-and-contract",
-            "materialized_in_repo": true,
-            "commit": "sinc-documental",
-            "added_sprint": "sprint-00-adendo-sinc"
-        },
-        {
-            "id": "arch_ADR_0010",
-            "path": "docs/adr/ADR-0010-testing-pyramid-mutation-domain.md",
-            "category": "ESTATICO",
-            "title": "ADR-0010 — Pirâmide de testes + mutation",
-            "materialized_in_repo": true,
-            "commit": "sinc-documental",
-            "added_sprint": "sprint-00-adendo-sinc"
-        },
-        {
-            "id": "arch_ADR_0011",
-            "path": "docs/adr/ADR-0011-sqlalchemy2-session-per-request-uow.md",
-            "category": "ESTATICO",
-            "title": "ADR-0011 — SQLAlchemy 2 session-per-request UoW",
-            "materialized_in_repo": true,
-            "commit": "sinc-documental",
-            "added_sprint": "sprint-00-adendo-sinc"
-        },
-        {
-            "id": "arch_ADR_0012",
-            "path": "docs/adr/ADR-0012-tailwind-tokens-doc16.md",
-            "category": "ESTATICO",
-            "title": "ADR-0012 — Tailwind + design tokens (Doc 16)",
-            "materialized_in_repo": true,
-            "commit": "sinc-documental",
-            "added_sprint": "sprint-00-adendo-sinc"
-        },
-        {
-            "id": "arch_ADR_0013",
-            "path": "docs/adr/ADR-0013-observability-structlog-prometheus.md",
-            "category": "ESTATICO",
-            "title": "ADR-0013 — Observabilidade: structlog + Prometheus",
-            "materialized_in_repo": true,
-            "commit": "sinc-documental",
-            "added_sprint": "sprint-00-adendo-sinc"
-        },
-        {
-            "id": "arch_ADR_0014",
-            "path": "docs/adr/ADR-0014-docker-multistage-nonroot.md",
-            "category": "ESTATICO",
-            "title": "ADR-0014 — Docker multistage non-root",
-            "materialized_in_repo": true,
-            "commit": "sinc-documental",
-            "added_sprint": "sprint-00-adendo-sinc"
-        },
-        {
-            "id": "runbook_template",
-            "path": "docs/runbooks/RB-000-TEMPLATE.md",
-            "category": "ESTATICO",
-            "title": "Template de Runbook",
-            "materialized_in_repo": true,
-            "commit": "sinc-documental",
-            "added_sprint": "sprint-00-adendo-sinc"
-        },
-        {
-            "id": "gate_lista_de_bloqueadores_e_condic",
-            "path": "docs/baseline/gate-forense/LISTA_DE_BLOQUEADORES_E_CONDICIONANTES.md",
-            "category": "ESTATICO",
-            "title": "Gate Forense — Lista de Bloqueadores e Condicionantes",
-            "materialized_in_repo": true,
-            "commit": "sinc-documental",
-            "added_sprint": "sprint-00-adendo-sinc"
-        },
-        {
-            "id": "gate_matriz_forense_de_prontidao_pa",
-            "path": "docs/baseline/gate-forense/MATRIZ_FORENSE_DE_PRONTIDAO_PARA_EXECUCAO.md",
-            "category": "ESTATICO",
-            "title": "Gate Forense — Matriz de Prontidão para Execução",
-            "materialized_in_repo": true,
-            "commit": "sinc-documental",
-            "added_sprint": "sprint-00-adendo-sinc"
-        },
-        {
-            "id": "gate_relatorio_forense_final_de_pro",
-            "path": "docs/baseline/gate-forense/RELATORIO_FORENSE_FINAL_DE_PRONTIDAO.md",
-            "category": "ESTATICO",
-            "title": "Gate Forense — Relatório Final de Prontidão",
-            "materialized_in_repo": true,
-            "commit": "sinc-documental",
-            "added_sprint": "sprint-00-adendo-sinc"
-        },
-        {
-            "id": "gate_veredito_final_de_prontidao_pa",
-            "path": "docs/baseline/gate-forense/VEREDITO_FINAL_DE_PRONTIDAO_PARA_EXECUCAO.md",
-            "category": "ESTATICO",
-            "title": "Gate Forense — Veredito Final de Prontidão",
-            "materialized_in_repo": true,
-            "commit": "sinc-documental",
-            "added_sprint": "sprint-00-adendo-sinc"
-        },
-        {
-            "id": "gate_verificacao_final_dos_document",
-            "path": "docs/baseline/gate-forense/VERIFICACAO_FINAL_DOS_DOCUMENTOS_VIVOS.md",
-            "category": "ESTATICO",
-            "title": "Gate Forense — Verificação Final de Documentos Vivos",
-            "materialized_in_repo": true,
-            "commit": "sinc-documental",
-            "added_sprint": "sprint-00-adendo-sinc"
-        },
-        {
-            "id": "gate_verificacao_final_do_agente_de",
-            "path": "docs/baseline/gate-forense/VERIFICACAO_FINAL_DO_AGENTE_DE_ANALISE_DE_IMPACTO.md",
-            "category": "ESTATICO",
-            "title": "Gate Forense — Verificação do Agente de Análise de Impacto",
-            "materialized_in_repo": true,
-            "commit": "sinc-documental",
-            "added_sprint": "sprint-00-adendo-sinc"
-        },
-        {
-            "id": "pol_01",
-            "path": "docs/policies/POLITICA_OFICIAL_DE_AUDITORIA_E_RESPONSABILIDADE.md",
-            "category": "ESTATICO",
-            "title": "Política Oficial de Auditoria e Responsabilidade de Sprint",
-            "materialized_in_repo": true,
-            "commit": "sinc-documental",
-            "added_sprint": "sprint-00-adendo-sinc"
-        },
-        {
-            "id": "pol_02",
-            "path": "docs/policies/POLITICA_OPERACIONAL_DE_SINCRONIZACAO_DOCUMENTAL.md",
-            "category": "ESTATICO",
-            "title": "Política Operacional de Sincronização Documental",
-            "materialized_in_repo": true,
-            "commit": "sinc-documental",
-            "added_sprint": "sprint-00-adendo-sinc"
-        },
-        {
-            "id": "adr_001",
-            "path": "docs/adr/ADR-001-impact-agent.md",
-            "category": "ESTATICO",
-            "title": "ADR-001 — Agente de Análise de Impacto",
-            "materialized_in_repo": true,
-            "commit": "7a83045",
-            "added_sprint": "sprint-00",
-            "note": "Estágio ADVISORY; wired ao CI via .github/workflows/impact-agent.yml na Sprint 1 (Fatia 4). Primeiro run verde registrado na PR #1 — run 24619349882 (commit e094b80, 2026-04-19T02:45Z)."
-        },
-        {
-            "id": "run_001",
-            "path": "docs/runbooks/RUN-001-setup-local.md",
-            "category": "ESTATICO",
-            "title": "RUN-001 — Setup Local",
-            "materialized_in_repo": true,
-            "commit": "7a83045",
-            "added_sprint": "sprint-00"
-        },
-        {
-            "id": "run_002",
-            "path": "docs/runbooks/RUN-002-health-readiness.md",
-            "category": "ESTATICO",
-            "title": "RUN-002 — Health e Readiness",
-            "materialized_in_repo": true,
-            "commit": "7a83045",
-            "added_sprint": "sprint-00"
-        },
-        {
-            "id": "run_003",
-            "path": "docs/runbooks/RUN-003-recovery-basic.md",
-            "category": "ESTATICO",
-            "title": "RUN-003 — Recovery Básico",
-            "materialized_in_repo": true,
-            "commit": "7a83045",
-            "added_sprint": "sprint-00"
-        },
-        {
-            "id": "sprint_00",
-            "path": "docs/sprints/sprint-00/validacao-oficial.md",
-            "category": "GOVERNANCA_SPRINT",
-            "title": "Sprint 00 — Validação Oficial",
-            "materialized_in_repo": true,
-            "commit": "196a471",
-            "added_sprint": "sprint-00"
-        },
-        {
-            "id": "op_backlog_xlsx",
-            "path": "docs/operacional/backlog_operacional_acompanhamento.xlsx",
-            "category": "OPERACIONAL",
-            "title": "Backlog Operacional — Planilha de Acompanhamento",
-            "materialized_in_repo": true,
-            "commit": "sinc-documental",
-            "added_sprint": "sprint-00-adendo-sinc",
-            "note": "Artefato operacional auxiliar — não substitui documentação viva"
-        },
-        {
-            "id": "sprint_01_execucao",
-            "path": "docs/sprints/sprint-01/relatorio-execucao.md",
-            "category": "GOVERNANCA_SPRINT",
-            "title": "Sprint 01 — Relatório de Execução",
-            "materialized_in_repo": true,
-            "added_sprint": "sprint-01",
-            "note": "Governança da Sprint 1 — narrativa executiva"
-        },
-        {
-            "id": "sprint_01_forense",
-            "path": "docs/sprints/sprint-01/relatorio-forense.md",
-            "category": "GOVERNANCA_SPRINT",
-            "title": "Sprint 01 — Relatório Forense",
-            "materialized_in_repo": true,
-            "added_sprint": "sprint-01",
-            "note": "Cadeia de custódia granular da Sprint 1"
-        },
-        {
-            "id": "sprint_01_validacao",
-            "path": "docs/sprints/sprint-01/validacao-oficial.md",
-            "category": "GOVERNANCA_SPRINT",
-            "title": "Sprint 01 — Validação Oficial",
-            "materialized_in_repo": true,
-            "added_sprint": "sprint-01",
-            "note": "Veredito formal da Sprint 1 (§13.3 do PLANO preserva Sprint 0)"
-        },
-        {
-            "id": "sinc_sprint01",
-            "path": "docs/_meta/SINCRONIZACAO_DOCS_SPRINT01.md",
-            "category": "META",
-            "title": "Sincronização Documental — Sprint 01",
-            "materialized_in_repo": true,
-            "added_sprint": "sprint-01",
-            "note": "Matriz documental desta sprint"
-        },
-        {
-            "id": "sprint_04_5_fechamento",
-            "path": "docs/sprints/sprint-04-5/02-fechamento/RELATORIO_FECHAMENTO_SPRINT_4_5.md",
-            "category": "GOVERNANCA_SPRINT",
-            "title": "Sprint 4.5 — Relatório de Fechamento",
-            "materialized_in_repo": true,
-            "added_sprint": "sprint-04-5-f6",
-            "last_updated": "2026-05-10",
-            "note": "F6: fechamento formal da Sprint 4.5, histórico F0-F5, validações, pendências replanejadas e condição para abertura da Sprint 5."
-        },
-        {
-            "id": "sprint_04_5_validacao",
-            "path": "docs/sprints/sprint-04-5/02-fechamento/VALIDACAO_OFICIAL_SPRINT_4_5.md",
-            "category": "GOVERNANCA_SPRINT",
-            "title": "Sprint 4.5 — Validação Oficial",
-            "materialized_in_repo": true,
-            "added_sprint": "sprint-04-5-f6",
-            "last_updated": "2026-05-10",
-            "note": "F6: veredito proposto de Sprint 4.5 aprovada com pendências replanejadas, sem início da Sprint 5."
-        },
-        {
-            "id": "sprint_02_execucao",
-            "path": "docs/sprints/sprint-02/relatorio-execucao.md",
-            "category": "GOVERNANCA_SPRINT",
-            "title": "Sprint 02 — Relatório de Execução",
-            "materialized_in_repo": true,
-            "added_sprint": "sprint-02",
-            "note": "Governança da Sprint 2 — narrativa executiva. Materializado na F6 v2 (Opção A do micro-adendo F6)."
-        },
-        {
-            "id": "sprint_02_forense",
-            "path": "docs/sprints/sprint-02/relatorio-forense.md",
-            "category": "GOVERNANCA_SPRINT",
-            "title": "Sprint 02 — Relatório Forense",
-            "materialized_in_repo": true,
-            "added_sprint": "sprint-02",
-            "note": "Cadeia de custódia granular da Sprint 2 (commit ↔ arquivo ↔ linhas). Materializado na F6 v2."
-        },
-        {
-            "id": "sprint_02_validacao",
-            "path": "docs/sprints/sprint-02/validacao-oficial.md",
-            "category": "GOVERNANCA_SPRINT",
-            "title": "Sprint 02 — Validação Oficial",
-            "materialized_in_repo": true,
-            "added_sprint": "sprint-02",
-            "note": "Veredito formal da Sprint 2. Aprovação final depende da execução do protocolo §6 (operador no WSL Ubuntu)."
-        },
-        {
-            "id": "doc_jornada_pef",
-            "path": "docs/projeto/DA_VISAO_AO_PRODUTO__A_JORNADA_DA_PLATAFORMA_EDUCACIONAL_FINANCEIRA.md",
-            "category": "VIVO",
-            "title": "Da Visão ao Produto — A Jornada da Plataforma Educacional Financeira",
-            "materialized_in_repo": true,
-            "added_sprint": "sprint-04-documental",
-            "note": "Documento histórico vivo. Criado na branch docs/jornada-plataforma-educacional-financeira. Cobre pré-história, Sprints 0–4/F1-A, arquitetura, qualidade, governança, motor matemático, camada educacional, roadmap, glossário, rastreabilidade e métricas acumuladas. Adendo Jornada PEF-A corrigiu fatos sobre Sprint 3.5, Sprint 4/F0, F0.1/F0.1-A, sequência oficial da Sprint 4, nota doc_03 e índice geral."
-        },
-        {
-            "id": "doc_sprint_4_5_nao_aceite_visual_pedagogico",
-            "path": "docs/sprints/sprint-04-5/03-aceite-po/RELATORIO_NAO_ACEITE_VISUAL_PEDAGOGICO_SPRINT_4_5.md",
-            "category": "GOVERNANCA_SPRINT",
-            "title": "Sprint 4.5 — Relatório de Não Aceite Visual/Pedagógico Parcial",
-            "materialized_in_repo": true,
-            "added_sprint": "gate-po-ux-valor-item-02",
-            "last_updated": "2026-05-10",
-            "note": "Gate PO/UX/Valor — Item 2: registra que a Sprint 4.5 foi tecnicamente concluída, mas recebeu não aceite visual/pedagógico parcial do Product Owner; mantém a Sprint 5 congelada até conclusão satisfatória do Gate PO/UX/Valor."
-        },
-        {
-            "id": "doc_gate_po_ux_valor_matriz_perguntas",
-            "path": "docs/gates/gate-po-ux-valor/01-matriz-perguntas/MATRIZ_COMPLETA_PERGUNTAS_GATE_PO_UX_VALOR.md",
-            "category": "GOVERNANCA_SPRINT",
-            "title": "Gate PO/UX/Valor — Matriz Completa de Perguntas",
-            "materialized_in_repo": true,
-            "added_sprint": "gate-po-ux-valor-item-03",
-            "last_updated": "2026-05-10",
-            "note": "Item 3 do Gate PO/UX/Valor: matriz completa de perguntas estratégicas, educacionais, matemáticas, legais, visuais, técnicas e operacionais que orienta a reestruturação educacional e auditável antes da liberação da Sprint 5."
-        },
-        {
-            "id": "doc_gate_po_ux_valor_plano_reestruturacao",
-            "path": "docs/gates/gate-po-ux-valor/02-plano-reestruturacao/PLANO_REESTRUTURACAO_GATE_PO_UX_VALOR.md",
-            "category": "GOVERNANCA_SPRINT",
-            "title": "Gate PO/UX/Valor — Plano de Reestruturação Educacional e Auditável",
-            "materialized_in_repo": true,
-            "added_sprint": "gate-po-ux-valor-item-04",
-            "last_updated": "2026-05-10",
-            "note": "Item 4 do Gate PO/UX/Valor: plano de reestruturação educacional, visual, pedagógica, matemática, legal, técnica e operacional para orientar os próximos itens do Gate antes da liberação da Sprint 5."
-        },
-        {
-            "id": "doc_gate_po_ux_valor_padrao_oficial_telas",
-            "path": "docs/gates/gate-po-ux-valor/03-padrao-oficial-telas/PADRAO_OFICIAL_TELAS_GATE_PO_UX_VALOR.md",
-            "category": "GOVERNANCA_SPRINT",
-            "title": "Gate PO/UX/Valor — Padrão Oficial de Telas",
-            "materialized_in_repo": true,
-            "added_sprint": "gate-po-ux-valor-item-06",
-            "last_updated": "2026-05-10",
-            "note": "Item 6 do Gate PO/UX/Valor: padrão oficial de telas educacionais, financeiras, auditáveis e encantadoras, com referências qualificadas, exemplos operacionais, contraexemplos, evidências exigidas e critérios de reprovação para orientar auditoria, prototipação, Value Gate, aceite do PO e evolução futura da Plataforma Educacional Financeira."
-        },
-        {
-            "id": "doc_gate_po_ux_valor_contrato_educacional_api",
-            "path": "docs/gates/gate-po-ux-valor/04-contrato-educacional-api/CONTRATO_EDUCACIONAL_API_GATE_PO_UX_VALOR.md",
-            "category": "GOVERNANCA_SPRINT",
-            "title": "Gate PO/UX/Valor — Contrato Educacional da API",
-            "materialized_in_repo": true,
-            "added_sprint": "gate-po-ux-valor-item-07",
-            "last_updated": "2026-05-10",
-            "note": "Item 7 do Gate PO/UX/Valor: contrato educacional da API para respostas financeiras estruturadas com resultado, interpretação, memória de cálculo, fórmulas, substituições, etapas, fontes, limites, alertas, tabelas, gráficos, comparações, evidências e critérios de reprovação."
-        },
-        {
-            "id": "doc_gate_po_ux_valor_auditoria_telas_atuais",
-            "path": "docs/gates/gate-po-ux-valor/05-auditoria-telas-atuais/AUDITORIA_TELAS_ATUAIS_GATE_PO_UX_VALOR.md",
-            "category": "GOVERNANCA_SPRINT",
-            "title": "Gate PO/UX/Valor — Auditoria das Telas Atuais",
-            "materialized_in_repo": true,
-            "added_sprint": "gate-po-ux-valor-item-08",
-            "last_updated": "2026-05-10",
-            "note": "Item 8 do Gate PO/UX/Valor: auditoria material das telas atuais contra o padrão oficial de telas e o contrato educacional da API; identifica achados, dependências de API, lacunas, riscos e prioridade para protótipo futuro, mantendo a Sprint 5 congelada."
-        },
-        {
-            "id": "doc_gate_po_ux_valor_escolha_modulo_piloto",
-            "path": "docs/gates/gate-po-ux-valor/06-escolha-modulo-piloto/ESCOLHA_MODULO_PILOTO_GATE_PO_UX_VALOR.md",
-            "category": "GOVERNANCA_SPRINT",
-            "title": "Gate PO/UX/Valor — Escolha do Módulo-Piloto",
-            "materialized_in_repo": true,
-            "added_sprint": "gate-po-ux-valor-item-09",
-            "last_updated": "2026-05-10",
-            "note": "Item 9 do Gate PO/UX/Valor: escolha documental, auditável e justificada do módulo-piloto oficial para orientar prototipação, Value Gate, implementação piloto e aceite do PO; Sprint 5 permanece congelada."
-        },
-        {
-            "id": "doc_gate_po_ux_valor_prototipo_financiamento_imobiliario",
-            "path": "docs/gates/gate-po-ux-valor/07-prototipo-antes-de-codar/PROTOTIPO_FINANCIAMENTO_IMOBILIARIO_GATE_PO_UX_VALOR.md",
-            "category": "GOVERNANCA_SPRINT",
-            "title": "Gate PO/UX/Valor — Protótipo antes de codar — Financiamento Imobiliário",
-            "materialized_in_repo": true,
-            "added_sprint": "gate-po-ux-valor-item-10",
-            "last_updated": "2026-05-10",
-            "note": "Item 10 do Gate PO/UX/Valor: protótipo documental, auditável, pedagógico e visual do módulo-piloto Financiamento Imobiliário, sem implementação e com Sprint 5 congelada."
-        },
-        {
-            "id": "doc_gate_po_ux_valor_value_gate_financiamento_imobiliario",
-            "path": "docs/gates/gate-po-ux-valor/08-value-gate/VALUE_GATE_FINANCIAMENTO_IMOBILIARIO_GATE_PO_UX_VALOR.md",
-            "category": "GOVERNANCA_SPRINT",
-            "title": "Gate PO/UX/Valor — Value Gate — Financiamento Imobiliário",
-            "materialized_in_repo": true,
-            "added_sprint": "gate-po-ux-valor-item-11",
-            "last_updated": "2026-05-10",
-            "note": "Item 11 do Gate PO/UX/Valor: Value Gate documental, auditável e objetivo para aceite do módulo-piloto Financiamento Imobiliário; Sprint 5 permanece congelada."
-        },
-        {
-            "id": "GOV-FRONTEND-EXCELLENCE-STANDARD",
-            "path": "docs/governance/frontend/PEF_FRONTEND_EXCELLENCE_STANDARD.md",
-            "category": "GOVERNANCA_SPRINT",
-            "title": "Padrão de Excelência Frontend/UI/UX da PEF",
-            "materialized_in_repo": true,
-            "last_updated": "2026-05-16",
-            "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
-        },
-        {
-            "id": "GOV-FRONTEND-UIUX-SCORECARD",
-            "path": "docs/governance/frontend/PEF_UI_UX_SCORECARD.md",
-            "category": "GOVERNANCA_SPRINT",
-            "title": "Scorecard UI/UX da PEF",
-            "materialized_in_repo": true,
-            "last_updated": "2026-05-16",
-            "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
-        },
-        {
-            "id": "GOV-FRONTEND-DEFINITION-OF-DONE",
-            "path": "docs/governance/frontend/PEF_FRONTEND_DEFINITION_OF_DONE.md",
-            "category": "GOVERNANCA_SPRINT",
-            "title": "Definition of Done Frontend da PEF",
-            "materialized_in_repo": true,
-            "last_updated": "2026-05-16",
-            "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
-        },
-        {
-            "id": "GOV-FRONTEND-REJECTION-CRITERIA",
-            "path": "docs/governance/frontend/PEF_FRONTEND_REJECTION_CRITERIA.md",
-            "category": "GOVERNANCA_SPRINT",
-            "title": "Critérios de Rejeição Frontend/UI/UX da PEF",
-            "materialized_in_repo": true,
-            "last_updated": "2026-05-16",
-            "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
-        },
-        {
-            "id": "GOV-FRONTEND-MODULE-JOURNEY-TEMPLATE",
-            "path": "docs/governance/frontend/PEF_MODULE_JOURNEY_TEMPLATE.md",
-            "category": "GOVERNANCA_SPRINT",
-            "title": "Template de Jornada de Módulo da PEF",
-            "materialized_in_repo": true,
-            "last_updated": "2026-05-16",
-            "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
-        },
-        {
-            "id": "GOV-FRONTEND-COMPONENT-PURPOSE-STANDARD",
-            "path": "docs/governance/frontend/PEF_COMPONENT_PURPOSE_STANDARD.md",
-            "category": "GOVERNANCA_SPRINT",
-            "title": "Padrão de Propósito de Componentes da PEF",
-            "materialized_in_repo": true,
-            "last_updated": "2026-05-16",
-            "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
-        },
-        {
-            "id": "GOV-FRONTEND-FINANCIAL-TABLE-UX-STANDARD",
-            "path": "docs/governance/frontend/PEF_FINANCIAL_TABLE_UX_STANDARD.md",
-            "category": "GOVERNANCA_SPRINT",
-            "title": "Padrão UX para Tabelas Financeiras da PEF",
-            "materialized_in_repo": true,
-            "last_updated": "2026-05-16",
-            "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
-        },
-        {
-            "id": "GOV-FRONTEND-FINANCIAL-CHART-UX-STANDARD",
-            "path": "docs/governance/frontend/PEF_FINANCIAL_CHART_UX_STANDARD.md",
-            "category": "GOVERNANCA_SPRINT",
-            "title": "Padrão UX para Gráficos Financeiros da PEF",
-            "materialized_in_repo": true,
-            "last_updated": "2026-05-16",
-            "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
-        },
-        {
-            "id": "GATE-POUX-14F-F0A-README",
-            "path": "docs/gates/gate-po-ux-valor/14f/00-governanca-frontend-uiux/README_ITEM_14F_F0A.md",
-            "category": "GOVERNANCA_SPRINT",
-            "title": "README do Item 14F-F0A — Governança Frontend/UI/UX",
-            "materialized_in_repo": true,
-            "last_updated": "2026-05-16",
-            "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
-        },
-        {
-            "id": "GATE-POUX-14F-F0A-MANIFESTO",
-            "path": "docs/gates/gate-po-ux-valor/14f/00-governanca-frontend-uiux/MANIFESTO_ARQUIVOS_ITEM_14F_F0A.md",
-            "category": "GOVERNANCA_SPRINT",
-            "title": "Manifesto de Arquivos do Item 14F-F0A",
-            "materialized_in_repo": true,
-            "last_updated": "2026-05-16",
-            "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
-        },
-        {
-            "id": "GATE-POUX-14F-F0A-MATERIALIZACAO",
-            "path": "docs/gates/gate-po-ux-valor/14f/00-governanca-frontend-uiux/MATERIALIZACAO_ORIENTADA_ITEM_14F_F0A.md",
-            "category": "GOVERNANCA_SPRINT",
-            "title": "Materialização Orientada do Item 14F-F0A",
-            "materialized_in_repo": true,
-            "last_updated": "2026-05-16",
-            "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
-        },
-        {
-            "id": "GOV-FRONTEND-UIUX-CONTRACTS-README",
-            "title": "PEF — Contratos UI/UX Executáveis",
-            "path": "docs/governance/frontend/contracts/README_UIUX_CONTRACTS.md",
-            "category": "GOVERNANCA_SPRINT",
-            "status": "active",
-            "owner": "Gate PO/UX/Valor",
-            "created_at": "2026-05-16",
-            "updated_at": "2026-05-16",
-            "summary": "Explica a finalidade dos contratos UI/UX executáveis da PEF."
-        },
-        {
-            "id": "PEF-UIUX-CONTRACT-FINANCIAMENTO-IMOBILIARIO",
-            "title": "Contrato UI/UX — Financiamento Imobiliário",
-            "path": "docs/governance/frontend/contracts/financiamento-imobiliario.uiux.contract.json",
-            "category": "GOVERNANCA_SPRINT",
-            "status": "active",
-            "owner": "Gate PO/UX/Valor",
-            "created_at": "2026-05-16",
-            "updated_at": "2026-05-16",
-            "summary": "Define contrato verificável de UI/UX para o módulo Financiamento Imobiliário."
-        },
-        {
-            "id": "GATE-POUX-14F-F0B-README",
-            "title": "README — Item 14F-F0B",
-            "path": "docs/gates/gate-po-ux-valor/14f/01-contrato-uiux-imovel/README_ITEM_14F_F0B.md",
-            "category": "GOVERNANCA_SPRINT",
-            "status": "active",
-            "owner": "Gate PO/UX/Valor",
-            "created_at": "2026-05-16",
-            "updated_at": "2026-05-16",
-            "summary": "Resume objetivo, escopo e próximo passo do Item 14F-F0B."
-        },
-        {
-            "id": "GATE-POUX-14F-F0B-MANIFESTO",
-            "title": "Manifesto de arquivos — Item 14F-F0B",
-            "path": "docs/gates/gate-po-ux-valor/14f/01-contrato-uiux-imovel/MANIFESTO_ARQUIVOS_ITEM_14F_F0B.md",
-            "category": "GOVERNANCA_SPRINT",
-            "status": "active",
-            "owner": "Gate PO/UX/Valor",
-            "created_at": "2026-05-16",
-            "updated_at": "2026-05-16",
-            "summary": "Lista arquivos criados no Item 14F-F0B e sua finalidade."
-        },
-        {
-            "id": "GATE-POUX-14F-F0B-RELATORIO",
-            "title": "Relatório — Item 14F-F0B",
-            "path": "docs/gates/gate-po-ux-valor/14f/01-contrato-uiux-imovel/RELATORIO_ITEM_14F_F0B.md",
-            "category": "GOVERNANCA_SPRINT",
-            "status": "active",
-            "owner": "Gate PO/UX/Valor",
-            "created_at": "2026-05-16",
-            "updated_at": "2026-05-16",
-            "summary": "Registra decisões e limites do contrato UI/UX do módulo Imóvel."
-        },
-        {
-            "id": "GATE-POUX-14F-F0C-README",
-            "title": "README — Item 14F-F0C",
-            "path": "docs/gates/gate-po-ux-valor/14f/02-auditor-uiux/README_ITEM_14F_F0C.md",
-            "category": "GOVERNANCA_SPRINT",
-            "status": "active",
-            "owner": "Gate PO/UX/Valor",
-            "created_at": "2026-05-16",
-            "updated_at": "2026-05-16",
-            "summary": "Resume objetivo, escopo e uso do auditor automático UI/UX."
-        },
-        {
-            "id": "GATE-POUX-14F-F0C-MANIFESTO",
-            "title": "Manifesto de arquivos — Item 14F-F0C",
-            "path": "docs/gates/gate-po-ux-valor/14f/02-auditor-uiux/MANIFESTO_ARQUIVOS_ITEM_14F_F0C.md",
-            "category": "GOVERNANCA_SPRINT",
-            "status": "active",
-            "owner": "Gate PO/UX/Valor",
-            "created_at": "2026-05-16",
-            "updated_at": "2026-05-16",
-            "summary": "Lista arquivos criados e alterados no Item 14F-F0C."
-        },
-        {
-            "id": "GATE-POUX-14F-F0C-RELATORIO-AUDITOR-UIUX",
-            "title": "Relatório do Auditor UI/UX — Item 14F-F0C",
-            "path": "docs/gates/gate-po-ux-valor/14f/02-auditor-uiux/RELATORIO_AUDITOR_UIUX_ITEM_14F_F0C.md",
-            "category": "GOVERNANCA_SPRINT",
-            "status": "active",
-            "owner": "Gate PO/UX/Valor",
-            "created_at": "2026-05-16",
-            "updated_at": "2026-05-16",
-            "summary": "Registra evidências, comandos e resultado inicial do auditor UI/UX."
-        },
-        {
-            "id": "GATE-POUX-14F-F0D-README",
-            "title": "README — Item 14F-F0D",
-            "path": "docs/gates/gate-po-ux-valor/14f/03-testes-auditor-uiux/README_ITEM_14F_F0D.md",
-            "category": "GOVERNANCA_SPRINT",
-            "status": "active",
-            "owner": "Gate PO/UX/Valor",
-            "created_at": "2026-05-17",
-            "updated_at": "2026-05-17",
-            "summary": "Resume objetivo, escopo e resultado esperado dos testes do auditor UI/UX."
-        },
-        {
-            "id": "GATE-POUX-14F-F0D-MANIFESTO",
-            "title": "Manifesto de arquivos — Item 14F-F0D",
-            "path": "docs/gates/gate-po-ux-valor/14f/03-testes-auditor-uiux/MANIFESTO_ARQUIVOS_ITEM_14F_F0D.md",
-            "category": "GOVERNANCA_SPRINT",
-            "status": "active",
-            "owner": "Gate PO/UX/Valor",
-            "created_at": "2026-05-17",
-            "updated_at": "2026-05-17",
-            "summary": "Lista arquivos criados e alterados no Item 14F-F0D."
-        },
-        {
-            "id": "GATE-POUX-14F-F0D-RELATORIO-TESTES-AUDITOR-UIUX",
-            "title": "Relatório de testes do auditor UI/UX — Item 14F-F0D",
-            "path": "docs/gates/gate-po-ux-valor/14f/03-testes-auditor-uiux/RELATORIO_TESTES_AUDITOR_UIUX_ITEM_14F_F0D.md",
-            "category": "GOVERNANCA_SPRINT",
-            "status": "active",
-            "owner": "Gate PO/UX/Valor",
-            "created_at": "2026-05-17",
-            "updated_at": "2026-05-17",
-            "summary": "Documenta a cobertura automatizada criada para o auditor audit:uiux."
-        },
-        {
-            "id": "GOV-FRONTEND-AUDIT-UIUX-RUNBOOK",
-            "title": "Runbook do comando audit:uiux",
-            "path": "docs/governance/frontend/PEF_AUDIT_UIUX_COMMAND_RUNBOOK.md",
-            "category": "GOVERNANCA_FRONTEND",
-            "status": "active",
-            "owner": "Gate PO/UX/Valor",
-            "created_at": "2026-05-17",
-            "updated_at": "2026-05-17",
-            "summary": "Define uso oficial, limites e critérios de promoção futura do comando audit:uiux."
-        },
-        {
-            "id": "GATE-POUX-14F-F0E-README",
-            "title": "README — Item 14F-F0E",
-            "path": "docs/gates/gate-po-ux-valor/14f/04-integracao-audit-uiux/README_ITEM_14F_F0E.md",
-            "category": "GOVERNANCA_SPRINT",
-            "status": "active",
-            "owner": "Gate PO/UX/Valor",
-            "created_at": "2026-05-17",
-            "updated_at": "2026-05-17",
-            "summary": "Resume objetivo, escopo e decisão do Item 14F-F0E."
-        },
-        {
-            "id": "GATE-POUX-14F-F0E-MANIFESTO",
-            "title": "Manifesto de arquivos — Item 14F-F0E",
-            "path": "docs/gates/gate-po-ux-valor/14f/04-integracao-audit-uiux/MANIFESTO_ARQUIVOS_ITEM_14F_F0E.md",
-            "category": "GOVERNANCA_SPRINT",
-            "status": "active",
-            "owner": "Gate PO/UX/Valor",
-            "created_at": "2026-05-17",
-            "updated_at": "2026-05-17",
-            "summary": "Lista arquivos criados e alterados no Item 14F-F0E."
-        },
-        {
-            "id": "GATE-POUX-14F-F0E-RELATORIO-INTEGRACAO-AUDIT-UIUX",
-            "title": "Relatório de integração do audit:uiux — Item 14F-F0E",
-            "path": "docs/gates/gate-po-ux-valor/14f/04-integracao-audit-uiux/RELATORIO_INTEGRACAO_AUDIT_UIUX_ITEM_14F_F0E.md",
-            "category": "GOVERNANCA_SPRINT",
-            "status": "active",
-            "owner": "Gate PO/UX/Valor",
-            "created_at": "2026-05-17",
-            "updated_at": "2026-05-17",
-            "summary": "Documenta scripts, validações e decisão de não tornar audit:uiux bloqueante no CI nesta fase."
-        },
-        {
-            "id": "GATE-POUX-14F-F1-README",
-            "title": "README — Item 14F-F1",
-            "path": "docs/gates/gate-po-ux-valor/14f/05-fail-oficial-uiux-imovel/README_ITEM_14F_F1.md",
-            "category": "GOVERNANCA_SPRINT",
-            "status": "active",
-            "owner": "Gate PO/UX/Valor",
-            "created_at": "2026-05-17",
-            "updated_at": "2026-05-17",
-            "summary": "Resume objetivo, resultado e decisão de governança do FAIL oficial UI/UX do módulo Imóvel."
-        },
-        {
-            "id": "GATE-POUX-14F-F1-MANIFESTO",
-            "title": "Manifesto de arquivos — Item 14F-F1",
-            "path": "docs/gates/gate-po-ux-valor/14f/05-fail-oficial-uiux-imovel/MANIFESTO_ARQUIVOS_ITEM_14F_F1.md",
-            "category": "GOVERNANCA_SPRINT",
-            "status": "active",
-            "owner": "Gate PO/UX/Valor",
-            "created_at": "2026-05-17",
-            "updated_at": "2026-05-17",
-            "summary": "Lista arquivos criados e alterados no Item 14F-F1."
-        },
-        {
-            "id": "GATE-POUX-14F-F1-RELATORIO-FAIL-UIUX-IMOVEL",
-            "title": "Relatório do FAIL oficial UI/UX do módulo Imóvel — Item 14F-F1",
-            "path": "docs/gates/gate-po-ux-valor/14f/05-fail-oficial-uiux-imovel/RELATORIO_FAIL_OFICIAL_UIUX_IMOVEL_ITEM_14F_F1.md",
-            "category": "GOVERNANCA_SPRINT",
-            "status": "active",
-            "owner": "Gate PO/UX/Valor",
-            "created_at": "2026-05-17",
-            "updated_at": "2026-05-17",
-            "summary": "Registra oficialmente a reprovação UI/UX do módulo Imóvel com base no auditor audit:uiux."
-        },
-        {
-            "id": "GATE-POUX-14F-F1-EVIDENCIA-AUDITOR-UIUX-JSON",
-            "title": "Evidência JSON do auditor UI/UX — Item 14F-F1",
-            "path": "docs/gates/gate-po-ux-valor/14f/05-fail-oficial-uiux-imovel/EVIDENCIA_AUDITOR_UIUX_IMOVEL_ITEM_14F_F1.json",
-            "category": "GOVERNANCA_SPRINT",
-            "status": "active",
-            "owner": "Gate PO/UX/Valor",
-            "created_at": "2026-05-17",
-            "updated_at": "2026-05-17",
-            "summary": "Evidência JSON oficial com 28 violações UI/UX detectadas no módulo Imóvel."
-        },
-        {
-            "id": "GATE-POUX-14F-F2-README",
-            "title": "README — Item 14F-F2",
-            "path": "docs/gates/gate-po-ux-valor/14f/06-causas-raiz-plano-corretivo/README_ITEM_14F_F2.md",
-            "category": "GOVERNANCA_SPRINT",
-            "status": "active",
-            "owner": "Gate PO/UX/Valor",
-            "created_at": "2026-05-17",
-            "updated_at": "2026-05-17",
-            "summary": "Resume objetivo, fonte, resultado e decisão de governança do Item 14F-F2."
-        },
-        {
-            "id": "GATE-POUX-14F-F2-MANIFESTO",
-            "title": "Manifesto de arquivos — Item 14F-F2",
-            "path": "docs/gates/gate-po-ux-valor/14f/06-causas-raiz-plano-corretivo/MANIFESTO_ARQUIVOS_ITEM_14F_F2.md",
-            "category": "GOVERNANCA_SPRINT",
-            "status": "active",
-            "owner": "Gate PO/UX/Valor",
-            "created_at": "2026-05-17",
-            "updated_at": "2026-05-17",
-            "summary": "Lista arquivos criados e alterados no Item 14F-F2."
-        },
-        {
-            "id": "GATE-POUX-14F-F2-RELATORIO-CAUSAS-RAIZ-UIUX-IMOVEL",
-            "title": "Relatório de causas raiz UI/UX do módulo Imóvel — Item 14F-F2",
-            "path": "docs/gates/gate-po-ux-valor/14f/06-causas-raiz-plano-corretivo/RELATORIO_CAUSAS_RAIZ_UIUX_IMOVEL_ITEM_14F_F2.md",
-            "category": "GOVERNANCA_SPRINT",
-            "status": "active",
-            "owner": "Gate PO/UX/Valor",
-            "created_at": "2026-05-17",
-            "updated_at": "2026-05-17",
-            "summary": "Agrupa as 28 violações UI/UX do módulo Imóvel por causa raiz."
-        },
-        {
-            "id": "GATE-POUX-14F-F2-PLANO-CORRETIVO-CIRURGICO-UIUX-IMOVEL",
-            "title": "Plano corretivo cirúrgico UI/UX do módulo Imóvel — Item 14F-F2",
-            "path": "docs/gates/gate-po-ux-valor/14f/06-causas-raiz-plano-corretivo/PLANO_CORRETIVO_CIRURGICO_UIUX_IMOVEL_ITEM_14F_F2.md",
-            "category": "GOVERNANCA_SPRINT",
-            "status": "active",
-            "owner": "Gate PO/UX/Valor",
-            "created_at": "2026-05-17",
-            "updated_at": "2026-05-17",
-            "summary": "Define ordem cirúrgica, ações e critérios de aceite para corrigir as violações UI/UX."
-        },
-        {
-            "id": "GATE-POUX-14F-F2-AGRUPAMENTO-JSON-VIOLACOES-UIUX-IMOVEL",
-            "title": "Agrupamento JSON de violações UI/UX do módulo Imóvel — Item 14F-F2",
-            "path": "docs/gates/gate-po-ux-valor/14f/06-causas-raiz-plano-corretivo/AGRUPAMENTO_VIOLACOES_UIUX_IMOVEL_ITEM_14F_F2.json",
-            "category": "GOVERNANCA_SPRINT",
-            "status": "active",
-            "owner": "Gate PO/UX/Valor",
-            "created_at": "2026-05-17",
-            "updated_at": "2026-05-17",
-            "summary": "JSON estruturado com causas raiz, contagens, arquivos afetados e critérios de aceite."
-        },
-        {
-            "id": "GATE-POUX-14F-F5-AUDIT-UIUX-GATE-OFICIAL",
-            "title": "Auditor UI/UX: Gate Oficial — Item 14F-F5",
-            "path": "docs/governance/frontend/PEF_AUDIT_UIUX_GATE_OFICIAL.md",
-            "category": "GOVERNANCA_SPRINT",
-            "status": "active",
-            "owner": "Gate PO/UX/Valor",
-            "created_at": "2026-05-17",
-            "updated_at": "2026-05-17",
-            "summary": "Documenta a promoção do auditor UI/UX a gate oficial BLOCKING do módulo Financiamento Imobiliário."
-        }
-    ],
-    "updated_at": "2026-05-17",
-    "update_reason": "Gate PO/UX/Valor — Item 14F-F5: promoção do auditor UI/UX a gate oficial BLOCKING.",
-    "_migration_note": "Sincronização documental concluída em 2026-04-17. Todos os documentos do pacote AUDITORIA_PROMPT_1_FINAL foram migrados. Documentos com materialized_in_repo=false são apenas aqueles que permanecem pendentes por decisão explícita."
+    {
+      "id": "doc_01",
+      "path": "docs/baseline/01_Visao_do_Produto.md",
+      "category": "ESTATICO",
+      "title": "Visão do Produto",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_02",
+      "path": "docs/02_Escopo_Funcional.md",
+      "category": "HIBRIDO",
+      "title": "Escopo Funcional",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_03",
+      "path": "docs/baseline/03_Regras_de_Negocio.md",
+      "category": "ESTATICO",
+      "title": "Regras de Negócio e Matemática Financeira",
+      "materialized_in_repo": true,
+      "note": "Sprint 4/F0.1: §7 (Diagnóstico Financeiro) expandido para v1.1 com thresholds documentados, fórmulas detalhadas, algoritmo de saúde financeira composta e referências (BCB, St. Louis Fed, Warren & Tyagi). Âncoras verificadas: Lei 10.820/2003 (consignado) e BCB série BCB-29037. LIMITAÇÃO (F0.1-A): a referência 'CMN 5.115/2024' foi rebaixada para limitação por não ter sido confirmada em fonte primária BCB/CMN/DOU. O threshold de 40% permanece como heurística educacional / decisão de produto, não como âncora normativa."
+    },
+    {
+      "id": "doc_04",
+      "path": "docs/04_Arquitetura_de_Software.md",
+      "category": "VIVO",
+      "title": "Arquitetura de Software",
+      "materialized_in_repo": true,
+      "note": "Atualizado na Sprint 1 — §6.3 (contrato-base em app/core, agrupamento em app/api/v1/)"
+    },
+    {
+      "id": "doc_05",
+      "path": "docs/05_Modelagem_de_Dados.md",
+      "category": "VIVO",
+      "title": "Modelagem de Dados",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_06",
+      "path": "docs/06_API_e_Contratos.md",
+      "category": "VIVO",
+      "title": "API e Contratos de Integração",
+      "materialized_in_repo": true,
+      "note": "Sprint 2 — endpoints de juros confirmados em §15.3.",
+      "last_updated": "2026-05-08",
+      "sprint_4_f2_note": "Endpoint POST /api/v1/diagnostic/analyze adicionado (§15.2, §16.1)",
+      "sprint_4_f5_note": "Endpoint POST /api/v1/financing/real_estate adicionado em §16.1 — request, response envelope, campos obrigatórios/opcionais, contrato Decimal, custo_total e total_pago definidos."
+    },
+    {
+      "id": "doc_07",
+      "path": "docs/07_UX_UI_e_Navegacao.md",
+      "category": "VIVO",
+      "title": "UX/UI e Navegação",
+      "materialized_in_repo": true,
+      "note": "Sprint 3.5 — F3: §9.2 registra o Financial Cockpit para /juros e /amortizacao, com topbar, subtabs, painel contextual e modais.",
+      "last_updated": "2026-05-09",
+      "sprint_4_f4_note": "Sprint 4/F4: módulo /diagnostico registrado como módulo funcional com cockpit, formulário, KPIs, alertas e conteúdo educacional via DiagnosticoSaibaMais modal.",
+      "sprint_4_f5_note": "Sprint 4/F5: módulo /financiamento-imobiliario promovido de em-construcao para disponivel. Componentes FinanciamentoCockpit, Form, Summary, Table, SaibaMais registrados.",
+      "sprint_4_5_f2_note": "Sprint 4.5/F2: documento atualizado para referenciar o contrato oficial de UI Components, a política de tabelas financeiras e a política de modais/abas; FinancialCockpitShell permanece como shell funcional ativa, com Header/Sidebar/NavItem classificados como legado/candidatos a adaptação.",
+      "sprint_4_5_f4_note": "Sprint 4.5/F4: registra estratégia mobile para tabelas financeiras largas: cards por parcela no financiamento e cards comparativos PRICE x SAC."
+    },
+    {
+      "id": "doc_08",
+      "path": "docs/08_Conteudo_Educacional.md",
+      "category": "VIVO",
+      "title": "Conteúdo Educacional",
+      "materialized_in_repo": true,
+      "note": "Sprint 3.5 — F3: §13.3 registra a reorganizacao do conteudo educacional no Financial Cockpit por painel contextual, abas e modais.",
+      "last_updated": "2026-05-08",
+      "sprint_4_f4_note": "Sprint 4/F4: conteúdo educacional do diagnóstico financeiro materializado em frontend/src/content/diagnostico/ (6 arquivos: types, nivel-1, nivel-2, glossario, alertas, index). 5 blocos nível-1, 5 nível-2, 12 termos de glossário, 6 alertas educacionais com DISCLAIMER_DIAGNOSTICO.",
+      "sprint_4_f5_note": "Sprint 4/F5: conteúdo educacional do financiamento imobiliário materializado em frontend/src/content/financiamento-imobiliario/ (5 arquivos). 5 blocos N1, 5 N2, 12 termos de glossário, DISCLAIMER_FINANCIAMENTO."
+    },
+    {
+      "id": "doc_09",
+      "path": "docs/09_Qualidade_Testes.md",
+      "category": "VIVO",
+      "title": "Qualidade, Testes e Critérios de Aceite",
+      "materialized_in_repo": true,
+      "note": "Sprint 2 — F5: §16 acrescentada com massa frontend F4 (19 arquivos / 112 testes confirmados no pipeline WSL Ubuntu) e §16.3 com a política de registro de execução oficial (sem armazenar valores pontuais de runtime no doc vivo).",
+      "last_updated": "2026-05-10",
+      "sprint_4_f4_note": "Sprint 4/F4: 64 testes novos adicionados (conteúdo diagnóstico + DiagnosticoSaibaMais + DiagnosticoInterpretation). Total consolidado: 293/293 verdes. Gates: Prettier verde, Vitest 293/293, build Next.js verde, lint pedagógico 0 bloqueios.",
+      "sprint_4_f5_note": "Sprint 4/F5: 61 testes novos (financiamento-imobiliario.test 12 + SaibaMais.test 8 + conteudo.test 39 + financiamentoService.test 3). Total consolidado: 354/354. Gates: ruff, pytest 58 backend, Prettier, Vitest 354, ESLint, tsc, build todos verdes.",
+      "sprint_4_5_f5_note": "Sprint 4.5/F5: adiciona auditor_de_interface advisory com script pnpm --dir frontend audit:interface e 2 testes de semântica operacional.",
+      "sprint_4_5_f6_note": "Sprint 4.5/F6: registra validações finais de fechamento, incluindo 45 arquivos de teste, 390 testes, build, auditor advisory, JSON e diff check."
+    },
+    {
+      "id": "doc_10",
+      "path": "docs/10_Roadmap.md",
+      "category": "HIBRIDO",
+      "title": "Roadmap e Backlog Inicial",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-10",
+      "sprint_4_5_f6_note": "Sprint 4.5/F6: registra fechamento da Sprint 4.5 como aprovada com pendências replanejadas e confirma que a Sprint 5 não foi iniciada."
+    },
+    {
+      "id": "doc_11",
+      "path": "docs/baseline/11_Prompt_Mestre.md",
+      "category": "BASELINE_CANDIDATA",
+      "title": "Prompt-Mestre de Desenvolvimento",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_12",
+      "path": "docs/12_Plano_Operacional.md",
+      "category": "VIVO",
+      "title": "Plano Operacional por Fases e Sprints",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_13",
+      "path": "docs/13_Backlog_Tecnico.md",
+      "category": "VIVO",
+      "title": "Backlog Técnico Detalhado",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-10",
+      "sprint_4_5_f6_note": "Sprint 4.5/F6: registra FE-058 e FE-059 como replanejadas e DOC-018 como executada no fechamento formal."
+    },
+    {
+      "id": "doc_14",
+      "path": "docs/14_Especificacao_Fisica_Dados.md",
+      "category": "VIVO",
+      "title": "Especificação Física de Dados e Persistência",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_15",
+      "path": "docs/15_Casos_de_Teste_Matematicos.md",
+      "category": "HIBRIDO",
+      "title": "Casos de Teste Matemáticos e Massa de Validação",
+      "materialized_in_repo": true,
+      "note": "Sprint 2 — F5: JS-01..03 e JC-01..03 marcados como exercidos por código (cross-link com Doc 19 em §9). Demais casos seguem planejados.",
+      "last_updated": "2026-05-08",
+      "sprint_4_f4_note": "Sprint 4/F4: casos pedagógicos PED-DIAG-01..10 adicionados em §10 — exercem cobertura editorial do conteúdo diagnóstico (nível-1, nível-2, glossário, alertas, disclaimer).",
+      "sprint_4_f5_note": "Sprint 4/F5: casos matemáticos FI-01..12 e pedagógicos PED-FIN-01..09 adicionados para o módulo de financiamento imobiliário."
+    },
+    {
+      "id": "doc_16",
+      "path": "docs/16_Design_System.md",
+      "category": "VIVO",
+      "title": "Design System e Wireframes Operacionais",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-10",
+      "sprint_4_5_f2_note": "Sprint 4.5/F2: referencia o contrato oficial de UI Components e as políticas de tabelas financeiras, modais e abas em docs/ui/.",
+      "sprint_4_5_f3_note": "Sprint 4.5/F3: registra materialização de CockpitEducationPanel, visibleInCockpit/getCockpitVisibleModules e ARIA retrocompatível em CockpitButton/CockpitField.",
+      "sprint_4_5_f4_note": "Sprint 4.5/F4: registra padrão de tabelas financeiras responsivas com rolagem vertical, cabeçalho fixo, valores tabulares e alternativa mobile por cards/detalhes.",
+      "sprint_4_5_f5_note": "Sprint 4.5/F5: registra auditor_de_interface como verificador estático advisory para governança visual, tabelas financeiras, cockpit e documentação viva.",
+      "sprint_4_5_f6_note": "Sprint 4.5/F6: fechamento visual formal aprovado com pendências replanejadas FE-058 e FE-059, sem iniciar Sprint 5."
+    },
+    {
+      "id": "doc_ui_contrato_components",
+      "path": "docs/ui/CONTRATO_UI_COMPONENTS.md",
+      "category": "VIVO",
+      "title": "Contrato Oficial de UI Components",
+      "materialized_in_repo": true,
+      "added_sprint": "sprint-04-5-f2",
+      "last_updated": "2026-05-09",
+      "note": "Sprint 4.5/F2: define hierarquia normativa, componentes oficiais, legado, decisões pendentes para F3/F4 e critérios de aceite para UI Components.",
+      "sprint_4_5_f3_note": "Sprint 4.5/F3: decisões de EducationPanel duplicado, VISIBLE_MODULE_IDS, CockpitButton e CockpitField materializadas em código com testes.",
+      "sprint_4_5_f4_note": "Sprint 4.5/F4: contrato de tabelas materializado em FinanciamentoTable, FinanciamentoCompareSummary, CockpitTables e tabelas de amortização/juros."
+    },
+    {
+      "id": "doc_ui_politica_tabelas_financeiras",
+      "path": "docs/ui/POLITICA_TABELAS_FINANCEIRAS.md",
+      "category": "VIVO",
+      "title": "Política de Tabelas Financeiras",
+      "materialized_in_repo": true,
+      "added_sprint": "sprint-04-5-f2",
+      "last_updated": "2026-05-09",
+      "note": "Sprint 4.5/F2: formaliza contrato visual e responsivo para tabelas financeiras, sem impor componente único antes da decisão técnica da F3.",
+      "sprint_4_5_f4_note": "Sprint 4.5/F4: política aplicada nas tabelas financeiras prioritárias, com tabela desktop vertical, cards mobile e testes de integridade de linhas/acessibilidade."
+    },
+    {
+      "id": "doc_ui_politica_modais_abas",
+      "path": "docs/ui/POLITICA_MODAIS_ABAS.md",
+      "category": "VIVO",
+      "title": "Política de Modais e Abas",
+      "materialized_in_repo": true,
+      "added_sprint": "sprint-04-5-f2",
+      "note": "Sprint 4.5/F2: define uso permitido de modais e abas como aprofundamento contextual, sem substituir o fluxo principal."
+    },
+    {
+      "id": "doc_ui_auditor_interface",
+      "path": "docs/ui/AUDITOR_DE_INTERFACE.md",
+      "category": "VIVO",
+      "title": "Auditor de Interface — Modo Advisory",
+      "materialized_in_repo": true,
+      "added_sprint": "sprint-04-5-f5",
+      "last_updated": "2026-05-10",
+      "note": "Sprint 4.5/F5: documenta objetivo, execução, severidades, regras cobertas e limites explícitos do auditor_de_interface advisory."
+    },
+    {
+      "id": "doc_17",
+      "path": "docs/17_Infra_Seguranca_Deploy.md",
+      "category": "VIVO",
+      "title": "Infraestrutura, Segurança, Compliance e Deploy",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_18",
+      "path": "docs/18_Mapeamento_Regulatorio.md",
+      "category": "HIBRIDO",
+      "title": "Mapeamento Regulatório do Banco Central",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_19",
+      "path": "docs/19_Matriz_Rastreabilidade.md",
+      "category": "VIVO",
+      "title": "Matriz de Rastreabilidade Requisitos↔Testes↔Código",
+      "materialized_in_repo": true,
+      "note": "Sprint 3 — F5: RF-AMO-001/002/003 promovidos para done com domínio F2, API F3, frontend F4 e conteúdo/testes pedagógicos F5.",
+      "last_updated": "2026-05-08",
+      "sprint_4_f2_note": "RF-DIAG-001 adicionado com status in_progress (backend/API concluído, F3/F4 pendentes)",
+      "sprint_4_f4_note": "RF-DIAG-001 promovido para done (Sprint 4 F1/F2/F3/F4). Vertical slice completo: domínio F1 + API F2 + frontend cockpit F3 + conteúdo educacional F4. §8 adicionado à tabela canônica.",
+      "sprint_4_f5_note": "RF-FIN-001 promovido para done (Sprint 4 F5). Vertical slice completo: domínio + API + frontend cockpit + conteúdo educacional. §9 adicionado.",
+      "sprint_4_5_f6_note": "Sprint 4.5/F6: DOC-018 registrado como executado; FE-058 e FE-059 registradas como pendências replanejadas."
+    },
+    {
+      "id": "doc_20",
+      "path": "docs/20_Catalogo_ADR.md",
+      "category": "VIVO",
+      "title": "Catálogo ADR (referência conceitual)",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_20_index",
+      "path": "docs/adr/INDEX.md",
+      "category": "VIVO",
+      "title": "Catálogo ADR (índice de arquivos)",
+      "materialized_in_repo": false,
+      "note": "Caminho canônico no repo: docs/adr/ (não docs/20_ADR/)"
+    },
+    {
+      "id": "doc_21",
+      "path": "docs/baseline/21_Governanca_Branches_PRs.md",
+      "category": "ESTATICO",
+      "title": "Governança de Branches, PRs e Commits",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_22",
+      "path": "docs/22_LGPD_Tratamento_Dados.md",
+      "category": "HIBRIDO",
+      "title": "LGPD e Tratamento de Dados",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_23",
+      "path": "docs/23_Observabilidade.md",
+      "category": "VIVO",
+      "title": "Observabilidade e Telemetria",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_24",
+      "path": "docs/24_Runbooks.md",
+      "category": "VIVO",
+      "title": "Runbooks e Procedimentos Operacionais",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_25",
+      "path": "docs/25_Release_Readiness.md",
+      "category": "VIVO",
+      "title": "Release Readiness e Checklists",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_26",
+      "path": "docs/26_Seeds_Fixtures.md",
+      "category": "VIVO",
+      "title": "Seeds, Fixtures e Dados de Demonstração",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "doc_27",
+      "path": "docs/27_Versionamento_API.md",
+      "category": "HIBRIDO",
+      "title": "Versionamento de Contratos de API",
+      "materialized_in_repo": true,
+      "note": "Atualizado na Sprint 1 — apêndice vivo: v1 active, 2026-04"
+    },
+    {
+      "id": "g1",
+      "path": "docs/baseline/governanca/GOVERNANCA_RIGIDA_DE_EXECUCAO__CLAUDE_CODE.md",
+      "category": "ESTATICO",
+      "title": "G1 — Governança Rígida da Claude Code (calibrada)",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "g2",
+      "path": "docs/qualidade/ESTRATEGIA_DE_TESTES_DE_CLASSE_MUNDIAL.md",
+      "category": "VIVO",
+      "title": "G2 — Estratégia de Testes de Classe Mundial (43 tipos)",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "g3",
+      "path": "docs/qualidade/PADROES_DE_IMPLEMENTACAO.md",
+      "category": "VIVO",
+      "title": "G3 — Padrões de Implementação e Qualidade de Código",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "g4",
+      "path": "docs/qualidade/PIPELINE_E_QUALITY_GATES.md",
+      "category": "VIVO",
+      "title": "G4 — Pipeline e Quality Gates",
+      "materialized_in_repo": true
+    },
+    {
+      "id": "g5",
+      "path": "docs/qualidade/AGENTE_DE_ANALISE_DE_IMPACTO.md",
+      "category": "VIVO",
+      "title": "G5 — Especificação do Agente de Análise de Impacto",
+      "materialized_in_repo": true,
+      "note": "Agente de análise de impacto (Sprint 0). Wired ao CI em modo ADVISORY na Sprint 1 (Fatia 4). Primeiro run verde em 2026-04-19 (PR #1)."
+    },
+    {
+      "id": "arch_ADR_0001",
+      "path": "docs/adr/ADR-0001-frontend-nextjs-react-ts.md",
+      "category": "ESTATICO",
+      "title": "ADR-0001 — Frontend: Next.js + React + TypeScript",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "arch_ADR_0002",
+      "path": "docs/adr/ADR-0002-backend-python-fastapi.md",
+      "category": "ESTATICO",
+      "title": "ADR-0002 — Backend: Python + FastAPI",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "arch_ADR_0003",
+      "path": "docs/adr/ADR-0003-db-postgresql.md",
+      "category": "ESTATICO",
+      "title": "ADR-0003 — Banco de dados: PostgreSQL",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "arch_ADR_0004",
+      "path": "docs/adr/ADR-0004-backend-source-of-truth-math.md",
+      "category": "ESTATICO",
+      "title": "ADR-0004 — Backend como fonte de verdade matemática",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "arch_ADR_0005",
+      "path": "docs/adr/ADR-0005-domain-organization-backend.md",
+      "category": "ESTATICO",
+      "title": "ADR-0005 — Organização de domínios no backend",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "arch_ADR_0006",
+      "path": "docs/adr/ADR-0006-api-versioning-url.md",
+      "category": "ESTATICO",
+      "title": "ADR-0006 — Versionamento de API por URL",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "arch_ADR_0007",
+      "path": "docs/adr/ADR-0007-http-errors-rfc7807.md",
+      "category": "ESTATICO",
+      "title": "ADR-0007 — Erros HTTP: RFC 7807",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "arch_ADR_0008",
+      "path": "docs/adr/ADR-0008-trunk-based-squash-merge.md",
+      "category": "ESTATICO",
+      "title": "ADR-0008 — Trunk-based + squash merge",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "arch_ADR_0009",
+      "path": "docs/adr/ADR-0009-migrations-expand-and-contract.md",
+      "category": "ESTATICO",
+      "title": "ADR-0009 — Migrations: expand-and-contract",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "arch_ADR_0010",
+      "path": "docs/adr/ADR-0010-testing-pyramid-mutation-domain.md",
+      "category": "ESTATICO",
+      "title": "ADR-0010 — Pirâmide de testes + mutation",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "arch_ADR_0011",
+      "path": "docs/adr/ADR-0011-sqlalchemy2-session-per-request-uow.md",
+      "category": "ESTATICO",
+      "title": "ADR-0011 — SQLAlchemy 2 session-per-request UoW",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "arch_ADR_0012",
+      "path": "docs/adr/ADR-0012-tailwind-tokens-doc16.md",
+      "category": "ESTATICO",
+      "title": "ADR-0012 — Tailwind + design tokens (Doc 16)",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "arch_ADR_0013",
+      "path": "docs/adr/ADR-0013-observability-structlog-prometheus.md",
+      "category": "ESTATICO",
+      "title": "ADR-0013 — Observabilidade: structlog + Prometheus",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "arch_ADR_0014",
+      "path": "docs/adr/ADR-0014-docker-multistage-nonroot.md",
+      "category": "ESTATICO",
+      "title": "ADR-0014 — Docker multistage non-root",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "runbook_template",
+      "path": "docs/runbooks/RB-000-TEMPLATE.md",
+      "category": "ESTATICO",
+      "title": "Template de Runbook",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "gate_lista_de_bloqueadores_e_condic",
+      "path": "docs/baseline/gate-forense/LISTA_DE_BLOQUEADORES_E_CONDICIONANTES.md",
+      "category": "ESTATICO",
+      "title": "Gate Forense — Lista de Bloqueadores e Condicionantes",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "gate_matriz_forense_de_prontidao_pa",
+      "path": "docs/baseline/gate-forense/MATRIZ_FORENSE_DE_PRONTIDAO_PARA_EXECUCAO.md",
+      "category": "ESTATICO",
+      "title": "Gate Forense — Matriz de Prontidão para Execução",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "gate_relatorio_forense_final_de_pro",
+      "path": "docs/baseline/gate-forense/RELATORIO_FORENSE_FINAL_DE_PRONTIDAO.md",
+      "category": "ESTATICO",
+      "title": "Gate Forense — Relatório Final de Prontidão",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "gate_veredito_final_de_prontidao_pa",
+      "path": "docs/baseline/gate-forense/VEREDITO_FINAL_DE_PRONTIDAO_PARA_EXECUCAO.md",
+      "category": "ESTATICO",
+      "title": "Gate Forense — Veredito Final de Prontidão",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "gate_verificacao_final_dos_document",
+      "path": "docs/baseline/gate-forense/VERIFICACAO_FINAL_DOS_DOCUMENTOS_VIVOS.md",
+      "category": "ESTATICO",
+      "title": "Gate Forense — Verificação Final de Documentos Vivos",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "gate_verificacao_final_do_agente_de",
+      "path": "docs/baseline/gate-forense/VERIFICACAO_FINAL_DO_AGENTE_DE_ANALISE_DE_IMPACTO.md",
+      "category": "ESTATICO",
+      "title": "Gate Forense — Verificação do Agente de Análise de Impacto",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "pol_01",
+      "path": "docs/policies/POLITICA_OFICIAL_DE_AUDITORIA_E_RESPONSABILIDADE.md",
+      "category": "ESTATICO",
+      "title": "Política Oficial de Auditoria e Responsabilidade de Sprint",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "pol_02",
+      "path": "docs/policies/POLITICA_OPERACIONAL_DE_SINCRONIZACAO_DOCUMENTAL.md",
+      "category": "ESTATICO",
+      "title": "Política Operacional de Sincronização Documental",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc"
+    },
+    {
+      "id": "adr_001",
+      "path": "docs/adr/ADR-001-impact-agent.md",
+      "category": "ESTATICO",
+      "title": "ADR-001 — Agente de Análise de Impacto",
+      "materialized_in_repo": true,
+      "commit": "7a83045",
+      "added_sprint": "sprint-00",
+      "note": "Estágio ADVISORY; wired ao CI via .github/workflows/impact-agent.yml na Sprint 1 (Fatia 4). Primeiro run verde registrado na PR #1 — run 24619349882 (commit e094b80, 2026-04-19T02:45Z)."
+    },
+    {
+      "id": "run_001",
+      "path": "docs/runbooks/RUN-001-setup-local.md",
+      "category": "ESTATICO",
+      "title": "RUN-001 — Setup Local",
+      "materialized_in_repo": true,
+      "commit": "7a83045",
+      "added_sprint": "sprint-00"
+    },
+    {
+      "id": "run_002",
+      "path": "docs/runbooks/RUN-002-health-readiness.md",
+      "category": "ESTATICO",
+      "title": "RUN-002 — Health e Readiness",
+      "materialized_in_repo": true,
+      "commit": "7a83045",
+      "added_sprint": "sprint-00"
+    },
+    {
+      "id": "run_003",
+      "path": "docs/runbooks/RUN-003-recovery-basic.md",
+      "category": "ESTATICO",
+      "title": "RUN-003 — Recovery Básico",
+      "materialized_in_repo": true,
+      "commit": "7a83045",
+      "added_sprint": "sprint-00"
+    },
+    {
+      "id": "sprint_00",
+      "path": "docs/sprints/sprint-00/validacao-oficial.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Sprint 00 — Validação Oficial",
+      "materialized_in_repo": true,
+      "commit": "196a471",
+      "added_sprint": "sprint-00"
+    },
+    {
+      "id": "op_backlog_xlsx",
+      "path": "docs/operacional/backlog_operacional_acompanhamento.xlsx",
+      "category": "OPERACIONAL",
+      "title": "Backlog Operacional — Planilha de Acompanhamento",
+      "materialized_in_repo": true,
+      "commit": "sinc-documental",
+      "added_sprint": "sprint-00-adendo-sinc",
+      "note": "Artefato operacional auxiliar — não substitui documentação viva"
+    },
+    {
+      "id": "sprint_01_execucao",
+      "path": "docs/sprints/sprint-01/relatorio-execucao.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Sprint 01 — Relatório de Execução",
+      "materialized_in_repo": true,
+      "added_sprint": "sprint-01",
+      "note": "Governança da Sprint 1 — narrativa executiva"
+    },
+    {
+      "id": "sprint_01_forense",
+      "path": "docs/sprints/sprint-01/relatorio-forense.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Sprint 01 — Relatório Forense",
+      "materialized_in_repo": true,
+      "added_sprint": "sprint-01",
+      "note": "Cadeia de custódia granular da Sprint 1"
+    },
+    {
+      "id": "sprint_01_validacao",
+      "path": "docs/sprints/sprint-01/validacao-oficial.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Sprint 01 — Validação Oficial",
+      "materialized_in_repo": true,
+      "added_sprint": "sprint-01",
+      "note": "Veredito formal da Sprint 1 (§13.3 do PLANO preserva Sprint 0)"
+    },
+    {
+      "id": "sinc_sprint01",
+      "path": "docs/_meta/SINCRONIZACAO_DOCS_SPRINT01.md",
+      "category": "META",
+      "title": "Sincronização Documental — Sprint 01",
+      "materialized_in_repo": true,
+      "added_sprint": "sprint-01",
+      "note": "Matriz documental desta sprint"
+    },
+    {
+      "id": "sprint_04_5_fechamento",
+      "path": "docs/sprints/sprint-04-5/02-fechamento/RELATORIO_FECHAMENTO_SPRINT_4_5.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Sprint 4.5 — Relatório de Fechamento",
+      "materialized_in_repo": true,
+      "added_sprint": "sprint-04-5-f6",
+      "last_updated": "2026-05-10",
+      "note": "F6: fechamento formal da Sprint 4.5, histórico F0-F5, validações, pendências replanejadas e condição para abertura da Sprint 5."
+    },
+    {
+      "id": "sprint_04_5_validacao",
+      "path": "docs/sprints/sprint-04-5/02-fechamento/VALIDACAO_OFICIAL_SPRINT_4_5.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Sprint 4.5 — Validação Oficial",
+      "materialized_in_repo": true,
+      "added_sprint": "sprint-04-5-f6",
+      "last_updated": "2026-05-10",
+      "note": "F6: veredito proposto de Sprint 4.5 aprovada com pendências replanejadas, sem início da Sprint 5."
+    },
+    {
+      "id": "sprint_02_execucao",
+      "path": "docs/sprints/sprint-02/relatorio-execucao.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Sprint 02 — Relatório de Execução",
+      "materialized_in_repo": true,
+      "added_sprint": "sprint-02",
+      "note": "Governança da Sprint 2 — narrativa executiva. Materializado na F6 v2 (Opção A do micro-adendo F6)."
+    },
+    {
+      "id": "sprint_02_forense",
+      "path": "docs/sprints/sprint-02/relatorio-forense.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Sprint 02 — Relatório Forense",
+      "materialized_in_repo": true,
+      "added_sprint": "sprint-02",
+      "note": "Cadeia de custódia granular da Sprint 2 (commit ↔ arquivo ↔ linhas). Materializado na F6 v2."
+    },
+    {
+      "id": "sprint_02_validacao",
+      "path": "docs/sprints/sprint-02/validacao-oficial.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Sprint 02 — Validação Oficial",
+      "materialized_in_repo": true,
+      "added_sprint": "sprint-02",
+      "note": "Veredito formal da Sprint 2. Aprovação final depende da execução do protocolo §6 (operador no WSL Ubuntu)."
+    },
+    {
+      "id": "doc_jornada_pef",
+      "path": "docs/projeto/DA_VISAO_AO_PRODUTO__A_JORNADA_DA_PLATAFORMA_EDUCACIONAL_FINANCEIRA.md",
+      "category": "VIVO",
+      "title": "Da Visão ao Produto — A Jornada da Plataforma Educacional Financeira",
+      "materialized_in_repo": true,
+      "added_sprint": "sprint-04-documental",
+      "note": "Documento histórico vivo. Criado na branch docs/jornada-plataforma-educacional-financeira. Cobre pré-história, Sprints 0–4/F1-A, arquitetura, qualidade, governança, motor matemático, camada educacional, roadmap, glossário, rastreabilidade e métricas acumuladas. Adendo Jornada PEF-A corrigiu fatos sobre Sprint 3.5, Sprint 4/F0, F0.1/F0.1-A, sequência oficial da Sprint 4, nota doc_03 e índice geral."
+    },
+    {
+      "id": "doc_sprint_4_5_nao_aceite_visual_pedagogico",
+      "path": "docs/sprints/sprint-04-5/03-aceite-po/RELATORIO_NAO_ACEITE_VISUAL_PEDAGOGICO_SPRINT_4_5.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Sprint 4.5 — Relatório de Não Aceite Visual/Pedagógico Parcial",
+      "materialized_in_repo": true,
+      "added_sprint": "gate-po-ux-valor-item-02",
+      "last_updated": "2026-05-10",
+      "note": "Gate PO/UX/Valor — Item 2: registra que a Sprint 4.5 foi tecnicamente concluída, mas recebeu não aceite visual/pedagógico parcial do Product Owner; mantém a Sprint 5 congelada até conclusão satisfatória do Gate PO/UX/Valor."
+    },
+    {
+      "id": "doc_gate_po_ux_valor_matriz_perguntas",
+      "path": "docs/gates/gate-po-ux-valor/01-matriz-perguntas/MATRIZ_COMPLETA_PERGUNTAS_GATE_PO_UX_VALOR.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Gate PO/UX/Valor — Matriz Completa de Perguntas",
+      "materialized_in_repo": true,
+      "added_sprint": "gate-po-ux-valor-item-03",
+      "last_updated": "2026-05-10",
+      "note": "Item 3 do Gate PO/UX/Valor: matriz completa de perguntas estratégicas, educacionais, matemáticas, legais, visuais, técnicas e operacionais que orienta a reestruturação educacional e auditável antes da liberação da Sprint 5."
+    },
+    {
+      "id": "doc_gate_po_ux_valor_plano_reestruturacao",
+      "path": "docs/gates/gate-po-ux-valor/02-plano-reestruturacao/PLANO_REESTRUTURACAO_GATE_PO_UX_VALOR.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Gate PO/UX/Valor — Plano de Reestruturação Educacional e Auditável",
+      "materialized_in_repo": true,
+      "added_sprint": "gate-po-ux-valor-item-04",
+      "last_updated": "2026-05-10",
+      "note": "Item 4 do Gate PO/UX/Valor: plano de reestruturação educacional, visual, pedagógica, matemática, legal, técnica e operacional para orientar os próximos itens do Gate antes da liberação da Sprint 5."
+    },
+    {
+      "id": "doc_gate_po_ux_valor_padrao_oficial_telas",
+      "path": "docs/gates/gate-po-ux-valor/03-padrao-oficial-telas/PADRAO_OFICIAL_TELAS_GATE_PO_UX_VALOR.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Gate PO/UX/Valor — Padrão Oficial de Telas",
+      "materialized_in_repo": true,
+      "added_sprint": "gate-po-ux-valor-item-06",
+      "last_updated": "2026-05-10",
+      "note": "Item 6 do Gate PO/UX/Valor: padrão oficial de telas educacionais, financeiras, auditáveis e encantadoras, com referências qualificadas, exemplos operacionais, contraexemplos, evidências exigidas e critérios de reprovação para orientar auditoria, prototipação, Value Gate, aceite do PO e evolução futura da Plataforma Educacional Financeira."
+    },
+    {
+      "id": "doc_gate_po_ux_valor_contrato_educacional_api",
+      "path": "docs/gates/gate-po-ux-valor/04-contrato-educacional-api/CONTRATO_EDUCACIONAL_API_GATE_PO_UX_VALOR.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Gate PO/UX/Valor — Contrato Educacional da API",
+      "materialized_in_repo": true,
+      "added_sprint": "gate-po-ux-valor-item-07",
+      "last_updated": "2026-05-10",
+      "note": "Item 7 do Gate PO/UX/Valor: contrato educacional da API para respostas financeiras estruturadas com resultado, interpretação, memória de cálculo, fórmulas, substituições, etapas, fontes, limites, alertas, tabelas, gráficos, comparações, evidências e critérios de reprovação."
+    },
+    {
+      "id": "doc_gate_po_ux_valor_auditoria_telas_atuais",
+      "path": "docs/gates/gate-po-ux-valor/05-auditoria-telas-atuais/AUDITORIA_TELAS_ATUAIS_GATE_PO_UX_VALOR.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Gate PO/UX/Valor — Auditoria das Telas Atuais",
+      "materialized_in_repo": true,
+      "added_sprint": "gate-po-ux-valor-item-08",
+      "last_updated": "2026-05-10",
+      "note": "Item 8 do Gate PO/UX/Valor: auditoria material das telas atuais contra o padrão oficial de telas e o contrato educacional da API; identifica achados, dependências de API, lacunas, riscos e prioridade para protótipo futuro, mantendo a Sprint 5 congelada."
+    },
+    {
+      "id": "doc_gate_po_ux_valor_escolha_modulo_piloto",
+      "path": "docs/gates/gate-po-ux-valor/06-escolha-modulo-piloto/ESCOLHA_MODULO_PILOTO_GATE_PO_UX_VALOR.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Gate PO/UX/Valor — Escolha do Módulo-Piloto",
+      "materialized_in_repo": true,
+      "added_sprint": "gate-po-ux-valor-item-09",
+      "last_updated": "2026-05-10",
+      "note": "Item 9 do Gate PO/UX/Valor: escolha documental, auditável e justificada do módulo-piloto oficial para orientar prototipação, Value Gate, implementação piloto e aceite do PO; Sprint 5 permanece congelada."
+    },
+    {
+      "id": "doc_gate_po_ux_valor_prototipo_financiamento_imobiliario",
+      "path": "docs/gates/gate-po-ux-valor/07-prototipo-antes-de-codar/PROTOTIPO_FINANCIAMENTO_IMOBILIARIO_GATE_PO_UX_VALOR.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Gate PO/UX/Valor — Protótipo antes de codar — Financiamento Imobiliário",
+      "materialized_in_repo": true,
+      "added_sprint": "gate-po-ux-valor-item-10",
+      "last_updated": "2026-05-10",
+      "note": "Item 10 do Gate PO/UX/Valor: protótipo documental, auditável, pedagógico e visual do módulo-piloto Financiamento Imobiliário, sem implementação e com Sprint 5 congelada."
+    },
+    {
+      "id": "doc_gate_po_ux_valor_value_gate_financiamento_imobiliario",
+      "path": "docs/gates/gate-po-ux-valor/08-value-gate/VALUE_GATE_FINANCIAMENTO_IMOBILIARIO_GATE_PO_UX_VALOR.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Gate PO/UX/Valor — Value Gate — Financiamento Imobiliário",
+      "materialized_in_repo": true,
+      "added_sprint": "gate-po-ux-valor-item-11",
+      "last_updated": "2026-05-10",
+      "note": "Item 11 do Gate PO/UX/Valor: Value Gate documental, auditável e objetivo para aceite do módulo-piloto Financiamento Imobiliário; Sprint 5 permanece congelada."
+    },
+    {
+      "id": "GOV-FRONTEND-EXCELLENCE-STANDARD",
+      "path": "docs/governance/frontend/PEF_FRONTEND_EXCELLENCE_STANDARD.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Padrão de Excelência Frontend/UI/UX da PEF",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-16",
+      "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
+    },
+    {
+      "id": "GOV-FRONTEND-UIUX-SCORECARD",
+      "path": "docs/governance/frontend/PEF_UI_UX_SCORECARD.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Scorecard UI/UX da PEF",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-16",
+      "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
+    },
+    {
+      "id": "GOV-FRONTEND-DEFINITION-OF-DONE",
+      "path": "docs/governance/frontend/PEF_FRONTEND_DEFINITION_OF_DONE.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Definition of Done Frontend da PEF",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-16",
+      "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
+    },
+    {
+      "id": "GOV-FRONTEND-REJECTION-CRITERIA",
+      "path": "docs/governance/frontend/PEF_FRONTEND_REJECTION_CRITERIA.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Critérios de Rejeição Frontend/UI/UX da PEF",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-16",
+      "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
+    },
+    {
+      "id": "GOV-FRONTEND-MODULE-JOURNEY-TEMPLATE",
+      "path": "docs/governance/frontend/PEF_MODULE_JOURNEY_TEMPLATE.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Template de Jornada de Módulo da PEF",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-16",
+      "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
+    },
+    {
+      "id": "GOV-FRONTEND-COMPONENT-PURPOSE-STANDARD",
+      "path": "docs/governance/frontend/PEF_COMPONENT_PURPOSE_STANDARD.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Padrão de Propósito de Componentes da PEF",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-16",
+      "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
+    },
+    {
+      "id": "GOV-FRONTEND-FINANCIAL-TABLE-UX-STANDARD",
+      "path": "docs/governance/frontend/PEF_FINANCIAL_TABLE_UX_STANDARD.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Padrão UX para Tabelas Financeiras da PEF",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-16",
+      "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
+    },
+    {
+      "id": "GOV-FRONTEND-FINANCIAL-CHART-UX-STANDARD",
+      "path": "docs/governance/frontend/PEF_FINANCIAL_CHART_UX_STANDARD.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Padrão UX para Gráficos Financeiros da PEF",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-16",
+      "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
+    },
+    {
+      "id": "GATE-POUX-14F-F0A-README",
+      "path": "docs/gates/gate-po-ux-valor/14f/00-governanca-frontend-uiux/README_ITEM_14F_F0A.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "README do Item 14F-F0A — Governança Frontend/UI/UX",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-16",
+      "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
+    },
+    {
+      "id": "GATE-POUX-14F-F0A-MANIFESTO",
+      "path": "docs/gates/gate-po-ux-valor/14f/00-governanca-frontend-uiux/MANIFESTO_ARQUIVOS_ITEM_14F_F0A.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Manifesto de Arquivos do Item 14F-F0A",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-16",
+      "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
+    },
+    {
+      "id": "GATE-POUX-14F-F0A-MATERIALIZACAO",
+      "path": "docs/gates/gate-po-ux-valor/14f/00-governanca-frontend-uiux/MATERIALIZACAO_ORIENTADA_ITEM_14F_F0A.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Materialização Orientada do Item 14F-F0A",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-16",
+      "gate_po_ux_valor_item_14f_f0a_note": "Gate PO/UX/Valor — Item 14F-F0A: criação da governança documental frontend/UI/UX da PEF; base para governança executável e auditor automático."
+    },
+    {
+      "id": "GOV-FRONTEND-UIUX-CONTRACTS-README",
+      "title": "PEF — Contratos UI/UX Executáveis",
+      "path": "docs/governance/frontend/contracts/README_UIUX_CONTRACTS.md",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-16",
+      "updated_at": "2026-05-16",
+      "summary": "Explica a finalidade dos contratos UI/UX executáveis da PEF."
+    },
+    {
+      "id": "PEF-UIUX-CONTRACT-FINANCIAMENTO-IMOBILIARIO",
+      "title": "Contrato UI/UX — Financiamento Imobiliário",
+      "path": "docs/governance/frontend/contracts/financiamento-imobiliario.uiux.contract.json",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-16",
+      "updated_at": "2026-05-16",
+      "summary": "Define contrato verificável de UI/UX para o módulo Financiamento Imobiliário."
+    },
+    {
+      "id": "GATE-POUX-14F-F0B-README",
+      "title": "README — Item 14F-F0B",
+      "path": "docs/gates/gate-po-ux-valor/14f/01-contrato-uiux-imovel/README_ITEM_14F_F0B.md",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-16",
+      "updated_at": "2026-05-16",
+      "summary": "Resume objetivo, escopo e próximo passo do Item 14F-F0B."
+    },
+    {
+      "id": "GATE-POUX-14F-F0B-MANIFESTO",
+      "title": "Manifesto de arquivos — Item 14F-F0B",
+      "path": "docs/gates/gate-po-ux-valor/14f/01-contrato-uiux-imovel/MANIFESTO_ARQUIVOS_ITEM_14F_F0B.md",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-16",
+      "updated_at": "2026-05-16",
+      "summary": "Lista arquivos criados no Item 14F-F0B e sua finalidade."
+    },
+    {
+      "id": "GATE-POUX-14F-F0B-RELATORIO",
+      "title": "Relatório — Item 14F-F0B",
+      "path": "docs/gates/gate-po-ux-valor/14f/01-contrato-uiux-imovel/RELATORIO_ITEM_14F_F0B.md",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-16",
+      "updated_at": "2026-05-16",
+      "summary": "Registra decisões e limites do contrato UI/UX do módulo Imóvel."
+    },
+    {
+      "id": "GATE-POUX-14F-F0C-README",
+      "title": "README — Item 14F-F0C",
+      "path": "docs/gates/gate-po-ux-valor/14f/02-auditor-uiux/README_ITEM_14F_F0C.md",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-16",
+      "updated_at": "2026-05-16",
+      "summary": "Resume objetivo, escopo e uso do auditor automático UI/UX."
+    },
+    {
+      "id": "GATE-POUX-14F-F0C-MANIFESTO",
+      "title": "Manifesto de arquivos — Item 14F-F0C",
+      "path": "docs/gates/gate-po-ux-valor/14f/02-auditor-uiux/MANIFESTO_ARQUIVOS_ITEM_14F_F0C.md",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-16",
+      "updated_at": "2026-05-16",
+      "summary": "Lista arquivos criados e alterados no Item 14F-F0C."
+    },
+    {
+      "id": "GATE-POUX-14F-F0C-RELATORIO-AUDITOR-UIUX",
+      "title": "Relatório do Auditor UI/UX — Item 14F-F0C",
+      "path": "docs/gates/gate-po-ux-valor/14f/02-auditor-uiux/RELATORIO_AUDITOR_UIUX_ITEM_14F_F0C.md",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-16",
+      "updated_at": "2026-05-16",
+      "summary": "Registra evidências, comandos e resultado inicial do auditor UI/UX."
+    },
+    {
+      "id": "GATE-POUX-14F-F0D-README",
+      "title": "README — Item 14F-F0D",
+      "path": "docs/gates/gate-po-ux-valor/14f/03-testes-auditor-uiux/README_ITEM_14F_F0D.md",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-17",
+      "updated_at": "2026-05-17",
+      "summary": "Resume objetivo, escopo e resultado esperado dos testes do auditor UI/UX."
+    },
+    {
+      "id": "GATE-POUX-14F-F0D-MANIFESTO",
+      "title": "Manifesto de arquivos — Item 14F-F0D",
+      "path": "docs/gates/gate-po-ux-valor/14f/03-testes-auditor-uiux/MANIFESTO_ARQUIVOS_ITEM_14F_F0D.md",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-17",
+      "updated_at": "2026-05-17",
+      "summary": "Lista arquivos criados e alterados no Item 14F-F0D."
+    },
+    {
+      "id": "GATE-POUX-14F-F0D-RELATORIO-TESTES-AUDITOR-UIUX",
+      "title": "Relatório de testes do auditor UI/UX — Item 14F-F0D",
+      "path": "docs/gates/gate-po-ux-valor/14f/03-testes-auditor-uiux/RELATORIO_TESTES_AUDITOR_UIUX_ITEM_14F_F0D.md",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-17",
+      "updated_at": "2026-05-17",
+      "summary": "Documenta a cobertura automatizada criada para o auditor audit:uiux."
+    },
+    {
+      "id": "GOV-FRONTEND-AUDIT-UIUX-RUNBOOK",
+      "title": "Runbook do comando audit:uiux",
+      "path": "docs/governance/frontend/PEF_AUDIT_UIUX_COMMAND_RUNBOOK.md",
+      "category": "GOVERNANCA_FRONTEND",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-17",
+      "updated_at": "2026-05-17",
+      "summary": "Define uso oficial, limites e critérios de promoção futura do comando audit:uiux."
+    },
+    {
+      "id": "GATE-POUX-14F-F0E-README",
+      "title": "README — Item 14F-F0E",
+      "path": "docs/gates/gate-po-ux-valor/14f/04-integracao-audit-uiux/README_ITEM_14F_F0E.md",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-17",
+      "updated_at": "2026-05-17",
+      "summary": "Resume objetivo, escopo e decisão do Item 14F-F0E."
+    },
+    {
+      "id": "GATE-POUX-14F-F0E-MANIFESTO",
+      "title": "Manifesto de arquivos — Item 14F-F0E",
+      "path": "docs/gates/gate-po-ux-valor/14f/04-integracao-audit-uiux/MANIFESTO_ARQUIVOS_ITEM_14F_F0E.md",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-17",
+      "updated_at": "2026-05-17",
+      "summary": "Lista arquivos criados e alterados no Item 14F-F0E."
+    },
+    {
+      "id": "GATE-POUX-14F-F0E-RELATORIO-INTEGRACAO-AUDIT-UIUX",
+      "title": "Relatório de integração do audit:uiux — Item 14F-F0E",
+      "path": "docs/gates/gate-po-ux-valor/14f/04-integracao-audit-uiux/RELATORIO_INTEGRACAO_AUDIT_UIUX_ITEM_14F_F0E.md",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-17",
+      "updated_at": "2026-05-17",
+      "summary": "Documenta scripts, validações e decisão de não tornar audit:uiux bloqueante no CI nesta fase."
+    },
+    {
+      "id": "GATE-POUX-14F-F1-README",
+      "title": "README — Item 14F-F1",
+      "path": "docs/gates/gate-po-ux-valor/14f/05-fail-oficial-uiux-imovel/README_ITEM_14F_F1.md",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-17",
+      "updated_at": "2026-05-17",
+      "summary": "Resume objetivo, resultado e decisão de governança do FAIL oficial UI/UX do módulo Imóvel."
+    },
+    {
+      "id": "GATE-POUX-14F-F1-MANIFESTO",
+      "title": "Manifesto de arquivos — Item 14F-F1",
+      "path": "docs/gates/gate-po-ux-valor/14f/05-fail-oficial-uiux-imovel/MANIFESTO_ARQUIVOS_ITEM_14F_F1.md",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-17",
+      "updated_at": "2026-05-17",
+      "summary": "Lista arquivos criados e alterados no Item 14F-F1."
+    },
+    {
+      "id": "GATE-POUX-14F-F1-RELATORIO-FAIL-UIUX-IMOVEL",
+      "title": "Relatório do FAIL oficial UI/UX do módulo Imóvel — Item 14F-F1",
+      "path": "docs/gates/gate-po-ux-valor/14f/05-fail-oficial-uiux-imovel/RELATORIO_FAIL_OFICIAL_UIUX_IMOVEL_ITEM_14F_F1.md",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-17",
+      "updated_at": "2026-05-17",
+      "summary": "Registra oficialmente a reprovação UI/UX do módulo Imóvel com base no auditor audit:uiux."
+    },
+    {
+      "id": "GATE-POUX-14F-F1-EVIDENCIA-AUDITOR-UIUX-JSON",
+      "title": "Evidência JSON do auditor UI/UX — Item 14F-F1",
+      "path": "docs/gates/gate-po-ux-valor/14f/05-fail-oficial-uiux-imovel/EVIDENCIA_AUDITOR_UIUX_IMOVEL_ITEM_14F_F1.json",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-17",
+      "updated_at": "2026-05-17",
+      "summary": "Evidência JSON oficial com 28 violações UI/UX detectadas no módulo Imóvel."
+    },
+    {
+      "id": "GATE-POUX-14F-F2-README",
+      "title": "README — Item 14F-F2",
+      "path": "docs/gates/gate-po-ux-valor/14f/06-causas-raiz-plano-corretivo/README_ITEM_14F_F2.md",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-17",
+      "updated_at": "2026-05-17",
+      "summary": "Resume objetivo, fonte, resultado e decisão de governança do Item 14F-F2."
+    },
+    {
+      "id": "GATE-POUX-14F-F2-MANIFESTO",
+      "title": "Manifesto de arquivos — Item 14F-F2",
+      "path": "docs/gates/gate-po-ux-valor/14f/06-causas-raiz-plano-corretivo/MANIFESTO_ARQUIVOS_ITEM_14F_F2.md",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-17",
+      "updated_at": "2026-05-17",
+      "summary": "Lista arquivos criados e alterados no Item 14F-F2."
+    },
+    {
+      "id": "GATE-POUX-14F-F2-RELATORIO-CAUSAS-RAIZ-UIUX-IMOVEL",
+      "title": "Relatório de causas raiz UI/UX do módulo Imóvel — Item 14F-F2",
+      "path": "docs/gates/gate-po-ux-valor/14f/06-causas-raiz-plano-corretivo/RELATORIO_CAUSAS_RAIZ_UIUX_IMOVEL_ITEM_14F_F2.md",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-17",
+      "updated_at": "2026-05-17",
+      "summary": "Agrupa as 28 violações UI/UX do módulo Imóvel por causa raiz."
+    },
+    {
+      "id": "GATE-POUX-14F-F2-PLANO-CORRETIVO-CIRURGICO-UIUX-IMOVEL",
+      "title": "Plano corretivo cirúrgico UI/UX do módulo Imóvel — Item 14F-F2",
+      "path": "docs/gates/gate-po-ux-valor/14f/06-causas-raiz-plano-corretivo/PLANO_CORRETIVO_CIRURGICO_UIUX_IMOVEL_ITEM_14F_F2.md",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-17",
+      "updated_at": "2026-05-17",
+      "summary": "Define ordem cirúrgica, ações e critérios de aceite para corrigir as violações UI/UX."
+    },
+    {
+      "id": "GATE-POUX-14F-F2-AGRUPAMENTO-JSON-VIOLACOES-UIUX-IMOVEL",
+      "title": "Agrupamento JSON de violações UI/UX do módulo Imóvel — Item 14F-F2",
+      "path": "docs/gates/gate-po-ux-valor/14f/06-causas-raiz-plano-corretivo/AGRUPAMENTO_VIOLACOES_UIUX_IMOVEL_ITEM_14F_F2.json",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-17",
+      "updated_at": "2026-05-17",
+      "summary": "JSON estruturado com causas raiz, contagens, arquivos afetados e critérios de aceite."
+    },
+    {
+      "id": "GATE-POUX-14F-F5-AUDIT-UIUX-GATE-OFICIAL",
+      "title": "Auditor UI/UX: Gate Oficial — Item 14F-F5",
+      "path": "docs/governance/frontend/PEF_AUDIT_UIUX_GATE_OFICIAL.md",
+      "category": "GOVERNANCA_SPRINT",
+      "status": "active",
+      "owner": "Gate PO/UX/Valor",
+      "created_at": "2026-05-17",
+      "updated_at": "2026-05-17",
+      "summary": "Documenta a promoção do auditor UI/UX a gate oficial BLOCKING do módulo Financiamento Imobiliário."
+    },
+    {
+      "id": "GATE-POUX-14F-F6-README",
+      "title": "Item 14F-F6 — Validação visual final curta do módulo Imóvel",
+      "path": "docs/gates/gate-po-ux-valor/14f/08-validacao-visual-final-f6/README_ITEM_14F_F6.md",
+      "category": "GOVERNANCA_SPRINT",
+      "summary": "Registra a abertura documental da validação visual final curta do módulo Financiamento Imobiliário, com resultado reprovado visualmente pelo PO."
+    },
+    {
+      "id": "GATE-POUX-14F-F6-NAO-ACEITE-VISUAL",
+      "title": "Relatório de não aceite visual — Item 14F-F6",
+      "path": "docs/gates/gate-po-ux-valor/14f/08-validacao-visual-final-f6/RELATORIO_NAO_ACEITE_VISUAL_UIUX_IMOVEL_ITEM_14F_F6.md",
+      "category": "GOVERNANCA_SPRINT",
+      "summary": "Formaliza a reprovação visual do módulo Imóvel apesar do auditor UI/UX zerado e promovido a gate oficial."
+    },
+    {
+      "id": "GATE-POUX-14F-F6-MATRIZ-CRITICAS-PO",
+      "title": "Matriz de críticas PO/UX — Item 14F-F6",
+      "path": "docs/gates/gate-po-ux-valor/14f/08-validacao-visual-final-f6/MATRIZ_CRITICAS_PO_UIUX_IMOVEL_ITEM_14F_F6.md",
+      "category": "GOVERNANCA_SPRINT",
+      "summary": "Lista críticas visuais e de jornada levantadas pelo PO durante a validação manual F6 do módulo Financiamento Imobiliário."
+    }
+  ],
+  "updated_at": "2026-05-18T15:02:04Z",
+  "update_reason": "Gate PO/UX/Valor — Item 14F-F6: registro de não aceite visual do módulo Imóvel pelo PO.",
+  "_migration_note": "Sincronização documental concluída em 2026-04-17. Todos os documentos do pacote AUDITORIA_PROMPT_1_FINAL foram migrados. Documentos com materialized_in_repo=false são apenas aqueles que permanecem pendentes por decisão explícita."
 }
