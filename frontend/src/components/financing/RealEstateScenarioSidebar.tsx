@@ -66,7 +66,7 @@ function ResultPill({
       className={`rounded-lg border px-2 py-1.5 ${toneMap[tone]}`}
       data-testid="sidebar-result-pill"
     >
-      <p className="text-[9px] font-bold uppercase tracking-[0.12em] opacity-70">
+      <p className="text-[10px] font-bold uppercase tracking-[0.12em] opacity-70">
         {label}
       </p>
       <p className="mt-0.5 font-mono text-[12px] font-semibold">{value}</p>
@@ -147,7 +147,7 @@ export function RealEstateScenarioSidebar({
     >
       {/* Cenário */}
       <div className="border-b border-white/5 px-3 py-2.5">
-        <p className="mb-1.5 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-500">
+        <p className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">
           Cenário atual
         </p>
         <ScenarioRow label="Imóvel" value={formatBRL(summary.valor_imovel)} />
@@ -167,7 +167,7 @@ export function RealEstateScenarioSidebar({
 
       {/* Resultados rápidos */}
       <div className="border-b border-white/5 px-3 py-2.5">
-        <p className="mb-1.5 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-500">
+        <p className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">
           Resultados{" "}
           <span className="text-cyan-400">· {summary.sistema_amortizacao}</span>
         </p>
@@ -197,7 +197,7 @@ export function RealEstateScenarioSidebar({
 
       {/* Insight cards horizontais coloridos */}
       <div className="flex flex-col gap-1.5 px-2.5 py-2.5">
-        <p className="mb-0.5 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-500">
+        <p className="mb-0.5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">
           Atenção
         </p>
         {insights.map((card) => (

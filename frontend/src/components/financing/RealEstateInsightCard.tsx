@@ -127,7 +127,7 @@ export function RealEstateInsightCard({
       {/* Corpo */}
       <div className="min-w-0 flex-1">
         <p
-          className={`text-[9px] font-bold uppercase tracking-[0.14em] ${cls.cat}`}
+          className={`text-[10px] font-bold uppercase tracking-[0.14em] ${cls.cat}`}
         >
           {category}
         </p>

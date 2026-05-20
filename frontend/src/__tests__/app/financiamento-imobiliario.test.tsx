@@ -226,6 +226,51 @@ describe("FinanciamentoCockpit", () => {
     ).toHaveTextContent("Cenário atual");
   });
 
+  it("integra o stepper F8A-v2 de 7 etapas ao cockpit real", () => {
+    render(<FinanciamentoCockpit />);
+
+    const stepper = screen.getByTestId("financiamento-f8a-stepper");
+    expect(stepper).toBeInTheDocument();
+    expect(screen.getByTestId("f8a-step-1")).toHaveAttribute(
+      "aria-current",
+      "step",
+    );
+    for (const label of [
+      "Preparar",
+      "Simular",
+      "Resultado",
+      "Entender",
+      "Comparar",
+      "Conferir",
+      "Decidir",
+    ]) {
+      expect(stepper).toHaveTextContent(label);
+    }
+    expect(screen.getByTestId("context-tabs-inicio")).toHaveTextContent(
+      "Visão geral",
+    );
+  });
+
+  it("mantém abas contextuais internas por etapa sem competir com a ação de simulação", async () => {
+    const user = await openSimulation();
+
+    expect(screen.getByTestId("context-tabs-simulacao")).toHaveTextContent(
+      "Formulário",
+    );
+    expect(screen.getByTestId("f8a-step-2")).toHaveAttribute(
+      "aria-current",
+      "step",
+    );
+    expect(
+      screen.queryByRole("button", { name: "Simular" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Gerar simulação" }),
+    ).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Voltar" }));
+  });
+
   it("renderiza cards principais com CTA interno", () => {
     render(<FinanciamentoCockpit />);
 
@@ -1253,7 +1298,8 @@ describe("Item 14A — Glossário, memória pedagógica, fontes e gráfico", () 
     // Financial Observatory deve estar presente
     expect(screen.getByTestId("financial-observatory")).toBeInTheDocument();
     // Sem mojibake
-    expect(text).not.toMatch(/[Ã©Ã³ÃµÃ£]/);
+    const mojibakePattern = new RegExp("\\u00c3[\\u00a9\\u00b3\\u00b5\\u00a3]");
+    expect(text).not.toMatch(mojibakePattern);
   });
 
   // ─── F4B — Testes funcionais: sidebar CTAs controlam zona ativa ──────

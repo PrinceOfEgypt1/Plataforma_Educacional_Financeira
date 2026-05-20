@@ -25,7 +25,7 @@ function MetricHero({
 }) {
   return (
     <div className="rounded-xl border border-amber-400/20 bg-gradient-to-br from-slate-900 to-amber-950/10 p-3.5">
-      <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-amber-300/80">
+      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-amber-300/80">
         {label}
       </p>
       <p className="mt-1 font-mono text-2xl font-semibold leading-none text-slate-50">
@@ -56,11 +56,11 @@ function MetricCard({
   const cl = colors[accent ?? "cyan"];
   return (
     <div className={`rounded-xl border p-3 ${cl}`}>
-      <p className="text-[9px] font-bold uppercase tracking-[0.14em] opacity-70">
+      <p className="text-[10px] font-bold uppercase tracking-[0.14em] opacity-70">
         {label}
       </p>
       <p className="mt-1 font-mono text-[15px] font-semibold">{value}</p>
-      <p className="mt-0.5 text-[9px] opacity-60">{note}</p>
+      <p className="mt-0.5 text-[10px] opacity-60">{note}</p>
     </div>
   );
 }
@@ -123,7 +123,7 @@ export function RealEstateSummaryZone({ summary }: Props) {
       {/* Detalhes do cenário */}
       <div className="grid gap-2.5 sm:grid-cols-2">
         <div className="rounded-xl border border-white/6 bg-slate-900/50 px-3 py-2.5">
-          <p className="mb-1.5 text-[9px] font-bold uppercase tracking-[0.16em] text-slate-500">
+          <p className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500">
             Cenário simulado
           </p>
           {[
@@ -147,7 +147,7 @@ export function RealEstateSummaryZone({ summary }: Props) {
 
         {/* Interpretação pedagógica rápida */}
         <div className="rounded-xl border border-emerald-300/15 bg-emerald-400/8 px-3 py-2.5">
-          <p className="mb-1 text-[9px] font-bold uppercase tracking-[0.16em] text-emerald-300/80">
+          <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.16em] text-emerald-300/80">
             Leitura rápida do cenário
           </p>
           <p className="text-[11px] leading-5 text-emerald-50/85">

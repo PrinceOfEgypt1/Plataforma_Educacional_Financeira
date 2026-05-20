@@ -82,6 +82,170 @@ interface PanelHeaderProps {
   readonly onBack: () => void;
 }
 
+type JourneyStepId = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+
+interface JourneyStepDefinition {
+  readonly id: JourneyStepId;
+  readonly label: string;
+  readonly summary: string;
+  readonly view: CockpitView;
+}
+
+interface ContextTabDefinition {
+  readonly id: string;
+  readonly label: string;
+  readonly text: string;
+}
+
+const JOURNEY_STEPS: ReadonlyArray<JourneyStepDefinition> = [
+  {
+    id: 1,
+    label: "Preparar",
+    summary: "Conceitos, dados e riscos iniciais",
+    view: "inicio",
+  },
+  {
+    id: 2,
+    label: "Simular",
+    summary: "Entradas reais enviadas ao service oficial",
+    view: "simulacao",
+  },
+  {
+    id: 3,
+    label: "Resultado",
+    summary: "Resumo, parcela, CET e interpretação",
+    view: "resultado",
+  },
+  {
+    id: 4,
+    label: "Entender",
+    summary: "Vocabulário e anatomia do financiamento",
+    view: "conceito",
+  },
+  {
+    id: 5,
+    label: "Comparar",
+    summary: "SAC x PRICE com os mesmos parâmetros",
+    view: "comparacao",
+  },
+  {
+    id: 6,
+    label: "Conferir",
+    summary: "Tabela, fórmulas e memória auditável",
+    view: "memoria",
+  },
+  {
+    id: 7,
+    label: "Decidir",
+    summary: "Fontes, limites e próximos passos",
+    view: "fontes",
+  },
+];
+
+const CONTEXT_TABS: Record<CockpitView, ReadonlyArray<ContextTabDefinition>> = {
+  inicio: [
+    {
+      id: "visao-geral",
+      label: "Visão geral",
+      text: "A jornada começa explicando o financiamento antes de pedir números, como no wireframe F8A-v2 aprovado.",
+    },
+    {
+      id: "dados",
+      label: "Dados necessários",
+      text: "Valor do imóvel, entrada, prazo, taxa mensal, seguros e tarifas são reunidos antes do envio ao service oficial.",
+    },
+    {
+      id: "cuidados",
+      label: "Cuidados iniciais",
+      text: "A simulação é educativa e não substitui CET oficial, análise de crédito, documentação, FGTS ou proposta formal.",
+    },
+  ],
+  conceito: [
+    {
+      id: "conceitos",
+      label: "Conceitos-chave",
+      text: "O usuário entende valor financiado, amortização, juros, saldo devedor, SAC, PRICE, CET e contratação real.",
+    },
+    {
+      id: "renda-fgts",
+      label: "Renda e FGTS",
+      text: "Renda individual ou familiar, FGTS, seguros, avaliação do imóvel e política da instituição são tratados como variáveis de contratação.",
+    },
+  ],
+  simulacao: [
+    {
+      id: "formulario",
+      label: "Formulário",
+      text: "Os campos validam o cenário e o botão Gerar simulação chama simularFinanciamentoImobiliario.",
+    },
+    {
+      id: "ajuda",
+      label: "Ajuda para preencher",
+      text: "As dicas de campo orientam taxa mensal, prazo, entrada, seguros e tarifa sem inventar regra bancária.",
+    },
+  ],
+  resultado: [
+    {
+      id: "resumo",
+      label: "Resumo",
+      text: "O resultado organiza os dados retornados pela API em zonas compactas: resumo, parcela, CET, interpretação e próximos passos.",
+    },
+    {
+      id: "alertas",
+      label: "Alertas",
+      text: "Os alertas destacam custo, CET, fontes oficiais e limitações sem substituir proposta formal.",
+    },
+  ],
+  comparacao: [
+    {
+      id: "lado-a-lado",
+      label: "Comparação",
+      text: "A comparação SAC x PRICE usa os mesmos parâmetros informados no formulário e consome o endpoint oficial de comparação.",
+    },
+    {
+      id: "grafico",
+      label: "Gráfico",
+      text: "O gráfico usa dados já retornados pelo backend para tornar a diferença visual sem criar motor financeiro no frontend.",
+    },
+  ],
+  tabela: [
+    {
+      id: "parcelas",
+      label: "Parcelas",
+      text: "Todas as parcelas recebidas da API permanecem no modelo; a interface mostra faixas navegáveis e linha de totais.",
+    },
+    {
+      id: "auditoria",
+      label: "Auditoria",
+      text: "A linha final resume total pago, juros, amortização, encargos e saldo final para conferência rápida.",
+    },
+  ],
+  memoria: [
+    {
+      id: "formulas",
+      label: "Fórmulas",
+      text: "Fórmulas, variáveis, substituição e arredondamento vêm da memória estruturada recebida do backend.",
+    },
+    {
+      id: "rastreio",
+      label: "Rastreabilidade",
+      text: "A memória conecta entrada, fórmula, primeira parcela, última parcela, tabela e resultado final.",
+    },
+  ],
+  fontes: [
+    {
+      id: "limites",
+      label: "Limites",
+      text: "A tela separa o que a simulação considera do que depende de banco, CET oficial, contrato e análise de crédito.",
+    },
+    {
+      id: "decisao",
+      label: "Decisão",
+      text: "A etapa final orienta checklist, comparação de propostas, amortização futura e próximos passos sem liberar nova funcionalidade financeira.",
+    },
+  ],
+};
+
 const FEATURE_CARDS: ReadonlyArray<FeatureCardDefinition> = [
   {
     label: "Conceito",
@@ -157,23 +321,131 @@ const CONCEPT_ITEMS = [
   },
 ];
 
-function parseMoney(raw: string): number {
-  const parsed = Number.parseFloat(raw);
-  return Number.isFinite(parsed) ? parsed : 0;
-}
-
 function formatDraftMoney(raw: string): string {
   const parsed = Number.parseFloat(raw.replace(/\./g, "").replace(",", "."));
   if (!Number.isFinite(parsed) || parsed <= 0) return "Não informado";
   return formatBRL(parsed.toFixed(2));
 }
 
-function computeEntryPercent(summary: FinanciamentoImobSummary | undefined) {
-  if (summary === undefined) return "Sem simulação";
-  const valorImovel = parseMoney(summary.valor_imovel);
-  if (valorImovel <= 0) return "Sem simulação";
-  const percent = (parseMoney(summary.valor_entrada) / valorImovel) * 100;
-  return `${percent.toFixed(1)}%`;
+function getJourneyStepFromView(view: CockpitView): JourneyStepId {
+  if (view === "simulacao") return 2;
+  if (view === "resultado") return 3;
+  if (view === "conceito") return 4;
+  if (view === "comparacao") return 5;
+  if (view === "tabela" || view === "memoria") return 6;
+  if (view === "fontes") return 7;
+  return 1;
+}
+
+function JourneyStepper({
+  activeStep,
+  onSelect,
+}: {
+  readonly activeStep: JourneyStepId;
+  readonly onSelect: (view: CockpitView) => void;
+}) {
+  return (
+    <nav
+      aria-label="Stepper da jornada guiada F8A-v2"
+      className="border-b border-cyan-200/10 bg-slate-950/80 px-3 py-2"
+      data-testid="financiamento-f8a-stepper"
+    >
+      <ol className="flex gap-1 overflow-x-auto overflow-y-hidden pb-1">
+        {JOURNEY_STEPS.map((step) => {
+          const done = step.id < activeStep;
+          const active = step.id === activeStep;
+          return (
+            <li key={step.id} className="min-w-[132px] flex-1">
+              <button
+                type="button"
+                aria-label={`Etapa ${step.id}: ${step.label}`}
+                aria-current={active ? "step" : undefined}
+                className={`flex h-full w-full items-center gap-2 rounded-xl border px-2.5 py-2 text-left transition focus:outline-none focus:ring-2 focus:ring-cyan-200 ${
+                  active
+                    ? "border-cyan-300/45 bg-cyan-300/15 text-cyan-50"
+                    : done
+                      ? "border-emerald-300/25 bg-emerald-300/8 text-emerald-50/90 hover:bg-emerald-300/12"
+                      : "border-white/8 bg-white/4 text-slate-300 hover:bg-white/8"
+                }`}
+                data-testid={`f8a-step-${step.id}`}
+                onClick={() => onSelect(step.view)}
+              >
+                <span
+                  className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
+                    active
+                      ? "bg-cyan-300 text-slate-950"
+                      : done
+                        ? "bg-emerald-300/25 text-emerald-100"
+                        : "bg-white/8 text-slate-400"
+                  }`}
+                  aria-hidden="true"
+                >
+                  {done ? "OK" : step.id}
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-[11px] font-bold uppercase tracking-[0.12em]">
+                    {step.label}
+                  </span>
+                  <span className="mt-0.5 block text-[10px] leading-4 opacity-70">
+                    {step.summary}
+                  </span>
+                </span>
+              </button>
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
+  );
+}
+
+function ContextualTabs({ view }: { readonly view: CockpitView }) {
+  const tabs = CONTEXT_TABS[view];
+  const [activeTab, setActiveTab] = useState(tabs[0]?.id ?? "");
+  const active = tabs.find((tab) => tab.id === activeTab) ?? tabs[0];
+
+  if (active === undefined) return null;
+
+  return (
+    <section
+      className="rounded-2xl border border-cyan-200/10 bg-white/[0.035] p-2"
+      data-testid={`context-tabs-${view}`}
+      aria-label={`Abas contextuais da etapa ${view}`}
+    >
+      <div
+        role="tablist"
+        aria-label={`Abas contextuais da etapa ${view}`}
+        className="flex flex-wrap gap-1"
+      >
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            id={`${view}-${tab.id}-tab`}
+            type="button"
+            role="tab"
+            aria-selected={active.id === tab.id}
+            aria-controls={`${view}-${tab.id}-panel`}
+            className={`rounded-lg px-3 py-1.5 text-[11px] font-semibold transition focus:outline-none focus:ring-2 focus:ring-cyan-200 ${
+              active.id === tab.id
+                ? "bg-cyan-300 text-slate-950"
+                : "bg-white/6 text-slate-300 hover:bg-white/10"
+            }`}
+            onClick={() => setActiveTab(tab.id)}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+      <p
+        id={`${view}-${active.id}-panel`}
+        role="tabpanel"
+        aria-labelledby={`${view}-${active.id}-tab`}
+        className="mt-2 text-[11px] leading-5 text-slate-300"
+      >
+        {active.text}
+      </p>
+    </section>
+  );
 }
 
 function PanelHeader({
@@ -252,7 +524,7 @@ function HomeView({
 
   return (
     <section
-      className="grid h-full min-h-0 grid-rows-[auto_minmax(0,1fr)] gap-4"
+      className="grid h-full min-h-0 grid-rows-[auto_auto_minmax(0,1fr)] gap-4"
       data-testid="financiamento-home"
     >
       <div className="grid min-h-0 gap-4 lg:grid-cols-[minmax(0,1fr)_360px]">
@@ -305,7 +577,7 @@ function HomeView({
             <div className="flex items-center justify-between gap-3">
               <dt className="text-amber-50/70">Entrada</dt>
               <dd className="font-semibold text-slate-50">
-                {summary ? computeEntryPercent(summary) : "Sem simulação"}
+                {summary ? formatBRL(summary.valor_entrada) : "Sem simulação"}
               </dd>
             </div>
             <div className="flex items-center justify-between gap-3">
@@ -327,6 +599,8 @@ function HomeView({
           </p>
         </aside>
       </div>
+
+      <ContextualTabs view="inicio" />
 
       <div className="grid min-h-0 grid-cols-1 gap-3 overflow-hidden md:grid-cols-2 xl:grid-cols-3">
         {FEATURE_CARDS.map((card) => (
@@ -523,15 +797,16 @@ function CompactSimulationForm({
 
 function ConceptPanel({ onBack }: { readonly onBack: () => void }) {
   return (
-    <section className="h-full min-h-0 overflow-hidden">
+    <section className="flex h-full min-h-0 flex-col gap-3 overflow-hidden">
       <PanelHeader
         eyebrow="Conceito"
         title="Antes dos números, entenda o contrato"
         description="O financiamento imobiliário combina entrada, crédito, amortização, juros, seguros, tarifas e análise da instituição. A simulação ajuda a enxergar essas peças antes de assinar."
         onBack={onBack}
       />
+      <ContextualTabs view="conceito" />
       <div
-        className="grid min-h-0 grid-cols-1 gap-3 lg:grid-cols-2"
+        className="grid min-h-0 flex-1 grid-cols-1 gap-3 lg:grid-cols-2"
         data-testid="financiamento-conceito-panel"
       >
         {CONCEPT_ITEMS.map((item) => (
@@ -572,14 +847,15 @@ function SimulationPanel({
   readonly onCompare: () => void;
 }) {
   return (
-    <section className="h-full min-h-0 overflow-hidden">
+    <section className="flex h-full min-h-0 flex-col gap-3 overflow-hidden">
       <PanelHeader
         eyebrow="Simulação"
         title="Gerar cenário de financiamento"
         description="Preencha os dados uma vez. O mesmo cenário alimenta resultado, tabela, memória e comparação SAC x PRICE."
         onBack={onBack}
       />
-      <div className="grid h-[calc(100%-74px)] min-h-0 gap-4 lg:grid-cols-[520px_minmax(0,1fr)]">
+      <ContextualTabs view="simulacao" />
+      <div className="grid min-h-0 flex-1 gap-4 lg:grid-cols-[520px_minmax(0,1fr)]">
         <CompactSimulationForm
           draft={draft}
           errors={errors}
@@ -716,6 +992,9 @@ function ResultPanel({
           description="Navegue entre as zonas usando as abas abaixo. Cada zona apresenta uma visão específica do seu financiamento."
           onBack={onBack}
         />
+        <div className="mb-2">
+          <ContextualTabs view="resultado" />
+        </div>
 
         {/* ── Navegação tabbed entre zonas ───────────────────── */}
         <nav
@@ -748,7 +1027,7 @@ function ResultPanel({
               <span
                 className={`
                 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full
-                text-[9px] font-bold
+                text-[10px] font-bold
                 ${activeZone === n ? "bg-cyan-400 text-slate-950" : "bg-white/10 text-slate-400"}
               `}
               >
@@ -1050,6 +1329,9 @@ function ComparePanel({
         description="A mesma simulação calculada nos dois sistemas para você decidir com clareza."
         onBack={onBack}
       />
+      <div className="mb-3">
+        <ContextualTabs view="comparacao" />
+      </div>
       <div
         className="flex-1 min-h-0 overflow-y-auto space-y-3"
         data-testid="financiamento-compare-summary"
@@ -1212,6 +1494,9 @@ function TablePanel({
         description="Todas as parcelas do contrato preservadas. Role para ler e use o guia ao lado para entender cada coluna."
         onBack={onBack}
       />
+      <div className="mb-3">
+        <ContextualTabs view="tabela" />
+      </div>
       <div className="flex-1 min-h-0 overflow-y-auto space-y-3">
         {/* ── Guia de leitura da tabela ────────────── */}
         <div
@@ -1405,9 +1690,21 @@ export function FinanciamentoCockpit() {
     }
   }, [draft, openView, view]);
 
+  const handleStepSelect = useCallback(
+    (targetView: CockpitView) => {
+      if (targetView === "comparacao") {
+        void handleCompare();
+        return;
+      }
+      openView(targetView);
+    },
+    [handleCompare, openView],
+  );
+
   const simulated = simState.status === "ok" ? simState.result : undefined;
   const compared = cmpState.status === "ok" ? cmpState.result : undefined;
   const summary = simulated?.summary;
+  const activeStep = getJourneyStepFromView(view);
 
   return (
     <div
@@ -1428,8 +1725,9 @@ export function FinanciamentoCockpit() {
             : undefined
         }
       >
+        <JourneyStepper activeStep={activeStep} onSelect={handleStepSelect} />
         <main
-          className="h-full min-h-0 overflow-hidden p-4"
+          className="min-h-0 flex-1 overflow-hidden p-4"
           data-testid="financiamento-main-panel"
         >
           {view === "inicio" && (
@@ -1513,6 +1811,9 @@ export function FinanciamentoCockpit() {
                   description="Fórmulas, variáveis substituídas e passo a passo auditável."
                   onBack={goBack}
                 />
+                <div className="mb-3">
+                  <ContextualTabs view="memoria" />
+                </div>
                 <div className="min-h-0 flex-1 overflow-y-auto">
                   <RealEstateMemoryPanel
                     memoria={simulated.memoria_calculo}
@@ -1537,6 +1838,9 @@ export function FinanciamentoCockpit() {
                 description="Entenda limites, o que o CET é, e o que perguntar à instituição financeira."
                 onBack={goBack}
               />
+              <div className="mb-3">
+                <ContextualTabs view="fontes" />
+              </div>
               <div className="min-h-0 flex-1 overflow-y-auto">
                 <RealEstateSourcesPanel result={simulated} />
               </div>

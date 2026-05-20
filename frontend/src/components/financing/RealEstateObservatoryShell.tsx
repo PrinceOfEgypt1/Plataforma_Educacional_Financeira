@@ -97,7 +97,7 @@ export function RealEstateObservatoryShell({
             <span
               className="
                 rounded-full border border-emerald-400/30 bg-emerald-400/10
-                px-2 py-0.5 text-[9px] font-bold text-emerald-300
+                px-2 py-0.5 text-[10px] font-bold text-emerald-300
               "
               data-testid="observatory-status-valid"
             >
@@ -107,7 +107,7 @@ export function RealEstateObservatoryShell({
             <span
               className="
                 rounded-full border border-slate-600/50 bg-slate-700/40
-                px-2 py-0.5 text-[9px] font-bold text-slate-500
+                px-2 py-0.5 text-[10px] font-bold text-slate-500
               "
             >
               Aguardando dados
@@ -116,7 +116,7 @@ export function RealEstateObservatoryShell({
           <span
             className="
               rounded-full border border-amber-400/30 bg-amber-400/10
-              px-2 py-0.5 text-[9px] font-bold text-amber-400
+              px-2 py-0.5 text-[10px] font-bold text-amber-400
             "
           >
             Educacional
@@ -125,7 +125,9 @@ export function RealEstateObservatoryShell({
       </header>
 
       {/* ── Conteúdo principal ─────────────────────────────── */}
-      <div className="min-h-0 flex-1 overflow-hidden">{children}</div>
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+        {children}
+      </div>
     </div>
   );
 }
