@@ -70,7 +70,7 @@ function HCard({ card }: { readonly card: StepHCard }) {
       </div>
       <div className="min-w-0 flex-1">
         <p
-          className={`text-[9px] font-bold uppercase tracking-[0.14em] ${s.cat}`}
+          className={`text-[10px] font-bold uppercase tracking-[0.14em] ${s.cat}`}
         >
           {card.category}
         </p>
@@ -158,7 +158,7 @@ export function RealEstateNextStepsZone({ onNavigate, onNavigateZone }: Props) {
 
   return (
     <div className="space-y-2" data-testid="zone-proximos-content">
-      <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-slate-500">
+      <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500">
         O que fazer agora?
       </p>
       <div className="grid gap-2 sm:grid-cols-2">

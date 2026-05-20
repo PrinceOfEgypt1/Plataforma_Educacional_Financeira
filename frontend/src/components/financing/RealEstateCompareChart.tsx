@@ -235,32 +235,32 @@ export function RealEstateCompareChart({
       {/* Cards de insight */}
       <div className="grid grid-cols-3 gap-2">
         <div className="rounded-xl border border-violet-400/25 bg-violet-400/8 p-2.5">
-          <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-violet-400/70">
+          <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-violet-400/70">
             PRICE
           </p>
           <p className="mt-0.5 font-mono text-[12px] font-semibold text-violet-200">
             {money(pPrice1)}
           </p>
-          <p className="text-[9px] text-violet-300/60">parcela constante</p>
+          <p className="text-[10px] text-violet-300/60">parcela constante</p>
         </div>
         <div className="rounded-xl border border-amber-400/25 bg-amber-400/8 p-2.5">
-          <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-amber-400/70">
+          <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-amber-400/70">
             SAC
           </p>
           <p className="mt-0.5 font-mono text-[12px] font-semibold text-amber-200">
             {money(pSac1)} → {money(pSacN)}
           </p>
-          <p className="text-[9px] text-amber-300/60">parcela cai todo mês</p>
+          <p className="text-[10px] text-amber-300/60">parcela cai todo mês</p>
         </div>
         {difJuros > 0 && (
           <div className="rounded-xl border border-emerald-400/25 bg-emerald-400/8 p-2.5">
-            <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-emerald-400/70">
+            <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-emerald-400/70">
               Economia SAC
             </p>
             <p className="mt-0.5 font-mono text-[12px] font-semibold text-emerald-200">
               {money(difJuros)}
             </p>
-            <p className="text-[9px] text-emerald-300/60">em juros totais</p>
+            <p className="text-[10px] text-emerald-300/60">em juros totais</p>
           </div>
         )}
       </div>

@@ -76,6 +76,18 @@ function SourceCard({ title, items, tone }: SourceCardProps) {
   );
 }
 
+function firstItems(
+  items: ReadonlyArray<string>,
+  limit: number,
+): ReadonlyArray<string> {
+  const selected: string[] = [];
+  for (const item of items) {
+    if (selected.length >= limit) break;
+    selected.push(item);
+  }
+  return selected;
+}
+
 interface Props {
   readonly result: FinanciamentoImobOut | undefined;
 }
@@ -147,7 +159,7 @@ export function RealEstateSourcesPanel({ result }: Props) {
         <SourceCard
           tone="amber"
           title="⚠ Avisos antes de contratar"
-          items={limitsToShow.slice(0, 6)}
+          items={firstItems(limitsToShow, 6)}
         />
       </div>
 
@@ -172,7 +184,7 @@ export function RealEstateSourcesPanel({ result }: Props) {
 
       {/* Fontes institucionais */}
       <div>
-        <p className="mb-2 text-[9px] font-bold uppercase tracking-[0.16em] text-slate-500">
+        <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500">
           Referências conceituais e institucionais
         </p>
         <div className="space-y-1.5">
@@ -187,7 +199,7 @@ export function RealEstateSourcesPanel({ result }: Props) {
                 </p>
                 <p className="text-[10px] text-slate-500">{f.observacao}</p>
               </div>
-              <span className="flex-shrink-0 self-center rounded-md border border-white/10 px-1.5 py-0.5 text-[9px] text-slate-500">
+              <span className="flex-shrink-0 self-center rounded-md border border-white/10 px-1.5 py-0.5 text-[10px] text-slate-500">
                 {f.tipo}
               </span>
             </div>
@@ -200,8 +212,8 @@ export function RealEstateSourcesPanel({ result }: Props) {
       </p>
       <p className="text-[10px] leading-4.5 text-slate-600">
         Esta simulação é exclusivamente educacional. Não constitui proposta,
-        contrato ou oferta de crédito. Dados fictícios quando não vinculados a
-        simulação real do usuário.
+        contrato ou oferta de crédito. Quando não houver resultado calculado, a
+        tela mostra orientações conceituais para preparar a simulação.
       </p>
     </div>
   );

@@ -47,7 +47,7 @@ function VarPill({
   const tone = accent ?? "default";
   return (
     <div className={`rounded-lg border p-2 ${colors[tone]}`}>
-      <p className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-emerald-400/70">
+      <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-emerald-400/70">
         {varKey}
       </p>
       <p
@@ -55,7 +55,7 @@ function VarPill({
       >
         {value}
       </p>
-      <p className="mt-0.5 text-[9px] text-slate-500">{label}</p>
+      <p className="mt-0.5 text-[10px] text-slate-500">{label}</p>
     </div>
   );
 }
@@ -81,7 +81,7 @@ function StepCard({
   const ac = accent ?? "cyan";
   return (
     <div className="rounded-lg border border-white/8 bg-slate-900/60 p-2.5 text-center">
-      <div className="mx-auto mb-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-cyan-400/15 text-[9px] font-bold text-cyan-300">
+      <div className="mx-auto mb-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-cyan-400/15 text-[10px] font-bold text-cyan-300">
         {num}
       </div>
       <p className="text-[10px] font-semibold text-slate-300">{title}</p>
@@ -114,7 +114,7 @@ export function RealEstateMemoryPanel({ memoria, formulasUsadas }: Props) {
     >
       {/* Narrativa pedagógica */}
       <div className="rounded-xl border border-emerald-200/12 bg-emerald-400/8 px-4 py-3">
-        <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-emerald-300/70">
+        <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-300/70">
           Traduzindo os números
         </p>
         <p className="mt-1.5 text-[12px] leading-5.5 text-emerald-50/90">
@@ -132,7 +132,7 @@ export function RealEstateMemoryPanel({ memoria, formulasUsadas }: Props) {
       {/* Fórmulas SAC + PRICE */}
       <div className="grid gap-3 lg:grid-cols-2">
         <div className="rounded-xl border border-emerald-200/12 bg-slate-950/50 p-3">
-          <p className="mb-2 text-[9px] font-bold uppercase tracking-[0.16em] text-emerald-300/80">
+          <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.16em] text-emerald-300/80">
             SAC — Amortização Constante
           </p>
           <pre className="rounded-lg bg-slate-950/80 p-2.5 font-mono text-[10px] leading-6 text-emerald-200">
@@ -157,7 +157,7 @@ export function RealEstateMemoryPanel({ memoria, formulasUsadas }: Props) {
         </div>
 
         <div className="rounded-xl border border-violet-200/12 bg-slate-950/50 p-3">
-          <p className="mb-2 text-[9px] font-bold uppercase tracking-[0.16em] text-violet-300/80">
+          <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.16em] text-violet-300/80">
             PRICE — Parcela Constante (PMT)
           </p>
           <pre className="rounded-lg bg-slate-950/80 p-2.5 font-mono text-[10px] leading-6 text-violet-200">
@@ -182,7 +182,7 @@ export function RealEstateMemoryPanel({ memoria, formulasUsadas }: Props) {
 
       {/* Variáveis substituídas */}
       <div>
-        <p className="mb-2 text-[9px] font-bold uppercase tracking-[0.16em] text-slate-400">
+        <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.16em] text-slate-400">
           Valores substituídos · {metodo}
         </p>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -233,7 +233,7 @@ export function RealEstateMemoryPanel({ memoria, formulasUsadas }: Props) {
 
       {/* Passo a passo — 1ª parcela */}
       <div>
-        <p className="mb-2 text-[9px] font-bold uppercase tracking-[0.16em] text-slate-400">
+        <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.16em] text-slate-400">
           Passo a passo auditável · 1ª parcela {metodo}
         </p>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -303,7 +303,7 @@ export function RealEstateMemoryPanel({ memoria, formulasUsadas }: Props) {
 
       {/* Arredondamento */}
       <div className="rounded-xl border border-cyan-200/10 bg-slate-950/50 px-3 py-2.5">
-        <p className="text-[9px] font-bold uppercase tracking-[0.14em] text-slate-400">
+        <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400">
           Arredondamento e resíduo
         </p>
         <p className="mt-1 text-[11px] leading-5 text-slate-300">
@@ -318,7 +318,7 @@ export function RealEstateMemoryPanel({ memoria, formulasUsadas }: Props) {
       {/* Fórmulas usadas pela API */}
       {formulasUsadas.length > 0 && (
         <div>
-          <p className="mb-1.5 text-[9px] font-bold uppercase tracking-[0.14em] text-slate-400">
+          <p className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400">
             Fórmulas declaradas pela API
           </p>
           <div className="space-y-1.5">

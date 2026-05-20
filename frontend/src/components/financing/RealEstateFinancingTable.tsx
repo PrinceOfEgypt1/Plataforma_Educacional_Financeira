@@ -43,6 +43,22 @@ function sumField(
   return t.toFixed(2);
 }
 
+function getVisibleRows(
+  rows: ReadonlyArray<FinanciamentoPeriodo>,
+  start: number,
+  size: number,
+): ReadonlyArray<FinanciamentoPeriodo> {
+  const visible: FinanciamentoPeriodo[] = [];
+  const limit = Math.min(start + size, rows.length);
+  for (let index = start; index < limit; index += 1) {
+    const row = rows[index];
+    if (row !== undefined) {
+      visible.push(row);
+    }
+  }
+  return visible;
+}
+
 export function RealEstateFinancingTable({ parcelas, summary }: Props) {
   const [page, setPage] = useState(1);
 
@@ -50,7 +66,7 @@ export function RealEstateFinancingTable({ parcelas, summary }: Props) {
   const curr = clamp(page, 1, totalPages);
   const start = (curr - 1) * PAGE_SIZE;
   const visible = useMemo(
-    () => parcelas.slice(start, start + PAGE_SIZE),
+    () => getVisibleRows(parcelas, start, PAGE_SIZE),
     [parcelas, start],
   );
 
@@ -114,7 +130,7 @@ export function RealEstateFinancingTable({ parcelas, summary }: Props) {
               {parcelas.length} parcelas geradas e preservadas no modelo
             </span>
             <span
-              className="text-[9px] font-bold uppercase tracking-[0.14em] text-slate-500"
+              className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-500"
               data-testid="financiamento-table-range"
             >
               {parcelas.length} parcelas geradas · bloco {curr}/{totalPages} ·{" "}
@@ -170,7 +186,7 @@ export function RealEstateFinancingTable({ parcelas, summary }: Props) {
                 sistema {sistemaLabel} · exibindo {firstNum}–{lastNum}
               </caption>
               <thead className="sticky top-0 z-10">
-                <tr className="bg-slate-900 text-[9px] uppercase tracking-[0.1em]">
+                <tr className="bg-slate-900 text-[10px] uppercase tracking-[0.1em]">
                   <th
                     scope="col"
                     className="w-10 px-2 py-2 text-right text-slate-400"
@@ -300,7 +316,7 @@ export function RealEstateFinancingTable({ parcelas, summary }: Props) {
           className="rounded-xl border border-emerald-300/15 bg-emerald-400/8 p-3"
           data-testid="financiamento-parcela-detalhe"
         >
-          <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-emerald-300/80">
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-300/80">
             Leitura pedagógica
           </p>
           <h4 className="mt-1 text-[12px] font-semibold text-slate-100">
