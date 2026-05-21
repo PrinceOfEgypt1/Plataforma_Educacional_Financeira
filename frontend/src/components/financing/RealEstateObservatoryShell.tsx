@@ -1,18 +1,5 @@
 "use client";
 
-/**
- * RealEstateObservatoryShell — Shell visual do cockpit Financial Observatory
- *
- * Componente de layout que envolve o cockpit de financiamento imobiliário
- * com a identidade visual "Financial Observatory" definida no protótipo Item 14C.
- *
- * Responsável por:
- * - Header interno com título do módulo, scenario pill e status chip
- * - Identidade visual premium (dark, layers, accent ciano)
- * - data-testid="financial-observatory" para identificação nos testes
- * - Separação clara de layout entre header e conteúdo principal
- */
-
 import type { ReactNode } from "react";
 
 interface ScenarioPill {
@@ -34,97 +21,62 @@ export function RealEstateObservatoryShell({
 }: RealEstateObservatoryShellProps) {
   return (
     <div
-      className="flex h-full min-h-0 flex-col"
+      className="financiamento-f8c-shell flex h-full min-h-0 flex-col bg-[#F1F5F9] text-slate-800"
       data-testid="financial-observatory"
-      aria-label="Financial Observatory — Simulador Imobiliário"
+      aria-label="Plataforma Educacional Financeira — Módulo Financiamento Imobiliário"
     >
-      {/* ── Observatory Header ──────────────────────────────── */}
       <header
-        className="
-          flex flex-shrink-0 flex-wrap items-center gap-2 border-b
-          border-cyan-200/8 bg-gradient-to-r from-slate-950 via-slate-900/90 to-cyan-950/30
-          px-3 py-2
-        "
+        className="flex h-[60px] flex-shrink-0 items-center justify-between gap-4 bg-gradient-to-r from-[#0F2747] via-[#153A66] to-[#1E5B9A] px-7 text-white shadow-[0_4px_14px_rgba(15,39,71,0.18)]"
         data-testid="observatory-header"
       >
-        {/* Brand */}
-        <div className="flex items-center gap-2">
+        <div className="flex min-w-0 items-center gap-3">
           <div
-            className="
-              flex h-6 w-6 flex-shrink-0 items-center justify-center
-              rounded-md bg-gradient-to-br from-cyan-400 to-violet-500 text-xs
-            "
+            className="grid h-9 w-9 flex-shrink-0 place-items-center rounded-xl bg-white/14 text-lg ring-1 ring-white/18"
             aria-hidden="true"
           >
-            🏦
+            🏠
           </div>
-          <span
-            className="text-[11px] font-bold uppercase tracking-[0.2em] text-cyan-200/80"
-            data-testid="observatory-brand-label"
-          >
-            Financial Observatory
-          </span>
+          <div className="min-w-0">
+            <p
+              className="truncate text-[15px] font-extrabold leading-5"
+              data-testid="observatory-brand-label"
+            >
+              Plataforma Educacional Financeira
+            </p>
+            <p className="truncate text-[11px] font-medium text-blue-100/80">
+              Módulo — Financiamento Imobiliário
+            </p>
+          </div>
         </div>
 
-        {/* Scenario pill — visível apenas quando há simulação */}
-        {scenario !== undefined && scenario.valid && (
-          <div
-            className="
-              flex items-center gap-1.5 rounded-full border border-cyan-200/15
-              bg-slate-800/80 px-2.5 py-0.5
-            "
-            data-testid="observatory-scenario-pill"
-          >
+        <div className="ml-auto flex min-w-0 items-center gap-2">
+          <span className="hidden rounded-full border border-white/18 bg-white/12 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.12em] text-white md:inline-flex">
+            Módulo Imóvel
+          </span>
+          {scenario !== undefined && scenario.valid && (
             <span
-              className="
-                h-1.5 w-1.5 flex-shrink-0 rounded-full bg-emerald-400
-                shadow-[0_0_5px_rgba(52,211,153,0.8)]
-              "
-              aria-hidden="true"
-            />
-            <span className="font-mono text-[10px] font-semibold text-cyan-300">
-              {scenario.sistema}
-            </span>
-            <span className="text-[10px] text-slate-400">
-              · {scenario.valorFinanciado} · {scenario.prazoMeses} meses ·{" "}
-              {scenario.taxaMensal}/mês
-            </span>
-          </div>
-        )}
-
-        <div className="ml-auto flex items-center gap-1.5">
-          {scenario?.valid === true ? (
-            <span
-              className="
-                rounded-full border border-emerald-400/30 bg-emerald-400/10
-                px-2 py-0.5 text-[10px] font-bold text-emerald-300
-              "
-              data-testid="observatory-status-valid"
+              className="hidden max-w-[420px] truncate rounded-full border border-emerald-200/35 bg-emerald-50/12 px-3 py-1 text-[11px] font-semibold text-emerald-50 lg:inline-flex"
+              data-testid="observatory-scenario-pill"
             >
-              ● Simulação válida
-            </span>
-          ) : (
-            <span
-              className="
-                rounded-full border border-slate-600/50 bg-slate-700/40
-                px-2 py-0.5 text-[10px] font-bold text-slate-500
-              "
-            >
-              Aguardando dados
+              {scenario.sistema} · {scenario.valorFinanciado} ·{" "}
+              {scenario.prazoMeses} meses · {scenario.taxaMensal}/mês
             </span>
           )}
           <span
-            className="
-              rounded-full border border-amber-400/30 bg-amber-400/10
-              px-2 py-0.5 text-[10px] font-bold text-amber-400
-            "
+            className="rounded-full border border-amber-100/45 bg-amber-100/18 px-3 py-1 text-[11px] font-bold text-amber-50"
+            data-testid={
+              scenario?.valid === true
+                ? "observatory-status-valid"
+                : "observatory-status-waiting"
+            }
           >
-            Educacional
+            {scenario?.valid === true
+              ? "Simulação válida"
+              : "DADOS DEMONSTRATIVOS"}
           </span>
         </div>
       </header>
 
-      {/* ── Conteúdo principal ─────────────────────────────── */}
       <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
         {children}
       </div>

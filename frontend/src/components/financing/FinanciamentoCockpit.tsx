@@ -42,7 +42,6 @@ const INITIAL_DRAFT: FinanciamentoDraft = {
 };
 
 import { RealEstateObservatoryShell } from "./RealEstateObservatoryShell";
-import { RealEstateScenarioSidebar } from "./RealEstateScenarioSidebar";
 
 export type CockpitView =
   | "inicio"
@@ -254,7 +253,7 @@ const FEATURE_CARDS: ReadonlyArray<FeatureCardDefinition> = [
       "Aprenda o que é, como funciona e quais fatores influenciam a aprovação.",
     action: "Entender",
     target: "conceito",
-    tone: "from-indigo-950 via-indigo-900 to-indigo-700",
+    tone: "border-t-blue-500",
   },
   {
     label: "Resultado",
@@ -262,7 +261,7 @@ const FEATURE_CARDS: ReadonlyArray<FeatureCardDefinition> = [
     summary: "Veja parcela, juros, encargos, custo total e total pago.",
     action: "Visualizar",
     target: "resultado",
-    tone: "from-amber-950 via-amber-900 to-yellow-800",
+    tone: "border-t-amber-500",
   },
   {
     label: "Comparação",
@@ -271,7 +270,7 @@ const FEATURE_CARDS: ReadonlyArray<FeatureCardDefinition> = [
       "Compare primeira parcela, última parcela, total de juros e custo total.",
     action: "Comparar",
     target: "comparacao",
-    tone: "from-violet-950 via-violet-900 to-purple-800",
+    tone: "border-t-violet-500",
   },
   {
     label: "Tabela",
@@ -280,7 +279,7 @@ const FEATURE_CARDS: ReadonlyArray<FeatureCardDefinition> = [
       "A tabela respeita o prazo informado e preserva todas as parcelas.",
     action: "Visualizar tabela",
     target: "tabela",
-    tone: "from-cyan-950 via-cyan-900 to-teal-800",
+    tone: "border-t-cyan-500",
   },
   {
     label: "Memória",
@@ -289,7 +288,7 @@ const FEATURE_CARDS: ReadonlyArray<FeatureCardDefinition> = [
       "Veja fórmula, valores substituídos, arredondamento e rastreabilidade.",
     action: "Ver memória",
     target: "memoria",
-    tone: "from-emerald-950 via-emerald-900 to-green-800",
+    tone: "border-t-emerald-500",
   },
   {
     label: "Fontes",
@@ -298,7 +297,7 @@ const FEATURE_CARDS: ReadonlyArray<FeatureCardDefinition> = [
       "Entenda por que a simulação não substitui análise bancária ou contrato real.",
     action: "Ver fontes",
     target: "fontes",
-    tone: "from-slate-800 via-slate-700 to-slate-600",
+    tone: "border-t-slate-500",
   },
 ];
 
@@ -347,10 +346,10 @@ function JourneyStepper({
   return (
     <nav
       aria-label="Stepper da jornada guiada F8A-v2"
-      className="border-b border-cyan-200/10 bg-slate-950/80 px-3 py-2"
+      className="sticky top-0 z-30 border-b border-slate-200 bg-white px-6 py-3 shadow-[0_2px_10px_rgba(15,39,71,0.06)]"
       data-testid="financiamento-f8a-stepper"
     >
-      <ol className="flex gap-1 overflow-x-auto overflow-y-hidden pb-1">
+      <ol className="mx-auto flex max-w-[1080px] gap-2 overflow-x-auto overflow-y-hidden pb-1">
         {JOURNEY_STEPS.map((step) => {
           const done = step.id < activeStep;
           const active = step.id === activeStep;
@@ -360,12 +359,12 @@ function JourneyStepper({
                 type="button"
                 aria-label={`Etapa ${step.id}: ${step.label}`}
                 aria-current={active ? "step" : undefined}
-                className={`flex h-full w-full items-center gap-2 rounded-xl border px-2.5 py-2 text-left transition focus:outline-none focus:ring-2 focus:ring-cyan-200 ${
+                className={`flex h-full w-full items-center gap-2 rounded-2xl border px-3 py-2 text-left transition focus:outline-none focus:ring-2 focus:ring-blue-300 ${
                   active
-                    ? "border-cyan-300/45 bg-cyan-300/15 text-cyan-50"
+                    ? "border-blue-300 bg-blue-50 text-blue-900 shadow-sm"
                     : done
-                      ? "border-emerald-300/25 bg-emerald-300/8 text-emerald-50/90 hover:bg-emerald-300/12"
-                      : "border-white/8 bg-white/4 text-slate-300 hover:bg-white/8"
+                      ? "border-emerald-200 bg-emerald-50 text-emerald-900 hover:bg-emerald-100"
+                      : "border-slate-200 bg-white text-slate-500 hover:border-blue-200 hover:bg-slate-50"
                 }`}
                 data-testid={`f8a-step-${step.id}`}
                 onClick={() => onSelect(step.view)}
@@ -373,10 +372,10 @@ function JourneyStepper({
                 <span
                   className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
                     active
-                      ? "bg-cyan-300 text-slate-950"
+                      ? "bg-blue-600 text-white"
                       : done
-                        ? "bg-emerald-300/25 text-emerald-100"
-                        : "bg-white/8 text-slate-400"
+                        ? "bg-emerald-600 text-white"
+                        : "bg-slate-100 text-slate-500"
                   }`}
                   aria-hidden="true"
                 >
@@ -408,7 +407,7 @@ function ContextualTabs({ view }: { readonly view: CockpitView }) {
 
   return (
     <section
-      className="rounded-2xl border border-cyan-200/10 bg-white/[0.035] p-2"
+      className="rounded-2xl border border-slate-200 bg-white p-2 shadow-sm"
       data-testid={`context-tabs-${view}`}
       aria-label={`Abas contextuais da etapa ${view}`}
     >
@@ -425,10 +424,10 @@ function ContextualTabs({ view }: { readonly view: CockpitView }) {
             role="tab"
             aria-selected={active.id === tab.id}
             aria-controls={`${view}-${tab.id}-panel`}
-            className={`rounded-lg px-3 py-1.5 text-[11px] font-semibold transition focus:outline-none focus:ring-2 focus:ring-cyan-200 ${
+            className={`rounded-xl px-3 py-1.5 text-[11px] font-semibold transition focus:outline-none focus:ring-2 focus:ring-blue-300 ${
               active.id === tab.id
-                ? "bg-cyan-300 text-slate-950"
-                : "bg-white/6 text-slate-300 hover:bg-white/10"
+                ? "bg-blue-600 text-white"
+                : "bg-slate-50 text-slate-600 hover:bg-blue-50 hover:text-blue-800"
             }`}
             onClick={() => setActiveTab(tab.id)}
           >
@@ -440,7 +439,7 @@ function ContextualTabs({ view }: { readonly view: CockpitView }) {
         id={`${view}-${active.id}-panel`}
         role="tabpanel"
         aria-labelledby={`${view}-${active.id}-tab`}
-        className="mt-2 text-[11px] leading-5 text-slate-300"
+        className="mt-2 text-[11px] leading-5 text-slate-600"
       >
         {active.text}
       </p>
@@ -455,18 +454,18 @@ function PanelHeader({
   onBack,
 }: PanelHeaderProps) {
   return (
-    <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
+    <div className="module-header mb-3 flex flex-wrap items-start justify-between gap-3 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
       <div className="min-w-0">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-cyan-200/70">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-blue-600">
           {eyebrow}
         </p>
-        <h2 className="mt-1 text-xl font-semibold text-slate-50">{title}</h2>
-        <p className="mt-1 max-w-3xl text-sm leading-6 text-slate-300">
+        <h2 className="mt-1 text-xl font-semibold text-slate-900">{title}</h2>
+        <p className="mt-1 max-w-3xl text-sm leading-6 text-slate-600">
           {description}
         </p>
       </div>
       <button
-        className="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-slate-100 transition hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-200"
+        className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-300"
         type="button"
         onClick={onBack}
       >
@@ -484,16 +483,20 @@ function FeatureCard({
 }) {
   return (
     <article
-      className={`flex min-h-[168px] flex-col rounded-2xl bg-gradient-to-br ${card.tone} p-4 shadow-lg shadow-black/20 ring-1 ring-white/10`}
+      className={`flex min-h-[116px] flex-col rounded-2xl border border-slate-200 border-t-4 bg-white ${card.tone} p-3.5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg`}
       data-testid={`financiamento-card-${card.target}`}
     >
-      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/70">
+      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
         {card.label}
       </p>
-      <h3 className="mt-2 text-base font-semibold text-white">{card.title}</h3>
-      <p className="mt-2 text-xs leading-5 text-white/78">{card.summary}</p>
+      <h3 className="mt-1.5 text-sm font-semibold text-slate-900">
+        {card.title}
+      </h3>
+      <p className="mt-1.5 text-[11px] leading-4 text-slate-600">
+        {card.summary}
+      </p>
       <button
-        className="mt-auto w-fit rounded-lg bg-white/15 px-3 py-2 text-xs font-semibold text-white ring-1 ring-white/20 transition hover:bg-white/25 focus:outline-none focus:ring-2 focus:ring-white"
+        className="mt-auto w-fit rounded-lg bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
         type="button"
         onClick={() => onSelect(card.target)}
       >
@@ -528,28 +531,28 @@ function HomeView({
       data-testid="financiamento-home"
     >
       <div className="grid min-h-0 gap-4 lg:grid-cols-[minmax(0,1fr)_360px]">
-        <div className="rounded-3xl border border-cyan-200/10 bg-gradient-to-br from-slate-900 via-slate-950 to-cyan-950/50 p-6">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-cyan-200/80">
+        <div className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-blue-600">
             Financiamento Imobiliário
           </p>
-          <h2 className="mt-3 max-w-3xl text-3xl font-semibold text-white">
+          <h2 className="mt-2 max-w-3xl text-[28px] font-semibold leading-tight text-slate-900">
             Entenda cada parcela antes de assinar o contrato.
           </h2>
-          <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">
             Uma jornada educativa para simular, comparar SAC x PRICE, conferir
             tabela, rastrear memória de cálculo e entender fontes, limites e
             alertas antes de conversar com a instituição financeira.
           </p>
-          <div className="mt-5 flex flex-wrap gap-3">
+          <div className="mt-4 flex flex-wrap gap-3">
             <button
-              className="rounded-xl bg-cyan-300 px-4 py-3 text-sm font-bold text-slate-950 shadow-lg shadow-cyan-950/30 transition hover:bg-cyan-200 focus:outline-none focus:ring-2 focus:ring-cyan-100"
+              className="rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-blue-900/20 transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
               type="button"
               onClick={() => onOpen("simulacao")}
             >
               Começar simulação
             </button>
             <button
-              className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold text-slate-100 transition hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-200"
+              className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-300"
               type="button"
               onClick={() => onOpen("conceito")}
             >
@@ -559,41 +562,41 @@ function HomeView({
         </div>
 
         <aside
-          className="rounded-3xl border border-amber-200/15 bg-amber-300/10 p-5"
+          className="rounded-3xl border border-blue-100 bg-gradient-to-br from-blue-50 to-white p-4 shadow-sm"
           data-testid="financiamento-scenario-panel"
         >
-          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-100/75">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-blue-600">
             Cenário atual
           </p>
-          <dl className="mt-4 space-y-3 text-sm">
+          <dl className="mt-3 space-y-2.5 text-sm">
             <div className="flex items-center justify-between gap-3">
-              <dt className="text-amber-50/70">Imóvel</dt>
-              <dd className="font-semibold text-slate-50">
+              <dt className="text-slate-500">Imóvel</dt>
+              <dd className="font-semibold text-slate-900">
                 {summary
                   ? formatBRL(summary.valor_imovel)
                   : formatDraftMoney(draft.valorImovel)}
               </dd>
             </div>
             <div className="flex items-center justify-between gap-3">
-              <dt className="text-amber-50/70">Entrada</dt>
-              <dd className="font-semibold text-slate-50">
+              <dt className="text-slate-500">Entrada</dt>
+              <dd className="font-semibold text-slate-900">
                 {summary ? formatBRL(summary.valor_entrada) : "Sem simulação"}
               </dd>
             </div>
             <div className="flex items-center justify-between gap-3">
-              <dt className="text-amber-50/70">Prazo</dt>
-              <dd className="font-semibold text-slate-50">
+              <dt className="text-slate-500">Prazo</dt>
+              <dd className="font-semibold text-slate-900">
                 {summary ? `${summary.prazo_meses} meses` : "Não informado"}
               </dd>
             </div>
             <div className="flex items-center justify-between gap-3">
-              <dt className="text-amber-50/70">Tabela</dt>
-              <dd className="font-semibold text-slate-50">
+              <dt className="text-slate-500">Tabela</dt>
+              <dd className="font-semibold text-slate-900">
                 {summary ? "Gerada" : "Aguardando dados"}
               </dd>
             </div>
           </dl>
-          <p className="mt-4 text-xs leading-5 text-amber-50/75">
+          <p className="mt-2 text-xs leading-5 text-slate-600">
             Depois da simulação, este painel resume o cenário e libera
             resultado, tabela, comparação, memória e fontes.
           </p>
@@ -619,7 +622,7 @@ function FieldError({ message }: { readonly message: string | undefined }) {
   if (message === undefined) return null;
 
   return (
-    <p className="mt-1 text-[10px] font-medium text-rose-200">{message}</p>
+    <p className="mt-1 text-[10px] font-medium text-rose-600">{message}</p>
   );
 }
 
@@ -640,11 +643,11 @@ function CompactInput({
 }) {
   return (
     <label className="block">
-      <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-cyan-100/65">
+      <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
         {label}
       </span>
       <input
-        className="mt-1 w-full rounded-lg border border-cyan-200/10 bg-slate-950/70 px-3 py-2 text-sm font-semibold text-slate-50 outline-none transition focus:border-cyan-300 focus:ring-2 focus:ring-cyan-300/20"
+        className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-900 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-200"
         inputMode="decimal"
         value={value}
         onChange={(event) => onChange(field, event.target.value)}
@@ -654,7 +657,7 @@ function CompactInput({
       />
       <span
         id={`${String(field)}-hint`}
-        className="mt-1 block text-[10px] leading-4 text-slate-400"
+        className="mt-1 block text-[10px] leading-4 text-slate-500"
       >
         {helper}
       </span>
@@ -680,22 +683,22 @@ function CompactSimulationForm({
 }) {
   return (
     <form
-      className="flex h-full min-h-0 flex-col rounded-2xl border border-cyan-200/10 bg-slate-950/45 p-4"
+      className="flex h-full min-h-0 flex-col rounded-3xl border border-slate-200 bg-white p-4 shadow-sm"
       onSubmit={onSubmit}
       data-testid="financiamento-compact-form"
       aria-label="Formulário de simulação do financiamento imobiliário"
     >
       <div className="mb-3 flex items-start justify-between gap-3">
         <div>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-cyan-200/70">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-blue-600">
             Dados da simulação
           </p>
-          <h3 className="text-base font-semibold text-slate-50">
+          <h3 className="text-base font-semibold text-slate-900">
             Preencha o cenário real
           </h3>
         </div>
         <button
-          className="shrink-0 rounded-lg bg-cyan-300 px-3 py-2 text-xs font-bold text-slate-950 shadow-lg shadow-cyan-950/30 transition hover:bg-cyan-200 focus:outline-none focus:ring-2 focus:ring-cyan-100 disabled:cursor-not-allowed disabled:opacity-50"
+          className="shrink-0 rounded-lg bg-blue-600 px-3 py-2 text-xs font-bold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:cursor-not-allowed disabled:opacity-50"
           type="submit"
           data-testid="financiamento-submit"
           disabled={busy}
@@ -706,7 +709,7 @@ function CompactSimulationForm({
 
       {guidance !== undefined && (
         <div
-          className="mb-3 rounded-xl border border-violet-200/20 bg-violet-300/10 p-3 text-sm leading-6 text-violet-50"
+          className="mb-3 rounded-xl border border-violet-200 bg-violet-50 p-3 text-sm leading-6 text-violet-900"
           role="status"
         >
           {guidance}
@@ -748,11 +751,11 @@ function CompactSimulationForm({
         />
 
         <label className="block">
-          <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-cyan-100/65">
+          <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
             Sistema
           </span>
           <select
-            className="mt-1 w-full rounded-lg border border-cyan-200/10 bg-slate-950/70 px-3 py-2 text-sm font-semibold text-slate-50 outline-none transition focus:border-cyan-300 focus:ring-2 focus:ring-cyan-300/20"
+            className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-900 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-200"
             value={draft.sistemaAmortizacao}
             onChange={(event) =>
               onChange("sistemaAmortizacao", event.target.value)
@@ -762,7 +765,7 @@ function CompactSimulationForm({
             <option value="PRICE">PRICE</option>
             <option value="SAC">SAC</option>
           </select>
-          <span className="mt-1 block text-[10px] leading-4 text-slate-400">
+          <span className="mt-1 block text-[10px] leading-4 text-slate-500">
             Escolha o sistema inicial; a comparação calcula SAC e PRICE.
           </span>
           <FieldError message={errors.sistemaAmortizacao} />
@@ -785,8 +788,8 @@ function CompactSimulationForm({
           onChange={onChange}
         />
 
-        <div className="rounded-xl border border-emerald-300/15 bg-emerald-300/10 p-3 text-xs leading-5 text-emerald-50 md:col-span-2">
-          <strong className="text-emerald-100">Leitura educativa:</strong>{" "}
+        <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-xs leading-5 text-emerald-900 md:col-span-2">
+          <strong className="text-emerald-700">Leitura educativa:</strong>{" "}
           renda, FGTS, seguros, tarifas, CET, documentação e análise de crédito
           mudam a contratação real e aparecem nas fontes e limites.
         </div>
@@ -812,12 +815,12 @@ function ConceptPanel({ onBack }: { readonly onBack: () => void }) {
         {CONCEPT_ITEMS.map((item) => (
           <article
             key={item.title}
-            className="rounded-2xl border border-cyan-200/10 bg-slate-950/45 p-4"
+            className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
           >
-            <h3 className="text-sm font-semibold text-cyan-100">
+            <h3 className="text-sm font-semibold text-blue-700">
               {item.title}
             </h3>
-            <p className="mt-2 text-sm leading-6 text-slate-300">{item.body}</p>
+            <p className="mt-2 text-sm leading-6 text-slate-600">{item.body}</p>
           </article>
         ))}
       </div>
@@ -865,26 +868,26 @@ function SimulationPanel({
           onSubmit={onSubmit}
         />
         <div className="grid min-h-0 content-start gap-3">
-          <div className="rounded-2xl border border-cyan-200/10 bg-cyan-300/10 p-4 text-sm leading-6 text-cyan-50">
+          <div className="rounded-2xl border border-blue-100 bg-blue-50 p-4 text-sm leading-6 text-blue-900">
             Preencha valor do imóvel, entrada, prazo e taxa mensal. Depois use{" "}
             <strong>Gerar simulação</strong> para ver os resultados ou{" "}
             <strong>Comparar SAC x PRICE</strong> para calcular os dois sistemas
             com os mesmos parâmetros.
           </div>
           <button
-            className="rounded-2xl border border-violet-200/20 bg-violet-300/10 p-4 text-left text-violet-50 transition hover:bg-violet-300/15 focus:outline-none focus:ring-2 focus:ring-violet-200 disabled:cursor-not-allowed disabled:opacity-50"
+            className="rounded-2xl border border-violet-200 bg-violet-50 p-4 text-left text-violet-900 transition hover:bg-violet-100 focus:outline-none focus:ring-2 focus:ring-violet-300 disabled:cursor-not-allowed disabled:opacity-50"
             type="button"
             aria-label="Comparar SAC x PRICE"
             onClick={onCompare}
             disabled={cmpState.status === "loading"}
           >
-            <span className="block text-[11px] font-semibold uppercase tracking-[0.2em] text-violet-200/75">
+            <span className="block text-[11px] font-semibold uppercase tracking-[0.2em] text-violet-600">
               Comparação
             </span>
             <span className="mt-1 block text-lg font-semibold">
               Comparar SAC x PRICE
             </span>
-            <span className="mt-2 block text-sm leading-6 text-violet-50/80">
+            <span className="mt-2 block text-sm leading-6 text-violet-700">
               Calcula primeira parcela, última parcela, total de juros, total
               pago e leitura pedagógica para os dois sistemas.
             </span>
@@ -925,20 +928,20 @@ function LockedPanel({
         onBack={onBack}
       />
       <div
-        className="grid h-[calc(100%-74px)] place-items-center rounded-2xl border border-dashed border-cyan-200/20 bg-slate-950/35 p-6 text-center"
+        className="grid h-[calc(100%-118px)] place-items-center rounded-3xl border border-dashed border-blue-200 bg-white p-6 text-center shadow-sm"
         data-testid="financiamento-idle-state"
       >
         <div className="max-w-md">
-          <h3 className="text-lg font-semibold text-slate-50">
+          <h3 className="text-lg font-semibold text-slate-900">
             Simule primeiro para liberar esta visão.
           </h3>
-          <p className="mt-2 text-sm leading-6 text-slate-300">
+          <p className="mt-2 text-sm leading-6 text-slate-600">
             A plataforma precisa das entradas de valor, prazo, taxa e sistema
             para gerar resultado, tabela, comparação e memória com
             rastreabilidade.
           </p>
           <button
-            className="mt-4 rounded-xl bg-cyan-300 px-4 py-3 text-sm font-bold text-slate-950 transition hover:bg-cyan-200 focus:outline-none focus:ring-2 focus:ring-cyan-100"
+            className="mt-4 rounded-xl bg-blue-600 px-4 py-3 text-sm font-bold text-white transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
             type="button"
             onClick={onStart}
           >
@@ -977,14 +980,6 @@ function ResultPanel({
       className="flex h-full min-h-0"
       data-testid="financiamento-result-panel"
     >
-      {/* ── Sidebar lateral com cenário e insight cards ─────── */}
-      <RealEstateScenarioSidebar
-        result={result}
-        onNavigate={onOpen as (view: string) => void}
-        onNavigateZone={setActiveZone}
-      />
-
-      {/* ── Painel principal (header + zonas) ──────────────── */}
       <div className="flex min-w-0 flex-1 flex-col">
         <PanelHeader
           eyebrow="Resultado"
@@ -1000,7 +995,7 @@ function ResultPanel({
         <nav
           role="tablist"
           aria-label="Navegação entre zonas do resultado"
-          className="flex gap-0.5 border-b border-white/8 px-1 pb-0 overflow-x-clip"
+          className="flex gap-1 overflow-x-auto border-b border-slate-200 px-1 pb-0"
           data-testid="result-zone-nav"
         >
           {ZONES.map(({ n, label }) => (
@@ -1019,8 +1014,8 @@ function ResultPanel({
               focus:outline-none focus:ring-1 focus:ring-cyan-400/50 focus:ring-inset
               ${
                 activeZone === n
-                  ? "border-cyan-400 text-cyan-300"
-                  : "border-transparent text-slate-500 hover:text-slate-300"
+                  ? "border-blue-600 text-blue-700"
+                  : "border-transparent text-slate-500 hover:text-blue-700"
               }
             `}
             >
@@ -1028,7 +1023,7 @@ function ResultPanel({
                 className={`
                 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full
                 text-[10px] font-bold
-                ${activeZone === n ? "bg-cyan-400 text-slate-950" : "bg-white/10 text-slate-400"}
+                ${activeZone === n ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-500"}
               `}
               >
                 {n}
@@ -1039,7 +1034,7 @@ function ResultPanel({
         </nav>
 
         {/* ── Barra de ação rápida — navegação para outras views ─ */}
-        <div className="flex gap-1.5 border-b border-white/5 bg-slate-950/30 px-2 py-1.5">
+        <div className="flex gap-1.5 border-b border-slate-200 bg-white px-2 py-2">
           {(
             [
               { label: "Tabela", view: "tabela" as CockpitView },
@@ -1052,7 +1047,7 @@ function ResultPanel({
               key={item.view}
               type="button"
               onClick={() => onOpen(item.view)}
-              className="rounded-md border border-white/8 bg-white/5 px-2.5 py-1 text-[10px] font-medium text-slate-400 transition hover:bg-white/10 hover:text-slate-200 focus:outline-none focus:ring-1 focus:ring-cyan-400/50"
+              className="rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1 text-[10px] font-medium text-slate-600 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-800 focus:outline-none focus:ring-1 focus:ring-blue-300"
             >
               {item.label}
             </button>
@@ -1708,7 +1703,7 @@ export function FinanciamentoCockpit() {
 
   return (
     <div
-      className="h-[calc(100vh-7rem)] min-h-0 overflow-hidden rounded-3xl border border-cyan-200/10 bg-[#0a101e] text-slate-100 shadow-2xl shadow-black/35"
+      className="h-[calc(100dvh-52px)] min-h-0 overflow-hidden bg-[#F1F5F9] text-slate-800"
       data-testid="financiamento-cockpit"
       data-no-page-scroll="true"
     >
@@ -1727,7 +1722,7 @@ export function FinanciamentoCockpit() {
       >
         <JourneyStepper activeStep={activeStep} onSelect={handleStepSelect} />
         <main
-          className="min-h-0 flex-1 overflow-hidden p-4"
+          className="mx-auto min-h-0 w-full max-w-[1080px] flex-1 overflow-hidden px-6 py-6"
           data-testid="financiamento-main-panel"
         >
           {view === "inicio" && (

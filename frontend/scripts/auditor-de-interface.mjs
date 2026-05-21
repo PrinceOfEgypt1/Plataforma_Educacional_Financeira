@@ -478,7 +478,11 @@ export function formatReport(result) {
   return lines.join("\n");
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+const isCliEntrypoint =
+  process.argv[1] !== undefined &&
+  fileURLToPath(import.meta.url) === path.resolve(process.argv[1]);
+
+if (isCliEntrypoint) {
   try {
     const args = parseArgs(process.argv.slice(2));
     const result = runInterfaceAudit({ rootDir: args.rootDir });

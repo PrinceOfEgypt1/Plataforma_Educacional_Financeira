@@ -1035,3 +1035,65 @@ body {
 .text-financial-warning {
   color: var(--color-financial-warning);
 }
+
+/* F8C — fidelidade visual ao wireframe aprovado do módulo Imóvel */
+.financiamento-f8c-shell {
+  --f8c-bg: #f1f5f9;
+  --f8c-card: #ffffff;
+  --f8c-border: #d8e2ee;
+  --f8c-text: #14213d;
+  --f8c-muted: #64748b;
+  --f8c-blue: #2563eb;
+}
+
+.financiamento-f8c-shell main [class*="bg-slate-950"],
+.financiamento-f8c-shell main [class*="bg-slate-900"],
+.financiamento-f8c-shell main [class*="bg-slate-800"],
+.financiamento-f8c-shell main [class*="bg-white/"] {
+  background-color: var(--f8c-card) !important;
+  background-image: none !important;
+}
+
+.financiamento-f8c-shell main [class*="from-slate-"],
+.financiamento-f8c-shell main [class*="to-slate-"],
+.financiamento-f8c-shell main [class*="via-slate-"] {
+  background-image: none !important;
+}
+
+.financiamento-f8c-shell main [class*="border-white/"],
+.financiamento-f8c-shell main [class*="border-cyan-200/"],
+.financiamento-f8c-shell main [class*="border-cyan-300/"] {
+  border-color: var(--f8c-border) !important;
+}
+
+.financiamento-f8c-shell main [class*="text-slate-50"],
+.financiamento-f8c-shell main [class*="text-slate-100"],
+.financiamento-f8c-shell main [class*="text-slate-200"],
+.financiamento-f8c-shell main [class*="text-white"] {
+  color: var(--f8c-text) !important;
+}
+
+.financiamento-f8c-shell main [class*="text-slate-300"],
+.financiamento-f8c-shell main [class*="text-slate-400"],
+.financiamento-f8c-shell main [class*="text-slate-500"] {
+  color: var(--f8c-muted) !important;
+}
+
+.financiamento-f8c-shell main table thead tr {
+  background: #eaf2fb !important;
+}
+
+.financiamento-f8c-shell main table tbody tr {
+  border-color: #e2e8f0 !important;
+}
+
+.financiamento-f8c-shell main table tfoot tr {
+  background: #dbeafe !important;
+  color: #1e3a8a !important;
+}
+
+.financiamento-f8c-shell main pre {
+  background: #eef6ff !important;
+  color: #1d4ed8 !important;
+  border: 1px solid #bfdbfe;
+}
