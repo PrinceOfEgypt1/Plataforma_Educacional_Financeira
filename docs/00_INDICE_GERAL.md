@@ -189,3 +189,18 @@ Resultado: reprovação visual pelo PO. O auditor UI/UX automático permanece ze
 - `docs/gates/gate-po-ux-valor/14f/09-redesenho-tecnico-funcional-jornada-imovel/PROMPT_BASE_IMPLEMENTACAO_POS_F7_IMOVEL_ITEM_14F_F7.md`
 
 Resultado: especificação de redesenho técnico-funcional da jornada do módulo Imóvel, derivada da reprovação visual F6 e integrada a requisitos de rastreabilidade numérica, arredondamento, arquitetura de informação, critérios de aceite e prompt base para futura implementação.
+
+## Gate PO/UX/Valor — Item 14F-F8C-v6.2 — Especificação Visual Determinística do Módulo Imóvel
+
+Especificação visual determinística que elimina ambiguidade de design para implementações futuras do módulo Financiamento Imobiliário. Cobre 7 etapas × 35 telas, design system completo, wireframe textual, matrizes de componentes e critérios de aceite, contrato visual JSON e script de autovalidação.
+
+- `docs/gates/gate-po-ux-valor/14f-f8c-v6-2-especificacao-visual-deterministica/ESPECIFICACAO_VISUAL_DETERMINISTICA_IMOVEL.md`
+- `docs/gates/gate-po-ux-valor/14f-f8c-v6-2-especificacao-visual-deterministica/DESIGN_SYSTEM_IMOVEL_DETERMINISTICO.md`
+- `docs/gates/gate-po-ux-valor/14f-f8c-v6-2-especificacao-visual-deterministica/MATRIZ_ETAPAS_ABAS_COMPONENTES.md`
+- `docs/gates/gate-po-ux-valor/14f-f8c-v6-2-especificacao-visual-deterministica/MATRIZ_CRITERIOS_ACEITE_VISUAL.md`
+- `docs/gates/gate-po-ux-valor/14f-f8c-v6-2-especificacao-visual-deterministica/CONTRATO_VISUAL_IMOVEL_V6_2.json`
+- `docs/gates/gate-po-ux-valor/14f-f8c-v6-2-especificacao-visual-deterministica/WIREFRAME_TEXTUAL_DETERMINISTICO.md`
+- `docs/gates/gate-po-ux-valor/14f-f8c-v6-2-especificacao-visual-deterministica/AUTOVALIDACAO_E_AUDITORIA.md`
+- `docs/gates/gate-po-ux-valor/14f-f8c-v6-2-especificacao-visual-deterministica/validate-spec.mjs`
+
+Status: autoverificação estrutural PASSOU (validate-spec.mjs: 0 falhas). Pendente aprovação visual e funcional do PO.
