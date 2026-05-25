@@ -1,11 +1,11 @@
 {
   "$schema_version": 3,
   "generated_at": "2026-05-08",
-  "total_documents": 137,
+  "total_documents": 145,
   "categories": {
     "BASELINE_CANDIDATA": 1,
     "ESTATICO": 31,
-    "GOVERNANCA_SPRINT": 30,
+    "GOVERNANCA_SPRINT": 38,
     "HIBRIDO": 6,
     "META": 1,
     "OPERACIONAL": 1,
@@ -1284,9 +1284,81 @@
       "materialized_in_repo": true,
       "description": "Prompt operacional da Sprint 4/F2 adaptado ao modelo oficial com checklist operacional.",
       "updated_at": "2026-05-25T15:37:48+00:00"
+    },
+    {
+      "id": "GATE-POUX-14F-F8C-V62-ESPECIFICACAO-VISUAL",
+      "path": "docs/gates/gate-po-ux-valor/14f-f8c-v6-2-especificacao-visual-deterministica/ESPECIFICACAO_VISUAL_DETERMINISTICA_IMOVEL.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Especificação Visual Determinística — Módulo Imóvel (14F-F8C-v6.2)",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-25",
+      "note": "Especifica arquitetura visual determinística do módulo Financiamento Imobiliário, com 7 etapas, abas internas, regras de rolagem, cenário financeiro fixo e aceite humano obrigatório."
+    },
+    {
+      "id": "GATE-POUX-14F-F8C-V62-DESIGN-SYSTEM",
+      "path": "docs/gates/gate-po-ux-valor/14f-f8c-v6-2-especificacao-visual-deterministica/DESIGN_SYSTEM_IMOVEL_DETERMINISTICO.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Design System Determinístico — Módulo Imóvel (14F-F8C-v6.2)",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-25",
+      "note": "Define tokens visuais, tipografia Manrope, paleta, contraste, componentes, tabelas, formulários, gráficos e uso controlado de Aurora Gradient Border."
+    },
+    {
+      "id": "GATE-POUX-14F-F8C-V62-MATRIZ-ETAPAS-ABAS",
+      "path": "docs/gates/gate-po-ux-valor/14f-f8c-v6-2-especificacao-visual-deterministica/MATRIZ_ETAPAS_ABAS_COMPONENTES.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Matriz Etapas x Abas x Componentes — Módulo Imóvel (14F-F8C-v6.2)",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-25",
+      "note": "Mapeia as telas por etapa e aba, com objetivo, layout, componentes obrigatórios e critérios de aceite."
+    },
+    {
+      "id": "GATE-POUX-14F-F8C-V62-CRITERIOS-ACEITE-VISUAL",
+      "path": "docs/gates/gate-po-ux-valor/14f-f8c-v6-2-especificacao-visual-deterministica/MATRIZ_CRITERIOS_ACEITE_VISUAL.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Matriz de Critérios de Aceite Visual — Módulo Imóvel (14F-F8C-v6.2)",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-25",
+      "note": "Define critérios bloqueantes e recomendados para validação visual, técnica e pedagógica da futura implementação."
+    },
+    {
+      "id": "GATE-POUX-14F-F8C-V62-CONTRATO-VISUAL-JSON",
+      "path": "docs/gates/gate-po-ux-valor/14f-f8c-v6-2-especificacao-visual-deterministica/CONTRATO_VISUAL_IMOVEL_V6_2.json",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Contrato Visual Determinístico JSON — Módulo Imóvel (14F-F8C-v6.2)",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-25",
+      "note": "Contrato legível por máquina com etapas, abas, cenário financeiro fixo, restrições de layout, regras bloqueantes e aprovação humana obrigatória."
+    },
+    {
+      "id": "GATE-POUX-14F-F8C-V62-WIREFRAME-TEXTUAL",
+      "path": "docs/gates/gate-po-ux-valor/14f-f8c-v6-2-especificacao-visual-deterministica/WIREFRAME_TEXTUAL_DETERMINISTICO.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Wireframe Textual Determinístico — Módulo Imóvel (14F-F8C-v6.2)",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-25",
+      "note": "Descreve textualmente as telas, regiões, componentes, conteúdo obrigatório e critérios de aceite por etapa e aba."
+    },
+    {
+      "id": "GATE-POUX-14F-F8C-V62-AUTOVALIDACAO-AUDITORIA",
+      "path": "docs/gates/gate-po-ux-valor/14f-f8c-v6-2-especificacao-visual-deterministica/AUTOVALIDACAO_E_AUDITORIA.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Autovalidação e Auditoria — Item 14F-F8C-v6.2",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-25",
+      "note": "Registra validações, correções intermediárias, limitações honestas e separação entre autovalidação estrutural e aceite humano do PO."
+    },
+    {
+      "id": "GATE-POUX-14F-F8C-V62-VALIDATE-SPEC-MJS",
+      "path": "docs/gates/gate-po-ux-valor/14f-f8c-v6-2-especificacao-visual-deterministica/validate-spec.mjs",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Script validate-spec.mjs — Item 14F-F8C-v6.2",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-25",
+      "note": "Script Node.js de autovalidação estrutural da especificação visual determinística."
     }
   ],
-  "updated_at": "2026-05-25T15:37:48+00:00",
-  "update_reason": "Materialização da governança de prompts com checklist operacional e validador estrutural de entregas IA.",
+  "updated_at": "2026-05-25T00:00:00Z",
+  "update_reason": "Gate PO/UX/Valor — Item 14F-F8C-v6.2: materialização limpa da especificação visual determinística do módulo Imóvel a partir da main oficial.",
   "_migration_note": "Sincronização documental concluída em 2026-04-17. Todos os documentos do pacote AUDITORIA_PROMPT_1_FINAL foram migrados. Documentos com materialized_in_repo=false são apenas aqueles que permanecem pendentes por decisão explícita."
 }

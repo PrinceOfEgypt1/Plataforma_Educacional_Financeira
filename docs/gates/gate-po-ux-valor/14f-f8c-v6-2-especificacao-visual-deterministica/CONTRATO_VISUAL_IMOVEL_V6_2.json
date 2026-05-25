@@ -1,0 +1,400 @@
+{
+  "$schema_version": 1,
+  "item": "14F-F8C-v6.2",
+  "gate": "PO/UX/Valor",
+  "title": "Contrato Visual Determinístico — Módulo Imóvel",
+  "status": "pendente_aprovacao_po",
+  "base_branch": "origin/gate-po-ux-valor/item-14f-f8c-fidelidade-visual-wireframe-imovel",
+  "base_commit": "2acd1cc",
+  "generated_at": "2026-05-25",
+  "cenario_financeiro_fixo": {
+    "IMUTAVEL": true,
+    "nota": "Proibido alterar qualquer valor abaixo sem decisão explícita e auditável do PO.",
+    "valor_imovel": 870000.0,
+    "entrada": 700000.0,
+    "valor_financiado": 170000.0,
+    "prazo_meses": 120,
+    "taxa_mensal": 0.0085,
+    "taxa_mensal_pct": "0,85%",
+    "encargos_mensais": 205.0,
+    "encargos_totais": 24600.0,
+    "sistema_principal": "SAC",
+    "sistema_comparativo": "PRICE",
+    "regra_comparacao_justa": {
+      "mesmo_principal": true,
+      "mesmo_prazo": true,
+      "mesma_taxa": true,
+      "mesmos_encargos": true,
+      "formula_total_pago": "principal + juros_totais + encargos_totais",
+      "proibido": "usar taxa diferente para SAC e PRICE em comparação que se apresenta como comparação entre sistemas"
+    }
+  },
+  "arquitetura_navegacao": {
+    "camadas": 2,
+    "camada_1": {
+      "tipo": "stepper_horizontal",
+      "num_etapas": 7,
+      "altura_max_px": 56,
+      "etapas": [
+        {
+          "num": 1,
+          "id": "preparar",
+          "label": "Preparar"
+        },
+        {
+          "num": 2,
+          "id": "simular",
+          "label": "Simular"
+        },
+        {
+          "num": 3,
+          "id": "resultado",
+          "label": "Resultado"
+        },
+        {
+          "num": 4,
+          "id": "entender",
+          "label": "Entender"
+        },
+        {
+          "num": 5,
+          "id": "comparar",
+          "label": "Comparar"
+        },
+        {
+          "num": 6,
+          "id": "conferir",
+          "label": "Conferir"
+        },
+        {
+          "num": 7,
+          "id": "decidir",
+          "label": "Decidir"
+        }
+      ]
+    },
+    "camada_2": {
+      "tipo": "abas_internas_contextuais",
+      "altura_tab_bar_max_px": 48,
+      "abas_por_etapa": {
+        "preparar": [
+          "Visão Geral",
+          "Entrada",
+          "Valor Financiado",
+          "SAC x PRICE",
+          "Cuidados"
+        ],
+        "simular": [
+          "Dados do Imóvel",
+          "Condições",
+          "Custos",
+          "Sistema",
+          "Resumo"
+        ],
+        "resultado": [
+          "Resumo",
+          "Cenário",
+          "Alertas",
+          "Interpretação"
+        ],
+        "entender": [
+          "Parcela",
+          "Amortização",
+          "Juros",
+          "Saldo Devedor",
+          "SAC x PRICE"
+        ],
+        "comparar": [
+          "Resumo Comparativo",
+          "Tabela SAC",
+          "Tabela PRICE",
+          "Gráfico",
+          "Leitura Pedagógica"
+        ],
+        "conferir": [
+          "Fórmulas SAC",
+          "Fórmulas PRICE",
+          "Variáveis",
+          "Passo a Passo",
+          "Auditoria"
+        ],
+        "decidir": [
+          "Diagnóstico",
+          "Checklist",
+          "Próximos Passos",
+          "Cuidados",
+          "Conclusão"
+        ]
+      }
+    }
+  },
+  "design_system": {
+    "fonte": {
+      "familia": "Manrope",
+      "fallback": "system-ui, -apple-system, sans-serif",
+      "proibido": "qualquer outra fonte"
+    },
+    "paleta": {
+      "--navy": "#071B3A",
+      "--deep-blue": "#082A5E",
+      "--royal-blue": "#2563EB",
+      "--indigo": "#29338C",
+      "--purple": "#6426A8",
+      "--violet": "#7C3AED",
+      "--green": "#0B5D3B",
+      "--teal": "#007C78",
+      "--cyan": "#0088A9",
+      "--gold": "#B77900",
+      "--orange": "#C76A00",
+      "--soft-bg": "#F2F6FB",
+      "--white": "#FFFFFF"
+    },
+    "regra_contraste": {
+      "texto_sobre_fundo_escuro": "#FFFFFF",
+      "proibido_sobre_fundo_escuro": [
+        "#000000",
+        "#111111",
+        "#222222",
+        "#333333"
+      ],
+      "minimo_wcag": "AA (4.5:1 para texto normal)"
+    },
+    "tipografia": {
+      "font_size_minimo_px": 12,
+      "kpi_font_size_min_px": 28,
+      "tabela_font_size_min_px": 13
+    }
+  },
+  "restricoes_rolagem": {
+    "objetivo": "Cada combinação etapa+aba cabe em viewport 1920x1080 sem scrollbar vertical no body",
+    "orcamento_vertical_px": {
+      "viewport": 1080,
+      "header": 64,
+      "stepper": 56,
+      "tab_bar": 48,
+      "nav_inferior": 56,
+      "padding_vertical": 32,
+      "area_util_conteudo": 824
+    },
+    "proibido": [
+      "body overflow:hidden para esconder conteúdo",
+      "conteúdo cortado artificialmente",
+      "cards vazios para preencher altura",
+      "remoção de conteúdo relevante para caber na tela",
+      "font-size < 12px em texto visível",
+      "excesso de espaço inútil vertical",
+      "layout esticado para preencher altura",
+      "rodapé sobrepondo conteúdo"
+    ],
+    "solucao_obrigatoria": [
+      "abas internas contextuais distribuindo o conteúdo",
+      "tabelas com paginação interna (máx. 8-10 linhas visíveis, sem scroll vertical)",
+      "gráficos com altura proporcional (máx. 280px em telas compartilhadas)",
+      "cards com altura definida por tokens",
+      "header compacto (máx. 64px)",
+      "stepper compacto (máx. 56px)",
+      "navegação inferior compacta (máx. 56px)"
+    ]
+  },
+  "restricoes_tabelas": {
+    "max_tabelas_completas_por_tela": 1,
+    "max_linhas_visiveis_por_pagina": 10,
+    "min_linhas_visiveis_por_pagina": 8,
+    "scroll_vertical_interno": false,
+    "font_size_min_px": 13,
+    "cabecalho": {
+      "background": "#071B3A",
+      "color": "#FFFFFF",
+      "font_weight": 600
+    },
+    "rodape_totais": {
+      "background": "#082A5E",
+      "color": "#FFFFFF",
+      "font_weight": 700
+    },
+    "colunas_obrigatorias": [
+      "Parcela",
+      "Saldo inicial",
+      "Juros",
+      "Amortização",
+      "Encargos",
+      "Total da parcela",
+      "Saldo final"
+    ],
+    "paginacao": {
+      "obrigatoria": true,
+      "componente": "paginador externo à tabela",
+      "formato": "Página X de Y"
+    }
+  },
+  "restricoes_formularios": {
+    "input_height_px": 44,
+    "grid": "CSS Grid 2 colunas em desktop ≥1280px",
+    "labels": "acima do campo",
+    "estados_foco": {
+      "border_color": "#2563EB",
+      "box_shadow": "0 0 0 3px rgba(37, 99, 235, 0.15)"
+    },
+    "campos_default_cenario_fixo": {
+      "valor_imovel": 870000,
+      "entrada": 700000,
+      "prazo": 120,
+      "taxa_mensal": 0.0085,
+      "encargos_mensais": 205.0
+    },
+    "proibido": [
+      "campos desalinhados fora do grid",
+      "coluna quebrada",
+      "input flutuando sem label",
+      "todos os campos da etapa Simular numa única aba"
+    ]
+  },
+  "aurora_gradient_border": {
+    "max_elementos_por_tela": 2,
+    "usos_permitidos": [
+      {
+        "elemento": "CTA principal Simular",
+        "etapa": "simular",
+        "aba": "Resumo"
+      },
+      {
+        "elemento": "Card principal de resultado",
+        "etapa": "resultado",
+        "aba": "Resumo"
+      },
+      {
+        "elemento": "Card vencedor comparativo",
+        "etapa": "comparar",
+        "aba": "Resumo Comparativo"
+      },
+      {
+        "elemento": "Card de decisão final",
+        "etapa": "decidir",
+        "aba": "Conclusão"
+      }
+    ],
+    "proibido": [
+      "aplicar em todos os cards de uma tela",
+      "aplicar em tabela inteira ou linhas de tabela",
+      "aplicar em inputs ou labels de formulário",
+      "mais de 2 elementos aurora na mesma tela",
+      "animação sem respeitar prefers-reduced-motion"
+    ],
+    "animacao": {
+      "obrigatoria": false,
+      "prefers_reduced_motion": "animation: none quando reduce"
+    }
+  },
+  "restricoes_graficos": {
+    "graficos_obrigatorios": [
+      {
+        "id": "grafico-comparacao-sac-price",
+        "tipo": "barras agrupadas ou stacked",
+        "etapa": "comparar",
+        "aba": "Gráfico",
+        "dados": [
+          "total pago SAC",
+          "total pago PRICE",
+          "juros totais SAC",
+          "juros totais PRICE",
+          "encargos SAC",
+          "encargos PRICE"
+        ]
+      },
+      {
+        "id": "grafico-saldo-devedor",
+        "tipo": "linha",
+        "etapa": "entender",
+        "aba": "Saldo Devedor",
+        "dados": [
+          "saldo SAC mês 0..120",
+          "saldo PRICE mês 0..120"
+        ]
+      },
+      {
+        "id": "grafico-composicao-parcela",
+        "tipo": "pizza ou área empilhada",
+        "etapa": "entender",
+        "aba": "Parcela",
+        "dados": [
+          "amortização 1ª parcela",
+          "juros 1ª parcela",
+          "encargos 1ª parcela"
+        ]
+      }
+    ],
+    "regras": {
+      "legenda_obrigatoria": true,
+      "font_size_legenda_min_px": 12,
+      "interpretacao_pedagogica_obrigatoria": true,
+      "altura_max_em_tela_compartilhada_px": 280,
+      "altura_max_elemento_principal_px": 360
+    }
+  },
+  "componentes_obrigatorios_por_etapa": {
+    "preparar": [
+      "KPI x3",
+      "CARD-D",
+      "CARD-L",
+      "ALERTA"
+    ],
+    "simular": [
+      "FORM x5-grupos",
+      "KPI derivado",
+      "CTA-A"
+    ],
+    "resultado": [
+      "KPI x3",
+      "CARD-A",
+      "ALERTA x3",
+      "CARD-L"
+    ],
+    "entender": [
+      "KPI",
+      "CARD-D",
+      "FORMULA",
+      "GRF x3"
+    ],
+    "comparar": [
+      "CARD-D x2",
+      "CARD-A",
+      "TBL x2 paginadas",
+      "GRF",
+      "CARD-L"
+    ],
+    "conferir": [
+      "FORMULA x7+",
+      "CARD-D",
+      "TBL variáveis",
+      "CHECKLIST"
+    ],
+    "decidir": [
+      "CARD-D",
+      "KPI x3",
+      "CHECKLIST",
+      "CARD-L x4",
+      "ALERTA x4",
+      "CARD-A",
+      "CTA x2"
+    ]
+  },
+  "regras_bloqueantes": [
+    "Nenhum texto preto sobre fundo escuro",
+    "Nenhuma tela com scrollbar vertical no body em 1920x1080",
+    "Nenhuma tabela com mais de 10 linhas visíveis sem paginação",
+    "Nenhuma tabela com scroll vertical interno",
+    "Nenhuma comparação SAC x PRICE com taxas diferentes",
+    "Cenário financeiro fixo não alterado",
+    "Aurora Gradient Border em no máximo 2 elementos por tela",
+    "Fonte Manrope em todos os elementos de texto",
+    "Aceite visual do PO obrigatório antes de uso em produção",
+    "Nenhum placeholder ou TODO em conteúdo visível"
+  ],
+  "aprovacao_humana": {
+    "obrigatoria": true,
+    "ia_pode_declarar_aprovado": false,
+    "ia_pode_declarar_pronto_para_producao": false,
+    "frase_obrigatoria": "Esta entrega foi autoverificada estruturalmente, mas permanece pendente de aprovação visual e funcional do PO."
+  },
+  "base_commit_policy": "hash curto usado para evitar falso positivo do detect-secrets; referência completa pode ser obtida via git log da branch fonte."
+}
