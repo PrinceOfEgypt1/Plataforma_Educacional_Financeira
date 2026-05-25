@@ -115,7 +115,7 @@ if (especificacao) {
 section('3. Presença das abas obrigatórias por etapa (nome exato)');
 
 // Nome canônico das abas. "SAC x PRICE" usa a letra "x" minúscula como
-// separador, NÃO o sinal de multiplicação "×". Isto é exigência da auditoria.
+// separador, NÃO o sinal de multiplicação "\u00D7". Isto é exigência da auditoria.
 const abasObrigatorias = {
   'Preparar':  ['Visão Geral', 'Entrada', 'Valor Financiado', 'SAC x PRICE', 'Cuidados'],
   'Simular':   ['Dados do Imóvel', 'Condições', 'Custos', 'Sistema', 'Resumo'],
@@ -191,16 +191,16 @@ section('3.B. Anti-substituição: "SAC" sozinho não pode substituir "SAC x PRI
 // Cobre formatos comuns do wireframe e da matriz:
 //   ### Aba 1.4 — SAC
 //   ### Aba 4.5 — SAC
-//   ### Aba 1.4 — SAC × PRICE  (também proibido se ainda restasse)
+//   ### Aba 1.4 — SAC \u00D7 PRICE  (sinal U+00D7 — também proibido se restasse)
 const padroesSubstituicao = [
   // wireframe: "### Aba 1.X — SAC" sem "x PRICE"
   /^#{1,6}\s*Aba\s+1\.\d+\s*[—–-]\s*SAC\s*$/m,
   /^#{1,6}\s*Aba\s+4\.\d+\s*[—–-]\s*SAC\s*$/m,
   // matriz: "### Aba 1.X — SAC" sem "x PRICE"
   // padrão de tabela markdown: "| Aba 1.4 | SAC |" sem "x PRICE"
-  // Detecta também o sinal de multiplicação como alerta (não deveria mais existir)
-  /^#{1,6}\s*Aba\s+1\.\d+\s*[—–-]\s*SAC\s*×\s*PRICE/m,
-  /^#{1,6}\s*Aba\s+4\.\d+\s*[—–-]\s*SAC\s*×\s*PRICE/m,
+  // Detecta o sinal de multiplicação U+00D7 (proibido — usar letra x)
+  /^#{1,6}\s*Aba\s+1\.\d+\s*[—–-]\s*SAC\s*\u00D7\s*PRICE/m,
+  /^#{1,6}\s*Aba\s+4\.\d+\s*[—–-]\s*SAC\s*\u00D7\s*PRICE/m,
 ];
 
 for (const [filename, content] of Object.entries(docsObrigatoriosParaAbas)) {
@@ -218,19 +218,19 @@ for (const [filename, content] of Object.entries(docsObrigatoriosParaAbas)) {
   }
 }
 
-// Adicional: contar substring "× PRICE" para garantir zero ocorrências do
+// Adicional: contar substring "\u00D7 PRICE" para garantir zero ocorrências do
 // caractere de multiplicação (que invalida a busca exata da auditoria).
 let totalMultiplicacao = 0;
 for (const [filename, content] of Object.entries(docsObrigatoriosParaAbas)) {
   if (!content) continue;
-  const matches = content.match(/× PRICE/g) || [];
+  const matches = content.match(/\u00D7 PRICE/g) || [];
   if (matches.length > 0) {
-    fail(`${filename}: ${matches.length} ocorrência(s) do sinal "×" (multiplicação) em "× PRICE" — deveria ser "x" (letra)`);
+    fail(`${filename}: ${matches.length} ocorrência(s) do sinal "\u00D7" (multiplicação) em "\u00D7 PRICE" — deveria ser "x" (letra)`);
     totalMultiplicacao += matches.length;
   }
 }
 if (totalMultiplicacao === 0) {
-  pass('Nenhuma ocorrência do sinal "×" (multiplicação) em "× PRICE" — usar sempre letra "x"');
+  pass('Nenhuma ocorrência do sinal "\u00D7" (multiplicação) em "\u00D7 PRICE" — usar sempre letra "x"');
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

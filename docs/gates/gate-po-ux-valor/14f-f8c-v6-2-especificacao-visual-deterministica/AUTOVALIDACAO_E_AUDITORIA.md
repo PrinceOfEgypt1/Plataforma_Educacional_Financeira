@@ -36,12 +36,12 @@
 ### 0.3 Causa raiz da falha bloqueante
 
 Na primeira entrega, eu (Claude) **substituí a letra "x" por o sinal de
-multiplicação "×" (U+00D7)** em todas as ocorrências de "SAC x PRICE" — usei
-a forma tipograficamente "correta" (`SAC × PRICE`) sem perceber que o prompt
+multiplicação "\u00D7" (U+00D7)** em todas as ocorrências de "SAC x PRICE" — usei
+a forma tipograficamente "correta" (`SAC \u00D7 PRICE`) sem perceber que o prompt
 do PO especificava literal "SAC x PRICE" com letra x, e que a auditoria
 Camaleão faria match por nome **exato**, não por similaridade visual.
 
-Resultado: 33 ocorrências de `SAC × PRICE` no diretório vs. apenas 1 ocorrência
+Resultado: 33 ocorrências de `SAC \u00D7 PRICE` no diretório vs. apenas 1 ocorrência
 de `SAC x PRICE`. Ferramentas que usam `string.includes("SAC x PRICE")` ou
 buscam pela substring exata **não encontravam** as abas — daí a falha de
 "ausência por nome exato".
@@ -51,7 +51,7 @@ buscam pela substring exata **não encontravam** as abas — daí a falha de
 O `validate-spec.mjs` da entrega `b833e48` declarava no array de Preparar
 apenas `'SAC'` (substring, sem `x PRICE`) e não incluía `SAC x PRICE` em
 Entender. Como a verificação usava `content.includes(aba)`, "SAC" estava
-presente como substring de "SAC × PRICE" → falsa aprovação. O validador
+presente como substring de "SAC \u00D7 PRICE" → falsa aprovação. O validador
 não tinha:
 
 1. Match por nome **exato** (substring vs. exato).
@@ -65,7 +65,7 @@ não tinha:
 
 ### 0.A.1 Correção bloqueante: padronização "SAC x PRICE"
 
-Aplicado `sed -i 's/SAC × PRICE/SAC x PRICE/g'` em todos os 8 arquivos do
+Aplicado `sed -i 's/SAC \u00D7 PRICE/SAC x PRICE/g'` em todos os 8 arquivos do
 diretório. Substituições:
 
 | Arquivo | Ocorrências substituídas |
@@ -80,7 +80,7 @@ diretório. Substituições:
 | validate-spec.mjs | sim (comentários) |
 
 Verificação pós-substituição:
-- `grep -rn "SAC × PRICE"` → **0 ocorrências**
+- `grep -rn "SAC \u00D7 PRICE"` → **0 ocorrências**
 - `grep -rn "SAC x PRICE"` → **34 ocorrências** (1 anterior + 33 convertidas)
 
 ### 0.A.2 Correção do validate-spec.mjs (rigidez)
@@ -93,7 +93,7 @@ Verificação pós-substituição:
 | Cobertura | wireframe + matriz | wireframe + matriz + **especificação** |
 | Cross-check | (ausente) | **`abas_por_etapa` no contrato JSON** |
 | Anti-substituição | (ausente) | Regex `^### Aba 1.X — SAC$` e `^### Aba 4.X — SAC$` falham |
-| Sinal de multiplicação | não checado | falha se encontrar `× PRICE` |
+| Sinal de multiplicação | não checado | falha se encontrar `\u00D7 PRICE` |
 
 ### 0.A.3 Teste adversarial do validate-spec.mjs
 
@@ -140,9 +140,9 @@ hardcoding de altura fixa por aba (antipadrão).
    (ver Especificação §7)**" — referência centralizada, sem repetição
    mecânica de número.
 3. Resultado final: `824px` aparece apenas em **5 lugares legítimos**:
-   - 2× ESPECIFICAÇÃO §7 (definição arquitetural)
-   - 1× DESIGN_SYSTEM (referência de layout)
-   - 2× AUTOVALIDACAO_E_AUDITORIA (registro histórico desta auditoria)
+   - 2\u00D7 ESPECIFICAÇÃO §7 (definição arquitetural)
+   - 1\u00D7 DESIGN_SYSTEM (referência de layout)
+   - 2\u00D7 AUTOVALIDACAO_E_AUDITORIA (registro histórico desta auditoria)
 
 | Arquivo | Antes | Depois |
 |---|---|---|
@@ -227,8 +227,8 @@ node docs/gates/gate-po-ux-valor/14f-f8c-v6-2-especificacao-visual-deterministic
 
 # ─── Pós auditoria Camaleão (FAIL) — Correção 01 ───
 
-# Substituição global × → x
-for f in *.md *.json *.mjs; do sed -i 's/SAC × PRICE/SAC x PRICE/g' "$f"; done
+# Substituição global \u00D7 → x
+for f in *.md *.json *.mjs; do sed -i 's/SAC \u00D7 PRICE/SAC x PRICE/g' "$f"; done
 
 # Rigidificação do validate-spec.mjs:
 # - 'Preparar' inclui 'SAC x PRICE' (era 'SAC')
@@ -237,7 +237,7 @@ for f in *.md *.json *.mjs; do sed -i 's/SAC × PRICE/SAC x PRICE/g' "$f"; done
 # - 3 fontes: especificacao + matriz + wireframe
 # - Cross-check no contrato JSON
 # - Anti-substituição: padrão "Aba 1.X — SAC$" e "Aba 4.X — SAC$" falham
-# - Sinal "× PRICE" falha
+# - Sinal "\u00D7 PRICE" falha
 
 # Centralização do orçamento vertical (824px → ~5 referências centralizadas)
 sed -i 's/Cabe em 824px sem scrollbar vertical/Respeita o orçamento vertical da viewport (ver Especificação §7)/g' ...
@@ -275,7 +275,7 @@ Seções validadas com aprovação:
 4. ✓ Cenário financeiro fixo nos documentos (870.000 / 700.000 / 170.000 / 120 / 0,85% / 205,00 / 24.600)
 5. ✓ Cenário fixo no contrato JSON com flag IMUTAVEL = true
 6. ✓ Regra de comparação justa SAC x PRICE (mesmo_principal, mesmo_prazo, mesma_taxa)
-7. ✓ Regras de rolagem (824px, overflow, scrollbar, 1920×1080)
+7. ✓ Regras de rolagem (824px, overflow, scrollbar, 1920\u00D71080)
 8. ✓ Aurora Gradient Border com prefers-reduced-motion e limite de 2 por tela
 9. ✓ Critérios de aceite BLOQUEANTE e RECOMENDADO com colunas "Como Validar" e "Evidência Esperada"
 10. ✓ Matriz com campos Objetivo, Layout, Componentes, Critério de aceite e as 7 etapas
@@ -360,9 +360,9 @@ Exit code: 0
 O wireframe textual contém valores calculados (ex.: 1ª parcela SAC = R$3.066,67, juros 1ª parcela = R$1.445,00, última parcela = R$1.633,72, etc.) apresentados como referência para a especificação visual. Esses valores foram calculados manualmente:
 
 - Amortização SAC: 170.000 / 120 = **1.416,67**
-- Juros 1ª parcela: 170.000 × 0,0085 = **1.445,00**
+- Juros 1ª parcela: 170.000 \u00D7 0,0085 = **1.445,00**
 - 1ª parcela total: 1.416,67 + 1.445,00 + 205,00 = **3.066,67**
-- Última parcela: 1.416,67 + (1.416,67 × 0,0085) + 205,00 = 1.416,67 + 12,03 + 205,00 = **1.633,70** (arredondado para 1.633,72 no wireframe — variação de centavos aceitável)
+- Última parcela: 1.416,67 + (1.416,67 \u00D7 0,0085) + 205,00 = 1.416,67 + 12,03 + 205,00 = **1.633,70** (arredondado para 1.633,72 no wireframe — variação de centavos aceitável)
 
 O total de juros SAC (R$87.360) e o total pago SAC (R$281.960) são **valores de referência aproximados** para fins ilustrativos do wireframe. O cálculo exato depende do motor matemático do backend, que é a fonte oficial da verdade per CLAUDE.md. A especificação visual não substitui nem sobrescreve os cálculos do backend.
 
