@@ -43,3 +43,24 @@ Os prompts adaptados mantêm a intenção operacional dos anexos originais, mas 
 - autovalidação;
 - protocolo de falha;
 - resposta final.
+
+<!-- PEF-PROMPT-README-V2-AUDITAVEL-START -->
+
+## Reforços v2 — contrato operacional auditável
+
+A versão v2 endurece o uso do prompt com checklist para frentes que possam alterar repositório, branch, PR, documentação viva, auditor, pipeline ou artefato materializável.
+
+Além de missão, papel, contexto e formato, prompts operacionais devem declarar:
+
+- metadados do contrato;
+- estado de entrega esperado;
+- arquivos autorizados e arquivos proibidos;
+- cláusula anti-scope-creep;
+- critérios de aceite binários;
+- evidências completas com comando, diretório, saída e exit code;
+- protocolo de falha com limite de autocorreção;
+- separação explícita entre validação técnica e aceite humano do PO.
+
+Este reforço evita entregas aparentemente corretas, mas inauditáveis, fora de escopo ou baseadas em evidência parcial.
+
+<!-- PEF-PROMPT-README-V2-AUDITAVEL-END -->
