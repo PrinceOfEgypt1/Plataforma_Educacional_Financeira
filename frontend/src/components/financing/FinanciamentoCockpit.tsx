@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useState, type FormEvent } from "react";
 
 import { AlertBanner } from "@/components/ui/AlertBanner";
 import { describeApiError } from "@/lib/api/problem";
@@ -956,13 +956,22 @@ function ResultPanel({
   result,
   onBack,
   onOpen,
+  initialZone = 1,
 }: {
   readonly result: FinanciamentoImobOut;
   readonly onBack: () => void;
   readonly onOpen: (view: CockpitView) => void;
+  readonly initialZone?: ResultZone;
 }) {
   const { summary } = result;
-  const [activeZone, setActiveZone] = useState<ResultZone>(1);
+  const [activeZone, setActiveZone] = useState<ResultZone>(initialZone);
+
+  // Sincroniza quando o cockpit navega de outra view para resultado com zona específica.
+  // useEffect para navegação externa (ex: openResultZone(3) a partir de outra view).
+  // Para cliques dentro do ResultPanel, usamos setActiveZone diretamente (ver sidebar).
+  useEffect(() => {
+    setActiveZone(initialZone);
+  }, [initialZone]);
 
   const ZONES = [
     { n: 1 as ResultZone, label: "Resumo" },
@@ -978,6 +987,9 @@ function ResultPanel({
       data-testid="financiamento-result-panel"
     >
       {/* ── Sidebar lateral com cenário e insight cards ─────── */}
+      {/* onNavigateZone={setActiveZone}: direto no setter local — funciona
+           mesmo quando o usuário já estava na mesma zona (cliques repetidos).
+           Corrige o cenário: Ver CET → muda para outra zona → Ver CET novamente. */}
       <RealEstateScenarioSidebar
         result={result}
         onNavigate={onOpen as (view: string) => void}
@@ -1598,7 +1610,6 @@ export function FinanciamentoCockpit() {
   const [guidance, setGuidance] = useState<string | undefined>(undefined);
   const [simState, setSimState] = useState<SimulateResult>({ status: "idle" });
   const [cmpState, setCmpState] = useState<CompareResult>({ status: "idle" });
-
   const openView = useCallback(
     (nextView: CockpitView) => {
       setHistory((prev) => [...prev, view]);

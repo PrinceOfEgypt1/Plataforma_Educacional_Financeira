@@ -1529,4 +1529,248 @@ describe("Item 14A — Glossário, memória pedagógica, fontes e gráfico", () 
     // Deve haver no máximo 1 botão que mencione "fontes"
     expect(fontesButtons.length).toBeLessThanOrEqual(1);
   });
+  // ═══════════════════════════════════════════════════════════════
+  // ITEM 14E-F1 — Correções cirúrgicas UI/UX
+  // ═══════════════════════════════════════════════════════════════
+
+  it("14E-F1-01 — CTA 'Ver CET' da sidebar abre ResultPanel na Zona 3 (CET)", async () => {
+    vi.mocked(simularFinanciamentoImobiliario).mockResolvedValue(
+      makeResult("SAC"),
+    );
+    const user = await openSimulation();
+    await fillForm(user);
+    await user.click(screen.getByRole("button", { name: "Gerar simulação" }));
+    await waitFor(() =>
+      expect(
+        screen.getByTestId("financiamento-result-panel"),
+      ).toBeInTheDocument(),
+    );
+    // Clicar no CTA "Ver CET" da sidebar
+    const cetBtn = await screen.findByTestId("insight-card-cet");
+    await user.click(within(cetBtn).getByRole("button", { name: /Ver CET/i }));
+    // Deve ativar a aba da Zona 3 como selecionada
+    await waitFor(() => {
+      const tab3 = screen.getByRole("tab", { name: /Ir para Zona 3/i });
+      expect(tab3).toHaveAttribute("aria-selected", "true");
+    });
+    // E o painel da Zona 3 deve estar visível
+    expect(
+      screen.getByRole("tabpanel", { name: /Zona 3/i }),
+    ).toBeInTheDocument();
+  });
+
+  it("14E-F1-02 — CTA 'Ver interpretação' da sidebar abre ResultPanel na Zona 4 (Interpretação)", async () => {
+    vi.mocked(simularFinanciamentoImobiliario).mockResolvedValue(
+      makeResult("SAC"),
+    );
+    const user = await openSimulation();
+    await fillForm(user);
+    await user.click(screen.getByRole("button", { name: "Gerar simulação" }));
+    await waitFor(() =>
+      expect(
+        screen.getByTestId("financiamento-result-panel"),
+      ).toBeInTheDocument(),
+    );
+    // Clicar no CTA "Ver interpretação" da sidebar
+    const interpretBtn = await screen.findByTestId("insight-card-juros");
+    await user.click(
+      within(interpretBtn).getByRole("button", { name: /Ver interpretação/i }),
+    );
+    // Deve ativar a aba da Zona 4
+    await waitFor(() => {
+      const tab4 = screen.getByRole("tab", { name: /Ir para Zona 4/i });
+      expect(tab4).toHaveAttribute("aria-selected", "true");
+    });
+    // E o painel da Zona 4 deve estar visível
+    expect(
+      screen.getByRole("tabpanel", { name: /Zona 4/i }),
+    ).toBeInTheDocument();
+  });
+
+  it("14E-F1-03 — CTA 'Ver gráfico' da sidebar navega para Comparação (não regride para resultado)", async () => {
+    vi.mocked(simularFinanciamentoImobiliario).mockResolvedValue(
+      makeResult("SAC"),
+    );
+    vi.mocked(compararFinanciamentos).mockResolvedValue(compareResult);
+    const user = await openSimulation();
+    await fillForm(user);
+    await user.click(screen.getByRole("button", { name: "Gerar simulação" }));
+    await waitFor(() =>
+      expect(
+        screen.getByTestId("financiamento-result-panel"),
+      ).toBeInTheDocument(),
+    );
+    // O CTA "Ver gráfico" chama onNavigate("comparacao") e navega para a view de comparação.
+    // Como não há dados de comparação ainda, deve mostrar o estado de resultado pendente
+    // (LockedPanel ou disparo de compararFinanciamentos via handleCompare via barra de ação).
+    // Prova de não-regressão: resultado não está mais visível após o clique.
+    const graficoBtn = await screen.findByTestId("insight-card-comparacao");
+    await user.click(
+      within(graficoBtn).getByRole("button", { name: /Ver gráfico/i }),
+    );
+    // Após o clique, ResultPanel não deve mais estar visível
+    await waitFor(() =>
+      expect(
+        screen.queryByTestId("financiamento-result-panel"),
+      ).not.toBeInTheDocument(),
+    );
+    // A view de Resultado não deve estar mais presente — usuário saiu dela
+    expect(
+      screen.queryByTestId("financiamento-result-panel"),
+    ).not.toBeInTheDocument();
+  });
+
+  it("14E-F1-04 — loading state: 'Gerar simulação' exibe 'Gerando...' e botão fica desabilitado", async () => {
+    // Mock que fica pendente para capturar o estado de loading
+    let resolveSimulation!: (v: FinanciamentoImobOut) => void;
+    vi.mocked(simularFinanciamentoImobiliario).mockImplementationOnce(
+      () =>
+        new Promise<FinanciamentoImobOut>((resolve) => {
+          resolveSimulation = resolve;
+        }),
+    );
+    const user = await openSimulation();
+    await fillForm(user);
+    // Clicar em "Gerar simulação" — não aguardar resolução
+    await user.click(screen.getByRole("button", { name: "Gerar simulação" }));
+    // Imediatamente após o clique, o botão deve estar desabilitado e mostrar "Gerando..."
+    const btn = screen.getByTestId("financiamento-submit");
+    expect(btn).toBeDisabled();
+    expect(btn).toHaveTextContent(/Gerando/i);
+    // Resolver o mock para evitar act() warning (estado pendente)
+    resolveSimulation(makeResult("SAC"));
+    await waitFor(() =>
+      expect(
+        screen.getByTestId("financiamento-result-panel"),
+      ).toBeInTheDocument(),
+    );
+  });
+
+  it("14E-F1-05 — API error state: simularFinanciamentoImobiliario rejeitado exibe AlertBanner", async () => {
+    vi.mocked(simularFinanciamentoImobiliario).mockRejectedValueOnce({
+      status: 422,
+      title: "Erro de validação da API",
+      detail: "Parâmetros inválidos",
+    });
+    const user = await openSimulation();
+    await fillForm(user);
+    await user.click(screen.getByRole("button", { name: "Gerar simulação" }));
+    // Deve aparecer um AlertBanner com título de erro
+    await waitFor(() =>
+      expect(screen.getByText(/Erro na simulação/i)).toBeInTheDocument(),
+    );
+  });
+
+  it("14E-F1-06 — sidebar possui classe responsiva hidden lg:flex (oculta em mobile)", async () => {
+    vi.mocked(simularFinanciamentoImobiliario).mockResolvedValue(
+      makeResult("SAC"),
+    );
+    const user = await openSimulation();
+    await fillForm(user);
+    await user.click(screen.getByRole("button", { name: "Gerar simulação" }));
+    await waitFor(() =>
+      expect(
+        screen.getByTestId("financiamento-result-panel"),
+      ).toBeInTheDocument(),
+    );
+    const sidebar = screen.getByTestId("observatory-sidebar");
+    // Verificar que a sidebar tem a classe responsiva que a oculta em mobile
+    expect(sidebar.className).toMatch(/hidden/);
+    expect(sidebar.className).toMatch(/lg:flex/);
+  });
+  // ═══════════════════════════════════════════════════════════════
+  // ITEM 14E-F1-A — Robustez de navegação de zonas (clique repetido)
+  // ═══════════════════════════════════════════════════════════════
+
+  it("14E-F1A-01 — 'Ver CET' funciona mesmo após troca manual de zona (clique repetido)", async () => {
+    vi.mocked(simularFinanciamentoImobiliario).mockResolvedValue(
+      makeResult("SAC"),
+    );
+    const user = await openSimulation();
+    await fillForm(user);
+    await user.click(screen.getByRole("button", { name: "Gerar simulação" }));
+    await waitFor(() =>
+      expect(
+        screen.getByTestId("financiamento-result-panel"),
+      ).toBeInTheDocument(),
+    );
+
+    // 1ª vez: clicar em "Ver CET" → Zona 3 deve ativar
+    const cetBtn = await screen.findByTestId("insight-card-cet");
+    await user.click(within(cetBtn).getByRole("button", { name: /Ver CET/i }));
+    await waitFor(() => {
+      expect(
+        screen.getByRole("tab", { name: /Ir para Zona 3/i }),
+      ).toHaveAttribute("aria-selected", "true");
+    });
+
+    // Mudar manualmente para Zona 2
+    await user.click(screen.getByRole("tab", { name: /Ir para Zona 2/i }));
+    await waitFor(() => {
+      expect(
+        screen.getByRole("tab", { name: /Ir para Zona 2/i }),
+      ).toHaveAttribute("aria-selected", "true");
+    });
+    // Zona 3 não deve mais estar selecionada
+    expect(
+      screen.getByRole("tab", { name: /Ir para Zona 3/i }),
+    ).toHaveAttribute("aria-selected", "false");
+
+    // 2ª vez: clicar novamente em "Ver CET" — deve voltar à Zona 3
+    await user.click(within(cetBtn).getByRole("button", { name: /Ver CET/i }));
+    await waitFor(() => {
+      expect(
+        screen.getByRole("tab", { name: /Ir para Zona 3/i }),
+      ).toHaveAttribute("aria-selected", "true");
+    });
+    expect(
+      screen.getByRole("tabpanel", { name: /Zona 3/i }),
+    ).toBeInTheDocument();
+  });
+
+  it("14E-F1A-02 — 'Ver interpretação' funciona mesmo após troca manual de zona (clique repetido)", async () => {
+    vi.mocked(simularFinanciamentoImobiliario).mockResolvedValue(
+      makeResult("SAC"),
+    );
+    const user = await openSimulation();
+    await fillForm(user);
+    await user.click(screen.getByRole("button", { name: "Gerar simulação" }));
+    await waitFor(() =>
+      expect(
+        screen.getByTestId("financiamento-result-panel"),
+      ).toBeInTheDocument(),
+    );
+
+    // 1ª vez: clicar em "Ver interpretação" → Zona 4 deve ativar
+    const interpBtn = await screen.findByTestId("insight-card-juros");
+    await user.click(
+      within(interpBtn).getByRole("button", { name: /Ver interpretação/i }),
+    );
+    await waitFor(() => {
+      expect(
+        screen.getByRole("tab", { name: /Ir para Zona 4/i }),
+      ).toHaveAttribute("aria-selected", "true");
+    });
+
+    // Mudar manualmente para Zona 1
+    await user.click(screen.getByRole("tab", { name: /Ir para Zona 1/i }));
+    await waitFor(() => {
+      expect(
+        screen.getByRole("tab", { name: /Ir para Zona 1/i }),
+      ).toHaveAttribute("aria-selected", "true");
+    });
+
+    // 2ª vez: clicar novamente em "Ver interpretação" — deve voltar à Zona 4
+    await user.click(
+      within(interpBtn).getByRole("button", { name: /Ver interpretação/i }),
+    );
+    await waitFor(() => {
+      expect(
+        screen.getByRole("tab", { name: /Ir para Zona 4/i }),
+      ).toHaveAttribute("aria-selected", "true");
+    });
+    expect(
+      screen.getByRole("tabpanel", { name: /Zona 4/i }),
+    ).toBeInTheDocument();
+  });
 });
