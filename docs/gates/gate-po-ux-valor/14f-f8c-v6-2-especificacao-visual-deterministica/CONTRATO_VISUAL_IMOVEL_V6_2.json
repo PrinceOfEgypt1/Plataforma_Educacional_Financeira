@@ -51,10 +51,10 @@
       "tipo": "abas_internas_contextuais",
       "altura_tab_bar_max_px": 48,
       "abas_por_etapa": {
-        "preparar":  ["Visão Geral", "Entrada", "Valor Financiado", "SAC × PRICE", "Cuidados"],
+        "preparar":  ["Visão Geral", "Entrada", "Valor Financiado", "SAC x PRICE", "Cuidados"],
         "simular":   ["Dados do Imóvel", "Condições", "Custos", "Sistema", "Resumo"],
         "resultado": ["Resumo", "Cenário", "Alertas", "Interpretação"],
-        "entender":  ["Parcela", "Amortização", "Juros", "Saldo Devedor", "SAC × PRICE"],
+        "entender":  ["Parcela", "Amortização", "Juros", "Saldo Devedor", "SAC x PRICE"],
         "comparar":  ["Resumo Comparativo", "Tabela SAC", "Tabela PRICE", "Gráfico", "Leitura Pedagógica"],
         "conferir":  ["Fórmulas SAC", "Fórmulas PRICE", "Variáveis", "Passo a Passo", "Auditoria"],
         "decidir":   ["Diagnóstico", "Checklist", "Próximos Passos", "Cuidados", "Conclusão"]

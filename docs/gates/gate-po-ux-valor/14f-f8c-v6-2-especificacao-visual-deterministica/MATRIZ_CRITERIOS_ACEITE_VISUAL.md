@@ -1,7 +1,7 @@
 # Matriz de Critérios de Aceite Visual — Módulo Imóvel
 
-**Item:** 14F-F8C-v6.2  
-**Status:** Aguardando aprovação do PO  
+**Item:** 14F-F8C-v6.2
+**Status:** Aguardando aprovação do PO
 
 ---
 
@@ -108,7 +108,7 @@
 
 | ID | Critério | Tipo | Como Validar | Evidência Esperada |
 |---|---|---|---|---|
-| GR-01 | Gráfico de comparação SAC × PRICE presente na aba 5.4 | BLOQUEANTE | Verificar presença do gráfico | Gráfico de barras com 3 grupos (total pago, juros, encargos) |
+| GR-01 | Gráfico de comparação SAC x PRICE presente na aba 5.4 | BLOQUEANTE | Verificar presença do gráfico | Gráfico de barras com 3 grupos (total pago, juros, encargos) |
 | GR-02 | Gráfico de evolução do saldo devedor presente na aba 4.4 | BLOQUEANTE | Verificar presença do gráfico | Gráfico de linha com 2 séries (SAC e PRICE) |
 | GR-03 | Gráfico de composição de parcela presente na aba 4.1 | BLOQUEANTE | Verificar presença do gráfico | Gráfico de pizza ou área com 3 fatias (amortização, juros, encargos) |
 | GR-04 | Legenda presente e legível em todos os gráficos | BLOQUEANTE | Verificar legenda em cada gráfico | Legenda com font-size ≥ 12px e contraste suficiente |
@@ -128,7 +128,7 @@
 | CF-05 | Taxa mensal = 0,85% a.m. em todo o módulo | BLOQUEANTE | Busca textual + verificação visual | 0,85% a.m. em todas as ocorrências |
 | CF-06 | Encargos mensais = R$ 205,00 em todo o módulo | BLOQUEANTE | Busca textual + verificação visual | R$ 205,00/mês em todas as ocorrências |
 | CF-07 | Encargos totais = R$ 24.600,00 (205 × 120) em todo o módulo | BLOQUEANTE | Verificação matemática + visual | R$ 24.600,00 em todas as ocorrências de total de encargos |
-| CF-08 | Comparação SAC × PRICE usa mesma taxa (0,85%), mesmo prazo (120), mesmo principal (170.000) | BLOQUEANTE | Verificar parâmetros das duas tabelas | Tabela SAC e tabela PRICE com parâmetros idênticos |
+| CF-08 | Comparação SAC x PRICE usa mesma taxa (0,85%), mesmo prazo (120), mesmo principal (170.000) | BLOQUEANTE | Verificar parâmetros das duas tabelas | Tabela SAC e tabela PRICE com parâmetros idênticos |
 
 ---
 

@@ -1,15 +1,15 @@
 # Design System Determinístico — Módulo Imóvel
 
-**Item:** 14F-F8C-v6.2  
-**Escopo:** Tokens, tipografia, paleta, componentes, regras de uso  
-**Status:** Aguardando aprovação do PO  
+**Item:** 14F-F8C-v6.2
+**Escopo:** Tokens, tipografia, paleta, componentes, regras de uso
+**Status:** Aguardando aprovação do PO
 
 ---
 
 ## 1. Fonte
 
-**Família:** Manrope  
-**Fallback:** `system-ui, -apple-system, sans-serif`  
+**Família:** Manrope
+**Fallback:** `system-ui, -apple-system, sans-serif`
 **Import:** `https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap`
 
 Nenhuma outra fonte é permitida neste módulo.
@@ -172,7 +172,7 @@ Nenhuma outra fonte é permitida neste módulo.
 └─────────────────────────────────────────────────────┘
 ```
 
-**Total:** 64 + 56 + 48 + 824 + 56 = 1048px ≤ 1080px ✓  
+**Total:** 64 + 56 + 48 + 824 + 56 = 1048px ≤ 1080px ✓
 **Margem de segurança:** 32px (padding top/bottom do conteúdo)
 
 ---
@@ -447,7 +447,7 @@ O Aurora Gradient Border é uma borda animada com gradiente iridescente que conf
 
 | Gráfico | Etapa/Aba | Tipo | Dados |
 |---|---|---|---|
-| Comparação SAC × PRICE (total pago, juros, encargos) | 5 — Comparar / Gráfico | Barras agrupadas ou stacked | Total pago, juros totais, encargos totais |
+| Comparação SAC x PRICE (total pago, juros, encargos) | 5 — Comparar / Gráfico | Barras agrupadas ou stacked | Total pago, juros totais, encargos totais |
 | Evolução do saldo devedor | 4 — Entender / Saldo Devedor | Linha | Saldo SAC vs saldo PRICE ao longo dos 120 meses |
 | Composição da parcela | 4 — Entender / Parcela | Área empilhada ou pizza de parcela específica | Amortização + Juros + Encargos da parcela selecionada |
 

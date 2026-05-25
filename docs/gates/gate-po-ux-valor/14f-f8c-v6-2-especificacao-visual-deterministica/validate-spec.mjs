@@ -110,42 +110,127 @@ if (especificacao) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 3. Presença das abas obrigatórias por etapa
+// 3. Presença das abas obrigatórias por etapa — NOME EXATO
 // ─────────────────────────────────────────────────────────────────────────────
-section('3. Presença das abas obrigatórias por etapa');
+section('3. Presença das abas obrigatórias por etapa (nome exato)');
 
+// Nome canônico das abas. "SAC x PRICE" usa a letra "x" minúscula como
+// separador, NÃO o sinal de multiplicação "×". Isto é exigência da auditoria.
 const abasObrigatorias = {
-  'Preparar':  ['Visão Geral', 'Entrada', 'Valor Financiado', 'SAC', 'Cuidados'],
+  'Preparar':  ['Visão Geral', 'Entrada', 'Valor Financiado', 'SAC x PRICE', 'Cuidados'],
   'Simular':   ['Dados do Imóvel', 'Condições', 'Custos', 'Sistema', 'Resumo'],
   'Resultado': ['Resumo', 'Cenário', 'Alertas', 'Interpretação'],
-  'Entender':  ['Parcela', 'Amortização', 'Juros', 'Saldo Devedor'],
+  'Entender':  ['Parcela', 'Amortização', 'Juros', 'Saldo Devedor', 'SAC x PRICE'],
   'Comparar':  ['Resumo Comparativo', 'Tabela SAC', 'Tabela PRICE', 'Gráfico', 'Leitura Pedagógica'],
   'Conferir':  ['Fórmulas SAC', 'Fórmulas PRICE', 'Variáveis', 'Passo a Passo', 'Auditoria'],
-  'Decidir':   ['Diagnóstico', 'Checklist', 'Próximos Passos', 'Conclusão'],
+  'Decidir':   ['Diagnóstico', 'Checklist', 'Próximos Passos', 'Cuidados', 'Conclusão'],
 };
 
-if (wireframe) {
+// Documentos onde a presença das abas por nome EXATO é obrigatória.
+const docsObrigatoriosParaAbas = {
+  'ESPECIFICACAO_VISUAL_DETERMINISTICA_IMOVEL.md': especificacao,
+  'MATRIZ_ETAPAS_ABAS_COMPONENTES.md': matriz,
+  'WIREFRAME_TEXTUAL_DETERMINISTICO.md': wireframe,
+};
+
+for (const [filename, content] of Object.entries(docsObrigatoriosParaAbas)) {
+  if (!content) {
+    fail(`${filename}: documento não pôde ser lido`);
+    continue;
+  }
   for (const [etapa, abas] of Object.entries(abasObrigatorias)) {
     for (const aba of abas) {
-      if (wireframe.includes(aba)) {
-        pass(`Aba "${aba}" (${etapa}) presente no wireframe`);
+      // Match EXATO (substring direto, sem regex que pudesse mascarar).
+      if (content.includes(aba)) {
+        pass(`Aba "${aba}" (${etapa}) presente em ${filename}`);
       } else {
-        fail(`Aba "${aba}" (${etapa}) ausente em WIREFRAME_TEXTUAL_DETERMINISTICO.md`);
+        fail(`Aba obrigatória ausente por nome EXATO: "${aba}" (etapa ${etapa}) em ${filename}`);
       }
     }
   }
 }
 
-if (matriz) {
-  for (const [etapa, abas] of Object.entries(abasObrigatorias)) {
-    for (const aba of abas) {
-      if (matriz.includes(aba)) {
-        pass(`Aba "${aba}" presente na MATRIZ_ETAPAS_ABAS_COMPONENTES`);
-      } else {
-        fail(`Aba "${aba}" ausente em MATRIZ_ETAPAS_ABAS_COMPONENTES.md`);
+// Verificação adicional no CONTRATO JSON: abas por nome exato na estrutura.
+if (contrato) {
+  try {
+    const obj = JSON.parse(contrato);
+    const abasPorEtapa = obj?.arquitetura_navegacao?.camada_2?.abas_por_etapa;
+    if (abasPorEtapa) {
+      const mapEtapaParaKey = {
+        'Preparar':  'preparar',
+        'Simular':   'simular',
+        'Resultado': 'resultado',
+        'Entender':  'entender',
+        'Comparar':  'comparar',
+        'Conferir':  'conferir',
+        'Decidir':   'decidir',
+      };
+      for (const [etapa, abas] of Object.entries(abasObrigatorias)) {
+        const key = mapEtapaParaKey[etapa];
+        const abasContrato = abasPorEtapa[key] || [];
+        for (const aba of abas) {
+          if (abasContrato.includes(aba)) {
+            pass(`Contrato JSON: aba "${aba}" presente em ${key}[]`);
+          } else {
+            fail(`Contrato JSON: aba "${aba}" ausente em arquitetura_navegacao.camada_2.abas_por_etapa.${key} (esperado match exato)`);
+          }
+        }
       }
     }
+  } catch (e) {
+    fail(`Contrato JSON: erro ao validar abas — ${e.message}`);
   }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 3.B. ANTI-SUBSTITUIÇÃO: "SAC" sozinho como aba em Preparar/Entender é proibido
+// ─────────────────────────────────────────────────────────────────────────────
+section('3.B. Anti-substituição: "SAC" sozinho não pode substituir "SAC x PRICE"');
+
+// Detecta padrões como "Aba 1.X — SAC" ou "Aba 4.X — SAC" sem "x PRICE" depois.
+// Cobre formatos comuns do wireframe e da matriz:
+//   ### Aba 1.4 — SAC
+//   ### Aba 4.5 — SAC
+//   ### Aba 1.4 — SAC × PRICE  (também proibido se ainda restasse)
+const padroesSubstituicao = [
+  // wireframe: "### Aba 1.X — SAC" sem "x PRICE"
+  /^#{1,6}\s*Aba\s+1\.\d+\s*[—–-]\s*SAC\s*$/m,
+  /^#{1,6}\s*Aba\s+4\.\d+\s*[—–-]\s*SAC\s*$/m,
+  // matriz: "### Aba 1.X — SAC" sem "x PRICE"
+  // padrão de tabela markdown: "| Aba 1.4 | SAC |" sem "x PRICE"
+  // Detecta também o sinal de multiplicação como alerta (não deveria mais existir)
+  /^#{1,6}\s*Aba\s+1\.\d+\s*[—–-]\s*SAC\s*×\s*PRICE/m,
+  /^#{1,6}\s*Aba\s+4\.\d+\s*[—–-]\s*SAC\s*×\s*PRICE/m,
+];
+
+for (const [filename, content] of Object.entries(docsObrigatoriosParaAbas)) {
+  if (!content) continue;
+  let problemasNoArquivo = 0;
+  for (const padrao of padroesSubstituicao) {
+    if (padrao.test(content)) {
+      const linhaIdx = content.split('\n').findIndex(l => padrao.test(l));
+      fail(`${filename}:${linhaIdx + 1} — padrão proibido detectado: ${padrao}`);
+      problemasNoArquivo++;
+    }
+  }
+  if (problemasNoArquivo === 0) {
+    pass(`${filename}: sem substituição "SAC" sozinho nas abas Preparar/Entender`);
+  }
+}
+
+// Adicional: contar substring "× PRICE" para garantir zero ocorrências do
+// caractere de multiplicação (que invalida a busca exata da auditoria).
+let totalMultiplicacao = 0;
+for (const [filename, content] of Object.entries(docsObrigatoriosParaAbas)) {
+  if (!content) continue;
+  const matches = content.match(/× PRICE/g) || [];
+  if (matches.length > 0) {
+    fail(`${filename}: ${matches.length} ocorrência(s) do sinal "×" (multiplicação) em "× PRICE" — deveria ser "x" (letra)`);
+    totalMultiplicacao += matches.length;
+  }
+}
+if (totalMultiplicacao === 0) {
+  pass('Nenhuma ocorrência do sinal "×" (multiplicação) em "× PRICE" — usar sempre letra "x"');
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -210,9 +295,9 @@ if (contrato) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 5. Regra de comparação justa SAC × PRICE
+// 5. Regra de comparação justa SAC x PRICE
 // ─────────────────────────────────────────────────────────────────────────────
-section('5. Regra de comparação justa SAC × PRICE');
+section('5. Regra de comparação justa SAC x PRICE');
 
 const regraJustaCandidatos = [especificacao, wireframe, criterios, contrato];
 const termosJustaComparacao = [

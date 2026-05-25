@@ -1,10 +1,10 @@
 # Especificação Visual Determinística — Módulo Financiamento Imobiliário
 
-**Item:** 14F-F8C-v6.2  
-**Gate:** PO/UX/Valor  
-**Status:** Especificação aguardando aprovação visual do PO  
-**Base:** `origin/gate-po-ux-valor/item-14f-f8c-fidelidade-visual-wireframe-imovel` (`2acd1cc`)  
-**Data:** 2026-05-25  
+**Item:** 14F-F8C-v6.2
+**Gate:** PO/UX/Valor
+**Status:** Especificação aguardando aprovação visual do PO
+**Base:** `origin/gate-po-ux-valor/item-14f-f8c-fidelidade-visual-wireframe-imovel` (`2acd1cc`)
+**Data:** 2026-05-25
 
 ---
 
@@ -24,7 +24,7 @@ Causa raiz documentada: liberdade criativa excessiva das IAs implementadoras, le
 5. Tabelas ilegíveis com microtexto e colunas desalinhadas.
 6. Campos de formulário desalinhados.
 7. Alteração indevida do cenário financeiro demonstrativo.
-8. Comparação SAC × PRICE com base inconsistente (taxas diferentes).
+8. Comparação SAC x PRICE com base inconsistente (taxas diferentes).
 9. Uso insuficiente de abas internas.
 10. Ausência de Aurora/Gradient Border estratégico.
 11. Entrega autodeclarada como correta sem evidência visual suficiente.
@@ -85,7 +85,7 @@ O cenário financeiro demonstrativo abaixo é **fixo e imutável**. Nenhuma IA i
 | Sistema principal | SAC |
 | Comparação secundária | PRICE |
 
-**Regra de comparação SAC × PRICE:**
+**Regra de comparação SAC x PRICE:**
 
 A comparação deve usar base justa:
 - Mesmo principal (R$ 170.000,00).
@@ -132,7 +132,7 @@ Ver Seção 6 para lista completa de abas por etapa.
 1. Visão Geral
 2. Entrada
 3. Valor Financiado
-4. SAC × PRICE
+4. SAC x PRICE
 5. Cuidados
 
 ### Etapa 2 — Simular
@@ -153,7 +153,7 @@ Ver Seção 6 para lista completa de abas por etapa.
 2. Amortização
 3. Juros
 4. Saldo Devedor
-5. SAC × PRICE
+5. SAC x PRICE
 
 ### Etapa 5 — Comparar
 1. Resumo Comparativo
@@ -207,7 +207,7 @@ Em desktop 1920×1080, cada combinação "etapa + aba ativa" deve caber na viewp
 - Navegação inferior compacta (máx. 56px).
 - Densidade visual útil: sem padding excessivo, sem gap excessivo.
 
-### Cálculo de Orçamento Vertical Disponível
+### Cálculo de Orçamento Vertical Disponível (Referência Arquitetural)
 
 ```
 Viewport: 1080px
@@ -219,7 +219,28 @@ Viewport: 1080px
 = Área útil de conteúdo: ~824px
 ```
 
-Cada tela deve projetar seu layout dentro de 824px de altura útil.
+Este valor de **~824px** é uma **referência arquitetural centralizada**, derivada
+do orçamento vertical da viewport desktop 1920×1080 menos os elementos
+estruturais persistentes (header, stepper, tab bar, navegação). **Não é uma
+altura fixa a ser hardcoded em cada aba ou componente.**
+
+### Como cada tela deve respeitar o orçamento
+
+- A meta é **caber na viewport** sem scrollbar vertical no `body`, não atingir
+  uma altura específica em pixels.
+- A solução estrutural correta é **composição proporcional**: abas internas,
+  paginação de tabelas (8–10 linhas), gráficos com altura proporcional, cards
+  com altura definida por tokens, densidade visual útil.
+- **Proibido** prender conteúdo em `height: 824px` ou `max-height: 824px` por
+  aba como forma de forçar o ajuste — isso é antipadrão.
+- **Proibido** `overflow: hidden` em containers para esconder conteúdo
+  excedente; o conteúdo deve caber por design, não por corte.
+- A referência ~824px serve apenas para **dimensionar o design**, não para
+  travá-lo no DOM/CSS.
+
+Critérios de aceite das telas individuais referenciam esta seção (não repetem
+o valor numérico), garantindo que uma eventual revisão do header/stepper/nav
+recalcule o orçamento em um único lugar.
 
 ---
 
@@ -245,7 +266,7 @@ Cada tela deve projetar seu layout dentro de 824px de altura útil.
 
 ### Fonte
 
-**Manrope** — única fonte permitida.  
+**Manrope** — única fonte permitida.
 Fallback: `system-ui, sans-serif`.
 
 ### Regra de Contraste (Absoluta)
@@ -268,7 +289,7 @@ Em fundo escuro ou cor forte (navy, deep-blue, royal-blue, violet, purple):
 | 2 — Simular | Capturar os dados do financiamento | Formulário distribuído em abas |
 | 3 — Resultado | Exibir o resultado calculado da simulação | Cards de KPI, alertas, interpretação |
 | 4 — Entender | Explicar os componentes financeiros | Cards explicativos, mini-gráficos |
-| 5 — Comparar | Comparar SAC × PRICE com base justa | Tabelas paginadas, gráfico comparativo |
+| 5 — Comparar | Comparar SAC x PRICE com base justa | Tabelas paginadas, gráfico comparativo |
 | 6 — Conferir | Apresentar as fórmulas e auditoria | Fórmulas tipografadas, tabela variáveis |
 | 7 — Decidir | Apoiar a decisão do usuário | Checklist, diagnóstico, CTAs finais |
 
