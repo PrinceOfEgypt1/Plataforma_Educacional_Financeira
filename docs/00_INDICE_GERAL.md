@@ -189,3 +189,17 @@ Resultado: reprovação visual pelo PO. O auditor UI/UX automático permanece ze
 - `docs/gates/gate-po-ux-valor/14f/09-redesenho-tecnico-funcional-jornada-imovel/PROMPT_BASE_IMPLEMENTACAO_POS_F7_IMOVEL_ITEM_14F_F7.md`
 
 Resultado: especificação de redesenho técnico-funcional da jornada do módulo Imóvel, derivada da reprovação visual F6 e integrada a requisitos de rastreabilidade numérica, arredondamento, arquitetura de informação, critérios de aceite e prompt base para futura implementação.
+
+## Governança de Prompts — Prompt com Checklist Operacional
+
+Artefatos oficiais para padronizar prompts operacionais como contratos auditáveis, com missão, papel da IA, contexto, fontes obrigatórias, escopo permitido, escopo proibido, invariantes, entregáveis, critérios de aceite, autovalidação, evidências, protocolo de falha e separação entre autovalidação técnica e aceite humano.
+
+- Template oficial: `docs/governance/prompts/TEMPLATE_PROMPT_COM_CHECKLIST_OPERACIONAL.md`
+- Guia de uso: `docs/governance/prompts/README.md`
+- Contrato estrutural de exemplo: `docs/governance/prompts/contracts/EXEMPLO_DELIVERY_CONTRACT.json`
+- Validação estrutural da instalação: `docs/governance/prompts/VALIDACAO_INSTALACAO_PROMPT_CHECKLIST.md`
+- Exemplo adaptado — F8C-v6.2 Especificação Visual Determinística: `docs/governance/prompts/exemplos/PEF_F8C_v6_2_PROMPT_ESPECIFICACAO_VISUAL_DETERMINISTICA__CHECKLIST.md`
+- Exemplo adaptado — Sprint 4/F2 Diagnóstico Financeiro API: `docs/governance/prompts/exemplos/PEF_SPRINT_4_F2_DIAGNOSTICO_API__PROMPT_CHECKLIST.md`
+- Script de validação estrutural de entregas IA: `scripts/governance/validate-ai-delivery.mjs`
+
+Observação de governança: o script valida estrutura, escopo, presença de arquivos, textos obrigatórios e violações objetivas. Ele não substitui auditoria técnica, aceite visual humano, validação pedagógica, revisão de produto ou decisão do PO.
