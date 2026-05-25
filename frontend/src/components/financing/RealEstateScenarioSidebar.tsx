@@ -21,8 +21,8 @@ import type { ResultZone } from "./FinanciamentoCockpit";
 interface RealEstateScenarioSidebarProps {
   readonly result: FinanciamentoImobOut;
   readonly onNavigate: (view: string) => void;
-  /** Navegar diretamente para ResultPanel em zona específica, preservando fallback seguro. */
-  readonly onNavigateZone?: (zone: ResultZone) => void;
+  /** Navegar diretamente para ResultPanel em zona específica prometida pelo CTA. */
+  readonly onNavigateZone: (zone: ResultZone) => void;
 }
 
 function ScenarioRow({
@@ -135,8 +135,7 @@ export function RealEstateScenarioSidebar({
   onNavigateZone,
 }: RealEstateScenarioSidebarProps) {
   const { summary } = result;
-  const navigateZone = onNavigateZone ?? (() => onNavigate("resultado"));
-  const insights = buildInsightCards(summary, onNavigate, navigateZone);
+  const insights = buildInsightCards(summary, onNavigate, onNavigateZone);
 
   return (
     <aside
