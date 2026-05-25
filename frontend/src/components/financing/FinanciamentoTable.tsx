@@ -274,32 +274,88 @@ export function FinanciamentoTable({
             data-testid="financiamento-parcela-detalhe-legacy"
           >
             <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-emerald-200/80">
-              Resumo do bloco
+              Resumo do bloco atual
             </p>
             <h4 className="mt-1 text-sm font-semibold">
-              Faixa {firstVisible}-{lastVisible}
+              Parcelas {firstVisible}–{lastVisible}
             </h4>
-            <dl className="mt-3 space-y-2">
-              <div className="flex justify-between gap-3">
-                <dt>Parcelas no prazo</dt>
-                <dd className="font-semibold">{parcelas.length}</dd>
+
+            <dl className="mt-3 space-y-2.5">
+              <div>
+                <dt className="text-[11px] font-semibold text-emerald-200/90">
+                  Primeira parcela do bloco
+                </dt>
+                <dd className="mt-0.5 font-semibold">
+                  {formatBRL(visibleParcelas[0]?.prestacao ?? "0.00")}
+                </dd>
               </div>
-              <div className="flex justify-between gap-3">
-                <dt>Total de juros</dt>
-                <dd className="font-semibold">{formatBRL(totalJuros)}</dd>
+
+              <div>
+                <dt className="text-[11px] font-semibold text-emerald-200/90">
+                  Última parcela do bloco
+                </dt>
+                <dd className="mt-0.5 font-semibold">
+                  {formatBRL(
+                    visibleParcelas[visibleParcelas.length - 1]?.prestacao ??
+                      "0.00",
+                  )}
+                </dd>
               </div>
-              <div className="flex justify-between gap-3">
-                <dt>Total pago</dt>
-                <dd className="font-semibold">{formatBRL(totalPago)}</dd>
-              </div>
-              <div className="flex justify-between gap-3">
-                <dt>Saldo final</dt>
-                <dd className="font-semibold">{formatBRL(saldoFinal)}</dd>
+
+              <div className="pt-2 border-t border-emerald-300/20">
+                <dt className="text-[11px] font-semibold text-emerald-200/90">
+                  Totais do contrato
+                </dt>
+                <dd className="mt-1 space-y-1">
+                  <div className="flex justify-between gap-2">
+                    <span className="opacity-75">Parcelas:</span>
+                    <span className="font-semibold">{parcelas.length}</span>
+                  </div>
+                  <div className="flex justify-between gap-2">
+                    <span className="opacity-75">Juros:</span>
+                    <span className="font-semibold">
+                      {formatBRL(totalJuros)}
+                    </span>
+                  </div>
+                  <div className="flex justify-between gap-2">
+                    <span className="opacity-75">Total pago:</span>
+                    <span className="font-semibold">
+                      {formatBRL(totalPago)}
+                    </span>
+                  </div>
+                  <div className="flex justify-between gap-2">
+                    <span className="opacity-75">Saldo final:</span>
+                    <span className="font-semibold">
+                      {formatBRL(saldoFinal)}
+                    </span>
+                  </div>
+                </dd>
               </div>
             </dl>
-            <p className="mt-3 leading-5 text-emerald-50/75">
-              Todos os dados permanecem disponíveis. A interface mostra faixas
-              compactas para caber no painel sem rolagem horizontal da página.
+
+            {/* Leitura pedagógica do bloco */}
+            <div className="mt-3 pt-3 border-t border-emerald-300/20">
+              <p className="text-[11px] leading-5 text-emerald-50/85">
+                {summary?.sistema_amortizacao === "SAC" ? (
+                  <>
+                    <strong>Leitura SAC:</strong> Neste sistema, a amortização é
+                    constante e os juros caem progressivamente conforme o saldo
+                    devedor diminui. Por isso a parcela reduz ao longo do tempo.
+                  </>
+                ) : (
+                  <>
+                    <strong>Leitura PRICE:</strong> A prestação financeira
+                    (juros + amortização) permanece constante. No início, a
+                    maior parte vai para juros; no final, a maior parte amortiza
+                    o saldo.
+                  </>
+                )}
+              </p>
+            </div>
+
+            <p className="mt-3 text-[11px] leading-5 text-emerald-50/65">
+              Use a navegação acima para explorar outras faixas. Todas as{" "}
+              {parcelas.length} parcelas estão preservadas no modelo.
             </p>
           </aside>
         )}

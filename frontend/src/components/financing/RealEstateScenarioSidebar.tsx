@@ -16,12 +16,13 @@ import type {
 } from "@/types/financing";
 
 import { RealEstateInsightCard } from "./RealEstateInsightCard";
+import type { ResultZone } from "./FinanciamentoCockpit";
 
 interface RealEstateScenarioSidebarProps {
   readonly result: FinanciamentoImobOut;
   readonly onNavigate: (view: string) => void;
-  /** Setter direto da zona ativa do ResultPanel — garante troca imediata */
-  readonly onNavigateZone: (zone: 1 | 2 | 3 | 4 | 5) => void;
+  /** Navegar diretamente para ResultPanel em zona específica prometida pelo CTA. */
+  readonly onNavigateZone: (zone: ResultZone) => void;
 }
 
 function ScenarioRow({
@@ -77,7 +78,7 @@ function ResultPill({
 function buildInsightCards(
   summary: FinanciamentoImobSummary,
   onNavigate: (view: string) => void,
-  onNavigateZone: (zone: 1 | 2 | 3 | 4 | 5) => void,
+  onNavigateZone: (zone: ResultZone) => void,
 ) {
   const totalJuros = parseFloat(summary.total_juros);
   const valorFinanciado = parseFloat(summary.valor_financiado);

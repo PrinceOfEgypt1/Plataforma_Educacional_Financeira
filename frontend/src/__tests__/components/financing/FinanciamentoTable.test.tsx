@@ -169,8 +169,8 @@ describe("FinanciamentoTable", () => {
 
     expect(tablePanel).toHaveClass("overflow-hidden");
     expect(
-      screen.getByTestId("financiamento-parcela-detalhe-legacy"),
-    ).toHaveTextContent("Todos os dados permanecem disponíveis");
+      screen.getByTestId("financiamento-table-count-legacy"),
+    ).toHaveTextContent("preservadas no modelo");
   });
 
   it("não usa corte por slice na tabela financeira", () => {

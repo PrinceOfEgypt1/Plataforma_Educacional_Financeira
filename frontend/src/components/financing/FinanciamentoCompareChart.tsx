@@ -132,7 +132,7 @@ export function FinanciamentoCompareChart({
         </p>
       </div>
 
-      {/* Gráfico */}
+      {/* Gráfico com proporção equilibrada */}
       <figure
         aria-label={`Gráfico PRICE vs SAC. PRICE: ${money(pPrice1)} até ${money(pPriceN)}. SAC: ${money(pSac1)} até ${money(pSacN)}.`}
       >
@@ -141,12 +141,20 @@ export function FinanciamentoCompareChart({
           em {money(pPrice1)} e termina em {money(pPriceN)}. SAC começa em{" "}
           {money(pSac1)} e termina em {money(pSacN)}.
         </figcaption>
-        <div style={{ width: "100%", height: 230 }}>
+        {/* CORREÇÃO ITEM 14B: Altura aumentada de 230 para 360px para melhor expressividade */}
+        <div
+          style={{
+            width: "100%",
+            maxWidth: "900px",
+            height: 360,
+            margin: "0 auto",
+          }}
+        >
           <ResponsiveContainer
             width="100%"
             height="100%"
             minWidth={200}
-            minHeight={180}
+            minHeight={300}
           >
             <LineChart
               data={points as ChartPoint[]}
@@ -240,17 +248,32 @@ export function FinanciamentoCompareChart({
         </div>
       </figure>
 
-      {/* Chips de insight */}
-      <div className="flex flex-wrap gap-1.5">
-        <span className="rounded-lg bg-violet-400/10 px-2 py-1 text-[11px] font-medium text-violet-300 ring-1 ring-violet-400/20">
-          PRICE: {money(pPrice1)} → {money(pPriceN)}
+      {/* Chips de insight compactos em grid responsivo */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+        <span className="rounded-lg bg-violet-400/10 px-2.5 py-2 text-[11px] font-medium text-violet-300 ring-1 ring-violet-400/20">
+          <span className="block text-[9px] uppercase tracking-wider opacity-70">
+            PRICE
+          </span>
+          <span className="block mt-0.5 font-semibold">
+            {money(pPrice1)} → {money(pPriceN)}
+          </span>
         </span>
-        <span className="rounded-lg bg-amber-400/10 px-2 py-1 text-[11px] font-medium text-amber-300 ring-1 ring-amber-400/20">
-          SAC: {money(pSac1)} → {money(pSacN)}
+        <span className="rounded-lg bg-amber-400/10 px-2.5 py-2 text-[11px] font-medium text-amber-300 ring-1 ring-amber-400/20">
+          <span className="block text-[9px] uppercase tracking-wider opacity-70">
+            SAC
+          </span>
+          <span className="block mt-0.5 font-semibold">
+            {money(pSac1)} → {money(pSacN)}
+          </span>
         </span>
         {difJuros > 0 && (
-          <span className="rounded-lg bg-emerald-400/10 px-2 py-1 text-[11px] font-medium text-emerald-300 ring-1 ring-emerald-400/20">
-            SAC economiza {money(difJuros)} em juros
+          <span className="rounded-lg bg-emerald-400/10 px-2.5 py-2 text-[11px] font-medium text-emerald-300 ring-1 ring-emerald-400/20">
+            <span className="block text-[9px] uppercase tracking-wider opacity-70">
+              Economia SAC
+            </span>
+            <span className="block mt-0.5 font-semibold">
+              {money(difJuros)} em juros
+            </span>
           </span>
         )}
       </div>
