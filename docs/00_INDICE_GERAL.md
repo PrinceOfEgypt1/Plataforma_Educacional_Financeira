@@ -203,3 +203,16 @@ Artefatos oficiais para padronizar prompts operacionais como contratos auditáve
 - Script de validação estrutural de entregas IA: `scripts/governance/validate-ai-delivery.mjs`
 
 Observação de governança: o script valida estrutura, escopo, presença de arquivos, textos obrigatórios e violações objetivas. Ele não substitui auditoria técnica, aceite visual humano, validação pedagógica, revisão de produto ou decisão do PO.
+
+## Gate PO/UX/Valor — Item 14F-F8C-v6.2 — Especificação Visual Determinística
+
+- `docs/gates/gate-po-ux-valor/14f-f8c-v6-2-especificacao-visual-deterministica/ESPECIFICACAO_VISUAL_DETERMINISTICA_IMOVEL.md` — especificação visual determinística do módulo Financiamento Imobiliário.
+- `docs/gates/gate-po-ux-valor/14f-f8c-v6-2-especificacao-visual-deterministica/DESIGN_SYSTEM_IMOVEL_DETERMINISTICO.md` — tokens, tipografia, paleta, contraste, componentes e efeitos visuais permitidos.
+- `docs/gates/gate-po-ux-valor/14f-f8c-v6-2-especificacao-visual-deterministica/MATRIZ_ETAPAS_ABAS_COMPONENTES.md` — matriz de etapas, abas e componentes.
+- `docs/gates/gate-po-ux-valor/14f-f8c-v6-2-especificacao-visual-deterministica/MATRIZ_CRITERIOS_ACEITE_VISUAL.md` — critérios de aceite visual e pedagógico.
+- `docs/gates/gate-po-ux-valor/14f-f8c-v6-2-especificacao-visual-deterministica/CONTRATO_VISUAL_IMOVEL_V6_2.json` — contrato visual legível por máquina.
+- `docs/gates/gate-po-ux-valor/14f-f8c-v6-2-especificacao-visual-deterministica/WIREFRAME_TEXTUAL_DETERMINISTICO.md` — wireframe textual por etapa e aba.
+- `docs/gates/gate-po-ux-valor/14f-f8c-v6-2-especificacao-visual-deterministica/AUTOVALIDACAO_E_AUDITORIA.md` — registro de autovalidação, auditoria e limitações.
+- `docs/gates/gate-po-ux-valor/14f-f8c-v6-2-especificacao-visual-deterministica/validate-spec.mjs` — validador estrutural da especificação.
+
+> Status: entrega documental autoverificada estruturalmente. Aceite visual e funcional permanece dependente do PO.
