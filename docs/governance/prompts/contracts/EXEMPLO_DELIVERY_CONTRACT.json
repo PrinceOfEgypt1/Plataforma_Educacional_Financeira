@@ -1,0 +1,56 @@
+{
+  "name": "Exemplo de contrato estrutural para validação de entrega IA",
+  "baseRef": "origin/main",
+  "requiredFiles": [
+    "docs/governance/prompts/TEMPLATE_PROMPT_COM_CHECKLIST_OPERACIONAL.md"
+  ],
+  "evidenceFiles": [],
+  "allowedChangedPaths": [
+    "docs/governance/prompts/**",
+    "scripts/governance/validate-ai-delivery.mjs"
+  ],
+  "forbiddenChangedPaths": [
+    "frontend/**",
+    "backend/**",
+    ".github/**",
+    "package.json",
+    "pnpm-lock.yaml",
+    "docker/**",
+    "Dockerfile"
+  ],
+  "requiredText": [
+    {
+      "file": "docs/governance/prompts/TEMPLATE_PROMPT_COM_CHECKLIST_OPERACIONAL.md",
+      "includes": [
+        "MISSÃO",
+        "PAPEL DA IA EXECUTORA",
+        "CONTEXTO OPERACIONAL",
+        "FONTES OBRIGATÓRIAS",
+        "ESCOPO PERMITIDO",
+        "ESCOPO PROIBIDO",
+        "INVARIANTES QUE NÃO PODEM REGREDIR",
+        "ENTREGÁVEIS",
+        "CRITÉRIOS DE ACEITE",
+        "AUTOVALIDAÇÃO OBRIGATÓRIA",
+        "EVIDÊNCIAS OBRIGATÓRIAS",
+        "PROTOCOLO DE FALHA",
+        "FORMATO DA RESPOSTA FINAL",
+        "ACEITE HUMANO"
+      ]
+    }
+  ],
+  "forbiddenText": [
+    {
+      "paths": [
+        "artefatos-da-entrega/"
+      ],
+      "patterns": [
+        "placeholder sem implementação",
+        "TODO como entrega final",
+        "definir depois"
+      ]
+    }
+  ],
+  "requiredEvidenceText": [],
+  "requiredOpenApiPaths": []
+}
