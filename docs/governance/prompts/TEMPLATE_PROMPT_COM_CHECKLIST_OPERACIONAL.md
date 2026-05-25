@@ -622,3 +622,134 @@ Defina a ordem exata da resposta final esperada.
 ### ACEITE HUMANO
 
 Declare que autovalidação técnica não substitui auditoria do Camaleão, decisão de Moisés, aceite visual humano ou validação pedagógica/funcional quando aplicável.
+
+<!-- PEF-PROMPT-CHECKLIST-V2-AUDITAVEL-START -->
+
+## 20. REFORÇOS V2 — CONTRATO OPERACIONAL AUDITÁVEL
+
+Esta seção endurece o template para frentes que possam gerar alteração em repositório, pacote, branch, PR, documentação viva, contrato, auditor, pipeline ou artefato materializável.
+
+### 20.1 Metadados mínimos do contrato
+
+Todo prompt operacional deve declarar, quando aplicável:
+
+- template_version
+- contrato_id
+- projeto
+- modulo_ou_frente
+- po_responsavel
+- ia_executora
+- repo_path
+- branch_alvo
+- base_commit
+- base_ref
+- status_inicial
+
+Se qualquer metadado crítico for desconhecido, a IA deve declarar a lacuna antes de executar.
+
+### 20.2 Estados de entrega permitidos
+
+Estados aceitos:
+
+- GERADO
+- VALIDADO_LOCALMENTE
+- PR_ABERTO
+- CHECKS_VERDES
+- PO_REVIEW
+- MERGED
+- ENCERRADO
+- BLOQUEADO
+
+A IA não pode declarar MERGED sem evidência do merge. A IA também não pode declarar aceite visual, funcional ou de produto em nome do PO.
+
+### 20.3 Arquivos autorizados e proibidos
+
+Todo prompt operacional deve declarar arquivos autorizados e arquivos proibidos.
+
+Regras:
+
+- alterar arquivo fora da lista autorizada é falha de contrato;
+- criar arquivo novo fora do escopo autorizado é falha de contrato;
+- alterar package.json, lockfile, pipeline, auditor, backend, fórmula financeira ou documentação viva exige autorização explícita quando não estiver no escopo permitido;
+- se descobrir necessidade legítima fora do escopo, a IA deve parar, registrar e pedir decisão.
+
+### 20.4 Cláusula anti-scope-creep
+
+Se a IA encontrar bug, inconsistência, melhoria visual, dívida técnica ou oportunidade fora do escopo:
+
+1. registrar a observação;
+2. não corrigir automaticamente;
+3. não ampliar o escopo por conta própria;
+4. não alterar auditor, teste ou pipeline para fazer a entrega passar;
+5. solicitar decisão do PO quando a correção for necessária.
+
+É proibido transformar uma frente curta em refatoração ampla sem autorização.
+
+### 20.5 Critérios de aceite binários
+
+Critérios de aceite devem ser verificáveis como TRUE/FALSE.
+
+Exemplos fortes:
+
+- comando X retorna exit code 0;
+- arquivo Y existe;
+- diff restrito aos paths autorizados;
+- auditor Z retorna total igual a 0;
+- teste focado N passa;
+- nenhum marcador de conflito existe;
+- nenhum TODO ou placeholder foi introduzido.
+
+Critérios qualitativos só devem ser usados quando acompanhados de evidência objetiva, checklist visual, print, teste, auditor ou aceite humano explícito.
+
+### 20.6 Evidências completas
+
+Toda entrega operacional deve registrar:
+
+- comando executado;
+- diretório de execução;
+- objetivo do comando;
+- saída relevante;
+- exit code;
+- arquivos alterados;
+- limitações;
+- falhas encontradas;
+- correções aplicadas.
+
+É proibido selecionar apenas evidências favoráveis, ocultar falhas intermediárias ou substituir log por narrativa otimista.
+
+### 20.7 Protocolo de falha com limite de autocorreção
+
+Quando houver falha:
+
+1. identificar a causa provável;
+2. executar no máximo 2 ciclos de autocorreção;
+3. não enfraquecer teste, auditor, contrato ou gate para passar;
+4. não usar workaround silencioso;
+5. se persistir, parar e registrar bloqueio.
+
+Formato mínimo:
+
+- STATUS: BLOQUEADO
+- Falha:
+- Evidência:
+- Tentativas realizadas:
+- Arquivos afetados:
+- Risco:
+- Decisão necessária do PO:
+
+### 20.8 Separação entre validação técnica e aceite humano
+
+Validação técnica não equivale a aceite humano.
+
+A IA pode declarar que format, lint, typecheck, testes, auditor ou build passaram quando houver evidência.
+
+A IA não pode declarar sozinha:
+
+- aceito pelo PO;
+- visualmente aprovado;
+- produto aprovado;
+- pronto para usuário final.
+
+Esses estados dependem de decisão humana explícita.
+
+<!-- PEF-PROMPT-CHECKLIST-V2-AUDITAVEL-END -->

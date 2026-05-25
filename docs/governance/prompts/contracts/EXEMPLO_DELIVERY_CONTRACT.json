@@ -10,13 +10,16 @@
     "scripts/governance/validate-ai-delivery.mjs"
   ],
   "forbiddenChangedPaths": [
-    "frontend/**",
-    "backend/**",
     ".github/**",
-    "package.json",
-    "pnpm-lock.yaml",
+    "Dockerfile",
+    "backend/**",
+    "docker-compose.yaml",
+    "docker-compose.yml",
     "docker/**",
-    "Dockerfile"
+    "frontend/**",
+    "frontend/src/**",
+    "package.json",
+    "pnpm-lock.yaml"
   ],
   "requiredText": [
     {
@@ -37,6 +40,26 @@
         "FORMATO DA RESPOSTA FINAL",
         "ACEITE HUMANO"
       ]
+    },
+    {
+      "file": "docs/governance/prompts/TEMPLATE_PROMPT_COM_CHECKLIST_OPERACIONAL.md",
+      "text": "REFORÇOS V2 — CONTRATO OPERACIONAL AUDITÁVEL"
+    },
+    {
+      "file": "docs/governance/prompts/TEMPLATE_PROMPT_COM_CHECKLIST_OPERACIONAL.md",
+      "text": "Cláusula anti-scope-creep"
+    },
+    {
+      "file": "docs/governance/prompts/TEMPLATE_PROMPT_COM_CHECKLIST_OPERACIONAL.md",
+      "text": "Critérios de aceite binários"
+    },
+    {
+      "file": "docs/governance/prompts/TEMPLATE_PROMPT_COM_CHECKLIST_OPERACIONAL.md",
+      "text": "Evidências completas"
+    },
+    {
+      "file": "docs/governance/prompts/README.md",
+      "text": "Reforços v2 — contrato operacional auditável"
     }
   ],
   "forbiddenText": [
@@ -52,5 +75,69 @@
     }
   ],
   "requiredEvidenceText": [],
-  "requiredOpenApiPaths": []
+  "requiredOpenApiPaths": [],
+  "templateVersion": "2.0",
+  "contractId": "PEF-GOV-PROMPT-CHECKLIST-AUDITAVEL-EXEMPLO-V2",
+  "project": "Plataforma Educacional Financeira",
+  "module": "Governança de prompts",
+  "targetBranch": "governanca/prompts-checklist-auditavel-v2",
+  "baseCommit": "2d7f3cd",
+  "deliveryStatus": "VALIDADO_LOCALMENTE",
+  "deliveryStates": [
+    "GERADO",
+    "VALIDADO_LOCALMENTE",
+    "PR_ABERTO",
+    "CHECKS_VERDES",
+    "PO_REVIEW",
+    "MERGED",
+    "ENCERRADO",
+    "BLOQUEADO"
+  ],
+  "authorizedFiles": [
+    "docs/governance/prompts/**",
+    "scripts/governance/validate-ai-delivery.mjs"
+  ],
+  "fullEvidenceRequired": true,
+  "requiredEvidenceBlocks": [
+    "comando executado",
+    "diretório de execução",
+    "saída relevante",
+    "exit code",
+    "arquivos alterados",
+    "limitações ou falhas"
+  ],
+  "antiScopeCreep": {
+    "enabled": true,
+    "procedure": "parar_registrar_e_solicitar_decisao_do_po",
+    "forbidOutOfScopeChanges": true,
+    "forbidSilentWorkarounds": true
+  },
+  "failureProtocol": {
+    "maxAutoFixCycles": 2,
+    "onFailure": "parar_registrar_e_reportar_bloqueio",
+    "forbiddenWorkarounds": [
+      "remover teste para passar",
+      "enfraquecer auditor ou gate",
+      "alterar escopo proibido sem autorização",
+      "usar TODO ou placeholder como implementação",
+      "ocultar falha intermediária"
+    ]
+  },
+  "binaryAcceptanceCriteria": [
+    {
+      "criterion": "Arquivos alterados permanecem restritos aos paths autorizados.",
+      "verification": "git diff --name-only",
+      "expected": "somente paths autorizados"
+    },
+    {
+      "criterion": "Template oficial contém seção de reforços v2.",
+      "verification": "grep -n REFORÇOS docs/governance/prompts/TEMPLATE_PROMPT_COM_CHECKLIST_OPERACIONAL.md",
+      "expected": "match encontrado"
+    },
+    {
+      "criterion": "Contrato declara protocolo de falha com máximo de 2 ciclos.",
+      "verification": "JSON failureProtocol.maxAutoFixCycles",
+      "expected": "valor menor ou igual a 2"
+    }
+  ]
 }

@@ -192,6 +192,131 @@ function fail(message) {
   failures.push(message);
 }
 
+// PEF-PROMPT-CHECKLIST-V2-AUDITAVEL-START
+const DELIVERY_STATUSES = new Set([
+  "GERADO",
+  "VALIDADO_LOCALMENTE",
+  "PR_ABERTO",
+  "CHECKS_VERDES",
+  "PO_REVIEW",
+  "MERGED",
+  "ENCERRADO",
+  "BLOQUEADO",
+]);
+
+function isBlank(value) {
+  return typeof value !== "string" || value.trim().length === 0;
+}
+
+function requireNonEmptyStringField(fieldName) {
+  if (isBlank(contract[fieldName])) {
+    fail(`Campo obrigatório ausente ou vazio no contrato: ${fieldName}`);
+  }
+}
+
+function requireNonEmptyArrayField(fieldName) {
+  if (!Array.isArray(contract[fieldName]) || contract[fieldName].length === 0) {
+    fail(`Array obrigatório ausente ou vazio no contrato: ${fieldName}`);
+  }
+}
+
+function validateOperationalContractV2() {
+  const requiredStringFields = [
+    "name",
+    "templateVersion",
+    "contractId",
+    "project",
+    "module",
+    "targetBranch",
+    "baseCommit",
+    "deliveryStatus",
+  ];
+
+  for (const fieldName of requiredStringFields) {
+    requireNonEmptyStringField(fieldName);
+  }
+
+  if (contract.deliveryStatus && !DELIVERY_STATUSES.has(contract.deliveryStatus)) {
+    fail(`deliveryStatus inválido: ${contract.deliveryStatus}`);
+  }
+
+  const requiredArrayFields = [
+    "authorizedFiles",
+    "allowedChangedPaths",
+    "forbiddenChangedPaths",
+    "binaryAcceptanceCriteria",
+    "requiredEvidenceBlocks",
+    "deliveryStates",
+  ];
+
+  for (const fieldName of requiredArrayFields) {
+    requireNonEmptyArrayField(fieldName);
+  }
+
+  for (const state of contract.deliveryStates || []) {
+    if (!DELIVERY_STATUSES.has(state)) {
+      fail(`deliveryStates contém estado inválido: ${state}`);
+    }
+  }
+
+  if (contract.fullEvidenceRequired !== true) {
+    fail("Contrato deve declarar fullEvidenceRequired=true.");
+  }
+
+  if (!contract.antiScopeCreep || typeof contract.antiScopeCreep !== "object") {
+    fail("Contrato deve declarar antiScopeCreep.");
+  } else {
+    if (contract.antiScopeCreep.enabled !== true) {
+      fail("antiScopeCreep.enabled deve ser true.");
+    }
+    if (contract.antiScopeCreep.forbidOutOfScopeChanges !== true) {
+      fail("antiScopeCreep.forbidOutOfScopeChanges deve ser true.");
+    }
+    if (contract.antiScopeCreep.forbidSilentWorkarounds !== true) {
+      fail("antiScopeCreep.forbidSilentWorkarounds deve ser true.");
+    }
+    if (isBlank(contract.antiScopeCreep.procedure)) {
+      fail("antiScopeCreep.procedure deve estar preenchido.");
+    }
+  }
+
+  if (!contract.failureProtocol || typeof contract.failureProtocol !== "object") {
+    fail("Contrato deve declarar failureProtocol.");
+  } else {
+    if (
+      !Number.isInteger(contract.failureProtocol.maxAutoFixCycles) ||
+      contract.failureProtocol.maxAutoFixCycles < 0 ||
+      contract.failureProtocol.maxAutoFixCycles > 2
+    ) {
+      fail("failureProtocol.maxAutoFixCycles deve ser inteiro entre 0 e 2.");
+    }
+    if (isBlank(contract.failureProtocol.onFailure)) {
+      fail("failureProtocol.onFailure deve estar preenchido.");
+    }
+    if (
+      !Array.isArray(contract.failureProtocol.forbiddenWorkarounds) ||
+      contract.failureProtocol.forbiddenWorkarounds.length === 0
+    ) {
+      fail("failureProtocol.forbiddenWorkarounds deve listar workarounds proibidos.");
+    }
+  }
+
+  for (const [index, criterion] of (contract.binaryAcceptanceCriteria || []).entries()) {
+    if (!criterion || typeof criterion !== "object") {
+      fail(`Critério binário inválido na posição ${index}.`);
+      continue;
+    }
+    for (const fieldName of ["criterion", "verification", "expected"]) {
+      if (isBlank(criterion[fieldName])) {
+        fail(`Critério binário ${index} sem campo obrigatório: ${fieldName}`);
+      }
+    }
+  }
+}
+
+validateOperationalContractV2();
+// PEF-PROMPT-CHECKLIST-V2-AUDITAVEL-END
+
 function section(title) {
   report.push(`\n## ${title}\n`);
 }
