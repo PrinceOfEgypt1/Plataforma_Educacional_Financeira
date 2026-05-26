@@ -1,7 +1,7 @@
 {
   "$schema_version": 3,
-  "generated_at": "2026-05-08",
-  "total_documents": 145,
+  "generated_at": "2026-05-26",
+  "total_documents": 153,
   "categories": {
     "BASELINE_CANDIDATA": 1,
     "ESTATICO": 31,
@@ -1356,9 +1356,81 @@
       "materialized_in_repo": true,
       "last_updated": "2026-05-25",
       "note": "Script Node.js de autovalidação estrutural da especificação visual determinística."
+    },
+    {
+      "id": "GATE-POUX-14F-F8C-V63-README",
+      "path": "docs/gates/gate-po-ux-valor/14f-f8c-v6-3-adendo-visual-observatory-dark-cards/README_ITEM_14F_F8C_V6_3.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "README — Item 14F-F8C-v6.3 — Adendo Visual Observatory Dark Cards",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-26",
+      "note": "Índice, metadados, invariantes herdados e próximos passos do adendo visual v6.3."
+    },
+    {
+      "id": "GATE-POUX-14F-F8C-V63-ADENDO-VISUAL",
+      "path": "docs/gates/gate-po-ux-valor/14f-f8c-v6-3-adendo-visual-observatory-dark-cards/ADENDO_VISUAL_OBSERVATORY_DARK_CARDS_IMOVEL.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Adendo Visual Observatory Dark Cards — Módulo Imóvel (14F-F8C-v6.3)",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-26",
+      "note": "Contrato visual completo: fontes DM Sans + DM Mono, tokens de cor, escala tipográfica, layout tokens, regras bloqueantes, nomenclatura SAC x PRICE, cenário financeiro fixo e declarações obrigatórias."
+    },
+    {
+      "id": "GATE-POUX-14F-F8C-V63-DESIGN-SYSTEM",
+      "path": "docs/gates/gate-po-ux-valor/14f-f8c-v6-3-adendo-visual-observatory-dark-cards/DESIGN_SYSTEM_OBSERVATORY_DARK_CARDS.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Design System Observatory Dark Cards (14F-F8C-v6.3)",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-26",
+      "note": "Paleta completa, escala tipográfica com tabela por elemento, especificação dos 7 UI Elements (ScoreCard, MetricCard, ChecklistCard, BeforeAfterCard, QuestionCard, InsightBox, ApplyCard), layout tokens e estados visuais."
+    },
+    {
+      "id": "GATE-POUX-14F-F8C-V63-MATRIZ-UI-ELEMENTS",
+      "path": "docs/gates/gate-po-ux-valor/14f-f8c-v6-3-adendo-visual-observatory-dark-cards/MATRIZ_UI_ELEMENTS_PARA_IMOVEL.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Matriz de UI Elements por Etapa — Módulo Imóvel (14F-F8C-v6.3)",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-26",
+      "note": "Mapeia os 7 UI Elements do Observatory Dark Cards para as 7 etapas da jornada da F8C-v6.2, com grid, conteúdo e regras por etapa."
+    },
+    {
+      "id": "GATE-POUX-14F-F8C-V63-CRITERIOS-ACEITE",
+      "path": "docs/gates/gate-po-ux-valor/14f-f8c-v6-3-adendo-visual-observatory-dark-cards/CRITERIOS_ACEITE_VISUAL_OBSERVATORY_CARDS.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Critérios de Aceite Visual Observatory Cards (14F-F8C-v6.3)",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-26",
+      "note": "Critérios binários PASSA/FALHA organizados em 9 blocos (fontes, tokens, tipografia, layout, UI Elements, distribuição textual, governança, nomenclatura, contrato JSON). Todos os bloqueantes ESPECIFICADOS."
+    },
+    {
+      "id": "GATE-POUX-14F-F8C-V63-CONTRATO-JSON",
+      "path": "docs/gates/gate-po-ux-valor/14f-f8c-v6-3-adendo-visual-observatory-dark-cards/CONTRATO_VISUAL_IMOVEL_V6_3.json",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Contrato Visual JSON v6.3 — Módulo Imóvel (14F-F8C-v6.3)",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-26",
+      "note": "Contrato legível por máquina: implementacao_react_autorizada=false, interpretacao_livre_permitida=false, 7 UI Elements, 7 etapas, tokens, especificação por componente, cenário fixo, aprovacao_humana.obrigatoria=true."
+    },
+    {
+      "id": "GATE-POUX-14F-F8C-V63-AUTOVALIDACAO",
+      "path": "docs/gates/gate-po-ux-valor/14f-f8c-v6-3-adendo-visual-observatory-dark-cards/AUTOVALIDACAO_E_AUDITORIA.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Autovalidação e Auditoria — Item 14F-F8C-v6.3",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-26",
+      "note": "Registro de fase 0, escopo executado, arquivos criados/alterados, evidências de execução (86/86 checks, JSON válido, git diff limpo) e limitações honestas."
+    },
+    {
+      "id": "GATE-POUX-14F-F8C-V63-VALIDATE-MJS",
+      "path": "docs/gates/gate-po-ux-valor/14f-f8c-v6-3-adendo-visual-observatory-dark-cards/validate-observatory-cards.mjs",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Script validate-observatory-cards.mjs — Item 14F-F8C-v6.3",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-26",
+      "note": "Script Node.js de 86 checks estruturais: existência de 8 arquivos, DM Sans, DM Mono, 12 tokens de cor, escala tipográfica, layout tokens, 7 UI Elements, 7 etapas, SAC x PRICE, ausência de Unicode U+00D7, campos JSON. Exit code 0."
     }
   ],
-  "updated_at": "2026-05-25T00:00:00Z",
-  "update_reason": "Gate PO/UX/Valor — Item 14F-F8C-v6.2: materialização limpa da especificação visual determinística do módulo Imóvel a partir da main oficial.",
+  "updated_at": "2026-05-26T00:00:00Z",
+  "update_reason": "Gate PO/UX/Valor — Item 14F-F8C-v6.3: materialização do adendo visual Observatory Dark Cards — contrato documental bloqueante para futura implementação React do módulo Imóvel.",
   "_migration_note": "Sincronização documental concluída em 2026-04-17. Todos os documentos do pacote AUDITORIA_PROMPT_1_FINAL foram migrados. Documentos com materialized_in_repo=false são apenas aqueles que permanecem pendentes por decisão explícita."
 }
