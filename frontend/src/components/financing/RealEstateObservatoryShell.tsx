@@ -60,6 +60,7 @@ export function RealEstateObservatoryShell({
           </div>
           <span
             className="text-[11px] font-bold uppercase tracking-[0.2em] text-cyan-200/80"
+            style={{ fontFamily: "var(--font-dm-mono), 'DM Mono', monospace" }}
             data-testid="observatory-brand-label"
           >
             Financial Observatory

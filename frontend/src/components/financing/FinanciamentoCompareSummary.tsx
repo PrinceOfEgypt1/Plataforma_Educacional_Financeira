@@ -140,7 +140,7 @@ export function FinanciamentoCompareSummary({
       aria-label="Resumo comparativo PRICE e SAC"
     >
       <h3 className="text-sm font-semibold text-gray-800">
-        Resumo comparativo — PRICE × SAC
+        Resumo comparativo — PRICE x SAC
       </h3>
 
       <dl

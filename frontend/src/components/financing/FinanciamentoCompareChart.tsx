@@ -99,7 +99,7 @@ export function FinanciamentoCompareChart({
       {/* Título e descrição pedagógica */}
       <div>
         <h3 className="text-sm font-semibold text-cyan-100">
-          Evolução da prestação — PRICE × SAC
+          Evolução da prestação — PRICE x SAC
         </h3>
         <p
           className="mt-1 text-[11.5px] leading-5 text-slate-400"

@@ -98,7 +98,7 @@ export function RealEstateNextStepsZone({ onNavigate, onNavigateZone }: Props) {
       tone: "violet",
       icon: "⚖️",
       category: "Comparação",
-      title: "Comparar SAC × PRICE lado a lado",
+      title: "Comparar SAC x PRICE lado a lado",
       description:
         "Veja os dois sistemas com o mesmo cenário e entenda como a escolha afeta seu orçamento.",
       actionLabel: "Abrir gráfico comparativo",

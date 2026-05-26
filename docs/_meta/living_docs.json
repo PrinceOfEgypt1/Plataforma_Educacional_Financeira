@@ -1,7 +1,7 @@
 {
   "$schema_version": 3,
   "generated_at": "2026-05-26",
-  "total_documents": 153,
+  "total_documents": 162,
   "categories": {
     "BASELINE_CANDIDATA": 1,
     "ESTATICO": 31,
@@ -1428,9 +1428,90 @@
       "materialized_in_repo": true,
       "last_updated": "2026-05-26",
       "note": "Script Node.js de 86 checks estruturais: existência de 8 arquivos, DM Sans, DM Mono, 12 tokens de cor, escala tipográfica, layout tokens, 7 UI Elements, 7 etapas, SAC x PRICE, ausência de Unicode U+00D7, campos JSON. Exit code 0."
+    },
+    {
+      "id": "GATE-POUX-14F-F8D-README",
+      "path": "docs/gates/gate-po-ux-valor/14f-f8d-implementacao-react-observatory-dark-cards/README_ITEM_14F_F8D.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "README — Item 14F-F8D: Implementação React Observatory Dark Cards",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-26",
+      "note": "Índice da entrega F8D: arquivos criados/alterados, UI Elements por etapa, invariantes preservados, aceite pendente."
+    },
+    {
+      "id": "GATE-POUX-14F-F8D-RELATORIO",
+      "path": "docs/gates/gate-po-ux-valor/14f-f8d-implementacao-react-observatory-dark-cards/RELATORIO_IMPLEMENTACAO_REACT.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Relatório de Implementação React — F8D",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-26",
+      "note": "Relatório técnico: DM Sans + DM Mono, 7 UI primitivos, correção SAC x PRICE, BeforeAfterCard ComparePanel, QuestionCard+InsightBox HomeView, refatoração SummaryZone, gates de qualidade."
+    },
+    {
+      "id": "GATE-POUX-14F-F8D-MATRIZ",
+      "path": "docs/gates/gate-po-ux-valor/14f-f8d-implementacao-react-observatory-dark-cards/MATRIZ_CONFORMIDADE_F8C_V6_2_V6_3.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Matriz de Conformidade F8D × F8C-v6.2 + F8C-v6.3",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-26",
+      "note": "Conformidade item a item com F8C-v6.2 (jornada, etapas, API) e F8C-v6.3 (tokens, fontes, UI Elements, nomenclatura). Inclui requisitos proibidos."
+    },
+    {
+      "id": "GATE-POUX-14F-F8D-AUTOVALIDACAO",
+      "path": "docs/gates/gate-po-ux-valor/14f-f8d-implementacao-react-observatory-dark-cards/AUTOVALIDACAO_E_AUDITORIA.md",
+      "category": "GOVERNANCA_SPRINT",
+      "title": "Autovalidação e Auditoria — F8D",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-26",
+      "note": "Evidências reais: format PASS, lint PASS, typecheck PASS, tests 493/493 PASS, validate-observatory-cards 86/86 PASS, validate-spec PASS. Limitações declaradas honestas."
+    },
+    {
+      "id": "FRONTEND-F8D-OBSERVATORY-PRIMITIVES",
+      "path": "frontend/src/components/financing/ObservatoryDarkCards.tsx",
+      "category": "VIVO",
+      "title": "ObservatoryDarkCards.tsx — 7 UI Primitivos F8C-v6.3",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-26",
+      "note": "Biblioteca React com ScoreCard, MetricCard, ChecklistCard, BeforeAfterCard, QuestionCard, InsightBox, ApplyCard. Tokens OBS inline. DM Sans + DM Mono. Grid helpers."
+    },
+    {
+      "id": "FRONTEND-F8D-OBSERVATORY-TESTS",
+      "path": "frontend/src/__tests__/components/financing/ObservatoryDarkCards.test.tsx",
+      "category": "VIVO",
+      "title": "ObservatoryDarkCards.test.tsx — 34 testes dos UI primitivos",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-26",
+      "note": "34 testes: tokens OBS, ScoreCard (6), MetricCard (3), ChecklistCard (3), BeforeAfterCard (4), QuestionCard (4), InsightBox (4), InsightStrong (1), ApplyCard (4), Grid helpers (4). 100% passing."
+    },
+    {
+      "id": "FRONTEND-F8D-LAYOUT-FONTS",
+      "path": "frontend/src/app/layout.tsx",
+      "category": "VIVO",
+      "title": "layout.tsx — DM Sans + DM Mono adicionados (F8D)",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-26",
+      "note": "DM_Sans e DM_Mono carregados via next/font/google. CSS variables --font-dm-sans e --font-dm-mono disponíveis globalmente."
+    },
+    {
+      "id": "FRONTEND-F8D-SUMMARY-ZONE",
+      "path": "frontend/src/components/financing/RealEstateSummaryZone.tsx",
+      "category": "VIVO",
+      "title": "RealEstateSummaryZone.tsx — refatorado para Observatory (F8D)",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-26",
+      "note": "Refatorado para usar ScoreCard + ObsScoreGrid + InsightBox de ObservatoryDarkCards.tsx. Etapa Resultado."
+    },
+    {
+      "id": "FRONTEND-F8D-COCKPIT-PATCHES",
+      "path": "frontend/src/components/financing/FinanciamentoCockpit.tsx",
+      "category": "VIVO",
+      "title": "FinanciamentoCockpit.tsx — patches F8D (SAC x PRICE, BeforeAfterCard, QuestionCard)",
+      "materialized_in_repo": true,
+      "last_updated": "2026-05-26",
+      "note": "Correção SAC × → SAC x. BeforeAfterCard no ComparePanel. QuestionCard × 3 + InsightBox na HomeView."
     }
   ],
   "updated_at": "2026-05-26T00:00:00Z",
-  "update_reason": "Gate PO/UX/Valor — Item 14F-F8C-v6.3: materialização do adendo visual Observatory Dark Cards — contrato documental bloqueante para futura implementação React do módulo Imóvel.",
+  "update_reason": "Gate PO/UX/Valor — Item 14F-F8D: implementação React dos Observatory Dark Cards — 7 UI primitivos, DM Sans + DM Mono, integração em 3 zones, 34 testes novos, 493 total passing.",
   "_migration_note": "Sincronização documental concluída em 2026-04-17. Todos os documentos do pacote AUDITORIA_PROMPT_1_FINAL foram migrados. Documentos com materialized_in_repo=false são apenas aqueles que permanecem pendentes por decisão explícita."
 }

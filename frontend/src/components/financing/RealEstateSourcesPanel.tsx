@@ -129,7 +129,7 @@ export function RealEstateSourcesPanel({ result }: Props) {
             "Prazo, taxa mensal fixa e sistema SAC ou PRICE",
             "Seguros e tarifas mensais quando informados",
             "Tabela completa de parcelas com fechamento exato",
-            "Comparação SAC × PRICE com os mesmos parâmetros",
+            "Comparação SAC x PRICE com os mesmos parâmetros",
             "Amortização, juros e saldo devedor mês a mês",
           ]}
         />

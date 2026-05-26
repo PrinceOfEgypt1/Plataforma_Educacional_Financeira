@@ -231,3 +231,14 @@ Adendo visual documental/contratual que formaliza o padrão **Observatory Dark C
 - `docs/gates/gate-po-ux-valor/14f-f8c-v6-3-adendo-visual-observatory-dark-cards/validate-observatory-cards.mjs` — script Node.js de validação estrutural (86 checks, exit code 0).
 
 > Status: entrega documental autoverificada. validate-observatory-cards.mjs: 86/86 checks passando. JSON válido. git diff --check: limpo. Implementação React NÃO autorizada. Aceite visual humano pendente (PO: Moisés).
+
+## Gate PO/UX/Valor — Item 14F-F8D — Implementação React Observatory Dark Cards
+
+Implementação React governada pelos contratos F8C-v6.2 + F8C-v6.3. Traduz os contratos visuais em código React real com os 7 UI primitivos, sem alterar backend, API ou fórmulas financeiras.
+
+- `docs/gates/gate-po-ux-valor/14f-f8d-implementacao-react-observatory-dark-cards/README_ITEM_14F_F8D.md` — índice da entrega F8D.
+- `docs/gates/gate-po-ux-valor/14f-f8d-implementacao-react-observatory-dark-cards/RELATORIO_IMPLEMENTACAO_REACT.md` — relatório técnico detalhado da implementação.
+- `docs/gates/gate-po-ux-valor/14f-f8d-implementacao-react-observatory-dark-cards/MATRIZ_CONFORMIDADE_F8C_V6_2_V6_3.md` — conformidade item a item com F8C-v6.2 e F8C-v6.3.
+- `docs/gates/gate-po-ux-valor/14f-f8d-implementacao-react-observatory-dark-cards/AUTOVALIDACAO_E_AUDITORIA.md` — evidências reais de execução dos gates.
+
+> Status: format:check PASS, lint PASS, typecheck PASS, tests 493/493 PASS, validate-observatory-cards.mjs 86/86 PASS, validate-spec.mjs PASS. Aceite visual humano pendente (PO: Moisés). Sprint 5 NÃO liberada.

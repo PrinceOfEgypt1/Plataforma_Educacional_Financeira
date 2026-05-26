@@ -43,6 +43,13 @@ const INITIAL_DRAFT: FinanciamentoDraft = {
 
 import { RealEstateObservatoryShell } from "./RealEstateObservatoryShell";
 import { RealEstateScenarioSidebar } from "./RealEstateScenarioSidebar";
+import {
+  BeforeAfterCard,
+  InsightBox,
+  InsightStrong,
+  QuestionCard,
+  ObsQGrid,
+} from "./ObservatoryDarkCards";
 
 export type CockpitView =
   | "inicio"
@@ -601,6 +608,39 @@ function HomeView({
       </div>
 
       <ContextualTabs view="inicio" />
+
+      {/* QuestionCards — Etapa Preparar, Observatory F8D */}
+      <ObsQGrid>
+        <QuestionCard
+          ordinal="01"
+          titleLabel="Antes de simular"
+          question="Qual valor de imóvel é compatível com sua renda mensal?"
+          hint="Regra geral: comprometimento de até 30% da renda familiar bruta."
+          testId="home-question-card-renda"
+        />
+        <QuestionCard
+          ordinal="02"
+          titleLabel="Antes de simular"
+          question="SAC ou PRICE — qual sistema faz mais sentido para o seu perfil?"
+          hint="SAC: parcela cai ao longo do contrato. PRICE: parcela constante, mas juros maiores no total."
+          testId="home-question-card-sistema"
+        />
+        <QuestionCard
+          ordinal="03"
+          titleLabel="Antes de simular"
+          question="Quanto de entrada você tem disponível hoje?"
+          hint="Entradas maiores reduzem o valor financiado e os juros totais do contrato."
+          testId="home-question-card-entrada"
+        />
+      </ObsQGrid>
+
+      <InsightBox icon="💡" testId="home-insight-box">
+        Esta simulação é{" "}
+        <InsightStrong>exclusivamente educacional</InsightStrong> — não
+        constitui proposta, consulta ou contratação financeira. Use os
+        resultados para entender o funcionamento do crédito imobiliário antes de
+        conversar com uma instituição financeira.
+      </InsightBox>
 
       <div className="grid min-h-0 grid-cols-1 gap-3 overflow-hidden md:grid-cols-2 xl:grid-cols-3">
         {FEATURE_CARDS.map((card) => (
@@ -1337,7 +1377,7 @@ function ComparePanel({
     <section className="flex h-full min-h-0 flex-col">
       <PanelHeader
         eyebrow="Comparação"
-        title="SAC × PRICE — mesmos parâmetros"
+        title="SAC x PRICE — mesmos parâmetros"
         description="A mesma simulação calculada nos dois sistemas para você decidir com clareza."
         onBack={onBack}
       />
@@ -1350,6 +1390,29 @@ function ComparePanel({
       >
         {/* Gráfico — protagonismo visual */}
         <RealEstateCompareChart compare={compare} />
+
+        {/* BeforeAfterCard SAC x PRICE — Observatory F8D */}
+        <BeforeAfterCard
+          before={{
+            title: "PRICE",
+            lines: [
+              `1ª parcela: ${formatBRL(compare.price.summary.primeira_parcela)}`,
+              `Última: ${formatBRL(compare.price.summary.ultima_parcela)}`,
+              `Total juros: ${formatBRL(compare.price.summary.total_juros)}`,
+              `Total pago: ${formatBRL(compare.price.summary.total_pago)}`,
+            ],
+          }}
+          after={{
+            title: "SAC",
+            lines: [
+              `1ª parcela: ${formatBRL(compare.sac.summary.primeira_parcela)}`,
+              `Última: ${formatBRL(compare.sac.summary.ultima_parcela)}`,
+              `Total juros: ${formatBRL(compare.sac.summary.total_juros)}`,
+              `Total pago: ${formatBRL(compare.sac.summary.total_pago)}`,
+            ],
+          }}
+          testId="compare-before-after-card"
+        />
 
         {/* Grid comparativo com valores dinâmicos */}
         <div className="grid gap-2 md:grid-cols-2">

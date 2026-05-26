@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * RealEstateCompareChart — Gráfico PRICE × SAC redesenhado
+ * RealEstateCompareChart — Gráfico PRICE x SAC redesenhado
  *
  * ITEM 14D-B: Redesenho visual próximo ao protótipo Financial Observatory.
  * - Proporção equilibrada (height: 320px)
@@ -110,7 +110,7 @@ export function RealEstateCompareChart({
       <div className="flex items-start justify-between gap-3">
         <div>
           <h3 className="text-[13px] font-semibold text-slate-100">
-            Evolução da parcela — PRICE × SAC
+            Evolução da parcela — PRICE x SAC
           </h3>
           <p className="mt-0.5 text-[11px] text-slate-400">
             Mesmo cenário · {prazo} meses

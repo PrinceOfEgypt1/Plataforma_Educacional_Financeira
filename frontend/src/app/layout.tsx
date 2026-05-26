@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Mono, Syne } from "next/font/google";
+import { DM_Mono, DM_Sans, IBM_Plex_Mono, Syne } from "next/font/google";
 import type { ReactNode } from "react";
 
 import "./globals.css";
@@ -14,6 +14,20 @@ const ibmPlexMono = IBM_Plex_Mono({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
   variable: "--font-ibm-plex-mono",
+});
+
+// F8D — Observatory Dark Cards: DM Sans (textos gerais) + DM Mono (números/técnico)
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  weight: ["300", "500", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-dm-sans",
+});
+
+const dmMono = DM_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-dm-mono",
 });
 
 export const metadata: Metadata = {
@@ -48,7 +62,10 @@ interface RootLayoutProps {
  */
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="pt-BR" className={`${syne.variable} ${ibmPlexMono.variable}`}>
+    <html
+      lang="pt-BR"
+      className={`${syne.variable} ${ibmPlexMono.variable} ${dmSans.variable} ${dmMono.variable}`}
+    >
       <body>{children}</body>
     </html>
   );

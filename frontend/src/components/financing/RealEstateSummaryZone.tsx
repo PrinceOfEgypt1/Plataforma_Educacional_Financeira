@@ -3,66 +3,23 @@
 /**
  * RealEstateSummaryZone — Zona 1: Resumo executivo do financiamento
  *
- * ITEM 14D-B: Grid de metric cards + bloco de interpretação pedagógica.
+ * F8D: Zona de Resultado usa ScoreCard (ObsScoreGrid) + InsightBox conforme
+ * MATRIZ_UI_ELEMENTS_PARA_IMOVEL.md, etapa Resultado.
  */
 
 import { formatBRL, formatRatePct } from "@/lib/money";
 import type { FinanciamentoImobSummary } from "@/types/financing";
 import { GlossaryTerm } from "@/components/education/GlossaryTerm";
+import {
+  ScoreCard,
+  InsightBox,
+  InsightStrong,
+  ObsScoreGrid,
+  OBS,
+} from "./ObservatoryDarkCards";
 
 interface Props {
   readonly summary: FinanciamentoImobSummary;
-}
-
-function MetricHero({
-  label,
-  value,
-  note,
-}: {
-  readonly label: string;
-  readonly value: string;
-  readonly note: string;
-}) {
-  return (
-    <div className="rounded-xl border border-amber-400/20 bg-gradient-to-br from-slate-900 to-amber-950/10 p-3.5">
-      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-amber-300/80">
-        {label}
-      </p>
-      <p className="mt-1 font-mono text-2xl font-semibold leading-none text-slate-50">
-        {value}
-      </p>
-      <p className="mt-1 text-[10px] text-slate-400">{note}</p>
-    </div>
-  );
-}
-
-function MetricCard({
-  label,
-  value,
-  note,
-  accent,
-}: {
-  readonly label: string;
-  readonly value: string;
-  readonly note: string;
-  readonly accent?: "cyan" | "amber" | "emerald" | "violet";
-}) {
-  const colors = {
-    cyan: "text-cyan-300 border-cyan-400/20 bg-cyan-400/6",
-    amber: "text-amber-300 border-amber-400/20 bg-amber-400/6",
-    emerald: "text-emerald-300 border-emerald-400/20 bg-emerald-400/6",
-    violet: "text-violet-300 border-violet-400/20 bg-violet-400/6",
-  };
-  const cl = colors[accent ?? "cyan"];
-  return (
-    <div className={`rounded-xl border p-3 ${cl}`}>
-      <p className="text-[10px] font-bold uppercase tracking-[0.14em] opacity-70">
-        {label}
-      </p>
-      <p className="mt-1 font-mono text-[15px] font-semibold">{value}</p>
-      <p className="mt-0.5 text-[10px] opacity-60">{note}</p>
-    </div>
-  );
 }
 
 export function RealEstateSummaryZone({ summary }: Props) {
@@ -81,46 +38,40 @@ export function RealEstateSummaryZone({ summary }: Props) {
       className="space-y-3 overflow-y-auto"
       data-testid="zone-resumo-content"
     >
-      {/* Grid de métricas */}
-      <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
-        <MetricHero
-          label="Primeira parcela estimada"
+      {/* ScoreCard grid — Observatory F8D */}
+      <ObsScoreGrid>
+        <ScoreCard
+          label="Primeira parcela"
           value={formatBRL(summary.primeira_parcela)}
-          note={`${isSAC ? "Cai progressivamente até " + formatBRL(summary.ultima_parcela) : "Constante em todos os " + summary.prazo_meses + " meses"}`}
+          note={
+            isSAC
+              ? `Cai até ${formatBRL(summary.ultima_parcela)}`
+              : `Constante por ${summary.prazo_meses} meses`
+          }
+          highlighted
+          highlightColor="cyan"
+          valueColor={OBS.accent2}
+          testId="score-card-primeira-parcela"
         />
-        <MetricCard
-          label="Última parcela"
-          value={formatBRL(summary.ultima_parcela)}
-          note={isSAC ? "Redução ao longo do contrato" : "Igual à primeira"}
-          accent="amber"
-        />
-        <MetricCard
-          label="Prazo total"
-          value={`${summary.prazo_meses} meses`}
-          note={`${Math.round(summary.prazo_meses / 12)} anos de contrato`}
-          accent="cyan"
-        />
-        <MetricCard
+        <ScoreCard
           label="Total de juros"
           value={formatBRL(summary.total_juros)}
           note={`${pctJuros}% do valor financiado`}
-          accent="violet"
+          barPct={Math.min(100, parseFloat(pctJuros) || 0)}
+          barColor={OBS.gold}
+          valueColor={OBS.gold}
+          testId="score-card-total-juros"
         />
-        <MetricCard
-          label="Total amortizado"
-          value={formatBRL(summary.total_amortizado)}
-          note="Saldo zerado ao final"
-          accent="emerald"
-        />
-        <MetricCard
+        <ScoreCard
           label="Total pago"
           value={formatBRL(summary.total_pago)}
           note="Capital + juros + encargos"
-          accent="amber"
+          valueColor={OBS.text}
+          testId="score-card-total-pago"
         />
-      </div>
+      </ObsScoreGrid>
 
-      {/* Detalhes do cenário */}
+      {/* Detalhes do cenário + interpretação pedagógica */}
       <div className="grid gap-2.5 sm:grid-cols-2">
         <div className="rounded-xl border border-white/6 bg-slate-900/50 px-3 py-2.5">
           <p className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500">
@@ -132,6 +83,7 @@ export function RealEstateSummaryZone({ summary }: Props) {
             ["Financiado", formatBRL(summary.valor_financiado)],
             ["Prazo", `${summary.prazo_meses} meses`],
             ["Taxa mensal", formatRatePct(summary.taxa_juros_mensal)],
+            ["Última parcela", `${formatBRL(summary.ultima_parcela)}`],
             ["Sistema", summary.sistema_amortizacao],
           ].map(([k, v]) => (
             <div key={k} className="flex justify-between py-0.5 text-[11px]">
@@ -145,12 +97,9 @@ export function RealEstateSummaryZone({ summary }: Props) {
           ))}
         </div>
 
-        {/* Interpretação pedagógica rápida */}
-        <div className="rounded-xl border border-emerald-300/15 bg-emerald-400/8 px-3 py-2.5">
-          <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.16em] text-emerald-300/80">
-            Leitura rápida do cenário
-          </p>
-          <p className="text-[11px] leading-5 text-emerald-50/85">
+        {/* InsightBox — Observatory F8D pedagógico */}
+        <InsightBox icon="🎓" testId="obs-insight-summary">
+          <p>
             No sistema{" "}
             <GlossaryTerm
               term={isSAC ? "SAC" : "PRICE"}
@@ -165,9 +114,9 @@ export function RealEstateSummaryZone({ summary }: Props) {
               <>
                 {" "}
                 você paga{" "}
-                <strong className="text-emerald-100">
+                <InsightStrong>
                   {formatBRL(summary.total_amortizado)}
-                </strong>{" "}
+                </InsightStrong>{" "}
                 em{" "}
                 <GlossaryTerm
                   term="amortização"
@@ -175,35 +124,52 @@ export function RealEstateSummaryZone({ summary }: Props) {
                   accent="emerald"
                 />{" "}
                 constante. Sua parcela vai de{" "}
-                <strong className="text-emerald-100">
+                <InsightStrong>
                   {formatBRL(summary.primeira_parcela)}
-                </strong>{" "}
+                </InsightStrong>{" "}
                 até{" "}
-                <strong className="text-emerald-100">
+                <InsightStrong>
                   {formatBRL(summary.ultima_parcela)}
-                </strong>
+                </InsightStrong>
                 . Total em juros:{" "}
-                <strong className="text-amber-200">
-                  {formatBRL(summary.total_juros)}
-                </strong>
-                .
+                <InsightStrong>{formatBRL(summary.total_juros)}</InsightStrong>.
               </>
             ) : (
               <>
                 {" "}
                 sua parcela é sempre{" "}
-                <strong className="text-emerald-100">
+                <InsightStrong>
                   {formatBRL(summary.primeira_parcela)}
-                </strong>
+                </InsightStrong>
                 . Total em juros:{" "}
-                <strong className="text-amber-200">
-                  {formatBRL(summary.total_juros)}
-                </strong>
-                .
+                <InsightStrong>{formatBRL(summary.total_juros)}</InsightStrong>.
               </>
             )}
           </p>
-        </div>
+        </InsightBox>
+      </div>
+
+      {/* Totais secundários */}
+      <div className="grid gap-2.5 sm:grid-cols-3">
+        <ScoreCard
+          label="Última parcela"
+          value={formatBRL(summary.ultima_parcela)}
+          note={isSAC ? "Redução ao longo do contrato" : "Igual à primeira"}
+          testId="score-card-ultima-parcela"
+        />
+        <ScoreCard
+          label="Prazo total"
+          value={`${summary.prazo_meses} meses`}
+          note={`${Math.round(summary.prazo_meses / 12)} anos de contrato`}
+          testId="score-card-prazo"
+        />
+        <ScoreCard
+          label="Total amortizado"
+          value={formatBRL(summary.total_amortizado)}
+          note="Saldo zerado ao final"
+          valueColor={OBS.green}
+          testId="score-card-total-amortizado"
+        />
       </div>
     </div>
   );
