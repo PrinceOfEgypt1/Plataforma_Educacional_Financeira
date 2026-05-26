@@ -216,3 +216,18 @@ Observação de governança: o script valida estrutura, escopo, presença de arq
 - `docs/gates/gate-po-ux-valor/14f-f8c-v6-2-especificacao-visual-deterministica/validate-spec.mjs` — validador estrutural da especificação.
 
 > Status: entrega documental autoverificada estruturalmente. Aceite visual e funcional permanece dependente do PO.
+
+## Gate PO/UX/Valor — Item 14F-F8C-v6.3 — Adendo Visual Observatory Dark Cards
+
+Adendo visual documental/contratual que formaliza o padrão **Observatory Dark Cards** como contrato bloqueante para a futura implementação React do módulo Financiamento Imobiliário. Baseado no `guia-prompt-checklist.html` aprovado pelo PO. Usa DM Sans + DM Mono. Complementa a F8C-v6.2 sem substituí-la.
+
+- `docs/gates/gate-po-ux-valor/14f-f8c-v6-3-adendo-visual-observatory-dark-cards/README_ITEM_14F_F8C_V6_3.md` — índice e metadados do adendo.
+- `docs/gates/gate-po-ux-valor/14f-f8c-v6-3-adendo-visual-observatory-dark-cards/ADENDO_VISUAL_OBSERVATORY_DARK_CARDS_IMOVEL.md` — contrato visual completo com fontes, tokens, escala tipográfica, regras bloqueantes e declarações.
+- `docs/gates/gate-po-ux-valor/14f-f8c-v6-3-adendo-visual-observatory-dark-cards/DESIGN_SYSTEM_OBSERVATORY_DARK_CARDS.md` — design system completo: paleta, tipografia, todos os UI Elements com medidas exatas.
+- `docs/gates/gate-po-ux-valor/14f-f8c-v6-3-adendo-visual-observatory-dark-cards/MATRIZ_UI_ELEMENTS_PARA_IMOVEL.md` — matriz de aplicação dos 7 UI Elements pelas 7 etapas da jornada.
+- `docs/gates/gate-po-ux-valor/14f-f8c-v6-3-adendo-visual-observatory-dark-cards/CRITERIOS_ACEITE_VISUAL_OBSERVATORY_CARDS.md` — critérios binários de aceite visual (PASSA/FALHA) por bloco.
+- `docs/gates/gate-po-ux-valor/14f-f8c-v6-3-adendo-visual-observatory-dark-cards/CONTRATO_VISUAL_IMOVEL_V6_3.json` — contrato legível por máquina, JSON válido.
+- `docs/gates/gate-po-ux-valor/14f-f8c-v6-3-adendo-visual-observatory-dark-cards/AUTOVALIDACAO_E_AUDITORIA.md` — registro de autovalidação, evidências de execução e limitações.
+- `docs/gates/gate-po-ux-valor/14f-f8c-v6-3-adendo-visual-observatory-dark-cards/validate-observatory-cards.mjs` — script Node.js de validação estrutural (86 checks, exit code 0).
+
+> Status: entrega documental autoverificada. validate-observatory-cards.mjs: 86/86 checks passando. JSON válido. git diff --check: limpo. Implementação React NÃO autorizada. Aceite visual humano pendente (PO: Moisés).
