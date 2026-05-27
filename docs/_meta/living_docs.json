@@ -1428,6 +1428,16 @@
       "materialized_in_repo": true,
       "last_updated": "2026-05-26",
       "note": "Script Node.js de 86 checks estruturais: existência de 8 arquivos, DM Sans, DM Mono, 12 tokens de cor, escala tipográfica, layout tokens, 7 UI Elements, 7 etapas, SAC x PRICE, ausência de Unicode U+00D7, campos JSON. Exit code 0."
+    },
+    {
+      "id": "gate-po-ux-valor-14f-f8e-aj1-aceite-visual",
+      "title": "14F-F8E-AJ1 — Registro formal de aceite visual do protótipo Imóvel",
+      "path": "docs/gates/gate-po-ux-valor/14f-f8e-aj1-aceite-visual/ACEITE_VISUAL_F8E_AJ1.md",
+      "status": "ativo",
+      "category": "gate-po-ux-valor",
+      "type": "aceite-visual",
+      "updated_at": "2026-05-26",
+      "notes": "Formaliza o aceite visual humano da F8E-AJ1 como referência visual oficial para futura implementação React fiel."
     }
   ],
   "updated_at": "2026-05-26T00:00:00Z",

@@ -231,3 +231,8 @@ Adendo visual documental/contratual que formaliza o padrão **Observatory Dark C
 - `docs/gates/gate-po-ux-valor/14f-f8c-v6-3-adendo-visual-observatory-dark-cards/validate-observatory-cards.mjs` — script Node.js de validação estrutural (86 checks, exit code 0).
 
 > Status: entrega documental autoverificada. validate-observatory-cards.mjs: 86/86 checks passando. JSON válido. git diff --check: limpo. Implementação React NÃO autorizada. Aceite visual humano pendente (PO: Moisés).
+
+## Gate PO/UX/Valor — 14F-F8E-AJ1 — Aceite visual do protótipo Imóvel
+
+- [Registro formal de aceite visual F8E-AJ1](gates/gate-po-ux-valor/14f-f8e-aj1-aceite-visual/ACEITE_VISUAL_F8E_AJ1.md)
+- [Diretório de artefatos preservados](gates/gate-po-ux-valor/14f-f8e-aj1-aceite-visual/artefatos/)
