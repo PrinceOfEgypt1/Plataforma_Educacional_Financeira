@@ -1,0 +1,154 @@
+{
+  "$schema_version": 1,
+  "frente": "14F-F8E",
+  "titulo": "Reprojeto visual obrigatorio pos-reprovacao F8D",
+  "tipo_entrega": "prototipo_visual_navegavel_off_repo",
+  "data_entrega": "2026-05-26",
+  "rodada_corrente": "14F-F8E-AJ1",
+  "data_rodada_corrente": "2026-05-27",
+  "rodada_corrente_descricao": "Ajustes minimos pos-avaliacao visual positiva do PO. Sem redesign. Sem regressao. Sem alteracao de codigo real.",
+  "rodada_corrente_ajustes": [
+    "AJ1.1 Reposicionamento do insight 'Comece pelo cenario fixo' para coluna esquerda do preparar-0",
+    "AJ1.2 Cabecalho 'Descrição' alinhado a esquerda na tabela de variaveis (conferir-2)",
+    "AJ1.3 Formatacao monetaria completa (R$ 870.000,00 / 700.000,00 / 170.000,00) no card-resumo global e nos KPIs principais",
+    "AJ1.4 Grafico comparativo SAC x PRICE sem anglicismo 'k'; uso de fmtBRL para forma monetaria completa; viewBox ampliado de 520x280 para 720x300"
+  ],
+  "executor": "IA Claude atuando como designer de produto senior + UI engineer de prototipo",
+  "repositorio_oficial": {
+    "nome": "PrinceOfEgypt1/Plataforma_Educacional_Financeira",
+    "branch_main_antes": "991d242",
+    "branch_main_depois": "991d242",
+    "branch_main_intacta": true,
+    "branch_trabalho": "claude/quirky-cori-1L5sD",
+    "pr_aberto": false,
+    "merge_realizado": false,
+    "areas_codigo_real_tocadas": []
+  },
+  "adaptacao_ambiental": {
+    "motivo": "Sessao cloud efemera; path /home/moses/workspace/ nao existe; persistencia exige Git",
+    "diretorio_planejado": "/home/moses/workspace/_deliveries/PEF_14F_F8E_prototipo_visual_final_candidate/",
+    "diretorio_real": "/home/user/Plataforma_Educacional_Financeira/_deliveries/PEF_14F_F8E_prototipo_visual_final_candidate/",
+    "decisao_acordada_via": "AskUserQuestion antes da geracao",
+    "preserva_espirito_off_repo": "Nenhum arquivo em frontend/, backend/, infra/, docker/, tools/, scripts/, API ou formulas",
+    "preserva_letra_proibicoes_criticas": "Sem PR, sem merge, sem alteracao de codigo real, main intacta"
+  },
+  "implementacao_react_autorizada": false,
+  "aceite_visual_humano_declarado": false,
+  "sprint_5_liberada": false,
+  "referencia_visual_positiva": "guia-prompt-checklist.html (anexo enviado pelo PO)",
+  "antirreferencia_visual": "tela F8D reprovada (PR 71 fechado sem merge)",
+  "contratos_aplicados": [
+    "14F-F8C-v6.2 (especificacao visual deterministica)",
+    "14F-F8C-v6.3 (adendo Observatory Dark Cards)"
+  ],
+  "estrutura_navegacao": {
+    "etapas": 7,
+    "abas_por_etapa": 5,
+    "total_paineis": 35,
+    "nomes_etapas": ["Preparar", "Simular", "Resultado", "Entender", "Comparar", "Conferir", "Decidir"]
+  },
+  "componentes_demonstrados": [
+    "ScoreCard",
+    "MetricCard",
+    "ChecklistCard",
+    "BeforeAfterCard",
+    "QuestionCard_via_InsightBox",
+    "InsightBox",
+    "ApplyCard"
+  ],
+  "tokens_visuais_aplicados": {
+    "bg": "#030811",
+    "surface": "#0a1628",
+    "surface2": "#0f1e35",
+    "border": "#1a2f50",
+    "accent": "#3b82f6",
+    "accent2": "#06b6d4",
+    "gold": "#f59e0b",
+    "green": "#10b981",
+    "red": "#ef4444",
+    "text": "#e2e8f0",
+    "text_muted": "#64748b",
+    "text_dim": "#94a3b8"
+  },
+  "tipografia": {
+    "principal": "DM Sans",
+    "tecnica_numerica": "DM Mono",
+    "fallback_sans": "system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif",
+    "fallback_mono": "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+    "tamanho_minimo": "10px"
+  },
+  "cenario_fixo_aplicado": {
+    "imovel": "R$ 870.000,00",
+    "entrada": "R$ 700.000,00",
+    "financiado": "R$ 170.000,00",
+    "prazo_meses": 120,
+    "taxa_mensal": "0,85%",
+    "encargos_mensais": "R$ 205,00",
+    "encargos_totais": "R$ 24.600,00",
+    "fonte": "CONTRATO_VISUAL_IMOVEL_V6_3.json"
+  },
+  "calculos_demonstrativos_no_prototipo": {
+    "aviso": "Sao demonstrativos para o prototipo visual e nao substituem o motor financeiro oficial do backend",
+    "amortizacao_sac": "R$ 1.416,67",
+    "juros_parcela_1_sac": "R$ 1.445,00",
+    "parcela_1_sac": "R$ 3.066,67",
+    "parcela_120_sac": "R$ 1.633,71",
+    "juros_totais_sac": "R$ 87.422,50",
+    "total_pago_sac": "R$ 282.022,50",
+    "parcela_price_sem_encargos": "R$ 2.265,43",
+    "juros_totais_price": "R$ 101.851,89",
+    "total_pago_price": "R$ 296.451,89",
+    "economia_sac_vs_price": "R$ 14.429,39"
+  },
+  "nomenclatura": {
+    "uso": "SAC x PRICE",
+    "proibido": "SAC com simbolo Unicode de multiplicacao",
+    "grep_negativo_executado": true
+  },
+  "arquivos_contidos_no_pacote": [
+    "index.html",
+    "README.md",
+    "RELATORIO_REPROJETO_VISUAL_F8E.md",
+    "MATRIZ_ACEITE_VISUAL_F8E.md",
+    "MATRIZ_COMPARACAO_ANTIRREFERENCIA_F8D.md",
+    "DELIVERY_CONTRACT.json",
+    "SHA256SUMS.txt",
+    "autovalidacao.sh",
+    "evidencias/COMO_VALIDAR_VISUALMENTE.md",
+    "evidencias/autovalidacao_log.txt"
+  ],
+  "artefato_externo_de_distribuicao": {
+    "tipo": "ZIP",
+    "nome": "PEF_14F_F8E_prototipo_visual_final_candidate.zip",
+    "localizacao_relativa_fonte": "zip/PEF_14F_F8E_prototipo_visual_final_candidate.zip",
+    "observacao": "O ZIP eh artefato de distribuicao do pacote e nao se contem. Em uma copia extraida, o ZIP fica externo ao diretorio raiz extraido. autovalidacao.sh trata os dois contextos: PASS quando o ZIP esta presente em zip/ (contexto fonte), INFO quando ausente (contexto extraido)."
+  },
+  "sha256sums_observacao": "SHA256SUMS.txt cobre apenas arquivos de conteudo estavel. autovalidacao_log.txt eh regenerado a cada execucao da autovalidacao e, portanto, esta deliberadamente fora do SHA256SUMS (sua presenca no pacote eh verificada pelo proprio script).",
+  "evidencias_visuais": {
+    "modo": "Opcao B do prompt F8E - instrucao de captura manual",
+    "motivo": "Ambiente cloud headless sem ferramenta de screenshot automatico",
+    "arquivo_instrucao": "evidencias/COMO_VALIDAR_VISUALMENTE.md",
+    "viewports_recomendados": ["desktop-1920x1080", "notebook-1366x768", "tablet-768x1024", "mobile-390x844"]
+  },
+  "autovalidacao": {
+    "script": "autovalidacao.sh",
+    "verificacoes": [
+      "diretorio de entrega existe",
+      "index.html existe",
+      "README.md existe",
+      "RELATORIO_REPROJETO_VISUAL_F8E.md existe",
+      "MATRIZ_ACEITE_VISUAL_F8E.md existe",
+      "MATRIZ_COMPARACAO_ANTIRREFERENCIA_F8D.md existe",
+      "DELIVERY_CONTRACT.json existe e e JSON valido",
+      "ausencia do simbolo Unicode multiplicacao em SAC/PRICE",
+      "ausencia de termos provisorios proibidos",
+      "ZIP final existe",
+      "SHA256SUMS.txt existe",
+      "main do repo oficial intacta em 991d242"
+    ],
+    "resultado_esperado": "PASS",
+    "log": "evidencias/autovalidacao_log.txt"
+  },
+  "declaracao_obrigatoria": "Este prototipo esta pronto para avaliacao visual humana de Moises. Nao ha implementacao React real autorizada. Nao ha PR. Nao ha merge. Sprint 5 continua nao liberada.",
+  "proxima_porta": "Apenas Moises pode aprovar visualmente e autorizar a abertura da frente F8F com escopo de implementacao React real, exigindo fidelidade visual a este prototipo"
+}

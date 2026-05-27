@@ -1,0 +1,30 @@
+================================================
+ Autovalidacao 14F-F8E - 2026-05-27T01:33:48+00:00
+================================================
+Diretorio: /home/user/Plataforma_Educacional_Financeira/_deliveries/PEF_14F_F8E_prototipo_visual_final_candidate
+
+  [OK]   Diretorio de entrega existe
+  [OK]   index.html existe
+  [OK]   README.md existe
+  [OK]   RELATORIO_REPROJETO_VISUAL_F8E.md existe
+  [OK]   MATRIZ_ACEITE_VISUAL_F8E.md existe
+  [OK]   MATRIZ_COMPARACAO_ANTIRREFERENCIA_F8D.md existe
+  [OK]   DELIVERY_CONTRACT.json existe
+  [OK]   evidencias/COMO_VALIDAR_VISUALMENTE.md existe
+  [OK]   evidencias/autovalidacao_log.txt presente no pacote (snapshot incluso)
+  [OK]   DELIVERY_CONTRACT.json e JSON valido
+  [OK]   Ausencia do simbolo Unicode de multiplicacao em SAC/PRICE
+  [OK]   Ausencia de termos provisorios proibidos
+  [OK]   Branch main do repo oficial intacta em 991d242
+  [OK]   Nenhum arquivo em frontend/backend/infra/docker/tools/scripts foi modificado
+  [OK]   ZIP final presente em zip/ (contexto fonte)
+  [OK]   SHA256SUMS.txt existe
+  [OK]   AJ1.3 Card-resumo global exibe R$ 870.000,00 / R$ 700.000,00 / R$ 170.000,00
+  [OK]   AJ1.4 Grafico comparativo sem formato 'Xk' (uso de fmtBRL ou forma 'X mil')
+  [OK]   AJ1.2 Cabecalho 'Descrição' alinhado a esquerda (mesma fonte/cor dos demais)
+  [OK]   AJ1.1 Insight 'Comece pelo cenario fixo' reposicionado para coluna esquerda
+
+================================================
+ RESULTADO: 20 PASS, 0 FAIL
+================================================
+ STATUS GLOBAL: PASS

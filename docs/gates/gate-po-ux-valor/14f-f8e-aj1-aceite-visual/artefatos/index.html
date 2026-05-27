@@ -1,0 +1,2367 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PEF · Financiamento Imobiliário · Protótipo Visual F8E</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;0,700;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #030811;
+    --surface: #0a1628;
+    --surface2: #0f1e35;
+    --border: #1a2f50;
+    --accent: #3b82f6;
+    --accent2: #06b6d4;
+    --gold: #f59e0b;
+    --green: #10b981;
+    --red: #ef4444;
+    --text: #e2e8f0;
+    --text-muted: #64748b;
+    --text-dim: #94a3b8;
+    --font-sans: "DM Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-mono: "DM Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.55;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 15% 0%, rgba(59,130,246,.06), transparent 60%),
+      radial-gradient(ellipse 70% 60% at 90% 20%, rgba(6,182,212,.05), transparent 60%);
+    pointer-events: none; z-index: 0;
+  }
+
+  /* HEADER */
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(3,8,17,.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .topbar-inner {
+    max-width: 1480px;
+    margin: 0 auto;
+    padding: .85rem 2rem;
+    display: flex; align-items: center; gap: 1.4rem;
+  }
+  .brand {
+    display: flex; align-items: center; gap: .65rem;
+    font-family: var(--font-mono);
+    font-size: .78rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .brand-dot {
+    width: 10px; height: 10px; border-radius: 3px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    box-shadow: 0 0 16px rgba(59,130,246,.6);
+  }
+  .brand strong { color: var(--text); font-weight: 700; letter-spacing: .14em; }
+  .crumbs {
+    margin-left: 1rem;
+    font-family: var(--font-mono);
+    font-size: .72rem;
+    color: var(--text-muted);
+    letter-spacing: .08em;
+  }
+  .crumbs span.sep { margin: 0 .5rem; color: var(--border); }
+  .crumbs span.now { color: var(--accent2); }
+  .topbar-right {
+    margin-left: auto;
+    display: flex; align-items: center; gap: 1rem;
+    font-family: var(--font-mono);
+    font-size: .68rem;
+    letter-spacing: .12em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+  .status-pill {
+    display: inline-flex; align-items: center; gap: .45rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: .3rem .75rem;
+    color: var(--accent2);
+  }
+  .status-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px rgba(16,185,129,.7);
+  }
+
+  /* STEPPER */
+  .stepper {
+    position: sticky; top: 53px; z-index: 40;
+    background: rgba(3,8,17,.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .stepper-inner {
+    max-width: 1480px;
+    margin: 0 auto;
+    padding: .8rem 2rem;
+    display: flex; align-items: center; gap: .6rem;
+    overflow-x: auto;
+  }
+  .step {
+    flex: 1 1 0;
+    min-width: 140px;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: .6rem .9rem;
+    display: flex; align-items: center; gap: .65rem;
+    color: var(--text-dim);
+    transition: all .18s ease;
+    text-align: left;
+    font-family: var(--font-sans);
+  }
+  .step:hover { border-color: var(--accent); color: var(--text); transform: translateY(-1px); }
+  .step.active {
+    background: linear-gradient(135deg, rgba(59,130,246,.18), rgba(6,182,212,.08));
+    border-color: var(--accent);
+    color: #fff;
+    box-shadow: 0 0 24px rgba(59,130,246,.18);
+  }
+  .step-num {
+    width: 26px; height: 26px; border-radius: 7px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: .78rem; font-weight: 500;
+    display: grid; place-items: center;
+    flex-shrink: 0;
+  }
+  .step.active .step-num { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .step.done .step-num { background: rgba(16,185,129,.15); color: var(--green); border-color: rgba(16,185,129,.4); }
+  .step-label {
+    font-size: .8rem; font-weight: 500;
+    letter-spacing: .02em;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+  .step-eyebrow {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: .58rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: .15rem;
+  }
+
+  /* SUB-TABS */
+  .subtabs {
+    max-width: 1480px;
+    margin: 1.2rem auto 0;
+    padding: 0 2rem;
+    display: flex; gap: .35rem; flex-wrap: wrap;
+  }
+  .subtab {
+    cursor: pointer;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: .45rem .85rem;
+    font-family: var(--font-sans);
+    font-size: .78rem;
+    color: var(--text-dim);
+    letter-spacing: .02em;
+    transition: all .15s ease;
+  }
+  .subtab:hover { border-color: var(--accent); color: var(--text); }
+  .subtab.active {
+    background: rgba(59,130,246,.1);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .subtab .num {
+    font-family: var(--font-mono);
+    font-size: .68rem;
+    color: var(--accent2);
+    margin-right: .45rem;
+  }
+
+  /* MAIN */
+  main {
+    position: relative; z-index: 1;
+    max-width: 1480px;
+    margin: 0 auto;
+    padding: 1.4rem 2rem 3rem;
+  }
+  .stage-header {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 1.4rem; gap: 2rem;
+  }
+  .stage-eyebrow {
+    font-family: var(--font-mono);
+    font-size: .68rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: .35rem;
+  }
+  .stage-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -.01em;
+    color: #fff;
+  }
+  .stage-sub {
+    margin-top: .35rem;
+    color: var(--text-dim);
+    font-size: .92rem;
+    max-width: 720px;
+  }
+  .scenario-pill {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: .65rem 1rem;
+    display: flex; gap: 1.2rem; align-items: center;
+    font-family: var(--font-mono);
+    font-size: .72rem;
+    color: var(--text-dim);
+    white-space: nowrap;
+  }
+  .scenario-pill .k { color: var(--text-muted); letter-spacing: .1em; text-transform: uppercase; font-size: .62rem; display: block; }
+  .scenario-pill .v { color: var(--text); font-size: .82rem; }
+  .scenario-pill > div + div { padding-left: 1.2rem; border-left: 1px solid var(--border); }
+
+  /* PANELS */
+  .panel { display: none; animation: fade .25s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* GRID UTILS */
+  .grid { display: grid; gap: 1rem; }
+  .g-2 { grid-template-columns: repeat(2, 1fr); }
+  .g-3 { grid-template-columns: repeat(3, 1fr); }
+  .g-4 { grid-template-columns: repeat(4, 1fr); }
+  .g-60-40 { grid-template-columns: 60% 1fr; }
+  .g-65-35 { grid-template-columns: 65% 1fr; }
+  .g-40-60 { grid-template-columns: 40% 1fr; }
+  .span-2 { grid-column: span 2; }
+  .span-3 { grid-column: span 3; }
+
+  @media (max-width: 1100px) {
+    .g-3, .g-4 { grid-template-columns: repeat(2, 1fr); }
+    .g-60-40, .g-65-35, .g-40-60 { grid-template-columns: 1fr; }
+    .span-2 { grid-column: span 1; }
+  }
+  @media (max-width: 700px) {
+    main { padding: 1rem; }
+    .topbar-inner, .stepper-inner, .subtabs { padding-left: 1rem; padding-right: 1rem; }
+    .g-2, .g-3, .g-4 { grid-template-columns: 1fr; }
+    .stage-header { flex-direction: column; align-items: flex-start; }
+    .scenario-pill { flex-wrap: wrap; white-space: normal; }
+    .scenario-pill > div + div { padding-left: 0; border-left: 0; padding-top: .4rem; }
+  }
+
+  /* CARDS BASE */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.3rem 1.4rem;
+    position: relative;
+  }
+  .card.soft { background: linear-gradient(180deg, var(--surface), var(--surface2)); }
+  .card-head {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 1rem; gap: .6rem;
+  }
+  .card-eyebrow {
+    font-family: var(--font-mono);
+    font-size: .65rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--accent2);
+  }
+  .card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -.005em;
+    line-height: 1.3;
+  }
+  .card-sub {
+    font-size: .82rem;
+    color: var(--text-dim);
+    margin-top: .35rem;
+  }
+  .card-body p { color: var(--text-dim); font-size: .88rem; }
+  .card-body p + p { margin-top: .7rem; }
+  .card-body strong { color: var(--text); font-weight: 700; }
+  .card-tag {
+    display: inline-block;
+    background: rgba(6,182,212,.1);
+    border: 1px solid rgba(6,182,212,.25);
+    border-radius: 6px;
+    padding: .15rem .55rem;
+    font-family: var(--font-mono);
+    font-size: .62rem;
+    font-weight: 500;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent2);
+  }
+
+  /* SCORECARD */
+  .scorecard {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.4rem 1.3rem;
+    transition: transform .18s ease, border-color .18s ease;
+  }
+  .scorecard:hover { transform: translateY(-2px); border-color: rgba(59,130,246,.4); }
+  .scorecard.featured {
+    border-color: var(--green);
+    box-shadow: 0 0 28px rgba(16,185,129,.14);
+  }
+  .sc-label {
+    font-family: var(--font-mono);
+    font-size: .68rem;
+    font-weight: 500;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: .55rem;
+  }
+  .sc-value {
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 1;
+    margin-bottom: .65rem;
+    color: var(--text);
+  }
+  .scorecard.featured .sc-value { color: var(--green); }
+  .scorecard.warn .sc-value { color: var(--gold); }
+  .sc-bar {
+    height: 6px; border-radius: 3px;
+    background: var(--border);
+    overflow: hidden;
+    margin-bottom: .6rem;
+  }
+  .sc-fill { height: 100%; border-radius: 3px; transition: width .6s ease; }
+  .sc-note {
+    font-size: .76rem;
+    color: var(--text-dim);
+    line-height: 1.45;
+  }
+  .sc-delta {
+    display: inline-flex; align-items: center; gap: .3rem;
+    font-family: var(--font-mono);
+    font-size: .68rem;
+    color: var(--green);
+    margin-top: .4rem;
+    letter-spacing: .04em;
+  }
+  .sc-delta.neg { color: var(--gold); }
+
+  /* METRIC CARD */
+  .metric-rows .mrow {
+    display: flex; align-items: center; gap: .75rem;
+    margin-bottom: .55rem;
+  }
+  .mrow:last-child { margin-bottom: 0; }
+  .m-label {
+    font-size: .76rem;
+    color: var(--text-dim);
+    width: 110px;
+    flex-shrink: 0;
+  }
+  .m-bar {
+    flex: 1;
+    height: 8px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .m-fill { height: 100%; border-radius: 4px; }
+  .m-val {
+    font-family: var(--font-mono);
+    font-size: .76rem;
+    width: 78px;
+    text-align: right;
+    color: var(--text);
+  }
+
+  /* CHECKLIST CARD */
+  .checklist-card {
+    background: var(--surface);
+    border: 1px solid var(--accent);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .checklist-head {
+    background: linear-gradient(90deg, rgba(59,130,246,.16), rgba(6,182,212,.08));
+    padding: .95rem 1.4rem;
+    border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .checklist-head .t {
+    font-weight: 700;
+    font-size: .82rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--accent2);
+  }
+  .checklist-head .meta {
+    font-family: var(--font-mono);
+    font-size: .7rem;
+    color: var(--text-dim);
+  }
+  .check-row {
+    display: grid;
+    grid-template-columns: 28px 1fr auto;
+    gap: 1rem;
+    padding: .9rem 1.4rem;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+  }
+  .check-row:last-child { border-bottom: none; }
+  .check-box {
+    width: 18px; height: 18px;
+    border-radius: 5px;
+    border: 1.5px solid var(--border);
+    display: grid; place-items: center;
+    cursor: pointer;
+    transition: all .15s ease;
+    background: var(--surface2);
+  }
+  .check-box.on {
+    background: var(--green);
+    border-color: var(--green);
+    color: #021;
+  }
+  .check-box.on::after {
+    content: "✓";
+    font-size: .75rem;
+    font-weight: 700;
+  }
+  .check-text { font-size: .85rem; color: var(--text); }
+  .check-text .hint { display: block; font-size: .74rem; color: var(--text-dim); margin-top: .15rem; }
+  .check-status {
+    font-family: var(--font-mono);
+    font-size: .68rem;
+    color: var(--green);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  .check-status.pending { color: var(--text-muted); }
+
+  /* BEFORE / AFTER CARD */
+  .ba-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+  @media (max-width: 900px) { .ba-grid { grid-template-columns: 1fr; } }
+  .ba-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .ba-card.win { border-color: var(--green); }
+  .ba-card.alt { border-color: rgba(168,85,247,.4); }
+  .ba-top {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: .8rem 1.2rem;
+    border-bottom: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: .72rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .ba-card.win .ba-top { color: var(--green); }
+  .ba-card.alt .ba-top { color: #c084fc; }
+  .ba-top .badge {
+    font-family: var(--font-sans);
+    font-size: .68rem;
+    letter-spacing: .08em;
+    padding: .15rem .55rem;
+    border-radius: 5px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+  }
+  .ba-body {
+    padding: 1rem 1.2rem;
+    font-family: var(--font-mono);
+    font-size: .8rem;
+    line-height: 1.7;
+    color: var(--text-dim);
+  }
+  .ba-body .line { display: flex; justify-content: space-between; padding: .25rem 0; border-bottom: 1px dashed rgba(26,47,80,.5); }
+  .ba-body .line:last-child { border-bottom: none; }
+  .ba-body .line .k { color: var(--text-muted); }
+  .ba-body .line .v { color: var(--text); }
+  .ba-body .line .v.gold { color: var(--gold); }
+  .ba-body .line .v.green { color: var(--green); }
+
+  /* QUESTION CARD */
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.4rem 1.2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .q-card::before {
+    content: attr(data-n);
+    position: absolute; top: -.4rem; right: .55rem;
+    font-family: var(--font-mono);
+    font-size: 3.8rem;
+    font-weight: 700;
+    color: rgba(59,130,246,.07);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .q-title {
+    font-family: var(--font-mono);
+    font-size: .68rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: .5rem;
+  }
+  .q-text {
+    font-size: .92rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: .55rem;
+    line-height: 1.4;
+  }
+  .q-hint {
+    font-size: .78rem;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  /* INSIGHT BOX */
+  .insight {
+    background: linear-gradient(135deg, rgba(245,158,11,.1), rgba(245,158,11,.03));
+    border: 1px solid rgba(245,158,11,.28);
+    border-radius: 12px;
+    padding: 1.05rem 1.35rem;
+    display: flex; gap: .9rem; align-items: flex-start;
+  }
+  .insight.cyan {
+    background: linear-gradient(135deg, rgba(6,182,212,.1), rgba(6,182,212,.03));
+    border-color: rgba(6,182,212,.28);
+  }
+  .insight.green {
+    background: linear-gradient(135deg, rgba(16,185,129,.1), rgba(16,185,129,.03));
+    border-color: rgba(16,185,129,.28);
+  }
+  .insight.red {
+    background: linear-gradient(135deg, rgba(239,68,68,.1), rgba(239,68,68,.03));
+    border-color: rgba(239,68,68,.32);
+  }
+  .insight-ic {
+    width: 36px; height: 36px;
+    border-radius: 9px;
+    background: rgba(245,158,11,.15);
+    display: grid; place-items: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+    color: var(--gold);
+  }
+  .insight.cyan .insight-ic { background: rgba(6,182,212,.15); color: var(--accent2); }
+  .insight.green .insight-ic { background: rgba(16,185,129,.15); color: var(--green); }
+  .insight.red .insight-ic { background: rgba(239,68,68,.18); color: var(--red); }
+  .insight-body {
+    font-size: .87rem;
+    color: var(--text-dim);
+    line-height: 1.55;
+  }
+  .insight-body strong { color: var(--gold); }
+  .insight.cyan .insight-body strong { color: var(--accent2); }
+  .insight.green .insight-body strong { color: var(--green); }
+  .insight.red .insight-body strong { color: var(--red); }
+  .insight-body .t {
+    display: block;
+    color: #fff;
+    font-weight: 700;
+    font-size: .92rem;
+    margin-bottom: .25rem;
+  }
+
+  /* APPLY CARD */
+  .apply-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.2rem 1.35rem;
+  }
+  .apply-tag {
+    display: inline-block;
+    background: rgba(6,182,212,.1);
+    border: 1px solid rgba(6,182,212,.25);
+    border-radius: 6px;
+    padding: .18rem .55rem;
+    font-family: var(--font-mono);
+    font-size: .62rem;
+    font-weight: 500;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: .7rem;
+  }
+  .apply-title { font-weight: 700; font-size: .94rem; margin-bottom: .35rem; color: #fff; }
+  .apply-sub { font-size: .8rem; color: var(--text-dim); margin-bottom: .65rem; }
+  .apply-block {
+    font-family: var(--font-mono);
+    font-size: .78rem;
+    color: var(--gold);
+    background: rgba(245,158,11,.05);
+    border: 1px solid rgba(245,158,11,.12);
+    border-radius: 8px;
+    padding: .75rem .95rem;
+    line-height: 1.65;
+  }
+
+  /* KPI BIG */
+  .kpi {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.2rem 1.3rem;
+  }
+  .kpi-label {
+    font-family: var(--font-mono);
+    font-size: .65rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: .5rem;
+  }
+  .kpi-value {
+    font-family: var(--font-mono);
+    font-size: 1.7rem;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--text);
+    letter-spacing: -.01em;
+  }
+  .kpi-value small { font-size: .65rem; color: var(--text-dim); margin-left: .3rem; letter-spacing: .06em; }
+  .kpi-foot {
+    margin-top: .55rem;
+    font-size: .74rem;
+    color: var(--text-dim);
+  }
+  .kpi.accent .kpi-value { color: var(--accent2); }
+  .kpi.gold .kpi-value { color: var(--gold); }
+  .kpi.green .kpi-value { color: var(--green); }
+
+  /* TABLE */
+  .table-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .table-head {
+    padding: .9rem 1.2rem;
+    border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--surface2);
+  }
+  .table-head .t { font-weight: 700; font-size: .85rem; color: var(--text); letter-spacing: .04em; }
+  .table-head .meta { font-family: var(--font-mono); font-size: .7rem; color: var(--text-dim); }
+  .data-table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+  .data-table th, .data-table td {
+    padding: .55rem .9rem;
+    text-align: right;
+    border-bottom: 1px solid var(--border);
+    font-family: var(--font-mono);
+  }
+  .data-table th {
+    font-family: var(--font-sans);
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    text-align: right;
+    background: rgba(15,30,53,.55);
+  }
+  .data-table th:first-child, .data-table td:first-child { text-align: left; color: var(--text); }
+  .data-table td { color: var(--text-dim); }
+  .data-table tbody tr:hover { background: rgba(59,130,246,.04); }
+  .data-table tr.foot td {
+    background: rgba(15,30,53,.7);
+    color: var(--text);
+    font-weight: 500;
+    border-top: 1px solid var(--accent2);
+  }
+  .scroll-x { overflow-x: auto; }
+  .pager {
+    padding: .65rem 1.2rem;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--surface2);
+    font-family: var(--font-mono);
+    font-size: .72rem;
+    color: var(--text-dim);
+  }
+  .pager button {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    border-radius: 6px;
+    padding: .3rem .65rem;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: .7rem;
+    transition: all .15s ease;
+  }
+  .pager button:hover:not(:disabled) { border-color: var(--accent); color: var(--text); }
+  .pager button:disabled { opacity: .4; cursor: not-allowed; }
+
+  /* FORMULA BLOCK */
+  .formula {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    font-family: var(--font-mono);
+    font-size: .85rem;
+    color: var(--text);
+    line-height: 1.7;
+    overflow-x: auto;
+  }
+  .formula .var { color: var(--accent2); }
+  .formula .num { color: var(--gold); }
+  .formula .op { color: var(--text-dim); }
+  .formula .label {
+    font-family: var(--font-sans);
+    font-size: .65rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: .45rem;
+  }
+
+  /* FORM */
+  .form-field {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: .9rem 1rem;
+    transition: border-color .15s ease;
+  }
+  .form-field:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(59,130,246,.12); }
+  .form-field label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: .65rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: .35rem;
+  }
+  .form-field .input {
+    display: flex; align-items: center; gap: .5rem;
+  }
+  .form-field .prefix {
+    font-family: var(--font-mono);
+    font-size: .82rem;
+    color: var(--accent2);
+  }
+  .form-field input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 1.05rem;
+    font-weight: 500;
+  }
+  .form-field .suffix {
+    font-family: var(--font-mono);
+    font-size: .72rem;
+    color: var(--text-muted);
+  }
+  .form-hint {
+    font-size: .74rem;
+    color: var(--text-dim);
+    margin-top: .35rem;
+    padding-left: .2rem;
+  }
+
+  /* RADIO */
+  .radio-group { display: grid; gap: .55rem; }
+  .radio-opt {
+    display: flex; align-items: center; gap: .7rem;
+    padding: .85rem 1rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all .15s ease;
+  }
+  .radio-opt:hover { border-color: var(--accent); }
+  .radio-opt.sel {
+    background: rgba(59,130,246,.08);
+    border-color: var(--accent);
+  }
+  .radio-dot {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    flex-shrink: 0;
+    position: relative;
+  }
+  .radio-opt.sel .radio-dot { border-color: var(--accent); }
+  .radio-opt.sel .radio-dot::after {
+    content: "";
+    position: absolute;
+    inset: 3px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .radio-opt .lbl { font-size: .88rem; color: var(--text); font-weight: 500; }
+  .radio-opt .desc { font-size: .74rem; color: var(--text-dim); display: block; margin-top: .15rem; }
+
+  /* CTA */
+  .cta {
+    display: inline-flex; align-items: center; gap: .55rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: .85rem 1.4rem;
+    font-family: var(--font-sans);
+    font-size: .9rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: .02em;
+    transition: all .18s ease;
+    box-shadow: 0 6px 24px rgba(59,130,246,.28);
+  }
+  .cta:hover { transform: translateY(-1px); box-shadow: 0 8px 30px rgba(59,130,246,.4); }
+  .cta.ghost {
+    background: transparent;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    box-shadow: none;
+  }
+  .cta.ghost:hover { border-color: var(--accent); color: var(--text); }
+  .cta-aurora {
+    position: relative;
+    background: var(--surface);
+    color: #fff;
+    border: 1px solid transparent;
+    padding: 1rem 1.6rem;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: .95rem;
+    cursor: pointer;
+    background-image:
+      linear-gradient(var(--surface), var(--surface)),
+      linear-gradient(135deg, var(--accent), var(--accent2), var(--gold));
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    transition: transform .18s ease;
+  }
+  .cta-aurora:hover { transform: translateY(-2px); }
+  .cta-aurora::before {
+    content: "";
+    position: absolute; inset: -1px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(59,130,246,.4), rgba(6,182,212,.3), rgba(245,158,11,.3));
+    z-index: -1;
+    filter: blur(14px);
+    opacity: .55;
+  }
+
+  /* AURORA CARD */
+  .aurora-card {
+    position: relative;
+    background: var(--surface);
+    border-radius: 14px;
+    padding: 1.5rem 1.7rem;
+    overflow: hidden;
+    border: 1px solid transparent;
+    background-image:
+      linear-gradient(var(--surface), var(--surface)),
+      linear-gradient(135deg, var(--accent), var(--accent2), var(--gold));
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+  }
+  .aurora-card::before {
+    content: "";
+    position: absolute;
+    inset: -40% -10% auto auto;
+    width: 60%; height: 200%;
+    background: radial-gradient(circle, rgba(6,182,212,.18), transparent 60%);
+    pointer-events: none;
+  }
+  .aurora-card .ac-eyebrow {
+    font-family: var(--font-mono);
+    font-size: .68rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: .55rem;
+  }
+  .aurora-card .ac-title {
+    font-size: 1.3rem;
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: .35rem;
+    letter-spacing: -.01em;
+  }
+  .aurora-card .ac-body { color: var(--text-dim); font-size: .9rem; line-height: 1.55; }
+  .aurora-card .ac-big {
+    font-family: var(--font-mono);
+    font-size: 2.3rem;
+    color: var(--green);
+    font-weight: 500;
+    line-height: 1;
+    margin: .75rem 0 .35rem;
+  }
+
+  /* ALERT */
+  .alert {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    border-radius: 10px;
+    padding: .95rem 1.2rem;
+    display: flex; gap: .85rem; align-items: flex-start;
+  }
+  .alert.red { border-left-color: var(--red); }
+  .alert.cyan { border-left-color: var(--accent2); }
+  .alert.green { border-left-color: var(--green); }
+  .alert-ic { font-size: 1rem; color: var(--gold); flex-shrink: 0; line-height: 1; padding-top: .15rem; }
+  .alert.red .alert-ic { color: var(--red); }
+  .alert.cyan .alert-ic { color: var(--accent2); }
+  .alert.green .alert-ic { color: var(--green); }
+  .alert-body .t {
+    color: #fff;
+    font-weight: 700;
+    font-size: .88rem;
+    margin-bottom: .15rem;
+  }
+  .alert-body .d { color: var(--text-dim); font-size: .8rem; line-height: 1.5; }
+
+  /* CHART */
+  .chart-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.3rem;
+  }
+  .chart-head {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: .9rem;
+  }
+  .chart-title { color: #fff; font-weight: 700; font-size: .95rem; }
+  .chart-legend { display: flex; gap: .9rem; }
+  .chart-legend span {
+    display: inline-flex; align-items: center; gap: .35rem;
+    font-family: var(--font-mono);
+    font-size: .7rem;
+    color: var(--text-dim);
+  }
+  .lg-dot { width: 10px; height: 10px; border-radius: 3px; }
+  svg.chart { width: 100%; height: auto; display: block; }
+
+  /* FOOTER NAV */
+  .nav-foot {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 1.6rem; padding-top: 1.2rem;
+    border-top: 1px solid var(--border);
+  }
+  .nav-foot .marker {
+    font-family: var(--font-mono);
+    font-size: .7rem;
+    color: var(--text-muted);
+    letter-spacing: .1em;
+  }
+
+  /* PIE-LIKE COMPOSITION */
+  .composition {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 1.4rem;
+    align-items: center;
+  }
+  @media (max-width: 700px) { .composition { grid-template-columns: 1fr; } }
+  .donut { width: 140px; height: 140px; position: relative; }
+  .donut .ring {
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    background: conic-gradient(
+      var(--accent) 0deg 166deg,
+      var(--gold) 166deg 332deg,
+      var(--green) 332deg 360deg
+    );
+    -webkit-mask: radial-gradient(circle, transparent 38%, #000 39%);
+    mask: radial-gradient(circle, transparent 38%, #000 39%);
+  }
+  .donut-center {
+    position: absolute; inset: 0;
+    display: grid; place-items: center;
+    text-align: center;
+    pointer-events: none;
+  }
+  .donut-center .v {
+    font-family: var(--font-mono);
+    font-size: 1.05rem;
+    color: var(--text);
+    font-weight: 500;
+  }
+  .donut-center .k {
+    font-family: var(--font-mono);
+    font-size: .58rem;
+    color: var(--text-muted);
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+  .comp-rows .crow {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: .35rem 0;
+    border-bottom: 1px dashed rgba(26,47,80,.5);
+    font-size: .82rem;
+  }
+  .comp-rows .crow:last-child { border-bottom: none; }
+  .comp-rows .lbl { display: inline-flex; align-items: center; gap: .5rem; color: var(--text-dim); }
+  .comp-rows .lbl .sw { width: 10px; height: 10px; border-radius: 3px; }
+  .comp-rows .val { font-family: var(--font-mono); color: var(--text); }
+
+  /* MICRO BAR (for KPI evolution) */
+  .micro {
+    display: flex; gap: 3px; align-items: flex-end;
+    height: 28px;
+    margin-top: .55rem;
+  }
+  .micro span {
+    flex: 1;
+    background: linear-gradient(180deg, var(--accent2), var(--accent));
+    border-radius: 2px 2px 0 0;
+    opacity: .85;
+  }
+
+  /* CONCLUSION HERO */
+  .hero-conclusion {
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+  .hero-conclusion .em {
+    font-family: var(--font-mono);
+    font-size: .72rem;
+    color: var(--accent2);
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    margin-bottom: .9rem;
+  }
+  .hero-conclusion h2 {
+    font-size: 1.9rem;
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: .65rem;
+    letter-spacing: -.01em;
+  }
+  .hero-conclusion p {
+    color: var(--text-dim);
+    max-width: 640px;
+    margin: 0 auto 1.5rem;
+    font-size: .96rem;
+  }
+
+  /* CALLOUT BANNER (governance) */
+  .gov-banner {
+    margin-top: 2rem;
+    background: rgba(59,130,246,.05);
+    border: 1px dashed rgba(59,130,246,.3);
+    border-radius: 12px;
+    padding: 1rem 1.3rem;
+    display: flex; gap: .9rem; align-items: flex-start;
+    font-size: .8rem;
+    color: var(--text-dim);
+  }
+  .gov-banner strong { color: var(--accent2); }
+
+  /* Utility */
+  .mt-1 { margin-top: .6rem; }
+  .mt-2 { margin-top: 1rem; }
+  .mt-3 { margin-top: 1.4rem; }
+  .mt-4 { margin-top: 1.8rem; }
+  .mb-1 { margin-bottom: .6rem; }
+  .text-center { text-align: center; }
+  .row-between { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+  .small { font-size: .78rem; color: var(--text-dim); }
+  .mono { font-family: var(--font-mono); }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span class="brand-dot"></span>
+      <span>PEF · <strong>Financial Observatory</strong></span>
+    </div>
+    <div class="crumbs">
+      Plataforma <span class="sep">›</span> Módulos <span class="sep">›</span> <span class="now">Financiamento Imobiliário</span>
+    </div>
+    <div class="topbar-right">
+      <span>Cenário fixo · 14F-F8C-v6.3</span>
+      <span class="status-pill"><span class="status-dot"></span>protótipo F8E</span>
+    </div>
+  </div>
+</header>
+
+<nav class="stepper" aria-label="Etapas da jornada">
+  <div class="stepper-inner" id="stepper"></div>
+</nav>
+
+<div class="subtabs" id="subtabs"></div>
+
+<main>
+  <section class="stage-header">
+    <div>
+      <div class="stage-eyebrow" id="stageEyebrow">Etapa 1 · Preparar</div>
+      <h1 class="stage-title" id="stageTitle">Visão geral do financiamento imobiliário</h1>
+      <p class="stage-sub" id="stageSub">Entenda o que é financiar um imóvel, qual é o cenário usado neste módulo e como você navega pelas 7 etapas educacionais.</p>
+    </div>
+    <div class="scenario-pill" aria-label="Cenário fixo do módulo">
+      <div><span class="k">Imóvel</span><span class="v">R$ 870.000,00</span></div>
+      <div><span class="k">Entrada</span><span class="v">R$ 700.000,00</span></div>
+      <div><span class="k">Financiado</span><span class="v">R$ 170.000,00</span></div>
+      <div><span class="k">Prazo</span><span class="v">120 meses</span></div>
+      <div><span class="k">Taxa</span><span class="v">0,85% a.m.</span></div>
+    </div>
+  </section>
+
+  <div id="stage"></div>
+
+  <div class="gov-banner">
+    <span style="font-size:1.1rem;color:var(--accent2)">●</span>
+    <div>
+      <strong>Aviso de governança.</strong> Este protótipo é uma representação visual da jornada para validação humana do PO. Os números exibidos seguem o cenário fixo registrado em <span class="mono" style="color:var(--text)">CONTRATO_VISUAL_IMOVEL_V6_3.json</span> e <strong>não substituem o motor financeiro oficial</strong>. Não há implementação React real, não há PR, e a Sprint 5 segue não liberada até aprovação visual de Moisés.
+    </div>
+  </div>
+</main>
+
+<script>
+/* ============================================================
+   PEF · Protótipo Visual F8E
+   Single-file SPA com 7 etapas × 5 abas = 35 painéis
+   Cenário fixo: PV=170.000, n=120, i=0,85% a.m., E=205
+   ============================================================ */
+
+const ETAPAS = [
+  { n: 1, key: "preparar",  label: "Preparar",  desc: "Contexto e fundamentos" },
+  { n: 2, key: "simular",   label: "Simular",   desc: "Inserir os dados" },
+  { n: 3, key: "resultado", label: "Resultado", desc: "Ver o cenário calculado" },
+  { n: 4, key: "entender",  label: "Entender",  desc: "Mecânica da parcela" },
+  { n: 5, key: "comparar",  label: "Comparar",  desc: "SAC x PRICE lado a lado" },
+  { n: 6, key: "conferir",  label: "Conferir",  desc: "Fórmulas e auditoria" },
+  { n: 7, key: "decidir",   label: "Decidir",   desc: "Checklist e próximos passos" },
+];
+
+const ABAS = {
+  preparar:  ["Visão Geral", "Entrada", "Valor Financiado", "SAC x PRICE", "Cuidados"],
+  simular:   ["Dados do Imóvel", "Condições", "Custos", "Sistema", "Resumo"],
+  resultado: ["Resumo", "Cenário", "Alertas", "Interpretação", "Próximo passo"],
+  entender:  ["Parcela", "Amortização", "Juros", "Saldo Devedor", "SAC x PRICE"],
+  comparar:  ["Resumo Comparativo", "Tabela SAC", "Tabela PRICE", "Gráfico", "Leitura Pedagógica"],
+  conferir:  ["Fórmulas SAC", "Fórmulas PRICE", "Variáveis", "Passo a Passo", "Auditoria"],
+  decidir:   ["Diagnóstico", "Checklist", "Próximos Passos", "Cuidados", "Conclusão"],
+};
+
+const STATE = { etapa: 1, aba: 0 };
+
+const fmtBRL = v => "R$ " + v.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const fmtInt = v => v.toLocaleString("pt-BR");
+
+/* ----- Stepper render ----- */
+function renderStepper() {
+  const el = document.getElementById("stepper");
+  el.innerHTML = ETAPAS.map(e => `
+    <button class="step ${e.n === STATE.etapa ? "active" : ""} ${e.n < STATE.etapa ? "done" : ""}" data-step="${e.n}">
+      <span class="step-num">${e.n}</span>
+      <span>
+        <span class="step-eyebrow">Etapa ${e.n}</span>
+        <span class="step-label">${e.label}</span>
+      </span>
+    </button>
+  `).join("");
+  el.querySelectorAll(".step").forEach(b => b.addEventListener("click", () => {
+    STATE.etapa = Number(b.dataset.step);
+    STATE.aba = 0;
+    renderAll();
+  }));
+}
+
+/* ----- Subtabs render ----- */
+function renderSubtabs() {
+  const el = document.getElementById("subtabs");
+  const etapaKey = ETAPAS[STATE.etapa - 1].key;
+  el.innerHTML = ABAS[etapaKey].map((label, i) => `
+    <button class="subtab ${i === STATE.aba ? "active" : ""}" data-aba="${i}">
+      <span class="num">${STATE.etapa}.${i + 1}</span>${label}
+    </button>
+  `).join("");
+  el.querySelectorAll(".subtab").forEach(b => b.addEventListener("click", () => {
+    STATE.aba = Number(b.dataset.aba);
+    renderAll();
+  }));
+}
+
+/* ----- Header render ----- */
+function renderHeader() {
+  const etapa = ETAPAS[STATE.etapa - 1];
+  const abaName = ABAS[etapa.key][STATE.aba];
+  document.getElementById("stageEyebrow").textContent = `Etapa ${etapa.n} · ${etapa.label}`;
+  document.getElementById("stageTitle").textContent = STAGE_TITLES[etapa.key][STATE.aba];
+  document.getElementById("stageSub").textContent = STAGE_SUBS[etapa.key][STATE.aba];
+}
+
+const STAGE_TITLES = {
+  preparar: [
+    "Visão geral do financiamento imobiliário",
+    "O que é a entrada e por que ela importa",
+    "Valor financiado: a base de todos os cálculos",
+    "SAC e PRICE: dois sistemas, uma decisão",
+    "Cinco cuidados antes de assinar o contrato"
+  ],
+  simular: [
+    "Dados do imóvel",
+    "Condições do financiamento",
+    "Custos mensais e encargos",
+    "Sistema de amortização principal",
+    "Resumo da simulação"
+  ],
+  resultado: [
+    "Resultado da simulação SAC",
+    "Cenário usado no cálculo",
+    "Alertas financeiros do resultado",
+    "Como ler o resultado de forma pedagógica",
+    "Próximo passo da jornada"
+  ],
+  entender: [
+    "A parcela e seus três componentes",
+    "Amortização: o que volta ao banco",
+    "Juros: o preço do dinheiro emprestado",
+    "Saldo devedor: a curva da dívida",
+    "SAC e PRICE comparados em conceito"
+  ],
+  comparar: [
+    "Resumo comparativo SAC x PRICE",
+    "Tabela completa do sistema SAC",
+    "Tabela completa do sistema PRICE",
+    "Gráfico de comparação SAC x PRICE",
+    "Leitura pedagógica da comparação"
+  ],
+  conferir: [
+    "Fórmulas oficiais do sistema SAC",
+    "Fórmulas oficiais do sistema PRICE",
+    "Variáveis usadas nos cálculos",
+    "Cálculo passo a passo de uma parcela",
+    "Auditoria de consistência do cenário"
+  ],
+  decidir: [
+    "Diagnóstico final do financiamento",
+    "Checklist antes de contratar",
+    "Próximos passos concretos",
+    "Cuidados no momento de assinar",
+    "Conclusão da jornada"
+  ],
+};
+
+const STAGE_SUBS = {
+  preparar: [
+    "Entenda o que é financiar um imóvel, qual é o cenário usado neste módulo e como você navega pelas 7 etapas educacionais.",
+    "A entrada é o dinheiro que sai do seu bolso no ato da compra. Veja por que ela define o tamanho do financiamento e da sua parcela.",
+    "É sobre o valor financiado, e não sobre o preço do imóvel, que o banco aplica taxa e prazo. Aqui você aprende como esse valor nasce.",
+    "São duas formas diferentes de pagar o mesmo financiamento. Conheça a essência de cada uma antes de comparar números.",
+    "Cinco armadilhas comuns que aparecem antes da assinatura: taxas confundidas, encargos escondidos, prazo longo e mais."
+  ],
+  simular: [
+    "Informe o valor do imóvel e da entrada. O valor financiado é calculado em tempo real para você visualizar o impacto.",
+    "Defina o prazo em meses e a taxa de juros mensal. A taxa anual equivalente é calculada para referência.",
+    "Encargos mensais incluem seguros e taxas administrativas. Eles não amortizam a dívida, mas aparecem na parcela.",
+    "Escolha o sistema de amortização principal. A comparação completa entre SAC e PRICE é feita automaticamente depois.",
+    "Confirme os dados e siga para o resultado. Um único clique calcula os 120 meses do seu cenário."
+  ],
+  resultado: [
+    "Primeira parcela, última parcela e custo total no sistema SAC, com leitura clara de cada número.",
+    "Os parâmetros que originaram este resultado, reunidos para conferência rápida antes de aprofundar.",
+    "Três a quatro alertas educacionais sobre o que o cenário diz: custo de juros, prazo longo e atenção com encargos.",
+    "O significado dos números: o que representa pagar R$ 87 mil de juros, e como comparar isso com referências de mercado.",
+    "Você acabou de ver o resultado. Agora vamos abrir a caixa preta e entender como cada parcela é construída."
+  ],
+  entender: [
+    "Toda parcela tem três partes: amortização, juros e encargos. Veja a decomposição da sua primeira parcela.",
+    "Amortização é a parte da parcela que reduz seu saldo devedor. No SAC ela é fixa, no PRICE ela cresce com o tempo.",
+    "Os juros são calculados sobre o saldo devedor. Como o saldo diminui no SAC, os juros caem mês a mês.",
+    "A dívida começa em R$ 170.000 e termina em zero. A forma como ela cai diferencia SAC e PRICE.",
+    "Mesmo cenário, sistemas diferentes. Aqui você vê totais e características lado a lado."
+  ],
+  comparar: [
+    "Total pago, juros totais, primeira parcela e parcela fixa: a foto da comparação em um único painel.",
+    "120 parcelas do SAC, paginadas, com saldo inicial, juros, amortização, encargos e saldo final.",
+    "120 parcelas do PRICE com a mesma base do SAC: mesmo principal, mesma taxa, mesmo prazo, mesmos encargos.",
+    "Três grupos visuais: total pago, juros totais e encargos, lado a lado para os dois sistemas.",
+    "Quando SAC faz mais sentido, quando PRICE pode ser preferível, e quais fatores afetam sua decisão."
+  ],
+  conferir: [
+    "Quatro fórmulas do SAC tipografadas, com exemplo numérico calculado sobre o cenário.",
+    "Três fórmulas do PRICE (Hewlett-Packard), com decomposição da primeira parcela.",
+    "Símbolos, descrições e valores no cenário: a tabela de variáveis usada em todas as fórmulas.",
+    "Cálculo passo a passo da parcela 1 e da parcela 60 no SAC, com cada operação explicitada.",
+    "Cinco verificações de consistência: soma de amortizações, saldo final, encargos totais e base justa."
+  ],
+  decidir: [
+    "Síntese do custo, comprometimento de renda estimado e tempo de relação com o banco.",
+    "Dez itens práticos para conferir antes de assinar: entrada suficiente, CET avaliado, reserva de emergência e mais.",
+    "Quatro ações concretas: simular em outros bancos, pedir proposta formal, analisar o CET, revisar contrato.",
+    "Quatro alertas focados no momento da contratação: leitura do contrato, ITBI, seguro obrigatório, portabilidade.",
+    "O que você aprendeu nesta jornada, e como reaproveitar isso na sua decisão real."
+  ],
+};
+
+/* ----- Cenário fixo + cálculos demonstrativos ----- */
+const PV = 170000, n = 120, i = 0.0085, E = 205;
+const A_sac = PV / n;                         // 1416,67
+const juros1 = PV * i;                        // 1445,00
+const parcela1_sac = A_sac + juros1 + E;      // 3066,67
+const jurosTotaisSac = PV * i * (n + 1) / 2;  // 87.422,50
+const totalPagoSac = PV + jurosTotaisSac + E * n;
+const saldo60 = PV - 60 * A_sac;              // 85.000
+const jurosUlt = (PV - 119 * A_sac) * i;      // ~ 12,04
+const parcelaUlt = A_sac + jurosUlt + E;
+
+const pow = Math.pow(1 + i, n);
+const pmt_price = PV * i * pow / (pow - 1);   // ~2265,75
+const totalPagoPrice = pmt_price * n + E * n;
+const jurosTotaisPrice = pmt_price * n - PV;
+const economiaSac = totalPagoPrice - totalPagoSac;
+
+const tableSAC = (() => {
+  let saldo = PV;
+  const arr = [];
+  for (let k = 1; k <= n; k++) {
+    const j = saldo * i;
+    const total = A_sac + j + E;
+    const novoSaldo = saldo - A_sac;
+    arr.push({ k, si: saldo, j, a: A_sac, e: E, t: total, sf: Math.max(0, novoSaldo) });
+    saldo = novoSaldo;
+  }
+  return arr;
+})();
+const tablePRICE = (() => {
+  let saldo = PV;
+  const arr = [];
+  for (let k = 1; k <= n; k++) {
+    const j = saldo * i;
+    const a = pmt_price - j;
+    const novoSaldo = saldo - a;
+    arr.push({ k, si: saldo, j, a, e: E, t: pmt_price + E, sf: Math.max(0, novoSaldo) });
+    saldo = novoSaldo;
+  }
+  return arr;
+})();
+
+/* ============================================================
+   PANEL BUILDERS
+   ============================================================ */
+
+const Panels = {
+
+  /* ---------- ETAPA 1 - PREPARAR ---------- */
+
+  "preparar-0": () => `
+    <div class="grid g-60-40">
+      <div class="grid">
+        <div class="card soft">
+          <div class="card-head">
+            <div>
+              <div class="card-eyebrow">Conceito</div>
+              <div class="card-title">O que é financiar um imóvel</div>
+            </div>
+            <span class="card-tag">Etapa 1.1</span>
+          </div>
+          <div class="card-body">
+            <p>Financiar um imóvel significa que o banco paga a parte do preço que você não tem hoje, e você devolve esse dinheiro <strong>em parcelas mensais</strong>, com juros, durante muitos anos. Neste módulo, o banco emprestaria <strong>R$ 170.000,00</strong> e você devolveria esse valor ao longo de <strong>120 meses</strong>.</p>
+            <p>O que você vai aprender aqui: o conceito de entrada, a diferença entre <strong>SAC</strong> e <strong>PRICE</strong>, como ler uma parcela, como auditar os cálculos e quais perguntas fazer ao banco antes de assinar.</p>
+          </div>
+        </div>
+        <div class="grid g-3">
+          ${kpi("Valor do imóvel", "R$ 870.000,00", "Preço total negociado", "accent")}
+          ${kpi("Entrada", "R$ 700.000,00", "Pago no ato da compra", "")}
+          ${kpi("Valor financiado", "R$ 170.000,00", "Devolvido em 120 parcelas", "gold")}
+        </div>
+        ${insight("Comece pelo cenário fixo", "Para ensinar bem, este módulo usa <strong>um único cenário</strong> em todas as etapas. Você vai ver os mesmos R$ 170.000,00 financiados em 120 meses do começo ao fim, e isso permite comparar tudo de forma justa.", "cyan")}
+      </div>
+      <div class="card">
+        <div class="card-eyebrow mb-1">As 7 etapas deste módulo</div>
+        <div class="card-title" style="margin-bottom:.9rem">Sua jornada educacional</div>
+        ${ETAPAS.map(e => `
+          <div style="display:flex;gap:.7rem;align-items:flex-start;padding:.5rem 0;border-bottom:1px dashed rgba(26,47,80,.5)">
+            <span class="mono" style="color:var(--accent2);font-size:.7rem;min-width:18px">${e.n}</span>
+            <div>
+              <div style="color:var(--text);font-weight:500;font-size:.86rem">${e.label}</div>
+              <div class="small">${e.desc}</div>
+            </div>
+          </div>`).join("")}
+      </div>
+    </div>
+  `,
+
+  "preparar-1": () => `
+    <div class="grid g-65-35">
+      <div class="card">
+        <div class="card-eyebrow mb-1">Conceito</div>
+        <div class="card-title mb-1">Entrada é o dinheiro que sai do seu bolso hoje</div>
+        <div class="card-body">
+          <p>A entrada é o valor pago à vista, no ato da compra. Quanto maior a entrada, <strong>menor o valor financiado</strong>, menor o saldo devedor inicial e, consequentemente, menores os juros pagos ao longo dos anos. Bancos brasileiros costumam exigir <strong>no mínimo 20%</strong> do valor do imóvel como entrada.</p>
+          <p>No cenário deste módulo, a entrada é <strong>muito alta</strong>: R$ 700.000 sobre R$ 870.000, equivalente a <strong>80,46%</strong>. Esse é um cenário em que o financiamento serve apenas para completar a compra, e por isso o valor financiado é menor que o normal.</p>
+        </div>
+      </div>
+      <div class="grid">
+        ${kpi("Valor da entrada", "R$ 700.000,00", "Pago no ato", "accent")}
+        ${kpi("% sobre o imóvel", "80,46%", "Entrada / valor do imóvel", "gold")}
+        ${alert("gold", "Regra prática", "Quanto maior a entrada, <strong>menor o custo total</strong> do financiamento. Cada R$ 10.000 a mais de entrada reduz, no SAC, cerca de R$ 5.100 em juros ao longo de 120 meses.")}
+      </div>
+    </div>
+  `,
+
+  "preparar-2": () => `
+    <div class="grid g-60-40">
+      <div class="grid">
+        <div class="card">
+          <div class="card-eyebrow mb-1">Definição</div>
+          <div class="card-title mb-1">O valor financiado é a base de tudo</div>
+          <p class="card-body">É sobre o valor financiado, e não sobre o preço do imóvel, que o banco aplica a taxa de juros e o prazo. Por isso, esse número precisa estar muito claro para você antes de qualquer simulação.</p>
+        </div>
+        ${formula("Fórmula", "<span class='var'>Valor financiado</span> <span class='op'>=</span> <span class='var'>Valor do imóvel</span> <span class='op'>−</span> <span class='var'>Entrada</span>")}
+        ${formula("Aplicando ao cenário", "<span class='num'>170.000</span> <span class='op'>=</span> <span class='num'>870.000</span> <span class='op'>−</span> <span class='num'>700.000</span>")}
+      </div>
+      <div class="grid">
+        ${kpi("Valor financiado", "R$ 170.000,00", "Base de todos os cálculos", "gold")}
+        <div class="card">
+          <div class="card-eyebrow mb-1">Impacto</div>
+          <div class="card-title mb-1">O que esse valor define</div>
+          <p class="card-body">Os <strong>R$ 170.000</strong> determinam o tamanho da amortização mensal, o juro inicial e o saldo devedor que será reduzido mês a mês. Mudar a entrada muda esse número, e tudo o mais se ajusta.</p>
+        </div>
+      </div>
+    </div>
+  `,
+
+  "preparar-3": () => `
+    <div class="ba-grid">
+      <div class="ba-card win">
+        <div class="ba-top">SAC <span class="badge">amortização constante</span></div>
+        <div class="ba-body">
+          <div class="line"><span class="k">Parcelas</span><span class="v">decrescentes</span></div>
+          <div class="line"><span class="k">Amortização</span><span class="v">fixa em R$ 1.416,67</span></div>
+          <div class="line"><span class="k">Juros</span><span class="v">caem mês a mês</span></div>
+          <div class="line"><span class="k">Total de juros</span><span class="v green">menor (base justa)</span></div>
+          <div class="line"><span class="k">Quando faz sentido</span><span class="v">quem aguenta parcela inicial maior</span></div>
+        </div>
+      </div>
+      <div class="ba-card alt">
+        <div class="ba-top">PRICE <span class="badge">parcela constante</span></div>
+        <div class="ba-body">
+          <div class="line"><span class="k">Parcelas</span><span class="v">fixas (sem encargos)</span></div>
+          <div class="line"><span class="k">Amortização</span><span class="v">crescente</span></div>
+          <div class="line"><span class="k">Juros</span><span class="v">caem mais devagar</span></div>
+          <div class="line"><span class="k">Total de juros</span><span class="v gold">maior na mesma base</span></div>
+          <div class="line"><span class="k">Quando faz sentido</span><span class="v">quem precisa de previsibilidade</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-3">
+      ${alert("red", "Comparação justa exige a mesma base", "Para comparar honestamente SAC x PRICE, é obrigatório usar <strong>mesmo principal, mesma taxa e mesmo prazo</strong>. Comparar SAC com prazo curto contra PRICE com prazo longo distorce o resultado e não ensina nada.")}
+    </div>
+  `,
+
+  "preparar-4": () => `
+    <div class="grid g-2">
+      ${alert("gold", "Taxa nominal x taxa efetiva", "A taxa que o banco anuncia (nominal) nem sempre é a taxa que você paga (efetiva). Verifique sempre a taxa <strong>mensal efetiva</strong> e a taxa <strong>anual equivalente</strong>.")}
+      ${alert("red", "CET é o número que importa", "O <strong>Custo Efetivo Total</strong> inclui juros, encargos, seguros e tarifas. É o único número que permite comparar propostas diferentes de forma honesta.")}
+      ${alert("cyan", "Seguros obrigatórios entram na parcela", "<strong>MIP</strong> (morte e invalidez) e <strong>DFI</strong> (danos físicos do imóvel) são obrigatórios e somam ao custo da parcela. Eles não reduzem sua dívida.")}
+      ${alert("gold", "Prazo longo = custo alto", "Cada ano a mais de prazo aumenta significativamente o total de juros pagos. Faça simulações com prazos diferentes antes de fechar.")}
+    </div>
+    <div class="mt-3 text-center">
+      <button class="cta" onclick="goto(2,0)">Pronto. Vamos simular →</button>
+    </div>
+  `,
+
+  /* ---------- ETAPA 2 - SIMULAR ---------- */
+
+  "simular-0": () => `
+    <div class="grid g-60-40">
+      <div class="card">
+        <div class="card-eyebrow mb-1">Entrada de dados</div>
+        <div class="card-title mb-1">Informe o valor do imóvel e da entrada</div>
+        <div class="grid g-2 mt-2">
+          ${field("Valor do imóvel", "R$", "870.000,00", "Preço total negociado com o vendedor")}
+          ${field("Valor da entrada", "R$", "700.000,00", "Mínimo recomendado: 20% do valor do imóvel")}
+        </div>
+        <div class="mt-3">
+          ${kpi("Valor financiado (derivado)", "R$ 170.000,00", "Calculado em tempo real: imóvel − entrada", "gold")}
+        </div>
+      </div>
+      <div class="grid">
+        ${insight("Por que separar imóvel e entrada", "O banco não financia o valor cheio do imóvel. Sempre é exigida uma entrada, e o financiamento começa a partir da diferença entre os dois. Por isso esses dois números precisam ser informados separadamente.", "cyan")}
+        ${alert("cyan", "Hint pedagógico", "Quanto maior a entrada, menor o valor financiado e menor o custo total. Considere ajustar antes de simular.")}
+      </div>
+    </div>
+  `,
+
+  "simular-1": () => `
+    <div class="grid g-2">
+      ${field("Prazo do financiamento", "", "120", "Em meses. Bancos brasileiros oferecem de 60 a 420.", "meses")}
+      ${field("Taxa de juros mensal", "", "0,85", "Verifique a taxa efetiva mensal, não a nominal.", "% a.m.")}
+    </div>
+    <div class="grid g-3 mt-3">
+      ${kpi("Taxa anual equivalente", "10,68% a.a.", "Derivada da taxa mensal informada", "accent")}
+      ${kpi("Prazo em anos", "10 anos", "120 meses ÷ 12", "")}
+      ${kpi("Quantidade de parcelas", "120", "Mensais e sequenciais", "")}
+    </div>
+    <div class="mt-3">
+      ${alert("gold", "Faixa típica no Brasil", "Taxas para financiamento imobiliário ficam, em geral, entre <strong>0,70% e 1,10% ao mês</strong> dependendo do banco, do programa (SBPE, FGTS, pró-cotista) e do seu perfil de crédito.")}
+    </div>
+  `,
+
+  "simular-2": () => `
+    <div class="grid g-60-40">
+      <div class="grid">
+        ${field("Encargos mensais", "R$", "205,00", "Inclui seguros obrigatórios (MIP + DFI) e taxa administrativa.", "/ mês")}
+        ${kpi("Encargos totais no prazo", "R$ 24.600,00", "205,00 × 120 meses", "gold")}
+      </div>
+      <div class="grid">
+        ${insight("O que são os encargos", "Os encargos cobrem o <strong>seguro MIP</strong> (Morte e Invalidez Permanente), o <strong>seguro DFI</strong> (Danos Físicos do Imóvel) e a <strong>taxa de administração</strong>. Eles aparecem em toda parcela e não reduzem seu saldo devedor.", "")}
+        ${alert("red", "Encargos não amortizam", "Esses R$ 205 por mês <strong>não diminuem sua dívida</strong>. Em 120 meses, você paga R$ 24.600 em encargos que não voltam para você como amortização.")}
+      </div>
+    </div>
+  `,
+
+  "simular-3": () => `
+    <div class="grid g-2">
+      <div class="card">
+        <div class="card-eyebrow mb-1">Selecione o sistema principal</div>
+        <div class="card-title mb-1">Qual sistema você quer ver primeiro?</div>
+        <div class="radio-group mt-2">
+          <div class="radio-opt sel">
+            <span class="radio-dot"></span>
+            <div>
+              <span class="lbl">SAC — recomendado</span>
+              <span class="desc">Amortização fixa, parcelas decrescentes. Menor custo total no mesmo prazo.</span>
+            </div>
+          </div>
+          <div class="radio-opt">
+            <span class="radio-dot"></span>
+            <div>
+              <span class="lbl">PRICE</span>
+              <span class="desc">Parcela fixa, amortização crescente. Maior previsibilidade no início.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-eyebrow mb-1">Sistema selecionado · SAC</div>
+        <div class="card-title mb-1">Por que SAC costuma vencer no total</div>
+        <p class="card-body">No SAC, você amortiza um valor fixo todo mês (R$ 1.416,67). Isso faz o saldo devedor cair mais rápido, e como os juros são calculados sobre o saldo, eles também caem rápido. O resultado: <strong>menor total de juros pagos</strong> ao longo do prazo, quando a base é a mesma.</p>
+        ${alert("cyan", "Comparação automática", "Mesmo escolhendo SAC como principal, a etapa <strong>Comparar</strong> mostra SAC e PRICE lado a lado com a mesma base.").replace("class=\"alert", "class=\"alert mt-2 alert")}
+      </div>
+    </div>
+  `,
+
+  "simular-4": () => `
+    <div class="grid g-65-35">
+      <div class="card">
+        <div class="card-eyebrow mb-1">Resumo dos parâmetros</div>
+        <div class="card-title mb-1">Tudo pronto para o cálculo</div>
+        <div class="grid g-2 mt-2">
+          ${miniSummary("Imóvel", "R$ 870.000,00")}
+          ${miniSummary("Entrada", "R$ 700.000,00")}
+          ${miniSummary("Valor financiado", "R$ 170.000,00")}
+          ${miniSummary("Prazo", "120 meses")}
+          ${miniSummary("Taxa mensal", "0,85%")}
+          ${miniSummary("Encargos mensais", "R$ 205,00")}
+          ${miniSummary("Sistema principal", "SAC")}
+          ${miniSummary("Comparativo automático", "SAC x PRICE")}
+        </div>
+      </div>
+      <div class="grid">
+        ${insight("Um clique calcula 120 meses", "O motor financeiro vai gerar a tabela completa do SAC e do PRICE em segundos, com mesma base de comparação, e levar você direto para a etapa de resultado.", "cyan")}
+        <div class="text-center mt-2">
+          <button class="cta-aurora" onclick="goto(3,0)">Calcular — Ver Resultado</button>
+        </div>
+      </div>
+    </div>
+  `,
+
+  /* ---------- ETAPA 3 - RESULTADO ---------- */
+
+  "resultado-0": () => `
+    <div class="grid g-3">
+      ${scoreCard("1ª parcela SAC", fmtBRL(parcela1_sac), 100, "var(--accent)", "Amortização + juros + encargos do mês 1", "")}
+      ${scoreCard("Última parcela SAC", fmtBRL(parcelaUlt), 53, "var(--green)", "Parcela do mês 120, com juros mínimos", "featured")}
+      ${scoreCard("Total pago em 120 meses", fmtBRL(totalPagoSac), 100, "var(--gold)", "Principal + juros + encargos", "")}
+    </div>
+    <div class="mt-3">
+      <div class="aurora-card">
+        <div class="ac-eyebrow">Síntese do resultado SAC</div>
+        <div class="ac-title">Você vai devolver R$ 170.000 e pagar R$ ${jurosTotaisSac.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2})} em juros ao longo de 10 anos.</div>
+        <div class="ac-big">${fmtBRL(totalPagoSac)}</div>
+        <div class="ac-body">É o custo total do seu financiamento neste cenário: principal devolvido, juros sobre o saldo devedor mês a mês, e encargos fixos somados. Nas próximas abas, você vai entender de onde sai cada um desses números.</div>
+      </div>
+    </div>
+  `,
+
+  "resultado-1": () => `
+    <div class="grid g-2">
+      <div class="card">
+        <div class="card-eyebrow mb-1">Parâmetros do imóvel</div>
+        <div class="card-title mb-1">Origem dos números</div>
+        <div class="grid g-2 mt-2">
+          ${miniSummary("Imóvel", "R$ 870.000,00")}
+          ${miniSummary("Entrada", "R$ 700.000,00")}
+          ${miniSummary("Financiado", "R$ 170.000,00")}
+          ${miniSummary("% Entrada", "80,46%")}
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-eyebrow mb-1">Condições contratadas</div>
+        <div class="card-title mb-1">Configuração da simulação</div>
+        <div class="grid g-2 mt-2">
+          ${miniSummary("Prazo", "120 meses")}
+          ${miniSummary("Taxa mensal", "0,85%")}
+          ${miniSummary("Encargos mensais", "R$ 205,00")}
+          ${miniSummary("Sistema principal", "SAC")}
+        </div>
+      </div>
+    </div>
+    <div class="mt-3">
+      ${insight("Quer mudar algo?", "Se você alterar qualquer parâmetro, todo o cálculo é refeito automaticamente. <strong>Volte para a etapa Simular</strong> para experimentar cenários alternativos. Os valores demonstrativos aqui usam o cenário oficial do contrato F8C-v6.3.", "cyan")}
+    </div>
+  `,
+
+  "resultado-2": () => `
+    <div class="grid">
+      ${alert("gold", "Os juros somam quase 31% do total", `Você devolve R$ 170.000 de principal e paga <strong>${fmtBRL(jurosTotaisSac)} só em juros</strong>. Para cada R$ 100 que você devolve ao banco, R$ 31 são preço do dinheiro emprestado.`)}
+      ${alert("red", "120 meses é um prazo longo", "Em 10 anos, muito pode mudar: renda, juros de mercado, valor do imóvel. Considere se o seu orçamento e sua estabilidade comportam esse prazo, e se há espaço para amortizações extras.")}
+      ${alert("cyan", `Parcela inicial em ${fmtBRL(parcela1_sac)}`, `A primeira parcela do SAC fica em <strong>${fmtBRL(parcela1_sac)}</strong>. Bancos costumam exigir que essa parcela não comprometa mais de 30% da renda familiar mensal comprovada.`)}
+      ${alert("gold", "Encargos como componente oculto", "<strong>R$ 24.600</strong> em encargos ao longo do prazo. Eles aparecem em toda parcela e não reduzem o saldo devedor — é importante computá-los no orçamento.")}
+    </div>
+  `,
+
+  "resultado-3": () => `
+    <div class="grid g-60-40">
+      <div class="grid">
+        <div class="card">
+          <div class="card-eyebrow mb-1">Interpretação pedagógica</div>
+          <div class="card-title mb-1">O que esses números querem dizer</div>
+          <div class="card-body">
+            <p>Pagar <strong>R$ ${jurosTotaisSac.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2})} de juros</strong> significa que o banco cobra esse valor pela <strong>antecipação</strong> dos R$ 170.000 que você não tinha hoje. É o preço de não esperar 10 anos para juntar o dinheiro e comprar à vista.</p>
+            <p>Em perspectiva: se a alternativa fosse <strong>alugar</strong> esse mesmo imóvel por R$ 3.000/mês durante 10 anos, você gastaria R$ 360.000 em aluguel e não teria patrimônio no fim. O financiamento converte parte desse custo em propriedade.</p>
+          </div>
+        </div>
+      </div>
+      <div class="grid">
+        ${kpi("Juros / Principal", "51,4%", "Quanto os juros representam do principal", "gold")}
+        ${kpi("Juros + encargos / Total", "39,7%", "Custo do dinheiro + encargos sobre o total", "")}
+        ${insight("Próximo passo", "Agora que você viu <strong>o resultado</strong>, é hora de abrir a caixa preta. Na etapa <strong>Entender</strong>, você vai ver de onde sai cada parte de cada parcela.", "cyan")}
+      </div>
+    </div>
+  `,
+
+  "resultado-4": () => `
+    <div class="hero-conclusion">
+      <div class="em">Etapa 3 concluída</div>
+      <h2>Você acabou de ver o resultado.</h2>
+      <p>Mas resultado sem entendimento é só um número grande. Vamos abrir a parcela em três partes — amortização, juros e encargos — e ver como cada uma se comporta ao longo de 120 meses.</p>
+      <button class="cta" onclick="goto(4,0)">Entender a mecânica →</button>
+    </div>
+  `,
+
+  /* ---------- ETAPA 4 - ENTENDER ---------- */
+
+  "entender-0": () => `
+    <div class="grid g-2">
+      <div class="card">
+        <div class="card-eyebrow mb-1">Composição da 1ª parcela SAC</div>
+        <div class="card-title mb-1">Toda parcela tem três partes</div>
+        <div class="composition mt-3">
+          <div class="donut">
+            <div class="ring"></div>
+            <div class="donut-center">
+              <div class="v">${fmtBRL(parcela1_sac)}</div>
+              <div class="k">parcela 1</div>
+            </div>
+          </div>
+          <div class="comp-rows">
+            <div class="crow"><span class="lbl"><span class="sw" style="background:var(--accent)"></span>Amortização</span><span class="val">${fmtBRL(A_sac)}</span></div>
+            <div class="crow"><span class="lbl"><span class="sw" style="background:var(--gold)"></span>Juros</span><span class="val">${fmtBRL(juros1)}</span></div>
+            <div class="crow"><span class="lbl"><span class="sw" style="background:var(--green)"></span>Encargos</span><span class="val">${fmtBRL(E)}</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="grid">
+        ${kpi("Amortização", fmtBRL(A_sac), "Reduz o saldo devedor. Fixa no SAC.", "accent")}
+        ${kpi("Juros (mês 1)", fmtBRL(juros1), "Preço do dinheiro sobre o saldo atual.", "gold")}
+        ${kpi("Encargos", fmtBRL(E), "Seguros + taxa administrativa.", "green")}
+      </div>
+    </div>
+    <div class="mt-3">
+      ${insight("Por que a parcela cai mês a mês no SAC", "A <strong>amortização é fixa</strong> em R$ 1.416,67, mas como ela reduz o saldo devedor todo mês, os <strong>juros caem</strong> a cada parcela. Encargos permanecem constantes. O efeito líquido é uma parcela que diminui ao longo do tempo.", "cyan")}
+    </div>
+  `,
+
+  "entender-1": () => `
+    <div class="grid g-60-40">
+      <div class="grid">
+        <div class="card">
+          <div class="card-eyebrow mb-1">Definição</div>
+          <div class="card-title mb-1">Amortização é o que volta ao banco</div>
+          <p class="card-body">Amortizar é <strong>reduzir o saldo devedor</strong>. No SAC, esse valor é fixo: você devolve a mesma quantidade do principal todo mês. Em 120 meses, somando todas as amortizações, você devolve exatamente os R$ 170.000 que pegou emprestado.</p>
+        </div>
+        ${formula("Amortização SAC", "<span class='var'>A</span> <span class='op'>=</span> <span class='var'>PV</span> <span class='op'>÷</span> <span class='var'>n</span> <span class='op'>=</span> <span class='num'>170.000</span> <span class='op'>÷</span> <span class='num'>120</span> <span class='op'>=</span> <span class='num'>R$ 1.416,67</span>")}
+      </div>
+      <div class="grid">
+        ${kpi("Amortização mensal SAC", fmtBRL(A_sac), "Fixa ao longo dos 120 meses", "accent")}
+        ${kpi("Total amortizado", "R$ 170.000,00", "1.416,67 × 120 = principal", "")}
+        ${alert("cyan", "PRICE é diferente", "No PRICE, a amortização <strong>cresce ao longo do tempo</strong>. Você começa devolvendo pouco principal e termina devolvendo muito. Veremos isso lado a lado em <strong>Comparar</strong>.")}
+      </div>
+    </div>
+  `,
+
+  "entender-2": () => `
+    <div class="grid g-60-40">
+      <div class="grid">
+        <div class="card">
+          <div class="card-eyebrow mb-1">Conceito</div>
+          <div class="card-title mb-1">Juros são o preço do dinheiro emprestado</div>
+          <p class="card-body">A cada mês, o banco aplica a taxa (0,85%) sobre o <strong>saldo devedor atual</strong>. No primeiro mês o saldo é R$ 170.000, então o juro é R$ 1.445,00. No último mês, o saldo é praticamente zero, e o juro mal aparece.</p>
+        </div>
+        ${formula("Juros do mês k", "<span class='var'>J<sub>k</sub></span> <span class='op'>=</span> <span class='var'>Saldo<sub>k−1</sub></span> <span class='op'>×</span> <span class='var'>i</span>")}
+        ${formula("Aplicando ao mês 1", "<span class='var'>J<sub>1</sub></span> <span class='op'>=</span> <span class='num'>170.000</span> <span class='op'>×</span> <span class='num'>0,0085</span> <span class='op'>=</span> <span class='num'>R$ 1.445,00</span>")}
+      </div>
+      <div class="grid">
+        ${kpi("Juros · mês 1", fmtBRL(juros1), "Sobre saldo de R$ 170.000", "gold")}
+        ${kpi("Juros · mês 120", fmtBRL(jurosUlt), "Sobre saldo residual mínimo", "")}
+        ${alert("gold", "Os juros representam 51,4% do principal", "Você devolve R$ 170.000 e ainda paga <strong>R$ ${jurosTotaisSac.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}</strong> só em juros — mais da metade do valor financiado.")}
+      </div>
+    </div>
+  `,
+
+  "entender-3": () => `
+    <div class="grid g-2">
+      <div class="grid">
+        ${kpi("Saldo inicial", "R$ 170.000,00", "Começo do mês 1", "")}
+        ${kpi("Saldo no mês 60", fmtBRL(saldo60), "Metade do prazo", "accent")}
+        ${kpi("Saldo final", "R$ 0,00", "Quitação no mês 120", "green")}
+      </div>
+      ${chartSaldo()}
+    </div>
+    <div class="mt-3">
+      ${insight("SAC amortiza mais rápido no início", "Veja como a linha do SAC <strong>cai em ritmo constante</strong>, enquanto a do PRICE cai devagar nos primeiros anos e acelera no fim. É por isso que o SAC paga menos juros: o saldo (sobre o qual os juros são cobrados) é menor durante quase todo o financiamento.", "cyan")}
+    </div>
+  `,
+
+  "entender-4": () => `
+    <div class="ba-grid">
+      <div class="ba-card win">
+        <div class="ba-top">SAC · Sistema de Amortização Constante <span class="badge">vencedor neste cenário</span></div>
+        <div class="ba-body">
+          <div class="line"><span class="k">Total pago</span><span class="v green">${fmtBRL(totalPagoSac)}</span></div>
+          <div class="line"><span class="k">Total de juros</span><span class="v green">${fmtBRL(jurosTotaisSac)}</span></div>
+          <div class="line"><span class="k">1ª parcela</span><span class="v">${fmtBRL(parcela1_sac)}</span></div>
+          <div class="line"><span class="k">Última parcela</span><span class="v">${fmtBRL(parcelaUlt)}</span></div>
+          <div class="line"><span class="k">Amortização</span><span class="v">fixa em ${fmtBRL(A_sac)}</span></div>
+        </div>
+      </div>
+      <div class="ba-card alt">
+        <div class="ba-top">PRICE · Sistema Hewlett-Packard <span class="badge">parcela fixa</span></div>
+        <div class="ba-body">
+          <div class="line"><span class="k">Total pago</span><span class="v gold">${fmtBRL(totalPagoPrice)}</span></div>
+          <div class="line"><span class="k">Total de juros</span><span class="v gold">${fmtBRL(jurosTotaisPrice)}</span></div>
+          <div class="line"><span class="k">Parcela (sem encargos)</span><span class="v">${fmtBRL(pmt_price)}</span></div>
+          <div class="line"><span class="k">Parcela (com encargos)</span><span class="v">${fmtBRL(pmt_price + E)}</span></div>
+          <div class="line"><span class="k">Amortização</span><span class="v">crescente</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-3">
+      ${alert("green", "Base justa: mesma taxa, mesmo prazo, mesmo principal", `Os números acima foram calculados com R$ 170.000 a 0,85% ao mês por 120 meses. A diferença de ${fmtBRL(economiaSac)} em juros vem <strong>exclusivamente do sistema de amortização</strong>.`)}
+    </div>
+  `,
+
+  /* ---------- ETAPA 5 - COMPARAR ---------- */
+
+  "comparar-0": () => `
+    <div class="grid g-3">
+      ${scoreCard("Total SAC", fmtBRL(totalPagoSac), 95, "var(--green)", "Principal + juros + encargos", "featured")}
+      ${scoreCard("Total PRICE", fmtBRL(totalPagoPrice), 100, "var(--gold)", "Mesma base, sistema diferente", "warn")}
+      ${scoreCard("Economia SAC", fmtBRL(economiaSac), 65, "var(--accent2)", "Quanto você economiza escolhendo SAC", "")}
+    </div>
+    <div class="mt-3">
+      <div class="aurora-card">
+        <div class="ac-eyebrow">Vencedor do comparativo</div>
+        <div class="ac-title">SAC economiza R$ ${economiaSac.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2})} neste cenário.</div>
+        <div class="ac-big">${fmtBRL(economiaSac)}</div>
+        <div class="ac-body">Mesma taxa, mesmo prazo, mesmo principal, mesmos encargos. A única diferença é a forma como cada parcela é construída. O SAC paga menos juros porque amortiza o saldo devedor mais rápido nos primeiros anos.</div>
+      </div>
+    </div>
+    <div class="grid g-2 mt-3">
+      <div class="card">
+        <div class="card-eyebrow mb-1">SAC · Detalhamento</div>
+        <div class="metric-rows mt-2">
+          ${mrow("Total pago", "var(--green)", fmtBRL(totalPagoSac), 95)}
+          ${mrow("Juros totais", "var(--gold)", fmtBRL(jurosTotaisSac), 50)}
+          ${mrow("1ª parcela", "var(--accent)", fmtBRL(parcela1_sac), 100)}
+          ${mrow("Última parcela", "var(--accent2)", fmtBRL(parcelaUlt), 53)}
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-eyebrow mb-1">PRICE · Detalhamento</div>
+        <div class="metric-rows mt-2">
+          ${mrow("Total pago", "var(--gold)", fmtBRL(totalPagoPrice), 100)}
+          ${mrow("Juros totais", "var(--red)", fmtBRL(jurosTotaisPrice), 58)}
+          ${mrow("Parcela fixa s/ enc.", "var(--accent)", fmtBRL(pmt_price), 74)}
+          ${mrow("Parcela c/ encargos", "var(--accent2)", fmtBRL(pmt_price + E), 80)}
+        </div>
+      </div>
+    </div>
+  `,
+
+  "comparar-1": () => renderTablePanel("SAC", tableSAC),
+  "comparar-2": () => renderTablePanel("PRICE", tablePRICE),
+
+  "comparar-3": () => `
+    <div class="grid g-65-35">
+      ${chartCompare()}
+      <div class="grid">
+        ${insight("Como ler o gráfico", "Em todas as três métricas, SAC fica abaixo de PRICE com a mesma base. <strong>A diferença não é mágica</strong>: é a consequência matemática de amortizar o principal mais cedo no SAC.", "cyan")}
+        ${alert("green", "Encargos iguais nos dois sistemas", "R$ 24.600 em encargos não dependem do sistema escolhido. A diferença está em <strong>juros</strong>.")}
+      </div>
+    </div>
+  `,
+
+  "comparar-4": () => `
+    <div class="grid">
+      ${insight("Lição 1 — Quando SAC é melhor", "Se o seu orçamento <strong>aguenta uma parcela inicial mais alta</strong>, o SAC é praticamente sempre mais barato no total. Ao longo do tempo, a parcela diminui, e o custo de oportunidade é menor.", "")}
+      ${insight("Lição 2 — Quando PRICE pode ser preferível", "Se você precisa de <strong>previsibilidade absoluta</strong> de orçamento (parcela exatamente igual todo mês), o PRICE tem essa vantagem. O preço dessa previsibilidade é mais juros no total.", "cyan")}
+      ${insight("Lição 3 — Fatores que afetam a decisão", "Renda variável, expectativa de aumento salarial, possibilidade de amortizações extras, estabilidade no emprego — tudo isso pesa. Não existe resposta única: existe a resposta certa <strong>para o seu cenário</strong>.", "green")}
+    </div>
+    <div class="text-center mt-3">
+      <button class="cta" onclick="goto(6,0)">Conferir os cálculos →</button>
+    </div>
+  `,
+
+  /* ---------- ETAPA 6 - CONFERIR ---------- */
+
+  "conferir-0": () => `
+    <div class="grid g-2">
+      <div class="grid">
+        ${formula("Amortização SAC (fixa)", "<span class='var'>A</span> <span class='op'>=</span> <span class='var'>PV</span> <span class='op'>÷</span> <span class='var'>n</span>")}
+        ${formula("Juros do mês k", "<span class='var'>J<sub>k</sub></span> <span class='op'>=</span> <span class='var'>SD<sub>k−1</sub></span> <span class='op'>×</span> <span class='var'>i</span>")}
+        ${formula("Total da parcela k", "<span class='var'>P<sub>k</sub></span> <span class='op'>=</span> <span class='var'>A</span> <span class='op'>+</span> <span class='var'>J<sub>k</sub></span> <span class='op'>+</span> <span class='var'>E</span>")}
+        ${formula("Saldo devedor após mês k", "<span class='var'>SD<sub>k</sub></span> <span class='op'>=</span> <span class='var'>SD<sub>k−1</sub></span> <span class='op'>−</span> <span class='var'>A</span>")}
+      </div>
+      <div class="card">
+        <div class="card-eyebrow mb-1">Exemplo numérico · parcela 1 SAC</div>
+        <div class="card-title mb-1">Cálculo aplicado ao cenário</div>
+        <div class="formula mt-2">
+          <span class="label">Amortização</span>
+          <span class='var'>A</span> <span class='op'>=</span> <span class='num'>170.000</span> <span class='op'>÷</span> <span class='num'>120</span> <span class='op'>=</span> <span class='num'>1.416,67</span>
+        </div>
+        <div class="formula mt-2">
+          <span class="label">Juros do mês 1</span>
+          <span class='var'>J<sub>1</sub></span> <span class='op'>=</span> <span class='num'>170.000</span> <span class='op'>×</span> <span class='num'>0,0085</span> <span class='op'>=</span> <span class='num'>1.445,00</span>
+        </div>
+        <div class="formula mt-2">
+          <span class="label">Parcela 1</span>
+          <span class='var'>P<sub>1</sub></span> <span class='op'>=</span> <span class='num'>1.416,67</span> <span class='op'>+</span> <span class='num'>1.445,00</span> <span class='op'>+</span> <span class='num'>205,00</span> <span class='op'>=</span> <span class='num'>3.066,67</span>
+        </div>
+      </div>
+    </div>
+  `,
+
+  "conferir-1": () => `
+    <div class="grid g-2">
+      <div class="grid">
+        ${formula("Parcela fixa PRICE (HP)", "<span class='var'>PMT</span> <span class='op'>=</span> <span class='var'>PV</span> <span class='op'>×</span> <span class='op'>[</span> <span class='var'>i</span><span class='op'>·</span>(1+<span class='var'>i</span>)<sup><span class='var'>n</span></sup> <span class='op'>÷</span> ((1+<span class='var'>i</span>)<sup><span class='var'>n</span></sup>−1) <span class='op'>]</span>")}
+        ${formula("Juros do mês k", "<span class='var'>J<sub>k</sub></span> <span class='op'>=</span> <span class='var'>SD<sub>k−1</sub></span> <span class='op'>×</span> <span class='var'>i</span>")}
+        ${formula("Amortização do mês k", "<span class='var'>A<sub>k</sub></span> <span class='op'>=</span> <span class='var'>PMT</span> <span class='op'>−</span> <span class='var'>J<sub>k</sub></span>")}
+      </div>
+      <div class="card">
+        <div class="card-eyebrow mb-1">Exemplo numérico · parcela 1 PRICE</div>
+        <div class="card-title mb-1">Decomposição com o cenário</div>
+        <div class="formula mt-2">
+          <span class="label">Parcela fixa</span>
+          <span class='var'>PMT</span> <span class='op'>=</span> <span class='num'>${fmtBRL(pmt_price)}</span>
+        </div>
+        <div class="formula mt-2">
+          <span class="label">Juros do mês 1</span>
+          <span class='var'>J<sub>1</sub></span> <span class='op'>=</span> <span class='num'>170.000</span> <span class='op'>×</span> <span class='num'>0,0085</span> <span class='op'>=</span> <span class='num'>1.445,00</span>
+        </div>
+        <div class="formula mt-2">
+          <span class="label">Amortização do mês 1</span>
+          <span class='var'>A<sub>1</sub></span> <span class='op'>=</span> <span class='num'>${fmtBRL(pmt_price)}</span> <span class='op'>−</span> <span class='num'>1.445,00</span> <span class='op'>=</span> <span class='num'>${fmtBRL(pmt_price - juros1)}</span>
+        </div>
+      </div>
+    </div>
+  `,
+
+  "conferir-2": () => `
+    <div class="table-wrap">
+      <div class="table-head"><div class="t">Tabela de variáveis</div><div class="meta">Cenário fixo · F8C-v6.3</div></div>
+      <div class="scroll-x">
+      <table class="data-table">
+        <thead><tr><th>Símbolo</th><th style="text-align:left">Descrição</th><th>Valor</th></tr></thead>
+        <tbody>
+          <tr><td>PV</td><td style="text-align:left;color:var(--text-dim)">Valor presente (principal financiado)</td><td>R$ 170.000,00</td></tr>
+          <tr><td>i</td><td style="text-align:left;color:var(--text-dim)">Taxa de juros mensal efetiva</td><td>0,0085 (0,85%)</td></tr>
+          <tr><td>n</td><td style="text-align:left;color:var(--text-dim)">Prazo total em meses</td><td>120</td></tr>
+          <tr><td>E</td><td style="text-align:left;color:var(--text-dim)">Encargos mensais (seguros + tx. adm.)</td><td>R$ 205,00</td></tr>
+          <tr><td>A</td><td style="text-align:left;color:var(--text-dim)">Amortização mensal SAC (PV ÷ n)</td><td>R$ 1.416,67</td></tr>
+          <tr><td>PMT</td><td style="text-align:left;color:var(--text-dim)">Parcela fixa PRICE (HP)</td><td>R$ ${pmt_price.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2})}</td></tr>
+          <tr><td>J<sub>1</sub></td><td style="text-align:left;color:var(--text-dim)">Juros do primeiro mês</td><td>R$ 1.445,00</td></tr>
+          <tr><td>P<sub>1</sub><sup>SAC</sup></td><td style="text-align:left;color:var(--text-dim)">Primeira parcela SAC com encargos</td><td>R$ 3.066,67</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+  `,
+
+  "conferir-3": () => `
+    <div class="grid g-2">
+      <div class="card">
+        <div class="card-eyebrow mb-1">Passo a passo · Parcela 1 SAC</div>
+        <div class="card-title mb-1">Cinco passos</div>
+        <div class="mt-2 small" style="line-height:1.9">
+          <strong style="color:var(--accent2)">1.</strong> Saldo devedor inicial: <span class="mono" style="color:var(--text)">R$ 170.000,00</span><br>
+          <strong style="color:var(--accent2)">2.</strong> Amortização = 170.000 ÷ 120 = <span class="mono" style="color:var(--text)">R$ 1.416,67</span><br>
+          <strong style="color:var(--accent2)">3.</strong> Juros = 170.000 × 0,0085 = <span class="mono" style="color:var(--text)">R$ 1.445,00</span><br>
+          <strong style="color:var(--accent2)">4.</strong> Parcela = 1.416,67 + 1.445,00 + 205,00 = <span class="mono" style="color:var(--text)">R$ 3.066,67</span><br>
+          <strong style="color:var(--accent2)">5.</strong> Novo saldo = 170.000 − 1.416,67 = <span class="mono" style="color:var(--text)">R$ 168.583,33</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-eyebrow mb-1">Passo a passo · Parcela 60 SAC</div>
+        <div class="card-title mb-1">Cinco passos</div>
+        <div class="mt-2 small" style="line-height:1.9">
+          <strong style="color:var(--accent2)">1.</strong> Saldo devedor após 59 amortizações: <span class="mono" style="color:var(--text)">R$ 86.416,67</span><br>
+          <strong style="color:var(--accent2)">2.</strong> Amortização (fixa): <span class="mono" style="color:var(--text)">R$ 1.416,67</span><br>
+          <strong style="color:var(--accent2)">3.</strong> Juros = 86.416,67 × 0,0085 = <span class="mono" style="color:var(--text)">R$ 734,54</span><br>
+          <strong style="color:var(--accent2)">4.</strong> Parcela = 1.416,67 + 734,54 + 205,00 = <span class="mono" style="color:var(--text)">R$ 2.356,21</span><br>
+          <strong style="color:var(--accent2)">5.</strong> Novo saldo = 86.416,67 − 1.416,67 = <span class="mono" style="color:var(--text)">R$ 85.000,00</span>
+        </div>
+      </div>
+    </div>
+  `,
+
+  "conferir-4": () => `
+    <div class="checklist-card">
+      <div class="checklist-head">
+        <span class="t">Auditoria de consistência</span>
+        <span class="meta">5 verificações · 5 OK</span>
+      </div>
+      ${checkRow(true, "Soma das amortizações SAC = principal", "1.416,67 × 120 = R$ 170.000,00", "OK")}
+      ${checkRow(true, "Saldo devedor após o mês 120", "Saldo final calculado: R$ 0,00", "OK")}
+      ${checkRow(true, "Encargos totais = R$ 24.600,00", "205,00 × 120 = R$ 24.600,00", "OK")}
+      ${checkRow(true, "Base justa SAC e PRICE", "Mesmo PV, mesma i, mesmo n, mesmos E", "OK")}
+      ${checkRow(true, "Juros totais SAC pela soma direta", "R$ " + jurosTotaisSac.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2}) + " (PV·i·(n+1)/2)", "OK")}
+    </div>
+    <div class="mt-3">
+      ${insight("Cálculos conferidos", "As cinco verificações são suficientes para garantir que <strong>todos os valores exibidos neste protótipo são internamente consistentes</strong> com o cenário fixo definido em contrato. A implementação React futura deve replicar este mesmo padrão de auditoria.", "green")}
+    </div>
+  `,
+
+  /* ---------- ETAPA 7 - DECIDIR ---------- */
+
+  "decidir-0": () => `
+    <div class="grid g-60-40">
+      <div class="card">
+        <div class="card-eyebrow mb-1">Diagnóstico</div>
+        <div class="card-title mb-1">Síntese do seu cenário</div>
+        <div class="card-body">
+          <p>Você está prestes a tomar uma decisão que vai durar <strong>10 anos</strong>. Em troca dos R$ 170.000 emprestados, o banco receberá ao longo do prazo <strong>${fmtBRL(totalPagoSac)}</strong>, dos quais <strong>R$ ${jurosTotaisSac.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2})} são juros</strong> e R$ 24.600 são encargos.</p>
+          <p>Para uma renda familiar bruta de R$ 10.000/mês, a primeira parcela do SAC (R$ 3.066,67) representa <strong>30,7% de comprometimento</strong> — exatamente no limite que bancos consideram saudável. A última parcela cai para R$ 1.633,71, o que abre espaço orçamentário ao longo do tempo.</p>
+        </div>
+      </div>
+      <div class="grid">
+        ${kpi("Total pago", fmtBRL(totalPagoSac), "Principal + juros + encargos", "gold")}
+        ${kpi("Total de juros", "R$ " + jurosTotaisSac.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2}), "Sobre R$ 170.000 emprestados", "")}
+        ${kpi("% de juros sobre o total", "31,0%", "Quanto do total pago é só juros", "")}
+      </div>
+    </div>
+  `,
+
+  "decidir-1": () => `
+    <div class="checklist-card">
+      <div class="checklist-head">
+        <span class="t">Checklist antes de contratar</span>
+        <span class="meta">10 itens</span>
+      </div>
+      ${checkRow(true, "Você tem entrada suficiente?", "Mínimo de 20% do valor do imóvel é exigido pela maioria dos bancos.", "OK")}
+      ${checkRow(true, "Avaliou o CET, não só a taxa de juros?", "Custo Efetivo Total inclui juros + encargos + seguros + tarifas.", "OK")}
+      ${checkRow(false, "Comparou propostas de pelo menos 3 bancos?", "Diferença de 0,1% ao mês representa milhares de reais em 10 anos.", "pendente")}
+      ${checkRow(true, "Tem reserva de emergência separada?", "Mínimo recomendado: 6 parcelas + 3 meses de despesas fixas.", "OK")}
+      ${checkRow(false, "Considerou o ITBI e custos de cartório?", "Geralmente 4 a 5% do valor do imóvel à vista, fora do financiamento.", "pendente")}
+      ${checkRow(true, "Entende a diferença entre SAC e PRICE?", "Você acabou de ver, lado a lado, no cenário deste módulo.", "OK")}
+      ${checkRow(false, "Analisou o impacto de amortizações extras?", "Antecipar parcelas reduz juros futuros — vale a pena se houver folga.", "pendente")}
+      ${checkRow(true, "Conferiu se a parcela cabe no orçamento?", "Até 30% da renda familiar bruta é o teto saudável.", "OK")}
+      ${checkRow(false, "Verificou seguros MIP e DFI obrigatórios?", "Os encargos aqui já incluem esses seguros, mas confirme com cada banco.", "pendente")}
+      ${checkRow(true, "Leu o contrato com calma?", "Inclua um especialista (advogado ou contador) na revisão final.", "OK")}
+    </div>
+  `,
+
+  "decidir-2": () => `
+    <div class="grid g-2">
+      ${applyCard("AÇÃO 1", "Simular em outros bancos", "Use os mesmos parâmetros (R$ 170.000, 120 meses, SAC) e compare a taxa efetiva mensal e o CET final em pelo menos três instituições.")}
+      ${applyCard("AÇÃO 2", "Pedir a proposta formal", "A proposta formal vem com CET, prazo, taxa e encargos detalhados. Sem essa proposta, qualquer comparação é só estimativa.")}
+      ${applyCard("AÇÃO 3", "Analisar o CET em profundidade", "O CET é o número que torna comparações honestas. Se um banco oferece taxa baixa mas CET alto, há custo escondido em seguros ou tarifas.")}
+      ${applyCard("AÇÃO 4", "Revisar contrato com especialista", "Advogado especialista em crédito imobiliário ou contador podem identificar cláusulas de reajuste, índice de correção e penalidades em caso de antecipação.")}
+    </div>
+  `,
+
+  "decidir-3": () => `
+    <div class="grid g-2">
+      ${alert("red", "Leia o contrato inteiro, mesmo o anexo", "Cláusulas de reajuste, índice de correção (TR, IPCA, IGP-M) e penalidades de quitação antecipada ficam quase sempre em anexos. <strong>Não assine sem ler.</strong>")}
+      ${alert("gold", "ITBI e cartório são à vista", "Esses custos somam entre 4% e 5% do valor do imóvel e não entram no financiamento. Garanta que você tem esse valor reservado.")}
+      ${alert("cyan", "Seguro obrigatório", "MIP e DFI são obrigatórios por lei. Compare os valores cobrados por cada banco — eles variam e impactam o CET final.")}
+      ${alert("green", "Portabilidade de crédito existe", "Se daqui a alguns anos as taxas caírem, você pode portar seu financiamento para outro banco com taxa menor. É um direito previsto em lei.")}
+    </div>
+  `,
+
+  "decidir-4": () => `
+    <div class="hero-conclusion">
+      <div class="em">Jornada concluída</div>
+      <h2>Você não está mais à mercê do que o banco propor.</h2>
+      <p>Você entende a diferença entre SAC e PRICE, sabe como ler uma parcela, sabe auditar os cálculos, e sabe quais perguntas fazer antes de assinar. Esse é o objetivo do módulo: <strong>transformar curiosidade em capacidade real de decisão</strong>.</p>
+      <div class="aurora-card" style="max-width:680px;margin:0 auto;text-align:left">
+        <div class="ac-eyebrow">O que você aprendeu</div>
+        <div class="card-body" style="color:var(--text-dim);font-size:.88rem;line-height:1.7">
+          <p>✓ <strong>O que é entrada</strong> e por que ela define o tamanho do financiamento.</p>
+          <p>✓ <strong>A diferença entre SAC e PRICE</strong>, e quando cada um faz mais sentido.</p>
+          <p>✓ <strong>Como uma parcela é composta</strong> — amortização, juros e encargos.</p>
+          <p>✓ <strong>Como auditar</strong> os cálculos do banco e verificar consistência.</p>
+          <p>✓ <strong>Quais perguntas fazer</strong> antes de assinar o contrato.</p>
+        </div>
+      </div>
+      <div class="mt-4">
+        <button class="cta ghost" onclick="goto(1,0)">↺ Reiniciar simulação</button>
+        <button class="cta" style="margin-left:.6rem" onclick="goto(2,0)">Explorar outros cenários →</button>
+      </div>
+    </div>
+  `,
+};
+
+/* ============================================================
+   PARTIAL BUILDERS (reusable)
+   ============================================================ */
+
+function kpi(label, value, foot, klass = "") {
+  return `<div class="kpi ${klass}">
+    <div class="kpi-label">${label}</div>
+    <div class="kpi-value">${value}</div>
+    <div class="kpi-foot">${foot}</div>
+  </div>`;
+}
+
+function scoreCard(label, value, pct, color, note, klass = "") {
+  return `<div class="scorecard ${klass}">
+    <div class="sc-label">${label}</div>
+    <div class="sc-value">${value}</div>
+    <div class="sc-bar"><div class="sc-fill" style="width:${pct}%;background:${color}"></div></div>
+    <div class="sc-note">${note}</div>
+  </div>`;
+}
+
+function mrow(label, color, val, pct) {
+  return `<div class="mrow">
+    <div class="m-label">${label}</div>
+    <div class="m-bar"><div class="m-fill" style="width:${pct}%;background:${color}"></div></div>
+    <div class="m-val">${val}</div>
+  </div>`;
+}
+
+function alert(variant, title, desc) {
+  const icon = variant === "red" ? "!" : variant === "green" ? "✓" : variant === "cyan" ? "i" : "⚠";
+  return `<div class="alert ${variant}">
+    <span class="alert-ic">${icon}</span>
+    <div class="alert-body">
+      <div class="t">${title}</div>
+      <div class="d">${desc}</div>
+    </div>
+  </div>`;
+}
+
+function insight(title, body, variant = "") {
+  const icon = variant === "green" ? "✓" : variant === "cyan" ? "i" : variant === "red" ? "!" : "★";
+  return `<div class="insight ${variant}">
+    <span class="insight-ic">${icon}</span>
+    <div class="insight-body">
+      <span class="t">${title}</span>
+      ${body}
+    </div>
+  </div>`;
+}
+
+function formula(label, expr) {
+  return `<div class="formula"><span class="label">${label}</span>${expr}</div>`;
+}
+
+function field(label, prefix, value, hint, suffix = "") {
+  return `<div>
+    <div class="form-field">
+      <label>${label}</label>
+      <div class="input">
+        ${prefix ? `<span class="prefix">${prefix}</span>` : ""}
+        <input type="text" value="${value}">
+        ${suffix ? `<span class="suffix">${suffix}</span>` : ""}
+      </div>
+    </div>
+    <div class="form-hint">${hint}</div>
+  </div>`;
+}
+
+function miniSummary(k, v) {
+  return `<div style="display:flex;justify-content:space-between;padding:.55rem .75rem;background:var(--surface2);border:1px solid var(--border);border-radius:8px;font-size:.82rem">
+    <span style="color:var(--text-dim)">${k}</span>
+    <span class="mono" style="color:var(--text)">${v}</span>
+  </div>`;
+}
+
+function checkRow(on, text, hint, status) {
+  return `<div class="check-row">
+    <div class="check-box ${on ? "on" : ""}"></div>
+    <div class="check-text">${text}<span class="hint">${hint}</span></div>
+    <div class="check-status ${status === "OK" ? "" : "pending"}">${status}</div>
+  </div>`;
+}
+
+function applyCard(tag, title, prompt) {
+  return `<div class="apply-card">
+    <span class="apply-tag">${tag}</span>
+    <div class="apply-title">${title}</div>
+    <div class="apply-block">${prompt}</div>
+  </div>`;
+}
+
+/* ---- Tables (paginated) ---- */
+const PAGE_SIZE = 8;
+const tableState = { SAC: 0, PRICE: 0 };
+
+function renderTablePanel(label, rows) {
+  const page = tableState[label];
+  const totalPages = Math.ceil(rows.length / PAGE_SIZE);
+  const slice = rows.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+  const totalJ = rows.reduce((s, r) => s + r.j, 0);
+  const totalA = rows.reduce((s, r) => s + r.a, 0);
+  const totalE = rows.reduce((s, r) => s + r.e, 0);
+  const totalT = rows.reduce((s, r) => s + r.t, 0);
+  return `
+    <div class="table-wrap">
+      <div class="table-head">
+        <div class="t">Tabela ${label} · 120 parcelas</div>
+        <div class="meta">Página ${page + 1} de ${totalPages}</div>
+      </div>
+      <div class="scroll-x">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Parc.</th><th>Saldo inicial</th><th>Juros</th>
+            <th>Amortização</th><th>Encargos</th><th>Total parcela</th><th>Saldo final</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${slice.map(r => `<tr>
+            <td>${r.k}</td>
+            <td>${fmtBRL(r.si)}</td>
+            <td>${fmtBRL(r.j)}</td>
+            <td>${fmtBRL(r.a)}</td>
+            <td>${fmtBRL(r.e)}</td>
+            <td>${fmtBRL(r.t)}</td>
+            <td>${fmtBRL(r.sf)}</td>
+          </tr>`).join("")}
+          <tr class="foot">
+            <td>Totais</td>
+            <td>—</td>
+            <td>${fmtBRL(totalJ)}</td>
+            <td>${fmtBRL(totalA)}</td>
+            <td>${fmtBRL(totalE)}</td>
+            <td>${fmtBRL(totalT)}</td>
+            <td>—</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="pager">
+        <button onclick="pageMove('${label}', -1)" ${page === 0 ? "disabled" : ""}>← Anterior</button>
+        <span>Parcelas ${page * PAGE_SIZE + 1}–${Math.min((page + 1) * PAGE_SIZE, rows.length)} de ${rows.length}</span>
+        <button onclick="pageMove('${label}', +1)" ${page >= totalPages - 1 ? "disabled" : ""}>Próxima →</button>
+      </div>
+    </div>
+  `;
+}
+
+function pageMove(label, delta) {
+  const rows = label === "SAC" ? tableSAC : tablePRICE;
+  const totalPages = Math.ceil(rows.length / PAGE_SIZE);
+  tableState[label] = Math.max(0, Math.min(totalPages - 1, tableState[label] + delta));
+  renderAll();
+}
+
+/* ---- Charts (SVG inline) ---- */
+function chartSaldo() {
+  const W = 480, H = 230, P = 32;
+  const sacPts = tableSAC.map((r, k) => [P + (k / (n - 1)) * (W - 2 * P), H - P - (r.sf / PV) * (H - 2 * P)]);
+  const pricePts = tablePRICE.map((r, k) => [P + (k / (n - 1)) * (W - 2 * P), H - P - (r.sf / PV) * (H - 2 * P)]);
+  const lineSAC = sacPts.map((p, i) => (i === 0 ? "M" : "L") + p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" ");
+  const linePRICE = pricePts.map((p, i) => (i === 0 ? "M" : "L") + p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" ");
+  return `
+    <div class="chart-wrap">
+      <div class="chart-head">
+        <div class="chart-title">Saldo devedor ao longo de 120 meses</div>
+        <div class="chart-legend">
+          <span><span class="lg-dot" style="background:var(--accent)"></span>SAC</span>
+          <span><span class="lg-dot" style="background:#c084fc"></span>PRICE</span>
+        </div>
+      </div>
+      <svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="sacFill" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="#3b82f6" stop-opacity=".25"/>
+            <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <line x1="${P}" y1="${H - P}" x2="${W - P}" y2="${H - P}" stroke="var(--border)"/>
+        <line x1="${P}" y1="${P}" x2="${P}" y2="${H - P}" stroke="var(--border)"/>
+        <text x="${P - 4}" y="${P + 4}" font-family="DM Mono" font-size="9" fill="var(--text-muted)" text-anchor="end">170k</text>
+        <text x="${P - 4}" y="${H - P}" font-family="DM Mono" font-size="9" fill="var(--text-muted)" text-anchor="end">0</text>
+        <text x="${P}" y="${H - P + 14}" font-family="DM Mono" font-size="9" fill="var(--text-muted)">mês 1</text>
+        <text x="${W - P}" y="${H - P + 14}" font-family="DM Mono" font-size="9" fill="var(--text-muted)" text-anchor="end">mês 120</text>
+        <path d="${lineSAC} L ${(W - P).toFixed(1)},${(H - P).toFixed(1)} L ${P},${(H - P).toFixed(1)} Z" fill="url(#sacFill)"/>
+        <path d="${linePRICE}" stroke="#c084fc" stroke-width="2" fill="none" stroke-dasharray="4 3"/>
+        <path d="${lineSAC}" stroke="var(--accent)" stroke-width="2" fill="none"/>
+      </svg>
+    </div>
+  `;
+}
+
+function chartCompare() {
+  const W = 720, H = 300, P = 42;
+  const groups = [
+    { lbl: "Total pago", sac: totalPagoSac, price: totalPagoPrice },
+    { lbl: "Juros", sac: jurosTotaisSac, price: jurosTotaisPrice },
+    { lbl: "Encargos", sac: E * n, price: E * n },
+  ];
+  const max = Math.max(...groups.map(g => Math.max(g.sac, g.price)));
+  const groupW = (W - 2 * P) / groups.length;
+  const barW = (groupW - 22) / 2;
+  return `
+    <div class="chart-wrap">
+      <div class="chart-head">
+        <div class="chart-title">Comparativo SAC x PRICE · base justa</div>
+        <div class="chart-legend">
+          <span><span class="lg-dot" style="background:var(--accent)"></span>SAC</span>
+          <span><span class="lg-dot" style="background:#c084fc"></span>PRICE</span>
+        </div>
+      </div>
+      <svg class="chart" viewBox="0 0 ${W} ${H}">
+        <line x1="${P}" y1="${H - P}" x2="${W - P}" y2="${H - P}" stroke="var(--border)"/>
+        ${groups.map((g, i) => {
+          const cx = P + i * groupW + groupW / 2;
+          const hSac = (g.sac / max) * (H - 2 * P);
+          const hPrice = (g.price / max) * (H - 2 * P);
+          return `
+            <rect x="${cx - barW - 5}" y="${H - P - hSac}" width="${barW}" height="${hSac}" fill="var(--accent)" rx="3"/>
+            <rect x="${cx + 5}" y="${H - P - hPrice}" width="${barW}" height="${hPrice}" fill="#c084fc" rx="3"/>
+            <text x="${cx - barW / 2 - 5}" y="${H - P - hSac - 7}" font-family="DM Sans" font-size="10" font-weight="500" fill="var(--accent)" text-anchor="middle">${fmtBRL(g.sac)}</text>
+            <text x="${cx + barW / 2 + 5}" y="${H - P - hPrice - 7}" font-family="DM Sans" font-size="10" font-weight="500" fill="#c084fc" text-anchor="middle">${fmtBRL(g.price)}</text>
+            <text x="${cx}" y="${H - P + 18}" font-family="DM Sans" font-size="11" fill="var(--text-dim)" text-anchor="middle">${g.lbl}</text>
+          `;
+        }).join("")}
+      </svg>
+    </div>
+  `;
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+
+function renderStage() {
+  const etapa = ETAPAS[STATE.etapa - 1];
+  const key = etapa.key + "-" + STATE.aba;
+  const builder = Panels[key];
+  const html = builder ? builder() : "";
+  document.getElementById("stage").innerHTML = `
+    <div class="panel active">${html}</div>
+    <div class="nav-foot">
+      <button class="cta ghost" onclick="navPrev()">← Anterior</button>
+      <span class="marker">Etapa ${etapa.n} · Aba ${STATE.aba + 1}/5</span>
+      <button class="cta" onclick="navNext()">Próxima →</button>
+    </div>
+  `;
+}
+
+function navNext() {
+  const key = ETAPAS[STATE.etapa - 1].key;
+  if (STATE.aba < ABAS[key].length - 1) STATE.aba++;
+  else if (STATE.etapa < 7) { STATE.etapa++; STATE.aba = 0; }
+  renderAll();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+function navPrev() {
+  if (STATE.aba > 0) STATE.aba--;
+  else if (STATE.etapa > 1) { STATE.etapa--; STATE.aba = ABAS[ETAPAS[STATE.etapa - 1].key].length - 1; }
+  renderAll();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+function goto(etapa, aba) {
+  STATE.etapa = etapa; STATE.aba = aba;
+  renderAll();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function renderAll() {
+  renderStepper();
+  renderSubtabs();
+  renderHeader();
+  renderStage();
+}
+
+document.addEventListener("DOMContentLoaded", renderAll);
+
+/* expose for inline handlers */
+window.navNext = navNext;
+window.navPrev = navPrev;
+window.goto = goto;
+window.pageMove = pageMove;
+</script>
+</body>
+</html>
