@@ -1438,9 +1438,19 @@
       "type": "aceite-visual",
       "updated_at": "2026-05-26",
       "notes": "Formaliza o aceite visual humano da F8E-AJ1 como referência visual oficial para futura implementação React fiel."
+    },
+    {
+      "id": "gate-po-ux-valor-14f-f8f-implementacao-react-fiel-f8e-aj1",
+      "title": "14F-F8F — Implementação React fiel ao protótipo F8E-AJ1 (fase A)",
+      "path": "docs/gates/gate-po-ux-valor/14f-f8f-implementacao-react-fiel-f8e-aj1/README_ITEM_14F_F8F.md",
+      "status": "ativo",
+      "category": "gate-po-ux-valor",
+      "type": "implementacao-react",
+      "updated_at": "2026-05-27",
+      "notes": "F8F-A entrega base React real + integração com serviços existentes + 35 painéis organizados em 7 etapas × 5 abas. F8F-B (refinamento pedagógico e migração de testes do cockpit antigo) pendente. Aceite visual humano e Sprint 5 seguem dependentes do PO."
     }
   ],
-  "updated_at": "2026-05-26T00:00:00Z",
-  "update_reason": "Gate PO/UX/Valor — Item 14F-F8C-v6.3: materialização do adendo visual Observatory Dark Cards — contrato documental bloqueante para futura implementação React do módulo Imóvel.",
+  "updated_at": "2026-05-27T00:00:00Z",
+  "update_reason": "Gate PO/UX/Valor — Item 14F-F8F (fase A): implementação React fiel ao protótipo F8E-AJ1 aprovado, substituindo o cockpit antigo na rota oficial /financiamento-imobiliario. Cockpit legado preservado no código para manter cobertura de testes existentes.",
   "_migration_note": "Sincronização documental concluída em 2026-04-17. Todos os documentos do pacote AUDITORIA_PROMPT_1_FINAL foram migrados. Documentos com materialized_in_repo=false são apenas aqueles que permanecem pendentes por decisão explícita."
 }
