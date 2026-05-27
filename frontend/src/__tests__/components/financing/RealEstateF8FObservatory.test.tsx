@@ -7,7 +7,7 @@
  *   - navegação entre etapas
  *   - presença das 5 sub-abas por etapa
  *   - card-resumo (scenario pill) com formato monetário completo
- *   - integração real com serviço de simulação (mock injetado via props)
+ *   - integração real com serviço de simulação (mock injetado via props, tipado)
  *   - estado de erro do backend exibido
  *   - estado inicial vazio do resultado quando ainda não houve simulação
  *   - banner de governança presente
@@ -15,14 +15,32 @@
  */
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, vi } from "vitest";
+import {
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+  type MockedFunction,
+} from "vitest";
 
 import { RealEstateF8FObservatory } from "@/components/financing/realEstateF8F/RealEstateF8FObservatory";
 import type {
+  compararFinanciamentos,
+  simularFinanciamentoImobiliario,
+} from "@/services/financing/financiamentoService";
+import type {
+  AnatomiaEncargo,
+  FinanciamentoChartData,
   FinanciamentoImobOut,
   FinanciamentoImobSummary,
+  FinanciamentoInputsNormalizados,
+  FinanciamentoMemoriaCalculo,
+  FinanciamentoMetadadosCalculo,
   FinanciamentoPeriodo,
 } from "@/types/financing";
+
+/* ── Stubs de ambiente ──────────────────────────────────────────────── */
 
 class NoopResizeObserver {
   observe(): void {}
@@ -30,6 +48,22 @@ class NoopResizeObserver {
   disconnect(): void {}
 }
 vi.stubGlobal("ResizeObserver", NoopResizeObserver);
+
+/**
+ * `window.scrollTo` não está implementado no JSDOM e gera ruído de erro nos
+ * testes. O componente real chama `window.scrollTo` ao trocar etapa, com guarda
+ * para `typeof window.scrollTo === "function"`. Aqui, fornecemos uma impl
+ * vazia para deixar a guarda satisfeita e silenciar o JSDOM.
+ */
+beforeEach(() => {
+  Object.defineProperty(window, "scrollTo", {
+    value: vi.fn(),
+    writable: true,
+    configurable: true,
+  });
+});
+
+/* ── Factories tipadas para FinanciamentoImobOut ────────────────────── */
 
 function makeSummary(): FinanciamentoImobSummary {
   return {
@@ -83,17 +117,118 @@ function makeParcela(n: number): FinanciamentoPeriodo {
   };
 }
 
+function makeAnatomiaEncargo(): AnatomiaEncargo {
+  return {
+    amortizacao: "1416.67",
+    juros: "1445.00",
+    prestacao_financeira: "2861.67",
+    mip_mensal: "0.00",
+    dfi_dfc_mensal: "0.00",
+    seguros_total: "180.00",
+    seguros_nao_discriminados: false,
+    taxa_administracao_mensal: "0.00",
+    custo_admin_mensal: "25.00",
+    componentes_acessorios: "205.00",
+    encargo_mensal_total: "3066.67",
+    seguro_mensal: "180.00",
+    tarifa_mensal: "25.00",
+    encargos: "205.00",
+    pct_amortizacao: "49.50",
+    pct_juros: "50.50",
+    pct_prestacao_financeira: "93.31",
+    pct_mip: "0.00",
+    pct_dfi_dfc: "0.00",
+    pct_seguros: "5.87",
+    pct_taxa_administracao: "0.00",
+    pct_custo_admin: "0.82",
+    pct_encargos: "6.69",
+    pct_seguro: "5.87",
+    pct_tarifa: "0.82",
+  };
+}
+
+function makeInputsNormalizados(): FinanciamentoInputsNormalizados {
+  return {
+    valor_imovel: "870000.00",
+    valor_entrada: "700000.00",
+    valor_financiado: "170000.00",
+    prazo_meses: 120,
+    taxa_juros_mensal: "0.008500",
+    sistema_amortizacao: "SAC",
+  };
+}
+
+function makeMemoriaCalculo(): FinanciamentoMemoriaCalculo {
+  return {
+    metodo: "SAC",
+    entradas: {
+      valor_imovel: "870000.00",
+      valor_entrada: "700000.00",
+      valor_financiado: "170000.00",
+      prazo_meses: 120,
+      taxa_juros_mensal: "0.008500",
+      sistema_amortizacao: "SAC",
+    },
+    formula: "A = PV / n; J_k = SD_{k-1} * i",
+    variaveis: { PV: "170000.00", i: "0.008500", n: 120 },
+    substituicao: "PV=170000.00; i=0.008500; n=120",
+    arredondamento: "ROUND_HALF_EVEN para centavos",
+    primeira_parcela: makeParcela(1),
+    ultima_parcela: { ...makeParcela(120), saldo_final: "0.00" },
+    custo_total: "282022.50",
+    resultado_final: { total_pago: "282022.50" },
+  };
+}
+
+function makeMetadadosCalculo(): FinanciamentoMetadadosCalculo {
+  return {
+    moeda: "BRL",
+    criterio_arredondamento: "ROUND_HALF_EVEN para centavos",
+    linhas_tabela: 120,
+    prazo_dinamico_respeitado: true,
+    contrato_educacional_api: "Item 7",
+  };
+}
+
+function makeChartData(): FinanciamentoChartData {
+  return {
+    saldo_devedor: [],
+    prestacoes: [],
+    juros_amortizacao: [],
+  };
+}
+
 function makeResult(): FinanciamentoImobOut {
   return {
     summary: makeSummary(),
     parcelas: [makeParcela(1)],
-  } as FinanciamentoImobOut;
+    inputs_normalizados: makeInputsNormalizados(),
+    anatomia_encargo: makeAnatomiaEncargo(),
+    componentes_cet: [],
+    memoria_calculo: makeMemoriaCalculo(),
+    formulas_usadas: [],
+    explicacoes_pedagogicas: [],
+    alertas: [],
+    fontes: [],
+    limites: [],
+    metadados_calculo: makeMetadadosCalculo(),
+    mensagens_interface: [],
+    chart_data: makeChartData(),
+  };
 }
+
+/* ── Aliases dos tipos das funções de serviço (para mocks tipados) ── */
+
+// vitest 1.6 → `MockedFunction<F>` extende `(...args: Parameters<F>): ReturnType<F>`,
+// portanto é assinalável à prop `simulateFn: typeof simularFinanciamentoImobiliario`
+// sem casts perigosos.
+type SimulateMock = MockedFunction<typeof simularFinanciamentoImobiliario>;
+type CompareMock = MockedFunction<typeof compararFinanciamentos>;
 
 describe("RealEstateF8FObservatory", () => {
   it("renderiza o shell F8E-AJ1 sem referenciar o cockpit antigo", () => {
-    const simulate = vi.fn();
-    const compare = vi.fn();
+    const simulate: SimulateMock = vi.fn();
+    const compare: CompareMock = vi.fn();
     render(
       <RealEstateF8FObservatory simulateFn={simulate} compareFn={compare} />,
     );
@@ -159,8 +294,9 @@ describe("RealEstateF8FObservatory", () => {
 
   it("integra o serviço real de simulação ao clicar em Calcular", async () => {
     const user = userEvent.setup();
-    const simulate = vi.fn(() => Promise.resolve(makeResult()));
-    const compare = vi.fn();
+    const simulate: SimulateMock = vi.fn();
+    simulate.mockResolvedValue(makeResult());
+    const compare: CompareMock = vi.fn();
     render(
       <RealEstateF8FObservatory simulateFn={simulate} compareFn={compare} />,
     );
@@ -170,12 +306,18 @@ describe("RealEstateF8FObservatory", () => {
     await waitFor(() => {
       expect(simulate).toHaveBeenCalledTimes(1);
     });
-    const call = simulate.mock.calls[0]?.[0];
-    expect(call?.valor_imovel).toBe("870000.00");
-    expect(call?.valor_entrada).toBe("700000.00");
-    expect(call?.prazo_meses).toBe(120);
-    expect(call?.sistema_amortizacao).toBe("SAC");
-    // após sucesso, foi para Resultado e mostra o score primeiro
+
+    // O mock está tipado como SimulateFn, então o primeiro argumento é
+    // FinanciamentoImobRequest. Acessamos pela posição [0] do primeiro call.
+    const firstCall = simulate.mock.calls[0];
+    expect(firstCall).toBeDefined();
+    const requestPayload = firstCall![0];
+    expect(requestPayload.valor_imovel).toBe("870000.00");
+    expect(requestPayload.valor_entrada).toBe("700000.00");
+    expect(requestPayload.prazo_meses).toBe(120);
+    expect(requestPayload.sistema_amortizacao).toBe("SAC");
+
+    // Após sucesso, foi para Resultado e mostra o score primeiro
     await waitFor(() => {
       expect(screen.getByTestId("f8f-score-primeira")).toBeInTheDocument();
     });
@@ -183,15 +325,20 @@ describe("RealEstateF8FObservatory", () => {
 
   it("exibe erro quando o backend recusa a simulação", async () => {
     const user = userEvent.setup();
-    const simulate = vi.fn(() =>
-      Promise.reject({
-        kind: "validation",
+    // Erro tipado como InterestApiError de validação (RFC 7807)
+    const simulate: SimulateMock = vi.fn();
+    simulate.mockRejectedValue({
+      kind: "validation",
+      status: 422,
+      problem: {
+        type: "validation",
+        title: "Erro de validação",
         status: 422,
         detail: "Taxa fora do intervalo permitido",
-        fieldErrors: {},
-      }),
-    );
-    const compare = vi.fn();
+      },
+      fieldErrors: {},
+    });
+    const compare: CompareMock = vi.fn();
     render(
       <RealEstateF8FObservatory simulateFn={simulate} compareFn={compare} />,
     );

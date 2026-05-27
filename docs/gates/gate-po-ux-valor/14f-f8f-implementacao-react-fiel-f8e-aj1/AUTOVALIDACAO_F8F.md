@@ -48,6 +48,22 @@ All matched files use Prettier code style!
 (saída vazia = sucesso)
 ```
 
+> **Histórico**: a primeira execução do typecheck no commit `4c2d60a` falhou com
+> TS2352/TS2493/TS2339 por mocks insuficientes em
+> `RealEstateF8FObservatory.test.tsx`. Correção forense aplicada em commit
+> subsequente: (a) factories tipadas completas para `FinanciamentoImobOut`
+> (`summary` + `parcelas` + `inputs_normalizados` + `anatomia_encargo` +
+> `componentes_cet` + `memoria_calculo` + `formulas_usadas` +
+> `explicacoes_pedagogicas` + `alertas` + `fontes` + `limites` +
+> `metadados_calculo` + `mensagens_interface` + `chart_data`), sem `as`
+> mascarador; (b) `MockedFunction<typeof simularFinanciamentoImobiliario>` /
+> `MockedFunction<typeof compararFinanciamentos>` para tipar `vi.fn()`
+> propriamente (vitest 1.6); (c) `mockResolvedValue` / `mockRejectedValue`
+> em vez de implementações com parâmetros não usados; (d)
+> `Object.defineProperty(window, "scrollTo", { value: vi.fn(), ... })` no
+> `beforeEach` para silenciar o "not implemented" do JSDOM sem remover a
+> chamada útil ao usuário.
+
 **Status:** OK · 0 erros TypeScript
 
 ### 2.4 `pnpm test`
