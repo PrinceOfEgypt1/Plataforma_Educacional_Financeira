@@ -234,3 +234,62 @@ aplicadas cirurgicamente:
 - Aceite visual humano continua pendente.
 - Sprint 5 continua bloqueada.
 - Backend/API/fórmulas/infra/docker/tools/scripts: 0 arquivos alterados na AJ2.
+
+---
+
+## 8. Rodada AJ3 — pendência textual bloqueante (BLOCO 23A)
+
+Auditoria de Camaleão (BLOCO 23A) identificou em
+`frontend/src/components/financing/realEstateF8F/RealEstateF8FObservatory.tsx:2638`
+a frase técnica desalinhada com a linguagem educacional do produto:
+
+- **Antes (UI):** "Como o backend chegou a esses números"
+- **Depois (UI):** "Como a aplicação chegou a esses números"
+
+A frase aparece no `CardTitle` da Etapa 6.4 (Passo a Passo).
+
+### 8.1 Antirregressão
+
+Novo teste adicionado em `RealEstateF8FObservatory.test.tsx`:
+
+```
+it("Etapa 6.4 Passo a Passo usa 'aplicação' (F8F-AJ3)", async () => { ... })
+```
+
+Verifica explicitamente:
+
+- `getByText(/Como a aplicação chegou a esses números/i)` — presente.
+- `queryByText(/Como o backend chegou a esses números/i)` — **ausente**.
+
+### 8.2 Greps de comprovação
+
+```
+$ grep -RIn "Como o backend chegou a esses números" frontend/src/components/
+(nenhum resultado)
+
+$ grep -RIn "Como a aplicação chegou a esses números" frontend/src/components/
+frontend/src/components/financing/realEstateF8F/RealEstateF8FObservatory.tsx:2638
+```
+
+A única ocorrência da frase antiga em `frontend/src/__tests__/` é dentro de
+`screen.queryByText(...)` no teste de antirregressão (verifica AUSÊNCIA no
+DOM, não presença textual no produto).
+
+### 8.3 Validações pós-AJ3 (em `frontend/`)
+
+| Comando | Resultado |
+|---|---|
+| `pnpm format:check` | OK |
+| `pnpm lint` | OK · 0 warnings |
+| `pnpm typecheck` | OK |
+| `pnpm test` | **473/473 PASS** (era 472; +1 antirregressão AJ3) |
+| `pnpm build` | OK · `/financiamento-imobiliario` 23.1 kB / 239 kB |
+
+### 8.4 Governança AJ3
+
+- PR #73 continua **DRAFT**.
+- `origin/main` segue intacta em `02c6085`.
+- Backend / API / fórmulas / contratos / infra / docker / tools / scripts: **0 arquivos alterados**.
+- Aceite visual humano: **não declarado**.
+- Sprint 5: **não liberada**.
+- F8F-B: continua pendente.

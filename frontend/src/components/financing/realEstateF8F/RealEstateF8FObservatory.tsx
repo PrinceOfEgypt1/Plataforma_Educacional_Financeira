@@ -2635,7 +2635,7 @@ function CheckPanels({
     return (
       <Card>
         <CardEyebrow>Passo a passo · Parcela 1</CardEyebrow>
-        <CardTitle>Como o backend chegou a esses números</CardTitle>
+        <CardTitle>Como a aplicação chegou a esses números</CardTitle>
         <div
           style={{
             marginTop: "1rem",

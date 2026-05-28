@@ -407,4 +407,29 @@ describe("RealEstateF8FObservatory", () => {
     expect(checklist).toBeInTheDocument();
     expect(checklist.getAttribute("data-columns")).toBe("2");
   });
+
+  it("Etapa 6.4 Passo a Passo usa 'aplicação' (F8F-AJ3)", async () => {
+    const user = userEvent.setup();
+    const simulate: SimulateMock = vi.fn();
+    simulate.mockResolvedValue(makeResult());
+    const compare: CompareMock = vi.fn();
+    render(
+      <RealEstateF8FObservatory simulateFn={simulate} compareFn={compare} />,
+    );
+    // É necessário um resultado real para a Etapa 6 sair do empty state.
+    await user.click(screen.getByTestId("f8f-step-2"));
+    await user.click(screen.getByTestId("f8f-subtab-2-5"));
+    await user.click(screen.getByTestId("f8f-cta-calcular"));
+    await waitFor(() => {
+      expect(screen.getByTestId("f8f-score-primeira")).toBeInTheDocument();
+    });
+    await user.click(screen.getByTestId("f8f-step-6"));
+    await user.click(screen.getByTestId("f8f-subtab-6-4"));
+    expect(
+      screen.getByText(/Como a aplicação chegou a esses números/i),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(/Como o backend chegou a esses números/i),
+    ).not.toBeInTheDocument();
+  });
 });
