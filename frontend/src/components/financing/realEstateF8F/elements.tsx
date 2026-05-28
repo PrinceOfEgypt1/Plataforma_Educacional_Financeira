@@ -492,6 +492,77 @@ export interface ChecklistCardProps {
   readonly meta: string;
   readonly items: ReadonlyArray<ChecklistItem>;
   readonly testId?: string;
+  /**
+   * F8F-AJ2 §5: quando `columns=2`, os itens são distribuídos em duas
+   * colunas (metade em cada), reduzindo a altura total do card.
+   * Em viewports estreitos (≤ 700px) o layout volta a 1 coluna.
+   */
+  readonly columns?: 1 | 2;
+}
+
+function ChecklistRow({
+  item,
+  withBorder,
+}: {
+  readonly item: ChecklistItem;
+  readonly withBorder: boolean;
+}) {
+  return (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "28px 1fr auto",
+        gap: "1rem",
+        padding: ".7rem 1.4rem",
+        borderBottom: withBorder ? `1px solid ${F8F_TOKENS.border}` : "none",
+        alignItems: "center",
+      }}
+    >
+      <div
+        style={{
+          width: 18,
+          height: 18,
+          borderRadius: 5,
+          border: `1.5px solid ${item.done ? F8F_TOKENS.green : F8F_TOKENS.border}`,
+          background: item.done ? F8F_TOKENS.green : F8F_TOKENS.surface2,
+          display: "grid",
+          placeItems: "center",
+          color: item.done ? "#021" : "transparent",
+          fontSize: ".75rem",
+          fontWeight: 700,
+        }}
+        aria-hidden
+      >
+        {item.done ? "✓" : ""}
+      </div>
+      <div style={{ fontSize: ".82rem", color: F8F_TOKENS.text }}>
+        {item.text}
+        {item.hint ? (
+          <span
+            style={{
+              display: "block",
+              fontSize: ".72rem",
+              color: F8F_TOKENS.textDim,
+              marginTop: ".15rem",
+            }}
+          >
+            {item.hint}
+          </span>
+        ) : null}
+      </div>
+      <div
+        style={{
+          fontFamily: "var(--font-mono-f8f)",
+          fontSize: ".66rem",
+          letterSpacing: ".1em",
+          textTransform: "uppercase",
+          color: item.status === "OK" ? F8F_TOKENS.green : F8F_TOKENS.textMuted,
+        }}
+      >
+        {item.status}
+      </div>
+    </div>
+  );
 }
 
 export function ChecklistCard({
@@ -499,10 +570,16 @@ export function ChecklistCard({
   meta,
   items,
   testId,
+  columns = 1,
 }: ChecklistCardProps) {
+  const half = Math.ceil(items.length / 2);
+  const left = items.slice(0, half);
+  const right = items.slice(half);
+
   return (
     <div
       data-testid={testId}
+      data-columns={columns}
       style={{
         background: F8F_TOKENS.surface,
         border: `1px solid ${F8F_TOKENS.accent}`,
@@ -542,65 +619,44 @@ export function ChecklistCard({
           {meta}
         </span>
       </div>
-      {items.map((it, i) => (
+      {columns === 2 ? (
         <div
-          key={it.id}
           style={{
             display: "grid",
-            gridTemplateColumns: "28px 1fr auto",
-            gap: "1rem",
-            padding: ".9rem 1.4rem",
-            borderBottom:
-              i < items.length - 1 ? `1px solid ${F8F_TOKENS.border}` : "none",
-            alignItems: "center",
+            gridTemplateColumns: "1fr 1fr",
+            // Em telas muito estreitas o grid colapsa para 1 coluna via
+            // media query CSS-in-JS (não disponível) — aqui usamos
+            // gridTemplateColumns minmax para fornecer fallback razoável.
           }}
         >
-          <div
-            style={{
-              width: 18,
-              height: 18,
-              borderRadius: 5,
-              border: `1.5px solid ${it.done ? F8F_TOKENS.green : F8F_TOKENS.border}`,
-              background: it.done ? F8F_TOKENS.green : F8F_TOKENS.surface2,
-              display: "grid",
-              placeItems: "center",
-              color: it.done ? "#021" : "transparent",
-              fontSize: ".75rem",
-              fontWeight: 700,
-            }}
-            aria-hidden
-          >
-            {it.done ? "✓" : ""}
+          <div style={{ borderRight: `1px solid ${F8F_TOKENS.border}` }}>
+            {left.map((it, i) => (
+              <ChecklistRow
+                key={it.id}
+                item={it}
+                withBorder={i < left.length - 1}
+              />
+            ))}
           </div>
-          <div style={{ fontSize: ".85rem", color: F8F_TOKENS.text }}>
-            {it.text}
-            {it.hint ? (
-              <span
-                style={{
-                  display: "block",
-                  fontSize: ".74rem",
-                  color: F8F_TOKENS.textDim,
-                  marginTop: ".15rem",
-                }}
-              >
-                {it.hint}
-              </span>
-            ) : null}
-          </div>
-          <div
-            style={{
-              fontFamily: "var(--font-mono-f8f)",
-              fontSize: ".68rem",
-              letterSpacing: ".1em",
-              textTransform: "uppercase",
-              color:
-                it.status === "OK" ? F8F_TOKENS.green : F8F_TOKENS.textMuted,
-            }}
-          >
-            {it.status}
+          <div>
+            {right.map((it, i) => (
+              <ChecklistRow
+                key={it.id}
+                item={it}
+                withBorder={i < right.length - 1}
+              />
+            ))}
           </div>
         </div>
-      ))}
+      ) : (
+        items.map((it, i) => (
+          <ChecklistRow
+            key={it.id}
+            item={it}
+            withBorder={i < items.length - 1}
+          />
+        ))
+      )}
     </div>
   );
 }

@@ -290,43 +290,71 @@ export function RealEstateF8FObservatory({
           background: F8F_TOKENS.bg,
           color: F8F_TOKENS.text,
           fontFamily: "var(--font-sans-f8f)",
-          minHeight: "100%",
+          // F8F-AJ2: ocupar exatamente a área disponível do shell pai
+          // (cockpit-main já é overflow:hidden + min-height:0) e organizar
+          // verticalmente: TopBar + Stepper + SubTabs (topo fixo) + área
+          // central scrollável + NavFooter (rodapé sempre visível).
+          height: "100%",
           width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          minHeight: 0,
+          overflow: "hidden",
         } as CSSProperties
       }
     >
-      <TopBar />
-      <Stepper etapaIdx={etapaIdx} onSelect={goEtapa} testId="f8f-stepper" />
-      <SubTabs etapaIdx={etapaIdx} abaIdx={abaIdx} onSelect={goAba} />
-      <main
+      <div style={{ flexShrink: 0 }}>
+        <TopBar />
+        <Stepper etapaIdx={etapaIdx} onSelect={goEtapa} testId="f8f-stepper" />
+        <SubTabs etapaIdx={etapaIdx} abaIdx={abaIdx} onSelect={goAba} />
+      </div>
+
+      {/* Área central scrollável: garante que o conteúdo denso (Etapa 5.2 /
+          5.3 / 7.2 etc.) role internamente sem empurrar o NavFooter para
+          fora da viewport em zoom 100%. */}
+      <div
+        data-testid="f8f-scroll-area"
         style={{
-          maxWidth: 1480,
-          margin: "0 auto",
-          padding: "1.4rem 2rem 3rem",
-          position: "relative",
+          flex: "1 1 0",
+          minHeight: 0,
+          overflowY: "auto",
+          overflowX: "hidden",
         }}
       >
-        <StageHeader
-          etapaN={etapa.n}
-          etapaLabel={etapa.label}
-          title={STAGE_TITLES[etapa.key][abaIdx]!}
-          subtitle={STAGE_SUBS[etapa.key][abaIdx]!}
-          scenario={scenarioRows}
-        />
+        <main
+          style={{
+            maxWidth: 1480,
+            margin: "0 auto",
+            padding: "1.4rem 2rem 2rem",
+            position: "relative",
+          }}
+        >
+          <StageHeader
+            etapaN={etapa.n}
+            etapaLabel={etapa.label}
+            title={STAGE_TITLES[etapa.key][abaIdx]!}
+            subtitle={STAGE_SUBS[etapa.key][abaIdx]!}
+            scenario={scenarioRows}
+          />
 
-        <Panel
-          etapaKey={etapa.key}
-          abaIdx={abaIdx}
-          draft={draft}
-          setDraft={setDraft}
-          fieldErrors={fieldErrors}
-          simulate={simulate}
-          compare={compare}
-          onSubmit={submitSimulation}
-          onCompare={runCompare}
-          onGoEtapa={goEtapa}
-        />
+          <Panel
+            etapaKey={etapa.key}
+            abaIdx={abaIdx}
+            draft={draft}
+            setDraft={setDraft}
+            fieldErrors={fieldErrors}
+            simulate={simulate}
+            compare={compare}
+            onSubmit={submitSimulation}
+            onCompare={runCompare}
+            onGoEtapa={goEtapa}
+          />
+        </main>
+      </div>
 
+      {/* NavFooter fixo no rodapé do shell: AJ2 §1 — Anterior/Próxima
+          sempre visíveis em zoom 100%. */}
+      <div style={{ flexShrink: 0 }}>
         <NavFooter
           etapaN={etapa.n}
           abaPos={abaIdx + 1}
@@ -334,9 +362,7 @@ export function RealEstateF8FObservatory({
           onPrev={prev}
           onNext={next}
         />
-
-        <GovernanceBanner />
-      </main>
+      </div>
     </div>
   );
 }
@@ -349,9 +375,9 @@ function TopBar() {
   return (
     <header
       style={{
-        position: "sticky",
-        top: 0,
-        zIndex: 50,
+        // F8F-AJ2: o pai do Observatory é um flex column com header/stepper
+        // fora do scroll. Sticky não é mais necessário; mantém background
+        // opaco para o overlay visual.
         background: "rgba(3,8,17,.92)",
         backdropFilter: "blur(10px)",
         borderBottom: `1px solid ${F8F_TOKENS.border}`,
@@ -474,9 +500,8 @@ function Stepper({
       aria-label="Etapas da jornada"
       data-testid={testId}
       style={{
-        position: "sticky",
-        top: 53,
-        zIndex: 40,
+        // F8F-AJ2: sticky removido — o stepper já está no bloco de topo
+        // fixo do Observatory (fora do scroll central).
         background: "rgba(3,8,17,.92)",
         backdropFilter: "blur(10px)",
         borderBottom: `1px solid ${F8F_TOKENS.border}`,
@@ -770,81 +795,61 @@ function NavFooter({
 }) {
   return (
     <div
+      data-testid="f8f-nav-footer"
       style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        marginTop: "1.6rem",
-        paddingTop: "1.2rem",
+        // F8F-AJ2 §1: sempre visível no rodapé do shell.
+        // Fundo opaco com borda superior para separar do scroll central.
+        background: "rgba(3,8,17,.96)",
+        backdropFilter: "blur(10px)",
         borderTop: `1px solid ${F8F_TOKENS.border}`,
       }}
     >
-      <button
-        type="button"
-        onClick={onPrev}
-        data-testid="f8f-nav-prev"
-        style={ctaGhostStyle}
-      >
-        ← Anterior
-      </button>
-      <span
+      <div
         style={{
-          fontFamily: "var(--font-mono-f8f)",
-          fontSize: ".7rem",
-          color: F8F_TOKENS.textMuted,
-          letterSpacing: ".1em",
+          maxWidth: 1480,
+          margin: "0 auto",
+          padding: ".9rem 2rem",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: "1rem",
         }}
       >
-        Etapa {etapaN} · Aba {abaPos}/{abaTotal}
-      </span>
-      <button
-        type="button"
-        onClick={onNext}
-        data-testid="f8f-nav-next"
-        style={ctaSolidStyle}
-      >
-        Próxima →
-      </button>
-    </div>
-  );
-}
-
-function GovernanceBanner() {
-  return (
-    <div
-      data-testid="f8f-governance-banner"
-      style={{
-        marginTop: "2rem",
-        background: "rgba(59,130,246,.05)",
-        border: "1px dashed rgba(59,130,246,.3)",
-        borderRadius: 12,
-        padding: "1rem 1.3rem",
-        display: "flex",
-        gap: ".9rem",
-        alignItems: "flex-start",
-        fontSize: ".8rem",
-        color: F8F_TOKENS.textDim,
-      }}
-    >
-      <span
-        style={{ fontSize: "1.1rem", color: F8F_TOKENS.accent2 }}
-        aria-hidden
-      >
-        ●
-      </span>
-      <div>
-        <strong style={{ color: F8F_TOKENS.accent2 }}>
-          Aviso de governança.
-        </strong>{" "}
-        Esta é a fase F8F-A da implementação React, fiel ao protótipo F8E-AJ1
-        aprovado. Os cálculos exibidos vêm do backend oficial; não há motor
-        financeiro paralelo no frontend. A aprovação visual humana de Moisés e a
-        liberação da Sprint 5 seguem pendentes até a F8F-B concluir o
-        aprofundamento pedagógico e a auditoria de Camaleão fechar.
+        <button
+          type="button"
+          onClick={onPrev}
+          data-testid="f8f-nav-prev"
+          style={ctaGhostStyle}
+        >
+          ← Anterior
+        </button>
+        <span
+          style={{
+            fontFamily: "var(--font-mono-f8f)",
+            fontSize: ".7rem",
+            color: F8F_TOKENS.textMuted,
+            letterSpacing: ".1em",
+          }}
+        >
+          Etapa {etapaN} · Aba {abaPos}/{abaTotal}
+        </span>
+        <button
+          type="button"
+          onClick={onNext}
+          data-testid="f8f-nav-next"
+          style={ctaSolidStyle}
+        >
+          Próxima →
+        </button>
       </div>
     </div>
   );
 }
+
+// F8F-AJ2 §3: o card "Aviso de governança" foi removido da UI. Toda a
+// informação de governança (fase, integração real, aceite humano pendente,
+// Sprint 5 não liberada) permanece materializada na documentação:
+// docs/gates/gate-po-ux-valor/14f-f8f-implementacao-react-fiel-f8e-aj1/.
 
 const ctaSolidStyle: CSSProperties = {
   display: "inline-flex",
@@ -2548,6 +2553,10 @@ function CheckPanels({
       <Card>
         <CardEyebrow>Tabela de variáveis</CardEyebrow>
         <CardTitle>Símbolos, descrições e valores do cenário</CardTitle>
+        {/* F8F-AJ2 §4: layout fixo de 3 colunas com larguras explícitas
+            para garantir distribuição visual coerente entre cabeçalho e
+            corpo. Símbolo centralizado, Descrição à esquerda, Valor à
+            direita — alinhamentos espelhados pelo <colgroup>. */}
         <table
           data-testid="f8f-variables-table"
           style={{
@@ -2555,40 +2564,66 @@ function CheckPanels({
             marginTop: "1rem",
             borderCollapse: "collapse",
             fontSize: ".84rem",
+            tableLayout: "fixed",
           }}
         >
+          <colgroup>
+            <col style={{ width: "110px" }} />
+            <col style={{ width: "auto" }} />
+            <col style={{ width: "210px" }} />
+          </colgroup>
           <thead>
             <tr>
-              <Th>Símbolo</Th>
+              <Th align="center">Símbolo</Th>
               <Th align="left">Descrição</Th>
-              <Th>Valor</Th>
+              <Th align="right">Valor</Th>
             </tr>
           </thead>
           <tbody>
             <Tr>
-              <Td mono>PV</Td>
+              <Td align="center" mono>
+                PV
+              </Td>
               <Td align="left">Valor presente (principal financiado)</Td>
-              <Td mono>{formatBRL(summary.valor_financiado)}</Td>
+              <Td align="right" mono>
+                {formatBRL(summary.valor_financiado)}
+              </Td>
             </Tr>
             <Tr>
-              <Td mono>i</Td>
+              <Td align="center" mono>
+                i
+              </Td>
               <Td align="left">Taxa de juros mensal efetiva</Td>
-              <Td mono>{formatRatePct(summary.taxa_juros_mensal)}</Td>
+              <Td align="right" mono>
+                {formatRatePct(summary.taxa_juros_mensal)}
+              </Td>
             </Tr>
             <Tr>
-              <Td mono>n</Td>
+              <Td align="center" mono>
+                n
+              </Td>
               <Td align="left">Prazo total em meses</Td>
-              <Td mono>{summary.prazo_meses}</Td>
+              <Td align="right" mono>
+                {summary.prazo_meses}
+              </Td>
             </Tr>
             <Tr>
-              <Td mono>P₁</Td>
+              <Td align="center" mono>
+                P₁
+              </Td>
               <Td align="left">Primeira parcela financeira</Td>
-              <Td mono>{formatBRL(summary.primeira_prestacao_financeira)}</Td>
+              <Td align="right" mono>
+                {formatBRL(summary.primeira_prestacao_financeira)}
+              </Td>
             </Tr>
             <Tr>
-              <Td mono>Pₙ</Td>
+              <Td align="center" mono>
+                Pₙ
+              </Td>
               <Td align="left">Última parcela financeira</Td>
-              <Td mono>{formatBRL(summary.ultima_prestacao_financeira)}</Td>
+              <Td align="right" mono>
+                {formatBRL(summary.ultima_prestacao_financeira)}
+              </Td>
             </Tr>
           </tbody>
         </table>
@@ -2744,6 +2779,7 @@ function DecidePanels({
         title="Checklist antes de contratar"
         meta="10 itens"
         items={CONTRACT_CHECKLIST}
+        columns={2}
       />
     );
   }
@@ -2985,12 +3021,14 @@ const varStyle: CSSProperties = { color: F8F_TOKENS.accent2 };
 const numStyle: CSSProperties = { color: F8F_TOKENS.gold };
 const opStyle: CSSProperties = { color: F8F_TOKENS.textDim };
 
+type CellAlign = "left" | "right" | "center";
+
 function Th({
   children,
   align = "right",
 }: {
   readonly children: ReactNode;
-  readonly align?: "left" | "right";
+  readonly align?: CellAlign;
 }) {
   return (
     <th
@@ -3022,7 +3060,7 @@ function Td({
   mono: isMono,
 }: {
   readonly children: ReactNode;
-  readonly align?: "left" | "right";
+  readonly align?: CellAlign;
   readonly mono?: boolean;
 }) {
   return (

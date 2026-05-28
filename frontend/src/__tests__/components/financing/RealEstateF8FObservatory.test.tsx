@@ -357,10 +357,54 @@ describe("RealEstateF8FObservatory", () => {
     expect(root.textContent ?? "").not.toContain("×");
   });
 
-  it("o banner de governança lembra que aceite humano segue pendente", () => {
+  it("não exibe mais o card 'Aviso de governança' na UI (F8F-AJ2 §3)", () => {
     render(<RealEstateF8FObservatory />);
-    const banner = screen.getByTestId("f8f-governance-banner");
-    expect(banner).toBeInTheDocument();
-    expect(within(banner).getByText(/Sprint 5/i)).toBeInTheDocument();
+    expect(
+      screen.queryByTestId("f8f-governance-banner"),
+    ).not.toBeInTheDocument();
+    expect(screen.queryByText(/Aviso de governança/i)).not.toBeInTheDocument();
+  });
+
+  it("NavFooter (Anterior/Próxima) está sempre montado fora do scroll central", () => {
+    render(<RealEstateF8FObservatory />);
+    const footer = screen.getByTestId("f8f-nav-footer");
+    expect(footer).toBeInTheDocument();
+    expect(within(footer).getByTestId("f8f-nav-prev")).toBeInTheDocument();
+    expect(within(footer).getByTestId("f8f-nav-next")).toBeInTheDocument();
+    // O footer é sibling da área de scroll, não filho — garante que ele
+    // permanece visível quando o conteúdo da etapa empurraria o footer
+    // para fora da viewport em layouts não-controlados.
+    const scrollArea = screen.getByTestId("f8f-scroll-area");
+    expect(scrollArea.contains(footer)).toBe(false);
+  });
+
+  it("área central possui scroll interno (F8F-AJ2 §1, §2)", () => {
+    render(<RealEstateF8FObservatory />);
+    const scrollArea = screen.getByTestId("f8f-scroll-area");
+    expect(scrollArea).toBeInTheDocument();
+    expect(scrollArea.style.overflowY).toBe("auto");
+    expect(scrollArea.style.overflowX).toBe("hidden");
+  });
+
+  it("checklist da Etapa 7.2 renderiza em 2 colunas (F8F-AJ2 §5)", async () => {
+    const user = userEvent.setup();
+    const simulate: SimulateMock = vi.fn();
+    simulate.mockResolvedValue(makeResult());
+    const compare: CompareMock = vi.fn();
+    render(
+      <RealEstateF8FObservatory simulateFn={simulate} compareFn={compare} />,
+    );
+    // Roda a simulação para destravar etapas que dependem do resultado
+    await user.click(screen.getByTestId("f8f-step-2"));
+    await user.click(screen.getByTestId("f8f-subtab-2-5"));
+    await user.click(screen.getByTestId("f8f-cta-calcular"));
+    await waitFor(() => {
+      expect(screen.getByTestId("f8f-score-primeira")).toBeInTheDocument();
+    });
+    await user.click(screen.getByTestId("f8f-step-7"));
+    await user.click(screen.getByTestId("f8f-subtab-7-2"));
+    const checklist = screen.getByTestId("f8f-checklist-contratar");
+    expect(checklist).toBeInTheDocument();
+    expect(checklist.getAttribute("data-columns")).toBe("2");
   });
 });

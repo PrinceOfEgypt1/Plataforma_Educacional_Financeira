@@ -70,9 +70,14 @@ All matched files use Prettier code style!
 
 ```
 Test Files  50 passed (50)
-     Tests  469 passed (469)
-  Duration  25.41s
+     Tests  472 passed (472)
+  Duration  33.28s
 ```
+
+> **AJ2**: subiu de 469 → 472 (3 testes novos cobrindo: ausência do banner de
+> governança na UI, NavFooter sempre montado fora do scroll, `f8f-scroll-area`
+> com `overflowY:auto`/`overflowX:hidden`, e `f8f-checklist-contratar` com
+> `data-columns="2"` na Etapa 7.2).
 
 **Status:** OK · 469/469 testes passando, **inclusive**:
 - `src/__tests__/app/financiamento-imobiliario.test.tsx` (68 testes do cockpit antigo) — preservados
@@ -175,7 +180,7 @@ justificado conforme item 10.2 do prompt.
 | `pnpm format:check` | OK |
 | `pnpm lint` | OK |
 | `pnpm typecheck` | OK |
-| `pnpm test` (469/469) | OK |
+| `pnpm test` (472/472 após AJ2) | OK |
 | `pnpm build` | OK |
 | Grep `×` em SAC/PRICE no diff | OK (0 ocorrências) |
 | Grep termos provisórios no diff | OK (0 ocorrências) |
@@ -183,8 +188,49 @@ justificado conforme item 10.2 do prompt.
 | Implementação React fiel ao F8E-AJ1 | OK (matriz: 63 PASS / 7 PARCIAL / 0 FAIL) |
 | Integração real com backend | OK (sem motor paralelo) |
 | Backend/API/fórmulas inalterados | OK |
-| PR aberto | A FAZER (draft, sem merge) |
+| PR aberto | OK (PR #73 draft, sem merge) |
 | Sprint 5 liberada | NÃO |
 | Aceite visual humano declarado | NÃO (depende do PO) |
 
 **STATUS GLOBAL F8F-A: PASS técnico · aguarda auditoria humana**
+
+---
+
+## 7. Rodada AJ2 — correção visual curta e bloqueante
+
+Em 2026-05-28, auditoria visual do PR #73 sinalizou 5 problemas. Correções
+aplicadas cirurgicamente:
+
+| # | Problema | Correção |
+|---|---|---|
+| 1 | Botões Anterior/Próxima cortados em zoom 100% nas Etapas 1, 4, 5.2, 5.3 | Reestrutura do shell em flex column: topo fixo (TopBar + Stepper + SubTabs) + área central scrollável (`f8f-scroll-area` com `overflow:auto`) + NavFooter fixo no rodapé visual (`flexShrink: 0`). Sticky removido dos blocos de topo (desnecessário no novo layout). |
+| 2 | Tabelas densas (5.2/5.3) empurram a navegação para fora | Resolvido pelo scroll interno da área central. As tabelas paginadas (`RealEstateFinancingTable`, 12 linhas/página) cabem sem provocar scroll global; o `overflowY:auto` da área central cuida do resto. Sem scroll horizontal. |
+| 3 | Card "Aviso de governança" atrapalha em todas as telas | Componente `GovernanceBanner` removido completamente da UI. Toda a informação de governança (fase, integração real, aceite humano pendente, Sprint 5 não liberada) permanece na documentação F8F (este diretório). |
+| 4 | Tabela 6.3 (Variáveis) sem distribuição visual coerente | `tableLayout: fixed` + `<colgroup>` com larguras explícitas (110px / auto / 210px). Cabeçalhos: Símbolo centralizado, Descrição à esquerda, Valor à direita. Cabeçalhos e células espelham o mesmo alinhamento por coluna. |
+| 5 | Card "Checklist antes de contratar" (7.2) alto demais | `ChecklistCard` ganha prop `columns?: 1 \| 2`. Quando `columns={2}`, os 10 itens são divididos ao meio em duas colunas separadas por borda vertical, com altura reduzida. Aplicado à Etapa 7.2. |
+
+### 7.1 Testes adicionados na AJ2
+
+- `não exibe mais o card 'Aviso de governança' na UI (F8F-AJ2 §3)`
+- `NavFooter (Anterior/Próxima) está sempre montado fora do scroll central`
+- `área central possui scroll interno (F8F-AJ2 §1, §2)`
+- `checklist da Etapa 7.2 renderiza em 2 colunas (F8F-AJ2 §5)`
+
+### 7.2 Validações pós-AJ2 (todas em `frontend/`)
+
+| Comando | Resultado |
+|---|---|
+| `pnpm format:check` | OK |
+| `pnpm lint` | OK · 0 warnings |
+| `pnpm typecheck` | OK |
+| `pnpm test` | **472/472 PASS** (3 novos da AJ2; teste antigo do banner foi substituído) |
+| `pnpm build` | OK · `/financiamento-imobiliario` 23.1 kB / 239 kB |
+
+### 7.3 Governança AJ2
+
+- PR #73 continua **DRAFT**.
+- `main` segue intacta em `02c6085`.
+- F8F-B continua pendente.
+- Aceite visual humano continua pendente.
+- Sprint 5 continua bloqueada.
+- Backend/API/fórmulas/infra/docker/tools/scripts: 0 arquivos alterados na AJ2.
