@@ -1,0 +1,2938 @@
+{
+  "openapi": "3.1.0",
+  "info": { "title": "Plataforma Educacional Financeira", "version": "0.1.0" },
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": ["ops"],
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": { "type": "string" },
+                  "type": "object",
+                  "title": "Response Health Health Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health/live": {
+      "get": {
+        "tags": ["ops"],
+        "summary": "Health Live",
+        "operationId": "health_live_health_live_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": { "type": "string" },
+                  "type": "object",
+                  "title": "Response Health Live Health Live Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "tags": ["ops"],
+        "summary": "Health Ready",
+        "operationId": "health_ready_health_ready_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": { "type": "string" },
+                  "type": "object",
+                  "title": "Response Health Ready Health Ready Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/contract/ping": {
+      "get": {
+        "tags": ["contract"],
+        "summary": "Prova de vida do contrato-base de sucesso (Doc 06 §4.1)",
+        "operationId": "contract_ping_api_v1_contract_ping_get",
+        "parameters": [
+          {
+            "name": "echo",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "title": "Echo"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseEnvelope_PingData_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/interest/simple": {
+      "post": {
+        "tags": ["interest"],
+        "summary": "Calcula juros simples (Doc 15 §3).",
+        "operationId": "post_juros_simples_api_v1_interest_simple_post",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/JurosSimplesIn" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseEnvelope_JurosSimplesOut_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validação de entrada falhou (Problem+JSON).",
+            "content": { "application/problem+json": {} }
+          }
+        }
+      }
+    },
+    "/api/v1/interest/compound": {
+      "post": {
+        "tags": ["interest"],
+        "summary": "Calcula juros compostos (Doc 15 §4), aporte mensal opcional.",
+        "operationId": "post_juros_compostos_api_v1_interest_compound_post",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/JurosCompostosIn" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseEnvelope_JurosCompostosOut_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validação de entrada falhou (Problem+JSON).",
+            "content": { "application/problem+json": {} }
+          }
+        }
+      }
+    },
+    "/api/v1/interest/compare": {
+      "post": {
+        "tags": ["interest"],
+        "summary": "Compara simples × compostos sobre a mesma entrada.",
+        "operationId": "post_comparar_juros_api_v1_interest_compare_post",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CompararJurosIn" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseEnvelope_CompararJurosOut_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validação de entrada falhou (Problem+JSON).",
+            "content": { "application/problem+json": {} }
+          }
+        }
+      }
+    },
+    "/api/v1/amortization/price": {
+      "post": {
+        "tags": ["amortization"],
+        "summary": "Calcula tabela PRICE de amortizacao.",
+        "operationId": "post_amortizacao_price_api_v1_amortization_price_post",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/PriceIn" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseEnvelope_PriceOut_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validacao de entrada falhou (Problem+JSON).",
+            "content": { "application/problem+json": {} }
+          }
+        }
+      }
+    },
+    "/api/v1/amortization/sac": {
+      "post": {
+        "tags": ["amortization"],
+        "summary": "Calcula tabela SAC de amortizacao.",
+        "operationId": "post_amortizacao_sac_api_v1_amortization_sac_post",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/SacIn" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseEnvelope_SacOut_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validacao de entrada falhou (Problem+JSON).",
+            "content": { "application/problem+json": {} }
+          }
+        }
+      }
+    },
+    "/api/v1/amortization/compare": {
+      "post": {
+        "tags": ["amortization"],
+        "summary": "Compara PRICE e SAC para as mesmas premissas.",
+        "operationId": "post_comparar_amortizacao_api_v1_amortization_compare_post",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CompareAmortizationIn" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseEnvelope_CompareAmortizationOut_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validacao de entrada falhou (Problem+JSON).",
+            "content": { "application/problem+json": {} }
+          }
+        }
+      }
+    },
+    "/api/v1/diagnostic/analyze": {
+      "post": {
+        "tags": ["diagnostic"],
+        "summary": "Executa o diagnóstico financeiro completo.",
+        "operationId": "post_diagnostic_analyze_api_v1_diagnostic_analyze_post",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DiagnosticAnalyzeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseEnvelope_DiagnosticAnalyzeResponseData_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validação de entrada falhou (Problem+JSON).",
+            "content": { "application/problem+json": {} }
+          }
+        }
+      }
+    },
+    "/api/v1/financing/real_estate": {
+      "post": {
+        "tags": ["financing"],
+        "summary": "Simula financiamento imobiliario com sistema PRICE ou SAC.",
+        "operationId": "post_financing_real_estate_api_v1_financing_real_estate_post",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/FinanciamentoImobIn" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseEnvelope_FinanciamentoImobOut_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validacao de entrada falhou (Problem+JSON).",
+            "content": { "application/problem+json": {} }
+          }
+        }
+      }
+    },
+    "/api/v1/financing/real_estate/compare": {
+      "post": {
+        "tags": ["financing"],
+        "summary": "Compara PRICE x SAC para os mesmos parametros de financiamento imobiliario.",
+        "operationId": "post_financing_real_estate_compare_api_v1_financing_real_estate_compare_post",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FinanciamentoImobCompareIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseEnvelope_FinanciamentoImobCompareOut_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validacao de entrada falhou (Problem+JSON).",
+            "content": { "application/problem+json": {} }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AmortizationPeriodRow": {
+        "properties": {
+          "periodo": { "type": "integer", "minimum": 1.0, "title": "Periodo" },
+          "saldo_inicial": { "type": "string", "title": "Saldo Inicial" },
+          "juros": { "type": "string", "title": "Juros" },
+          "amortizacao": { "type": "string", "title": "Amortizacao" },
+          "parcela": { "type": "string", "title": "Parcela" },
+          "saldo_final": { "type": "string", "title": "Saldo Final" }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "periodo",
+          "saldo_inicial",
+          "juros",
+          "amortizacao",
+          "parcela",
+          "saldo_final"
+        ],
+        "title": "AmortizationPeriodRow",
+        "description": "Linha da tabela de amortizacao serializada pela API."
+      },
+      "AmortizationSystem": {
+        "type": "string",
+        "enum": ["PRICE", "SAC", "EMPATE"],
+        "title": "AmortizationSystem"
+      },
+      "AnatomiaEncargo": {
+        "properties": {
+          "amortizacao": { "type": "string", "title": "Amortizacao" },
+          "juros": { "type": "string", "title": "Juros" },
+          "prestacao_financeira": {
+            "type": "string",
+            "title": "Prestacao Financeira"
+          },
+          "mip_mensal": { "type": "string", "title": "Mip Mensal" },
+          "dfi_dfc_mensal": { "type": "string", "title": "Dfi Dfc Mensal" },
+          "seguros_total": { "type": "string", "title": "Seguros Total" },
+          "seguros_nao_discriminados": {
+            "type": "boolean",
+            "title": "Seguros Nao Discriminados"
+          },
+          "taxa_administracao_mensal": {
+            "type": "string",
+            "title": "Taxa Administracao Mensal"
+          },
+          "custo_admin_mensal": {
+            "type": "string",
+            "title": "Custo Admin Mensal"
+          },
+          "componentes_acessorios": {
+            "type": "string",
+            "title": "Componentes Acessorios"
+          },
+          "encargo_mensal_total": {
+            "type": "string",
+            "title": "Encargo Mensal Total"
+          },
+          "seguro_mensal": { "type": "string", "title": "Seguro Mensal" },
+          "tarifa_mensal": { "type": "string", "title": "Tarifa Mensal" },
+          "encargos": { "type": "string", "title": "Encargos" },
+          "pct_amortizacao": { "type": "string", "title": "Pct Amortizacao" },
+          "pct_juros": { "type": "string", "title": "Pct Juros" },
+          "pct_prestacao_financeira": {
+            "type": "string",
+            "title": "Pct Prestacao Financeira"
+          },
+          "pct_mip": { "type": "string", "title": "Pct Mip" },
+          "pct_dfi_dfc": { "type": "string", "title": "Pct Dfi Dfc" },
+          "pct_seguros": { "type": "string", "title": "Pct Seguros" },
+          "pct_taxa_administracao": {
+            "type": "string",
+            "title": "Pct Taxa Administracao"
+          },
+          "pct_custo_admin": { "type": "string", "title": "Pct Custo Admin" },
+          "pct_encargos": { "type": "string", "title": "Pct Encargos" },
+          "pct_seguro": { "type": "string", "title": "Pct Seguro" },
+          "pct_tarifa": { "type": "string", "title": "Pct Tarifa" }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "amortizacao",
+          "juros",
+          "prestacao_financeira",
+          "mip_mensal",
+          "dfi_dfc_mensal",
+          "seguros_total",
+          "seguros_nao_discriminados",
+          "taxa_administracao_mensal",
+          "custo_admin_mensal",
+          "componentes_acessorios",
+          "encargo_mensal_total",
+          "seguro_mensal",
+          "tarifa_mensal",
+          "encargos",
+          "pct_amortizacao",
+          "pct_juros",
+          "pct_prestacao_financeira",
+          "pct_mip",
+          "pct_dfi_dfc",
+          "pct_seguros",
+          "pct_taxa_administracao",
+          "pct_custo_admin",
+          "pct_encargos",
+          "pct_seguro",
+          "pct_tarifa"
+        ],
+        "title": "AnatomiaEncargo",
+        "description": "Decomposicao do encargo mensal do primeiro periodo.\n\nRegra de composicao:\n    seguros_total = mip_mensal + dfi_dfc_mensal\n                    (ou seguro_mensal legado quando nao discriminado)\n    componentes_acessorios = seguros_total + taxa_administracao_mensal + custo_admin_mensal\n    encargo_mensal_total   = prestacao_financeira + componentes_acessorios\n\nQuando apenas seguro_mensal legado for informado:\n    mip_mensal = zero, dfi_dfc_mensal = zero, seguros_nao_discriminados = True.\nTaxa administrativa nunca entra em seguros_total."
+      },
+      "CompararJurosIn": {
+        "properties": {
+          "principal": {
+            "anyOf": [
+              { "type": "number", "minimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Principal",
+            "description": "Valor presente (PV) em BRL.",
+            "examples": ["1000.00"]
+          },
+          "taxa_mensal": {
+            "anyOf": [
+              { "type": "number", "minimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Taxa Mensal",
+            "description": "Taxa mensal como decimal puro (ex.: 0.01 = 1% a.m.).",
+            "examples": ["0.01"]
+          },
+          "prazo_meses": {
+            "type": "integer",
+            "maximum": 1200.0,
+            "minimum": 1.0,
+            "title": "Prazo Meses",
+            "description": "Prazo em meses.",
+            "examples": [12]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["principal", "taxa_mensal", "prazo_meses"],
+        "title": "CompararJurosIn",
+        "description": "Corpo da requisição para comparar simples × compostos."
+      },
+      "CompararJurosOut": {
+        "properties": {
+          "summary": { "$ref": "#/components/schemas/SummaryComparar" },
+          "tables": { "$ref": "#/components/schemas/TablesComparar" },
+          "charts": {
+            "items": {
+              "$ref": "#/components/schemas/app__schemas__interest__base__Chart"
+            },
+            "type": "array",
+            "title": "Charts"
+          },
+          "interpretation": {
+            "$ref": "#/components/schemas/app__schemas__interest__base__Interpretation"
+          },
+          "alerts": {
+            "items": {
+              "$ref": "#/components/schemas/app__schemas__interest__base__Alert"
+            },
+            "type": "array",
+            "title": "Alerts"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["summary", "interpretation"],
+        "title": "CompararJurosOut",
+        "description": "Carga útil (``data``) da resposta de comparação.\n\nCampos (na ordem canônica do envelope):\n    - ``summary``        — ``SummaryComparar`` com PV, taxa, prazo,\n      montantes simples/composto, diferença e razão.\n    - ``tables``         — ``TablesComparar`` com ``simple`` e\n      ``compound`` aninhados sob um único campo.\n    - ``charts``         — lista com um único ``Chart`` contendo\n      duas séries (``simples`` e ``composto``), prontos para\n      renderização comparativa no frontend.\n    - ``interpretation`` — bloco pedagógico (headline + body).\n    - ``alerts``         — lista (usualmente vazia) de alertas\n      não-bloqueantes."
+      },
+      "CompareAmortizationIn": {
+        "properties": {
+          "principal": {
+            "anyOf": [
+              { "type": "number", "exclusiveMinimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Principal",
+            "description": "Valor presente financiado em BRL. Deve ser maior que zero.",
+            "examples": ["100000.00"]
+          },
+          "taxa_periodo": {
+            "anyOf": [
+              { "type": "number", "minimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Taxa Periodo",
+            "description": "Taxa por periodo como decimal puro (ex.: 0.01 = 1%).",
+            "examples": ["0.01"]
+          },
+          "n_periodos": {
+            "type": "integer",
+            "maximum": 1200.0,
+            "minimum": 1.0,
+            "title": "N Periodos",
+            "description": "Quantidade de periodos da amortizacao.",
+            "examples": [12]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["principal", "taxa_periodo", "n_periodos"],
+        "title": "CompareAmortizationIn",
+        "description": "Corpo da requisicao para comparar PRICE e SAC."
+      },
+      "CompareAmortizationOut": {
+        "properties": {
+          "summary": { "$ref": "#/components/schemas/CompareSummary" },
+          "tables": {
+            "$ref": "#/components/schemas/TablesCompareAmortization"
+          },
+          "charts": {
+            "items": {
+              "$ref": "#/components/schemas/app__schemas__amortization__base__Chart"
+            },
+            "type": "array",
+            "title": "Charts"
+          },
+          "interpretation": {
+            "$ref": "#/components/schemas/app__schemas__amortization__base__Interpretation"
+          },
+          "alerts": {
+            "items": {
+              "$ref": "#/components/schemas/app__schemas__amortization__base__Alert"
+            },
+            "type": "array",
+            "title": "Alerts"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["summary", "interpretation"],
+        "title": "CompareAmortizationOut",
+        "description": "Carga util (data) da resposta comparativa PRICE x SAC."
+      },
+      "CompareSummary": {
+        "properties": {
+          "principal": { "type": "string", "title": "Principal" },
+          "taxa_periodo": { "type": "string", "title": "Taxa Periodo" },
+          "n_periodos": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "N Periodos"
+          },
+          "price": { "$ref": "#/components/schemas/PriceSummary" },
+          "sac": { "$ref": "#/components/schemas/SacSummary" },
+          "diferenca_juros": {
+            "type": "string",
+            "title": "Diferenca Juros",
+            "description": "PRICE.total_juros - SAC.total_juros."
+          },
+          "diferenca_total_pago": {
+            "type": "string",
+            "title": "Diferenca Total Pago",
+            "description": "PRICE.total_pago - SAC.total_pago."
+          },
+          "menor_total_juros": {
+            "$ref": "#/components/schemas/AmortizationSystem"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "principal",
+          "taxa_periodo",
+          "n_periodos",
+          "price",
+          "sac",
+          "diferenca_juros",
+          "diferenca_total_pago",
+          "menor_total_juros"
+        ],
+        "title": "CompareSummary"
+      },
+      "ComponenteCet": {
+        "properties": {
+          "id": { "type": "string", "title": "Id" },
+          "nome": { "type": "string", "title": "Nome" },
+          "natureza": {
+            "type": "string",
+            "enum": ["calculado", "informado", "nao_calculado", "alerta"],
+            "title": "Natureza"
+          },
+          "categoria": {
+            "type": "string",
+            "enum": [
+              "base_operacao",
+              "componente_encargo",
+              "componente_cet",
+              "custo_inicial",
+              "totalizador_indicador"
+            ],
+            "title": "Categoria"
+          },
+          "valor_total": { "type": "string", "title": "Valor Total" },
+          "valor_mensal_referencia": {
+            "type": "string",
+            "title": "Valor Mensal Referencia"
+          },
+          "pct_sobre_financiado": {
+            "type": "string",
+            "title": "Pct Sobre Financiado"
+          },
+          "pct_sobre_total_pago": {
+            "type": "string",
+            "title": "Pct Sobre Total Pago"
+          },
+          "pct_sobre_custo_financeiro_total": {
+            "type": "string",
+            "title": "Pct Sobre Custo Financeiro Total"
+          },
+          "entra_no_encargo_mensal": {
+            "type": "boolean",
+            "title": "Entra No Encargo Mensal"
+          },
+          "entra_no_custo_total_educacional": {
+            "type": "boolean",
+            "title": "Entra No Custo Total Educacional"
+          },
+          "formula": { "type": "string", "title": "Formula" },
+          "explicacao": { "type": "string", "title": "Explicacao" }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "nome",
+          "natureza",
+          "categoria",
+          "valor_total",
+          "valor_mensal_referencia",
+          "pct_sobre_financiado",
+          "pct_sobre_total_pago",
+          "pct_sobre_custo_financeiro_total",
+          "entra_no_encargo_mensal",
+          "entra_no_custo_total_educacional",
+          "formula",
+          "explicacao"
+        ],
+        "title": "ComponenteCet",
+        "description": "Componente individual do CET demonstrativo educacional.\n\nNaturezas:\n    calculado        - derivado das entradas com formula precisa\n    informado        - fornecido pelo usuário como entrada\n    nao_calculado    - existe no CET real mas nao modelado aqui\n    alerta           - custo mencionado para consciencia, sem valor calculado\n\nCategorias pedagogicas:\n    base_operacao          - dados da operacao (nao sao custos)\n    componente_encargo     - entra no encargo mensal\n    componente_cet         - impacta o CET demonstrativo\n    custo_inicial          - custo fora do encargo mensal (alerta)\n    totalizador_indicador  - total ou indicador derivado"
+      },
+      "DiagnosticAlertResponse": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "Code",
+            "description": "Identificador estável em UPPER_SNAKE_CASE."
+          },
+          "level": {
+            "type": "string",
+            "enum": ["info", "warning", "critical"],
+            "title": "Level",
+            "description": "Severidade do alerta."
+          },
+          "dimension": {
+            "type": "string",
+            "title": "Dimension",
+            "description": "Dimensão financeira afetada."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["code", "level", "dimension"],
+        "title": "DiagnosticAlertResponse",
+        "description": "Alerta educativo retornado pelo diagnóstico."
+      },
+      "DiagnosticAnalyzeRequest": {
+        "properties": {
+          "renda_mensal": {
+            "anyOf": [
+              { "type": "number", "exclusiveMinimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Renda Mensal",
+            "description": "Renda líquida mensal total em BRL. Deve ser maior que zero.",
+            "examples": ["5000.00"]
+          },
+          "total_despesas_fixas": {
+            "anyOf": [
+              { "type": "number", "minimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Total Despesas Fixas",
+            "description": "Total de despesas fixas mensais em BRL.",
+            "examples": ["2000.00"]
+          },
+          "total_despesas_variaveis": {
+            "anyOf": [
+              { "type": "number", "minimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Total Despesas Variaveis",
+            "description": "Total de despesas variáveis mensais em BRL.",
+            "examples": ["800.00"]
+          },
+          "total_dividas_mensais": {
+            "anyOf": [
+              { "type": "number", "minimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Total Dividas Mensais",
+            "description": "Total de parcelas mensais de dívidas em BRL.",
+            "examples": ["500.00"]
+          },
+          "total_reserva_atual": {
+            "anyOf": [
+              { "type": "number", "minimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Total Reserva Atual",
+            "description": "Reserva de emergência disponível em BRL.",
+            "examples": ["4000.00"]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "renda_mensal",
+          "total_despesas_fixas",
+          "total_despesas_variaveis",
+          "total_dividas_mensais",
+          "total_reserva_atual"
+        ],
+        "title": "DiagnosticAnalyzeRequest",
+        "description": "Corpo da requisição para o diagnóstico financeiro."
+      },
+      "DiagnosticAnalyzeResponseData": {
+        "properties": {
+          "renda_mensal": { "type": "string", "title": "Renda Mensal" },
+          "total_despesas_fixas": {
+            "type": "string",
+            "title": "Total Despesas Fixas"
+          },
+          "total_despesas_variaveis": {
+            "type": "string",
+            "title": "Total Despesas Variaveis"
+          },
+          "total_dividas_mensais": {
+            "type": "string",
+            "title": "Total Dividas Mensais"
+          },
+          "total_reserva_atual": {
+            "type": "string",
+            "title": "Total Reserva Atual"
+          },
+          "sobra_mensal": { "type": "string", "title": "Sobra Mensal" },
+          "despesas_essenciais_mensais": {
+            "type": "string",
+            "title": "Despesas Essenciais Mensais"
+          },
+          "comprometimento_percentual": {
+            "type": "string",
+            "title": "Comprometimento Percentual"
+          },
+          "sobra_percentual": { "type": "string", "title": "Sobra Percentual" },
+          "reserva_em_meses": { "type": "string", "title": "Reserva Em Meses" },
+          "comprometimento_nivel": {
+            "type": "string",
+            "title": "Comprometimento Nivel"
+          },
+          "reserva_nivel": { "type": "string", "title": "Reserva Nivel" },
+          "sobra_nivel": { "type": "string", "title": "Sobra Nivel" },
+          "pontos_comprometimento": {
+            "type": "integer",
+            "title": "Pontos Comprometimento"
+          },
+          "pontos_reserva": { "type": "integer", "title": "Pontos Reserva" },
+          "pontos_sobra": { "type": "integer", "title": "Pontos Sobra" },
+          "score": { "type": "integer", "title": "Score" },
+          "saude_nivel": { "type": "string", "title": "Saude Nivel" },
+          "alertas": {
+            "items": { "$ref": "#/components/schemas/DiagnosticAlertResponse" },
+            "type": "array",
+            "title": "Alertas"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "renda_mensal",
+          "total_despesas_fixas",
+          "total_despesas_variaveis",
+          "total_dividas_mensais",
+          "total_reserva_atual",
+          "sobra_mensal",
+          "despesas_essenciais_mensais",
+          "comprometimento_percentual",
+          "sobra_percentual",
+          "reserva_em_meses",
+          "comprometimento_nivel",
+          "reserva_nivel",
+          "sobra_nivel",
+          "pontos_comprometimento",
+          "pontos_reserva",
+          "pontos_sobra",
+          "score",
+          "saude_nivel",
+          "alertas"
+        ],
+        "title": "DiagnosticAnalyzeResponseData",
+        "description": "Carga útil (data) da resposta do diagnóstico financeiro."
+      },
+      "FinanciamentoChartData": {
+        "properties": {
+          "saldo_devedor": {
+            "items": { "$ref": "#/components/schemas/FinanciamentoChartPoint" },
+            "type": "array",
+            "title": "Saldo Devedor"
+          },
+          "prestacoes": {
+            "items": { "$ref": "#/components/schemas/FinanciamentoChartPoint" },
+            "type": "array",
+            "title": "Prestacoes"
+          },
+          "juros_amortizacao": {
+            "items": {
+              "$ref": "#/components/schemas/FinanciamentoJurosAmortizacaoPoint"
+            },
+            "type": "array",
+            "title": "Juros Amortizacao"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "FinanciamentoChartData",
+        "description": "Dados preparados para graficos do frontend."
+      },
+      "FinanciamentoChartPoint": {
+        "properties": {
+          "periodo": { "type": "integer", "minimum": 1.0, "title": "Periodo" },
+          "valor": { "type": "string", "title": "Valor" }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["periodo", "valor"],
+        "title": "FinanciamentoChartPoint",
+        "description": "Ponto simples para graficos financeiros."
+      },
+      "FinanciamentoComparacaoEducacional": {
+        "properties": {
+          "diferenca_primeira_prestacao_financeira": {
+            "type": "string",
+            "title": "Diferenca Primeira Prestacao Financeira"
+          },
+          "diferenca_ultima_prestacao_financeira": {
+            "type": "string",
+            "title": "Diferenca Ultima Prestacao Financeira"
+          },
+          "diferenca_primeiro_encargo_mensal": {
+            "type": "string",
+            "title": "Diferenca Primeiro Encargo Mensal"
+          },
+          "diferenca_ultimo_encargo_mensal": {
+            "type": "string",
+            "title": "Diferenca Ultimo Encargo Mensal"
+          },
+          "diferenca_total_pago": {
+            "type": "string",
+            "title": "Diferenca Total Pago"
+          },
+          "diferenca_total_juros": {
+            "type": "string",
+            "title": "Diferenca Total Juros"
+          },
+          "diferenca_primeira_parcela": {
+            "type": "string",
+            "title": "Diferenca Primeira Parcela"
+          },
+          "diferenca_ultima_parcela": {
+            "type": "string",
+            "title": "Diferenca Ultima Parcela"
+          },
+          "comportamento_saldo_devedor": {
+            "type": "string",
+            "title": "Comportamento Saldo Devedor"
+          },
+          "explicacao_pedagogica": {
+            "type": "string",
+            "title": "Explicacao Pedagogica"
+          },
+          "interpretacao_dinamica": {
+            "type": "string",
+            "title": "Interpretacao Dinamica"
+          },
+          "recomendacoes": {
+            "items": { "type": "string" },
+            "type": "array",
+            "title": "Recomendacoes"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "diferenca_primeira_prestacao_financeira",
+          "diferenca_ultima_prestacao_financeira",
+          "diferenca_primeiro_encargo_mensal",
+          "diferenca_ultimo_encargo_mensal",
+          "diferenca_total_pago",
+          "diferenca_total_juros",
+          "diferenca_primeira_parcela",
+          "diferenca_ultima_parcela",
+          "comportamento_saldo_devedor",
+          "explicacao_pedagogica",
+          "interpretacao_dinamica"
+        ],
+        "title": "FinanciamentoComparacaoEducacional",
+        "description": "Resumo educacional da comparacao entre PRICE e SAC."
+      },
+      "FinanciamentoFonte": {
+        "properties": {
+          "nome": { "type": "string", "title": "Nome" },
+          "tipo": { "type": "string", "title": "Tipo" },
+          "observacao": { "type": "string", "title": "Observacao" }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["nome", "tipo", "observacao"],
+        "title": "FinanciamentoFonte",
+        "description": "Fonte ou referencia declarada pela resposta educacional."
+      },
+      "FinanciamentoFormulaUsada": {
+        "properties": {
+          "nome": { "type": "string", "title": "Nome" },
+          "expressao": { "type": "string", "title": "Expressao" },
+          "uso": { "type": "string", "title": "Uso" }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["nome", "expressao", "uso"],
+        "title": "FinanciamentoFormulaUsada",
+        "description": "Formula financeira usada no calculo."
+      },
+      "FinanciamentoImobCompareIn": {
+        "properties": {
+          "valor_imovel": {
+            "anyOf": [
+              { "type": "number", "exclusiveMinimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Valor Imovel",
+            "description": "Valor total do imovel em BRL.",
+            "examples": ["300000.00"]
+          },
+          "valor_entrada": {
+            "anyOf": [
+              { "type": "number", "minimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Valor Entrada",
+            "description": "Valor da entrada em BRL. Deve ser menor que valor_imovel.",
+            "examples": ["60000.00"]
+          },
+          "prazo_meses": {
+            "type": "integer",
+            "maximum": 600.0,
+            "minimum": 1.0,
+            "title": "Prazo Meses",
+            "description": "Prazo do financiamento em meses (max 600 = 50 anos).",
+            "examples": [360]
+          },
+          "taxa_juros_mensal_percentual": {
+            "anyOf": [
+              { "type": "number", "maximum": 100.0, "minimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Taxa Juros Mensal Percentual",
+            "description": "Taxa de juros mensal em percentual (ex.: 0.7 = 0,7% ao mes).",
+            "examples": ["0.7"]
+          },
+          "seguro_mensal": {
+            "anyOf": [
+              { "type": "number", "minimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Seguro Mensal",
+            "description": "Seguro habitacional mensal agregado em BRL (opcional).",
+            "default": "0.00",
+            "examples": ["150.00"]
+          },
+          "tarifa_mensal": {
+            "anyOf": [
+              { "type": "number", "minimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Tarifa Mensal",
+            "description": "Taxa de administração mensal em BRL (opcional). Não é seguro.",
+            "default": "0.00",
+            "examples": ["25.00"]
+          },
+          "custo_administrativo_mensal": {
+            "anyOf": [
+              { "type": "number", "minimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Custo Administrativo Mensal",
+            "description": "Outros custos mensais em BRL (opcional).",
+            "default": "0.00",
+            "examples": ["0.00"]
+          },
+          "mip_mensal": {
+            "anyOf": [
+              { "type": "number", "minimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Mip Mensal",
+            "description": "MIP mensal em BRL (opcional, separado).",
+            "default": "0.00",
+            "examples": ["80.00"]
+          },
+          "dfi_dfc_mensal": {
+            "anyOf": [
+              { "type": "number", "minimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Dfi Dfc Mensal",
+            "description": "DFI/DFC mensal em BRL (opcional, separado).",
+            "default": "0.00",
+            "examples": ["35.00"]
+          },
+          "taxa_administracao_mensal": {
+            "anyOf": [
+              { "type": "number", "minimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Taxa Administracao Mensal",
+            "description": "Taxa de administracao mensal em BRL. Alias de tarifa_mensal.",
+            "default": "0.00",
+            "examples": ["25.00"]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "valor_imovel",
+          "valor_entrada",
+          "prazo_meses",
+          "taxa_juros_mensal_percentual"
+        ],
+        "title": "FinanciamentoImobCompareIn",
+        "description": "Corpo da requisicao para comparacao PRICE x SAC com os mesmos dados."
+      },
+      "FinanciamentoImobCompareOut": {
+        "properties": {
+          "price": { "$ref": "#/components/schemas/FinanciamentoImobOut" },
+          "sac": { "$ref": "#/components/schemas/FinanciamentoImobOut" },
+          "comparacao": {
+            "$ref": "#/components/schemas/FinanciamentoComparacaoEducacional"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["price", "sac", "comparacao"],
+        "title": "FinanciamentoImobCompareOut",
+        "description": "Resultado da comparacao PRICE x SAC com os mesmos parametros de entrada."
+      },
+      "FinanciamentoImobIn": {
+        "properties": {
+          "valor_imovel": {
+            "anyOf": [
+              { "type": "number", "exclusiveMinimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Valor Imovel",
+            "description": "Valor total do imovel em BRL.",
+            "examples": ["300000.00"]
+          },
+          "valor_entrada": {
+            "anyOf": [
+              { "type": "number", "minimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Valor Entrada",
+            "description": "Valor da entrada em BRL. Deve ser menor que valor_imovel.",
+            "examples": ["60000.00"]
+          },
+          "prazo_meses": {
+            "type": "integer",
+            "maximum": 600.0,
+            "minimum": 1.0,
+            "title": "Prazo Meses",
+            "description": "Prazo do financiamento em meses (max 600 = 50 anos).",
+            "examples": [360]
+          },
+          "taxa_juros_mensal_percentual": {
+            "anyOf": [
+              { "type": "number", "maximum": 100.0, "minimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Taxa Juros Mensal Percentual",
+            "description": "Taxa de juros mensal em percentual (ex.: 0.7 = 0,7% ao mes).",
+            "examples": ["0.7"]
+          },
+          "sistema_amortizacao": {
+            "$ref": "#/components/schemas/SistemaAmortizacaoSchema",
+            "description": "Sistema de amortizacao: PRICE ou SAC.",
+            "examples": ["PRICE"]
+          },
+          "seguro_mensal": {
+            "anyOf": [
+              { "type": "number", "minimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Seguro Mensal",
+            "description": "Seguro habitacional mensal agregado (MIP + DFI/DFC juntos), em BRL. Opcional. Use mip_mensal + dfi_dfc_mensal para separação individual.",
+            "default": "0.00",
+            "examples": ["150.00"]
+          },
+          "tarifa_mensal": {
+            "anyOf": [
+              { "type": "number", "minimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Tarifa Mensal",
+            "description": "Taxa de administração mensal em BRL. Não é seguro. Opcional.",
+            "default": "0.00",
+            "examples": ["25.00"]
+          },
+          "custo_administrativo_mensal": {
+            "anyOf": [
+              { "type": "number", "minimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Custo Administrativo Mensal",
+            "description": "Outros custos mensais em BRL. Opcional.",
+            "default": "0.00",
+            "examples": ["0.00"]
+          },
+          "mip_mensal": {
+            "anyOf": [
+              { "type": "number", "minimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Mip Mensal",
+            "description": "MIP mensal em BRL (Seguro de Morte e Invalidez Permanente). Opcional. Quando informado com dfi_dfc_mensal, mantenha seguro_mensal em 0 para evitar dupla contagem.",
+            "default": "0.00",
+            "examples": ["80.00"]
+          },
+          "dfi_dfc_mensal": {
+            "anyOf": [
+              { "type": "number", "minimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Dfi Dfc Mensal",
+            "description": "DFI/DFC mensal em BRL (Seguro de Danos Fisicos ao Imovel / Construcao). Opcional. Informar junto com mip_mensal para separacao completa.",
+            "default": "0.00",
+            "examples": ["35.00"]
+          },
+          "taxa_administracao_mensal": {
+            "anyOf": [
+              { "type": "number", "minimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Taxa Administracao Mensal",
+            "description": "Taxa de administracao mensal em BRL. Alias de tarifa_mensal. Não é seguro. Não soma a seguros_total.",
+            "default": "0.00",
+            "examples": ["25.00"]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "valor_imovel",
+          "valor_entrada",
+          "prazo_meses",
+          "taxa_juros_mensal_percentual",
+          "sistema_amortizacao"
+        ],
+        "title": "FinanciamentoImobIn",
+        "description": "Corpo da requisição para simulação de financiamento imobiliario."
+      },
+      "FinanciamentoImobOut": {
+        "properties": {
+          "summary": {
+            "$ref": "#/components/schemas/FinanciamentoImobSummary"
+          },
+          "parcelas": {
+            "items": { "$ref": "#/components/schemas/FinanciamentoPeriodoRow" },
+            "type": "array",
+            "title": "Parcelas"
+          },
+          "inputs_normalizados": {
+            "$ref": "#/components/schemas/FinanciamentoInputsNormalizados"
+          },
+          "anatomia_encargo": {
+            "$ref": "#/components/schemas/AnatomiaEncargo"
+          },
+          "componentes_cet": {
+            "items": { "$ref": "#/components/schemas/ComponenteCet" },
+            "type": "array",
+            "title": "Componentes Cet"
+          },
+          "memoria_calculo": {
+            "$ref": "#/components/schemas/FinanciamentoMemoriaCalculo"
+          },
+          "formulas_usadas": {
+            "items": {
+              "$ref": "#/components/schemas/FinanciamentoFormulaUsada"
+            },
+            "type": "array",
+            "title": "Formulas Usadas"
+          },
+          "explicacoes_pedagogicas": {
+            "items": { "type": "string" },
+            "type": "array",
+            "title": "Explicacoes Pedagogicas"
+          },
+          "alertas": {
+            "items": { "type": "string" },
+            "type": "array",
+            "title": "Alertas"
+          },
+          "fontes": {
+            "items": { "$ref": "#/components/schemas/FinanciamentoFonte" },
+            "type": "array",
+            "title": "Fontes"
+          },
+          "limites": {
+            "items": { "type": "string" },
+            "type": "array",
+            "title": "Limites"
+          },
+          "metadados_calculo": {
+            "$ref": "#/components/schemas/FinanciamentoMetadadosCalculo"
+          },
+          "mensagens_interface": {
+            "items": { "type": "string" },
+            "type": "array",
+            "title": "Mensagens Interface"
+          },
+          "chart_data": {
+            "$ref": "#/components/schemas/FinanciamentoChartData"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "summary",
+          "inputs_normalizados",
+          "anatomia_encargo",
+          "memoria_calculo",
+          "metadados_calculo",
+          "chart_data"
+        ],
+        "title": "FinanciamentoImobOut",
+        "description": "Carga útil (data) da resposta de simulação de financiamento imobiliario."
+      },
+      "FinanciamentoImobSummary": {
+        "properties": {
+          "sistema_amortizacao": {
+            "type": "string",
+            "enum": ["PRICE", "SAC"],
+            "title": "Sistema Amortizacao"
+          },
+          "valor_imovel": { "type": "string", "title": "Valor Imovel" },
+          "valor_entrada": { "type": "string", "title": "Valor Entrada" },
+          "valor_financiado": { "type": "string", "title": "Valor Financiado" },
+          "prazo_meses": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Prazo Meses"
+          },
+          "taxa_juros_mensal": {
+            "type": "string",
+            "title": "Taxa Juros Mensal"
+          },
+          "taxa_juros_anual_nominal": {
+            "type": "string",
+            "title": "Taxa Juros Anual Nominal"
+          },
+          "taxa_juros_anual_efetiva": {
+            "type": "string",
+            "title": "Taxa Juros Anual Efetiva"
+          },
+          "primeira_prestacao_financeira": {
+            "type": "string",
+            "title": "Primeira Prestacao Financeira"
+          },
+          "ultima_prestacao_financeira": {
+            "type": "string",
+            "title": "Ultima Prestacao Financeira"
+          },
+          "primeiro_encargo_mensal_total": {
+            "type": "string",
+            "title": "Primeiro Encargo Mensal Total"
+          },
+          "ultimo_encargo_mensal_total": {
+            "type": "string",
+            "title": "Ultimo Encargo Mensal Total"
+          },
+          "total_pago": { "type": "string", "title": "Total Pago" },
+          "total_juros": { "type": "string", "title": "Total Juros" },
+          "total_amortizado": { "type": "string", "title": "Total Amortizado" },
+          "total_mip": { "type": "string", "title": "Total Mip" },
+          "total_dfi_dfc": { "type": "string", "title": "Total Dfi Dfc" },
+          "total_seguros": { "type": "string", "title": "Total Seguros" },
+          "total_tarifas": { "type": "string", "title": "Total Tarifas" },
+          "total_custo_admin": {
+            "type": "string",
+            "title": "Total Custo Admin"
+          },
+          "seguros_nao_discriminados": {
+            "type": "boolean",
+            "title": "Seguros Nao Discriminados"
+          },
+          "total_encargos": { "type": "string", "title": "Total Encargos" },
+          "custo_total": { "type": "string", "title": "Custo Total" },
+          "custo_financeiro_total": {
+            "type": "string",
+            "title": "Custo Financeiro Total"
+          },
+          "primeira_parcela": { "type": "string", "title": "Primeira Parcela" },
+          "ultima_parcela": { "type": "string", "title": "Ultima Parcela" }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "sistema_amortizacao",
+          "valor_imovel",
+          "valor_entrada",
+          "valor_financiado",
+          "prazo_meses",
+          "taxa_juros_mensal",
+          "taxa_juros_anual_nominal",
+          "taxa_juros_anual_efetiva",
+          "primeira_prestacao_financeira",
+          "ultima_prestacao_financeira",
+          "primeiro_encargo_mensal_total",
+          "ultimo_encargo_mensal_total",
+          "total_pago",
+          "total_juros",
+          "total_amortizado",
+          "total_mip",
+          "total_dfi_dfc",
+          "total_seguros",
+          "total_tarifas",
+          "total_custo_admin",
+          "seguros_nao_discriminados",
+          "total_encargos",
+          "custo_total",
+          "custo_financeiro_total",
+          "primeira_parcela",
+          "ultima_parcela"
+        ],
+        "title": "FinanciamentoImobSummary",
+        "description": "Resumo do financiamento imobiliario."
+      },
+      "FinanciamentoInputsNormalizados": {
+        "properties": {
+          "valor_imovel": { "type": "string", "title": "Valor Imovel" },
+          "valor_entrada": { "type": "string", "title": "Valor Entrada" },
+          "valor_financiado": { "type": "string", "title": "Valor Financiado" },
+          "prazo_meses": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Prazo Meses"
+          },
+          "taxa_juros_mensal": {
+            "type": "string",
+            "title": "Taxa Juros Mensal"
+          },
+          "sistema_amortizacao": {
+            "type": "string",
+            "enum": ["PRICE", "SAC"],
+            "title": "Sistema Amortizacao"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "valor_imovel",
+          "valor_entrada",
+          "valor_financiado",
+          "prazo_meses",
+          "taxa_juros_mensal",
+          "sistema_amortizacao"
+        ],
+        "title": "FinanciamentoInputsNormalizados",
+        "description": "Entradas normalizadas devolvidas para rastreabilidade educacional."
+      },
+      "FinanciamentoJurosAmortizacaoPoint": {
+        "properties": {
+          "periodo": { "type": "integer", "minimum": 1.0, "title": "Periodo" },
+          "juros": { "type": "string", "title": "Juros" },
+          "amortizacao": { "type": "string", "title": "Amortizacao" }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["periodo", "juros", "amortizacao"],
+        "title": "FinanciamentoJurosAmortizacaoPoint",
+        "description": "Ponto de grafico com decomposicao de juros e amortizacao."
+      },
+      "FinanciamentoMemoriaCalculo": {
+        "properties": {
+          "metodo": {
+            "type": "string",
+            "enum": ["PRICE", "SAC"],
+            "title": "Metodo"
+          },
+          "entradas": {
+            "$ref": "#/components/schemas/FinanciamentoInputsNormalizados"
+          },
+          "formula": { "type": "string", "title": "Formula" },
+          "variaveis": {
+            "additionalProperties": {
+              "type": "string",
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+            },
+            "type": "object",
+            "title": "Variaveis"
+          },
+          "substituicao": { "type": "string", "title": "Substituicao" },
+          "arredondamento": { "type": "string", "title": "Arredondamento" },
+          "primeira_parcela": {
+            "$ref": "#/components/schemas/FinanciamentoPeriodoRow"
+          },
+          "ultima_parcela": {
+            "$ref": "#/components/schemas/FinanciamentoPeriodoRow"
+          },
+          "custo_total": { "type": "string", "title": "Custo Total" },
+          "resultado_final": {
+            "additionalProperties": {
+              "type": "string",
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+            },
+            "type": "object",
+            "title": "Resultado Final"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "metodo",
+          "entradas",
+          "formula",
+          "variaveis",
+          "substituicao",
+          "arredondamento",
+          "primeira_parcela",
+          "ultima_parcela",
+          "custo_total",
+          "resultado_final"
+        ],
+        "title": "FinanciamentoMemoriaCalculo",
+        "description": "Memoria de calculo estruturada para explicar o resultado."
+      },
+      "FinanciamentoMetadadosCalculo": {
+        "properties": {
+          "moeda": { "type": "string", "title": "Moeda" },
+          "criterio_arredondamento": {
+            "type": "string",
+            "title": "Criterio Arredondamento"
+          },
+          "linhas_tabela": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Linhas Tabela"
+          },
+          "prazo_dinamico_respeitado": {
+            "type": "boolean",
+            "title": "Prazo Dinamico Respeitado"
+          },
+          "contrato_educacional_api": {
+            "type": "string",
+            "title": "Contrato Educacional Api"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "moeda",
+          "criterio_arredondamento",
+          "linhas_tabela",
+          "prazo_dinamico_respeitado",
+          "contrato_educacional_api"
+        ],
+        "title": "FinanciamentoMetadadosCalculo",
+        "description": "Metadados de rastreabilidade do calculo."
+      },
+      "FinanciamentoPeriodoRow": {
+        "properties": {
+          "numero": { "type": "integer", "minimum": 1.0, "title": "Numero" },
+          "saldo_inicial": { "type": "string", "title": "Saldo Inicial" },
+          "juros": { "type": "string", "title": "Juros" },
+          "amortizacao": { "type": "string", "title": "Amortizacao" },
+          "prestacao_financeira": {
+            "type": "string",
+            "title": "Prestacao Financeira"
+          },
+          "seguro_mensal": { "type": "string", "title": "Seguro Mensal" },
+          "tarifa_mensal": { "type": "string", "title": "Tarifa Mensal" },
+          "custo_admin_mensal": {
+            "type": "string",
+            "title": "Custo Admin Mensal"
+          },
+          "encargos": { "type": "string", "title": "Encargos" },
+          "encargo_mensal_total": {
+            "type": "string",
+            "title": "Encargo Mensal Total"
+          },
+          "prestacao": { "type": "string", "title": "Prestacao" },
+          "saldo_final": { "type": "string", "title": "Saldo Final" }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "numero",
+          "saldo_inicial",
+          "juros",
+          "amortizacao",
+          "prestacao_financeira",
+          "seguro_mensal",
+          "tarifa_mensal",
+          "custo_admin_mensal",
+          "encargos",
+          "encargo_mensal_total",
+          "prestacao",
+          "saldo_final"
+        ],
+        "title": "FinanciamentoPeriodoRow",
+        "description": "Linha da tabela de parcelas serializada pela API.\n\nNomenclatura canonica:\n    prestacao_financeira = juros + amortizacao\n    seguro_mensal        = MIP + DFI (campo separado)\n    tarifa_mensal        = taxa de administracao (campo separado)\n    custo_admin_mensal   = outros custos mensais (campo separado)\n    encargos             = seguro + tarifa + custo_admin\n    encargo_mensal_total = prestacao_financeira + encargos\n    prestacao            = alias retrocompat = encargo_mensal_total"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": { "$ref": "#/components/schemas/ValidationError" },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "JurosCompostosIn": {
+        "properties": {
+          "principal": {
+            "anyOf": [
+              { "type": "number", "minimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Principal",
+            "description": "Valor presente (PV) em BRL.",
+            "examples": ["1000.00"]
+          },
+          "taxa_mensal": {
+            "anyOf": [
+              { "type": "number", "minimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Taxa Mensal",
+            "description": "Taxa mensal como decimal puro (ex.: 0.01 = 1% a.m.).",
+            "examples": ["0.01"]
+          },
+          "prazo_meses": {
+            "type": "integer",
+            "maximum": 1200.0,
+            "minimum": 1.0,
+            "title": "Prazo Meses",
+            "description": "Prazo em meses (estritamente positivo).",
+            "examples": [12]
+          },
+          "aporte_mensal": {
+            "anyOf": [
+              { "type": "number", "minimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              },
+              { "type": "null" }
+            ],
+            "title": "Aporte Mensal",
+            "description": "Aporte mensal postecipado (BRL). Opcional; default 0.",
+            "examples": ["100.00"]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["principal", "taxa_mensal", "prazo_meses"],
+        "title": "JurosCompostosIn",
+        "description": "Corpo da requisição para juros compostos.\n\nO parâmetro ``aporte_mensal`` é postecipado (aplicado ao final do\nperíodo, após a incidência dos juros). Quando ausente ou\n``null``, a simulação é de juros compostos puros\n(``FV = PV × (1 + i)^n``)."
+      },
+      "JurosCompostosOut": {
+        "properties": {
+          "summary": { "$ref": "#/components/schemas/SummaryCompostos" },
+          "tables": {
+            "additionalProperties": {
+              "items": { "$ref": "#/components/schemas/PeriodoCompostoRow" },
+              "type": "array"
+            },
+            "type": "object",
+            "title": "Tables",
+            "description": "Chave canônica: 'amortizacao'."
+          },
+          "charts": {
+            "items": {
+              "$ref": "#/components/schemas/app__schemas__interest__base__Chart"
+            },
+            "type": "array",
+            "title": "Charts"
+          },
+          "interpretation": {
+            "$ref": "#/components/schemas/app__schemas__interest__base__Interpretation"
+          },
+          "alerts": {
+            "items": {
+              "$ref": "#/components/schemas/app__schemas__interest__base__Alert"
+            },
+            "type": "array",
+            "title": "Alerts"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["summary", "interpretation"],
+        "title": "JurosCompostosOut",
+        "description": "Carga útil (``data``) da resposta de juros compostos."
+      },
+      "JurosSimplesIn": {
+        "properties": {
+          "principal": {
+            "anyOf": [
+              { "type": "number", "minimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Principal",
+            "description": "Valor presente (PV) em BRL. Envie como string para preservar precisão.",
+            "examples": ["1000.00"]
+          },
+          "taxa_mensal": {
+            "anyOf": [
+              { "type": "number", "minimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Taxa Mensal",
+            "description": "Taxa mensal como decimal puro (ex.: 0.01 = 1% a.m.).",
+            "examples": ["0.01"]
+          },
+          "prazo_meses": {
+            "type": "integer",
+            "maximum": 1200.0,
+            "minimum": 1.0,
+            "title": "Prazo Meses",
+            "description": "Prazo em meses. Estritamente positivo; limite superior defensivo.",
+            "examples": [12]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["principal", "taxa_mensal", "prazo_meses"],
+        "title": "JurosSimplesIn",
+        "description": "Corpo da requisição para juros simples.\n\nValidações de borda:\n    - ``principal >= 0`` e tipo ``Decimal`` (Pydantic v2 coage\n      string/float para Decimal com precisão preservada).\n    - ``taxa_mensal >= 0``. Interpretada como decimal puro — 1% a.m.\n      deve ser enviado como ``\"0.01\"``, **não** como ``\"1\"``.\n    - ``prazo_meses`` estritamente positivo e menor que 1200\n      (limite superior defensivo — 100 anos de prazo mensal)."
+      },
+      "JurosSimplesOut": {
+        "properties": {
+          "summary": { "$ref": "#/components/schemas/SummarySimples" },
+          "tables": {
+            "additionalProperties": {
+              "items": { "$ref": "#/components/schemas/PeriodoSimplesRow" },
+              "type": "array"
+            },
+            "type": "object",
+            "title": "Tables",
+            "description": "Chave canônica: 'amortizacao' — tabela período-a-período."
+          },
+          "charts": {
+            "items": {
+              "$ref": "#/components/schemas/app__schemas__interest__base__Chart"
+            },
+            "type": "array",
+            "title": "Charts"
+          },
+          "interpretation": {
+            "$ref": "#/components/schemas/app__schemas__interest__base__Interpretation"
+          },
+          "alerts": {
+            "items": {
+              "$ref": "#/components/schemas/app__schemas__interest__base__Alert"
+            },
+            "type": "array",
+            "title": "Alerts"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["summary", "interpretation"],
+        "title": "JurosSimplesOut",
+        "description": "Carga útil (``data``) da resposta de juros simples."
+      },
+      "Meta": {
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "title": "Request Id",
+            "description": "Identificador único da requisição (UUID4), propagado em X-Request-ID."
+          },
+          "version": {
+            "type": "string",
+            "title": "Version",
+            "description": "Versão da API que respondeu (casa com o prefixo /api/v1).",
+            "default": "v1"
+          },
+          "generated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Generated At",
+            "description": "Timestamp ISO-8601 UTC do momento de geração da resposta."
+          }
+        },
+        "type": "object",
+        "required": ["request_id", "generated_at"],
+        "title": "Meta",
+        "description": "Metadados canônicos do envelope de sucesso (Doc 06 §4.1)."
+      },
+      "PeriodoCompostoRow": {
+        "properties": {
+          "periodo": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Periodo",
+            "description": "Número do período (1-indexed)."
+          },
+          "saldo_inicial": {
+            "type": "string",
+            "title": "Saldo Inicial",
+            "description": "Saldo no início do período (BRL, 2 casas)."
+          },
+          "juros_periodo": {
+            "type": "string",
+            "title": "Juros Periodo",
+            "description": "Juros gerados no período (BRL, 2 casas)."
+          },
+          "aporte": {
+            "type": "string",
+            "title": "Aporte",
+            "description": "Aporte creditado ao final do período (BRL, 2 casas)."
+          },
+          "saldo_final": {
+            "type": "string",
+            "title": "Saldo Final",
+            "description": "Saldo ao final do período após juros e aporte (BRL, 2 casas)."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "periodo",
+          "saldo_inicial",
+          "juros_periodo",
+          "aporte",
+          "saldo_final"
+        ],
+        "title": "PeriodoCompostoRow",
+        "description": "Linha da tabela de juros compostos."
+      },
+      "PeriodoSimplesRow": {
+        "properties": {
+          "periodo": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Periodo",
+            "description": "Número do período (1-indexed)."
+          },
+          "saldo_inicial": {
+            "type": "string",
+            "title": "Saldo Inicial",
+            "description": "Saldo no início do período (BRL, 2 casas)."
+          },
+          "juros_periodo": {
+            "type": "string",
+            "title": "Juros Periodo",
+            "description": "Juros gerados no período (BRL, 2 casas)."
+          },
+          "saldo_final": {
+            "type": "string",
+            "title": "Saldo Final",
+            "description": "Saldo ao final do período (BRL, 2 casas)."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "periodo",
+          "saldo_inicial",
+          "juros_periodo",
+          "saldo_final"
+        ],
+        "title": "PeriodoSimplesRow",
+        "description": "Linha da tabela de juros simples."
+      },
+      "PingData": {
+        "properties": {
+          "pong": { "type": "boolean", "title": "Pong" },
+          "echo": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Echo"
+          }
+        },
+        "type": "object",
+        "required": ["pong"],
+        "title": "PingData"
+      },
+      "PriceIn": {
+        "properties": {
+          "principal": {
+            "anyOf": [
+              { "type": "number", "exclusiveMinimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Principal",
+            "description": "Valor presente financiado em BRL. Deve ser maior que zero.",
+            "examples": ["100000.00"]
+          },
+          "taxa_periodo": {
+            "anyOf": [
+              { "type": "number", "minimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Taxa Periodo",
+            "description": "Taxa por periodo como decimal puro (ex.: 0.01 = 1%).",
+            "examples": ["0.01"]
+          },
+          "n_periodos": {
+            "type": "integer",
+            "maximum": 1200.0,
+            "minimum": 1.0,
+            "title": "N Periodos",
+            "description": "Quantidade de periodos da amortizacao.",
+            "examples": [12]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["principal", "taxa_periodo", "n_periodos"],
+        "title": "PriceIn",
+        "description": "Corpo da requisicao para amortizacao PRICE."
+      },
+      "PriceOut": {
+        "properties": {
+          "summary": { "$ref": "#/components/schemas/PriceSummary" },
+          "tables": {
+            "additionalProperties": {
+              "items": { "$ref": "#/components/schemas/AmortizationPeriodRow" },
+              "type": "array"
+            },
+            "type": "object",
+            "title": "Tables"
+          },
+          "charts": {
+            "items": {
+              "$ref": "#/components/schemas/app__schemas__amortization__base__Chart"
+            },
+            "type": "array",
+            "title": "Charts"
+          },
+          "interpretation": {
+            "$ref": "#/components/schemas/app__schemas__amortization__base__Interpretation"
+          },
+          "alerts": {
+            "items": {
+              "$ref": "#/components/schemas/app__schemas__amortization__base__Alert"
+            },
+            "type": "array",
+            "title": "Alerts"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["summary", "interpretation"],
+        "title": "PriceOut",
+        "description": "Carga util (data) da resposta PRICE."
+      },
+      "PriceSummary": {
+        "properties": {
+          "sistema": {
+            "type": "string",
+            "const": "PRICE",
+            "title": "Sistema",
+            "default": "PRICE"
+          },
+          "principal": { "type": "string", "title": "Principal" },
+          "taxa_periodo": { "type": "string", "title": "Taxa Periodo" },
+          "n_periodos": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "N Periodos"
+          },
+          "parcela": { "type": "string", "title": "Parcela" },
+          "total_pago": { "type": "string", "title": "Total Pago" },
+          "total_juros": { "type": "string", "title": "Total Juros" },
+          "saldo_final": { "type": "string", "title": "Saldo Final" }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "principal",
+          "taxa_periodo",
+          "n_periodos",
+          "parcela",
+          "total_pago",
+          "total_juros",
+          "saldo_final"
+        ],
+        "title": "PriceSummary"
+      },
+      "ResponseEnvelope_CompararJurosOut_": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Sempre True em respostas 2xx.",
+            "default": true
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Mensagem curta legível para o consumidor."
+          },
+          "data": {
+            "$ref": "#/components/schemas/CompararJurosOut",
+            "description": "Carga útil tipada da resposta."
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta",
+            "description": "Metadados da resposta."
+          }
+        },
+        "type": "object",
+        "required": ["message", "data", "meta"],
+        "title": "ResponseEnvelope[CompararJurosOut]"
+      },
+      "ResponseEnvelope_CompareAmortizationOut_": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Sempre True em respostas 2xx.",
+            "default": true
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Mensagem curta legível para o consumidor."
+          },
+          "data": {
+            "$ref": "#/components/schemas/CompareAmortizationOut",
+            "description": "Carga útil tipada da resposta."
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta",
+            "description": "Metadados da resposta."
+          }
+        },
+        "type": "object",
+        "required": ["message", "data", "meta"],
+        "title": "ResponseEnvelope[CompareAmortizationOut]"
+      },
+      "ResponseEnvelope_DiagnosticAnalyzeResponseData_": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Sempre True em respostas 2xx.",
+            "default": true
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Mensagem curta legível para o consumidor."
+          },
+          "data": {
+            "$ref": "#/components/schemas/DiagnosticAnalyzeResponseData",
+            "description": "Carga útil tipada da resposta."
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta",
+            "description": "Metadados da resposta."
+          }
+        },
+        "type": "object",
+        "required": ["message", "data", "meta"],
+        "title": "ResponseEnvelope[DiagnosticAnalyzeResponseData]"
+      },
+      "ResponseEnvelope_FinanciamentoImobCompareOut_": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Sempre True em respostas 2xx.",
+            "default": true
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Mensagem curta legível para o consumidor."
+          },
+          "data": {
+            "$ref": "#/components/schemas/FinanciamentoImobCompareOut",
+            "description": "Carga útil tipada da resposta."
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta",
+            "description": "Metadados da resposta."
+          }
+        },
+        "type": "object",
+        "required": ["message", "data", "meta"],
+        "title": "ResponseEnvelope[FinanciamentoImobCompareOut]"
+      },
+      "ResponseEnvelope_FinanciamentoImobOut_": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Sempre True em respostas 2xx.",
+            "default": true
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Mensagem curta legível para o consumidor."
+          },
+          "data": {
+            "$ref": "#/components/schemas/FinanciamentoImobOut",
+            "description": "Carga útil tipada da resposta."
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta",
+            "description": "Metadados da resposta."
+          }
+        },
+        "type": "object",
+        "required": ["message", "data", "meta"],
+        "title": "ResponseEnvelope[FinanciamentoImobOut]"
+      },
+      "ResponseEnvelope_JurosCompostosOut_": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Sempre True em respostas 2xx.",
+            "default": true
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Mensagem curta legível para o consumidor."
+          },
+          "data": {
+            "$ref": "#/components/schemas/JurosCompostosOut",
+            "description": "Carga útil tipada da resposta."
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta",
+            "description": "Metadados da resposta."
+          }
+        },
+        "type": "object",
+        "required": ["message", "data", "meta"],
+        "title": "ResponseEnvelope[JurosCompostosOut]"
+      },
+      "ResponseEnvelope_JurosSimplesOut_": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Sempre True em respostas 2xx.",
+            "default": true
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Mensagem curta legível para o consumidor."
+          },
+          "data": {
+            "$ref": "#/components/schemas/JurosSimplesOut",
+            "description": "Carga útil tipada da resposta."
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta",
+            "description": "Metadados da resposta."
+          }
+        },
+        "type": "object",
+        "required": ["message", "data", "meta"],
+        "title": "ResponseEnvelope[JurosSimplesOut]"
+      },
+      "ResponseEnvelope_PingData_": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Sempre True em respostas 2xx.",
+            "default": true
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Mensagem curta legível para o consumidor."
+          },
+          "data": {
+            "$ref": "#/components/schemas/PingData",
+            "description": "Carga útil tipada da resposta."
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta",
+            "description": "Metadados da resposta."
+          }
+        },
+        "type": "object",
+        "required": ["message", "data", "meta"],
+        "title": "ResponseEnvelope[PingData]"
+      },
+      "ResponseEnvelope_PriceOut_": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Sempre True em respostas 2xx.",
+            "default": true
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Mensagem curta legível para o consumidor."
+          },
+          "data": {
+            "$ref": "#/components/schemas/PriceOut",
+            "description": "Carga útil tipada da resposta."
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta",
+            "description": "Metadados da resposta."
+          }
+        },
+        "type": "object",
+        "required": ["message", "data", "meta"],
+        "title": "ResponseEnvelope[PriceOut]"
+      },
+      "ResponseEnvelope_SacOut_": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Sempre True em respostas 2xx.",
+            "default": true
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Mensagem curta legível para o consumidor."
+          },
+          "data": {
+            "$ref": "#/components/schemas/SacOut",
+            "description": "Carga útil tipada da resposta."
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta",
+            "description": "Metadados da resposta."
+          }
+        },
+        "type": "object",
+        "required": ["message", "data", "meta"],
+        "title": "ResponseEnvelope[SacOut]"
+      },
+      "SacIn": {
+        "properties": {
+          "principal": {
+            "anyOf": [
+              { "type": "number", "exclusiveMinimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Principal",
+            "description": "Valor presente financiado em BRL. Deve ser maior que zero.",
+            "examples": ["100000.00"]
+          },
+          "taxa_periodo": {
+            "anyOf": [
+              { "type": "number", "minimum": 0.0 },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Taxa Periodo",
+            "description": "Taxa por periodo como decimal puro (ex.: 0.01 = 1%).",
+            "examples": ["0.01"]
+          },
+          "n_periodos": {
+            "type": "integer",
+            "maximum": 1200.0,
+            "minimum": 1.0,
+            "title": "N Periodos",
+            "description": "Quantidade de periodos da amortizacao.",
+            "examples": [12]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["principal", "taxa_periodo", "n_periodos"],
+        "title": "SacIn",
+        "description": "Corpo da requisicao para amortizacao SAC."
+      },
+      "SacOut": {
+        "properties": {
+          "summary": { "$ref": "#/components/schemas/SacSummary" },
+          "tables": {
+            "additionalProperties": {
+              "items": { "$ref": "#/components/schemas/AmortizationPeriodRow" },
+              "type": "array"
+            },
+            "type": "object",
+            "title": "Tables"
+          },
+          "charts": {
+            "items": {
+              "$ref": "#/components/schemas/app__schemas__amortization__base__Chart"
+            },
+            "type": "array",
+            "title": "Charts"
+          },
+          "interpretation": {
+            "$ref": "#/components/schemas/app__schemas__amortization__base__Interpretation"
+          },
+          "alerts": {
+            "items": {
+              "$ref": "#/components/schemas/app__schemas__amortization__base__Alert"
+            },
+            "type": "array",
+            "title": "Alerts"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["summary", "interpretation"],
+        "title": "SacOut",
+        "description": "Carga util (data) da resposta SAC."
+      },
+      "SacSummary": {
+        "properties": {
+          "sistema": {
+            "type": "string",
+            "const": "SAC",
+            "title": "Sistema",
+            "default": "SAC"
+          },
+          "principal": { "type": "string", "title": "Principal" },
+          "taxa_periodo": { "type": "string", "title": "Taxa Periodo" },
+          "n_periodos": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "N Periodos"
+          },
+          "amortizacao_constante": {
+            "type": "string",
+            "title": "Amortizacao Constante"
+          },
+          "parcela_inicial": { "type": "string", "title": "Parcela Inicial" },
+          "parcela_final": { "type": "string", "title": "Parcela Final" },
+          "total_pago": { "type": "string", "title": "Total Pago" },
+          "total_juros": { "type": "string", "title": "Total Juros" },
+          "saldo_final": { "type": "string", "title": "Saldo Final" }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "principal",
+          "taxa_periodo",
+          "n_periodos",
+          "amortizacao_constante",
+          "parcela_inicial",
+          "parcela_final",
+          "total_pago",
+          "total_juros",
+          "saldo_final"
+        ],
+        "title": "SacSummary"
+      },
+      "SistemaAmortizacaoSchema": {
+        "type": "string",
+        "enum": ["PRICE", "SAC"],
+        "title": "SistemaAmortizacaoSchema"
+      },
+      "SummaryComparar": {
+        "properties": {
+          "principal": { "type": "string", "title": "Principal" },
+          "taxa_mensal": { "type": "string", "title": "Taxa Mensal" },
+          "prazo_meses": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Prazo Meses"
+          },
+          "montante_simples": { "type": "string", "title": "Montante Simples" },
+          "montante_composto": {
+            "type": "string",
+            "title": "Montante Composto"
+          },
+          "diferenca": {
+            "type": "string",
+            "title": "Diferenca",
+            "description": "montante_composto - montante_simples (BRL)."
+          },
+          "razao": {
+            "type": "string",
+            "title": "Razao",
+            "description": "montante_composto / montante_simples, como string (6 casas)."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "principal",
+          "taxa_mensal",
+          "prazo_meses",
+          "montante_simples",
+          "montante_composto",
+          "diferenca",
+          "razao"
+        ],
+        "title": "SummaryComparar",
+        "description": "Resumo canônico de uma comparação simples × compostos."
+      },
+      "SummaryCompostos": {
+        "properties": {
+          "principal": {
+            "type": "string",
+            "title": "Principal",
+            "description": "PV de entrada."
+          },
+          "taxa_mensal": {
+            "type": "string",
+            "title": "Taxa Mensal",
+            "description": "Taxa mensal (ex.: 0.010000)."
+          },
+          "prazo_meses": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Prazo Meses"
+          },
+          "aporte_mensal": {
+            "type": "string",
+            "title": "Aporte Mensal",
+            "description": "Aporte mensal postecipado (0 quando ausente)."
+          },
+          "juros_totais": {
+            "type": "string",
+            "title": "Juros Totais",
+            "description": "Juros acumulados (BRL)."
+          },
+          "total_aportado": {
+            "type": "string",
+            "title": "Total Aportado",
+            "description": "Soma dos aportes (BRL)."
+          },
+          "total_investido": {
+            "type": "string",
+            "title": "Total Investido",
+            "description": "principal + total_aportado (BRL)."
+          },
+          "montante_final": {
+            "type": "string",
+            "title": "Montante Final",
+            "description": "Saldo final (BRL)."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "principal",
+          "taxa_mensal",
+          "prazo_meses",
+          "aporte_mensal",
+          "juros_totais",
+          "total_aportado",
+          "total_investido",
+          "montante_final"
+        ],
+        "title": "SummaryCompostos",
+        "description": "Resumo canônico de uma simulação de juros compostos."
+      },
+      "SummarySimples": {
+        "properties": {
+          "principal": {
+            "type": "string",
+            "title": "Principal",
+            "description": "PV de entrada."
+          },
+          "taxa_mensal": {
+            "type": "string",
+            "title": "Taxa Mensal",
+            "description": "Taxa mensal (ex.: 0.010000)."
+          },
+          "prazo_meses": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Prazo Meses"
+          },
+          "juros_totais": {
+            "type": "string",
+            "title": "Juros Totais",
+            "description": "Juros acumulados (BRL)."
+          },
+          "montante_final": {
+            "type": "string",
+            "title": "Montante Final",
+            "description": "FV = PV + J (BRL)."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "principal",
+          "taxa_mensal",
+          "prazo_meses",
+          "juros_totais",
+          "montante_final"
+        ],
+        "title": "SummarySimples",
+        "description": "Resumo canônico de uma simulação de juros simples."
+      },
+      "TablesComparar": {
+        "properties": {
+          "simple": {
+            "items": { "$ref": "#/components/schemas/PeriodoSimplesRow" },
+            "type": "array",
+            "title": "Simple",
+            "description": "Tabela período-a-período — juros simples."
+          },
+          "compound": {
+            "items": { "$ref": "#/components/schemas/PeriodoCompostoRow" },
+            "type": "array",
+            "title": "Compound",
+            "description": "Tabela período-a-período — juros compostos."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "TablesComparar",
+        "description": "Agrupamento canônico das tabelas no endpoint ``/compare``.\n\nA forma preserva o campo único ``tables`` do envelope canônico\n(``summary/tables/charts/interpretation/alerts``) e aninha, sob\nchaves estáveis, as duas tabelas período-a-período que o\nendpoint precisa devolver.\n\nChaves:\n    - ``simple``   — tabela de juros simples (``PeriodoSimplesRow``).\n    - ``compound`` — tabela de juros compostos (``PeriodoCompostoRow``)."
+      },
+      "TablesCompareAmortization": {
+        "properties": {
+          "price": {
+            "items": { "$ref": "#/components/schemas/AmortizationPeriodRow" },
+            "type": "array",
+            "title": "Price"
+          },
+          "sac": {
+            "items": { "$ref": "#/components/schemas/AmortizationPeriodRow" },
+            "type": "array",
+            "title": "Sac"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "TablesCompareAmortization"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": { "anyOf": [{ "type": "string" }, { "type": "integer" }] },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": { "type": "string", "title": "Message" },
+          "type": { "type": "string", "title": "Error Type" },
+          "input": { "title": "Input" },
+          "ctx": { "type": "object", "title": "Context" }
+        },
+        "type": "object",
+        "required": ["loc", "msg", "type"],
+        "title": "ValidationError"
+      },
+      "app__schemas__amortization__base__Alert": {
+        "properties": {
+          "code": { "type": "string", "title": "Code" },
+          "severity": {
+            "type": "string",
+            "enum": ["info", "warning"],
+            "title": "Severity",
+            "default": "info"
+          },
+          "message": { "type": "string", "title": "Message" }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["code", "message"],
+        "title": "Alert"
+      },
+      "app__schemas__amortization__base__Chart": {
+        "properties": {
+          "x_label": {
+            "type": "string",
+            "title": "X Label",
+            "default": "Periodo"
+          },
+          "y_label": {
+            "type": "string",
+            "title": "Y Label",
+            "default": "Saldo devedor (BRL)"
+          },
+          "series": {
+            "items": {
+              "$ref": "#/components/schemas/app__schemas__amortization__base__ChartSeries"
+            },
+            "type": "array",
+            "title": "Series"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["series"],
+        "title": "Chart"
+      },
+      "app__schemas__amortization__base__ChartSeries": {
+        "properties": {
+          "label": { "type": "string", "title": "Label" },
+          "kind": {
+            "type": "string",
+            "enum": ["price", "sac"],
+            "title": "Kind"
+          },
+          "points": {
+            "items": { "type": "string" },
+            "type": "array",
+            "title": "Points"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["label", "kind", "points"],
+        "title": "ChartSeries"
+      },
+      "app__schemas__amortization__base__Interpretation": {
+        "properties": {
+          "headline": { "type": "string", "title": "Headline" },
+          "body": { "type": "string", "title": "Body" }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["headline", "body"],
+        "title": "Interpretation"
+      },
+      "app__schemas__interest__base__Alert": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "Code",
+            "description": "Código estável do alerta (UPPER_SNAKE_CASE)."
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["info", "warning"],
+            "title": "Severity",
+            "description": "Severidade do alerta (nunca 'error' aqui — erros usam Problem).",
+            "default": "info"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Mensagem legível em PT-BR."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["code", "message"],
+        "title": "Alert",
+        "description": "Alerta pedagógico/operacional anexado à resposta."
+      },
+      "app__schemas__interest__base__Chart": {
+        "properties": {
+          "x_label": {
+            "type": "string",
+            "title": "X Label",
+            "default": "Período (meses)"
+          },
+          "y_label": {
+            "type": "string",
+            "title": "Y Label",
+            "default": "Saldo (BRL)"
+          },
+          "series": {
+            "items": {
+              "$ref": "#/components/schemas/app__schemas__interest__base__ChartSeries"
+            },
+            "type": "array",
+            "title": "Series"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["series"],
+        "title": "Chart",
+        "description": "Meta-gráfico de evolução de saldo.\n\nNão renderiza: descreve. Frontend é responsável por transformar\nisto em visualização (Chart.js, Recharts, etc.)."
+      },
+      "app__schemas__interest__base__ChartSeries": {
+        "properties": {
+          "label": {
+            "type": "string",
+            "title": "Label",
+            "description": "Rótulo humano da série."
+          },
+          "kind": {
+            "type": "string",
+            "enum": ["simples", "composto"],
+            "title": "Kind",
+            "description": "Tipo de cálculo que gerou a série."
+          },
+          "points": {
+            "items": { "type": "string" },
+            "type": "array",
+            "title": "Points",
+            "description": "Saldo ao final de cada período (BRL). ``len == prazo_meses``."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["label", "kind", "points"],
+        "title": "ChartSeries",
+        "description": "Série de pontos de um gráfico de evolução."
+      },
+      "app__schemas__interest__base__Interpretation": {
+        "properties": {
+          "headline": {
+            "type": "string",
+            "title": "Headline",
+            "description": "Frase curta e direta com o resultado principal."
+          },
+          "body": {
+            "type": "string",
+            "title": "Body",
+            "description": "Explicação narrativa (1–3 parágrafos)."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["headline", "body"],
+        "title": "Interpretation",
+        "description": "Bloco pedagógico narrativo — explica o resultado em PT-BR."
+      }
+    }
+  }
+}
