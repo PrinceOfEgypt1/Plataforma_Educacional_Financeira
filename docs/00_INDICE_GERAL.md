@@ -236,3 +236,13 @@ Adendo visual documental/contratual que formaliza o padrão **Observatory Dark C
 
 - [Registro formal de aceite visual F8E-AJ1](gates/gate-po-ux-valor/14f-f8e-aj1-aceite-visual/ACEITE_VISUAL_F8E_AJ1.md)
 - [Diretório de artefatos preservados](gates/gate-po-ux-valor/14f-f8e-aj1-aceite-visual/artefatos/)
+
+## Gate PO/UX/Valor — 14F-F8F — Implementação React fiel ao protótipo F8E-AJ1
+
+- [README do item 14F-F8F](gates/gate-po-ux-valor/14f-f8f-implementacao-react-fiel-f8e-aj1/README_ITEM_14F_F8F.md)
+- [Relatório de implementação F8F-A](gates/gate-po-ux-valor/14f-f8f-implementacao-react-fiel-f8e-aj1/RELATORIO_IMPLEMENTACAO_REACT_F8F.md)
+- [Matriz de fidelidade visual F8E-AJ1 × F8F-A](gates/gate-po-ux-valor/14f-f8f-implementacao-react-fiel-f8e-aj1/MATRIZ_FIDELIDADE_VISUAL_F8E_AJ1.md)
+- [Autovalidação F8F-A](gates/gate-po-ux-valor/14f-f8f-implementacao-react-fiel-f8e-aj1/AUTOVALIDACAO_F8F.md)
+- [Evidências visuais F8F-A](gates/gate-po-ux-valor/14f-f8f-implementacao-react-fiel-f8e-aj1/EVIDENCIAS_VISUAIS_F8F.md)
+
+> Status F8F-A: implementação React real entregue para auditoria. 469/469 testes passando. F8F-B (refinamento pedagógico + migração de testes do cockpit antigo) permanece pendente. Aceite visual humano e liberação da Sprint 5 dependem do PO.
